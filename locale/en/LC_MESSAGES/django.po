@@ -1,0 +1,78 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-05-20 15:19+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+#: .\ja_rental\settings.py:115
+msgid "English"
+msgstr ""
+
+#: .\ja_rental\settings.py:116
+msgid "German"
+msgstr ""
+
+#: .\main.py:16
+msgid "Welcome to Calli the Camper!"
+msgstr ""
+
+#: .\main.py:17
+msgid "Please select your language."
+msgstr ""
+
+#: .\templates\home.html:7
+msgid "Calli the Camper"
+msgstr ""
+
+#: .\templates\home.html:58
+msgid "Home"
+msgstr ""
+
+#: .\templates\home.html:61
+msgid "About"
+msgstr ""
+
+#: .\templates\home.html:64
+msgid "Contact"
+msgstr ""
+
+#: .\templates\home.html:67
+msgid "Register"
+msgstr ""
+
+#: .\templates\home.html:70
+msgid "Login"
+msgstr ""
+
+#: .\templates\home.html:79
+msgid "Search"
+msgstr "Search"
+
+#: .\templates\home.html:96
+msgid "per day"
+msgstr ""
+
+#: .\templates\home.html:98
+msgid "Select Rental Date:"
+msgstr ""
+
+#: .\templates\home.html:118
+msgid "Previous"
+msgstr ""
+
+#: .\templates\home.html:122
+msgid "Next"
+msgstr ""

@@ -1,3 +1,6 @@
+{% load static %}
+{% load i18n %}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -20,33 +23,112 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
 
     <!-- Favicon -->
-    <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}">
+    <link rel="icon" href="{% static 'favicon.ico' %}">
 
     <!-- Your custom CSS -->
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+
+    <!-- Google fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&family=Titan+One&display=swap" rel="stylesheet">
 
 </head>
 <body>
-<div class="container mt-4">
+<div class="container" id="main-container">
 
-  <!-- Language Switcher -->
-  <form method="get" action="/">
-    <div class="mb-3">
-      <label for="lang">{{ _('Select Language') }}</label>
-      <select name="lang" id="lang" class="form-select" onchange="this.form.submit()">
-        <option value="en" {% if request.args.get('lang') == 'en' %}selected{% endif %}>English</option>
-        <option value="de" {% if request.args.get('lang') == 'de' %}selected{% endif %}>Deutsch</option>
-      </select>
+  <nav class="navbar navbar-expand-lg">
+    <div class="container-fluid">
+      <!-- Logo -->
+      <a class="navbar-brand d-flex align-items-center" href="{% url 'home' %}">
+        <img src="https://res.cloudinary.com/dvs5uituk/image/upload/v1747742379/freepik__background__6179_fdyics.webp" alt="Logo" style="margin-right: 10px;">
+        <span id="site-title">Calli the Camper</span>
+      </a>
+
+      <!-- Hamburger toggle button for mobile -->
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <!-- Navbar links and search -->
+     <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <!-- Nav links -->
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a class="nav-link" href="/">{{ _('Home') }}</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/about">{{ _('About') }}</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/contact">{{ _('Contact') }}</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/register">{{ _('Register') }}</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/login">{{ _('Login') }}</a>
+          </li>
+        </ul>
     </div>
-  </form>
 
-  <h1>{{ van.name }}</h1>
-  <p>{{ van.description }}</p>
-  <p><strong>${{ van.price_per_day }}</strong> {{ _('per day') }}</p>
+        <!-- Date range search form -->
+        <form class="d-flex" method="GET" action="/search">
+          <input type="date" name="start_date" class="form-control me-2" required />
+          <input type="date" name="end_date" class="form-control me-2" required />
+          <button class="btn btn-outline-light" type="submit">{{ _('Search') }}</button>
+        </form>
 
-  <label for="rental-date">{{ _('Select Rental Date:') }}</label>
-  <input id="rental-date" class="form-control" />
+        <!-- Language switcher (optional inside navbar) -->
+        <form action="{% url 'set_language' %}" method="post" class="ms-3">
+          {% csrf_token %}
+          <input name="next" type="hidden" value="{{ request.path }}">
+          <select name="language" onchange="this.form.submit()" class="form-select form-select-sm">
+            {% get_current_language as LANGUAGE_CODE %}
+            {% get_available_languages as LANGUAGES %}
+            {% for lang_code, lang_name in LANGUAGES %}
+              <option value="{{ lang_code }}" {% if lang_code == LANGUAGE_CODE %}selected{% endif %}>{{ lang_name }}</option>
+            {% endfor %}
+          </select>
+        </form>
+      </div>
+    </div>
+  </nav>
 
+  <div class="container my-5 p-4 border rounded shadow-sm bg-light">
+    <h1>{{ van.name }}</h1>
+    <p>{{ van.description }}</p>
+    <p><strong>${{ van.price_per_day }}</strong> {{ _('per day') }}</p>
+
+    <label for="rental-date">{{ _('Select Rental Date:') }}</label>
+    <input id="rental-date" class="form-control mb-4" />
+
+    <div id="camperCarousel" class="carousel slide" data-bs-ride="carousel">
+      <div class="carousel-indicators">
+        {% for img in van.images.all %}
+          <button type="button" data-bs-target="#camperCarousel" data-bs-slide-to="{{ forloop.counter0 }}" {% if forloop.first %}class="active"{% endif %} aria-current="true" aria-label="Slide {{ forloop.counter }}"></button>
+        {% endfor %}
+      </div>
+
+      <div class="carousel-inner">
+        {% for img in van.images.all %}
+          <div class="carousel-item {% if forloop.first %}active{% endif %}">
+            <img src="{{ img.image.url }}" class="d-block w-100" alt="Camper image {{ forloop.counter }}">
+          </div>
+        {% endfor %}
+      </div>
+
+      <button class="carousel-control-prev" type="button" data-bs-target="#camperCarousel" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">{{ _('Previous') }}</span>
+      </button>
+      <button class="carousel-control-next" type="button" data-bs-target="#camperCarousel" data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">{{ _('Next') }}</span>
+      </button>
+    </div>
+  </div>
   <script>
     $(function() {
       const bookedDates = {{ booked_dates|safe }};

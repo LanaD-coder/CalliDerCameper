@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import get_object_or_404, render
 from .models import Campervan, Booking
 
 def home(request):
@@ -13,4 +13,12 @@ def home(request):
             'end': booking.end_date.isoformat(),
         })
 
-    return render(request, 'home.html', {'van': van, 'booked_dates': booked_dates})
+    lang = request.GET.get('lang', 'en')
+
+    return render(request, 'home.html', {'van': van, 'booked_dates': booked_dates, 'lang': lang})
+
+
+def campervan_detail(request, pk):
+    campervan = get_object_or_404(Campervan, pk=pk)
+    images = campervan.images.all()
+    return render(request, 'campervan_detail.html', {'van': campervan, 'van_images': images})

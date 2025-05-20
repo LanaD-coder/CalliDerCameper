@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Campervan, Booking, SeasonalRate
+from .models import Campervan, Booking, SeasonalRate, CampervanImage
 
 
 class BookingAdmin(admin.ModelAdmin):
@@ -12,8 +12,16 @@ class SeasonalRateAdmin(admin.ModelAdmin):
     list_filter = ('start',)
 
 
+class CampervanImageInline(admin.TabularInline):
+    model = CampervanImage
+    extra = 3
+
+
+class CampervanAdmin(admin.ModelAdmin):
+    inlines = [CampervanImageInline]
 
 # Register each model
 admin.site.register(Campervan)
 admin.site.register(Booking)
 admin.site.register(SeasonalRate)
+admin.site.register(CampervanImage)

@@ -1,5 +1,7 @@
 from django.db import models
+from django.db import models
 from datetime import timedelta
+from cloudinary.models import CloudinaryField
 
 
 class Campervan(models.Model):
@@ -10,6 +12,14 @@ class Campervan(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class CampervanImage(models.Model):
+    campervan = models.ForeignKey(Campervan, related_name='images', on_delete=models.CASCADE)
+    image = CloudinaryField('image')
+
+    def __str__(self):
+        return f"Image for {self.campervan.name}"
 
 
 class Booking(models.Model):
