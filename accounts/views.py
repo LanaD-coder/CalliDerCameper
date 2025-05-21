@@ -1,0 +1,8 @@
+from django.shortcuts import render
+
+
+def register_view(request):
+    return render(request, 'registration.html')
+
+def login_view(request):
+    return render(request, 'login.html')

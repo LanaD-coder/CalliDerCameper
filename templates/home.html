@@ -1,157 +1,183 @@
+{% extends "base.html" %}
 {% load static %}
 {% load i18n %}
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>{{ _('Calli the Camper') }}</title>
+{% block content %}
+<div class="banner text-center my-5" style="font-family: ;">
+  <p>{% trans "Time camping isn't time spent, it's invested." %}</p>
+  <p>{% trans "There is no Wi-Fi in the forest, but I promise you will find a better connection." %}</p>
+  <p>{% trans "Wander often, wander always — because not all who wander are lost.  - RVC" %}</p>
+</div>
 
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<div class="container my-5 p-4 border rounded shadow-sm bg-light">
+  {% get_current_language as LANGUAGE_CODE %}
+  <h1>{{ van.name_[LANGUAGE_CODE] }}</h1>
+  <p>{{ van.description_[LANGUAGE_CODE] }}</p>
+  <button id="availability-button" type="button" class="btn btn-lg" data-bs-toggle="modal" data-bs-target="#availabilityModal">
+    {{ _('Check Availability') }}
+  </button>
 
-    <!-- Datepicker CSS -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css"/>
-
-    <!-- jQuery (required) -->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
-    <!-- Bootstrap JS -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-
-    <!-- Datepicker JS -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
-
-    <!-- Favicon -->
-    <link rel="icon" href="{% static 'favicon.ico' %}">
-
-    <!-- Your custom CSS -->
-    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
-
-    <!-- Google fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&family=Titan+One&display=swap" rel="stylesheet">
-
-</head>
-<body>
-<div class="container" id="main-container">
-
-  <nav class="navbar navbar-expand-lg">
-    <div class="container-fluid">
-      <!-- Logo -->
-      <a class="navbar-brand d-flex align-items-center" href="{% url 'home' %}">
-        <img src="https://res.cloudinary.com/dvs5uituk/image/upload/v1747742379/freepik__background__6179_fdyics.webp" alt="Logo" style="margin-right: 10px;">
-        <span id="site-title">Calli the Camper</span>
-      </a>
-
-      <!-- Hamburger toggle button for mobile -->
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
-        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-
-      <!-- Navbar links and search -->
-     <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <!-- Nav links -->
-        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-          <li class="nav-item">
-            <a class="nav-link" href="/">{{ _('Home') }}</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="/about">{{ _('About') }}</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="/contact">{{ _('Contact') }}</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="/register">{{ _('Register') }}</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="/login">{{ _('Login') }}</a>
-          </li>
-        </ul>
+  <div id="camperCarousel" class="carousel slide" data-bs-ride="carousel">
+    <div class="carousel-indicators">
+      {% for img in van.images.all %}
+        <button type="button" data-bs-target="#camperCarousel" data-bs-slide-to="{{ forloop.counter0 }}" {% if forloop.first %}class="active"{% endif %} aria-current="true" aria-label="Slide {{ forloop.counter }}"></button>
+      {% endfor %}
     </div>
 
-        <!-- Date range search form -->
-        <form class="d-flex" method="GET" action="/search">
-          <input type="date" name="start_date" class="form-control me-2" required />
-          <input type="date" name="end_date" class="form-control me-2" required />
-          <button class="btn btn-outline-light" type="submit">{{ _('Search') }}</button>
-        </form>
-
-        <!-- Language switcher (optional inside navbar) -->
-        <form action="{% url 'set_language' %}" method="post" class="ms-3">
-          {% csrf_token %}
-          <input name="next" type="hidden" value="{{ request.path }}">
-          <select name="language" onchange="this.form.submit()" class="form-select form-select-sm">
-            {% get_current_language as LANGUAGE_CODE %}
-            {% get_available_languages as LANGUAGES %}
-            {% for lang_code, lang_name in LANGUAGES %}
-              <option value="{{ lang_code }}" {% if lang_code == LANGUAGE_CODE %}selected{% endif %}>{{ lang_name }}</option>
-            {% endfor %}
-          </select>
-        </form>
-      </div>
+    <div class="carousel-inner">
+      {% for img in van.images.all %}
+        <div class="carousel-item {% if forloop.first %}active{% endif %}">
+          <img src="{{ img.image.url }}" class="d-block w-100" alt="Camper image {{ forloop.counter }}">
+        </div>
+      {% endfor %}
     </div>
-  </nav>
 
-  <div class="container my-5 p-4 border rounded shadow-sm bg-light">
-    <h1>{{ van.name }}</h1>
-    <p>{{ van.description }}</p>
-    <p><strong>${{ van.price_per_day }}</strong> {{ _('per day') }}</p>
+    <button class="carousel-control-prev" type="button" data-bs-target="#camperCarousel" data-bs-slide="prev">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">{{ _('Previous') }}</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#camperCarousel" data-bs-slide="next">
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">{{ _('Next') }}</span>
+    </button>
+  </div>
+</div>
 
-    <label for="rental-date">{{ _('Select Rental Date:') }}</label>
-    <input id="rental-date" class="form-control mb-4" />
+<!-- Check Availability Modal -->
+<div class="modal fade" id="availabilityModal" tabindex="-1" aria-labelledby="availabilityModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <form method="GET" action="/search">
+        <div class="modal-header">
+          <h5 class="modal-title" id="availabilityModalLabel">{{ _('Check Availability') }}</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="{{ _('Close') }}"></button>
+        </div>
+        <div class="modal-body">
+          <!-- Calendar -->
+          <div id="calendar"></div>
 
-    <div id="camperCarousel" class="carousel slide" data-bs-ride="carousel">
-      <div class="carousel-indicators">
-        {% for img in van.images.all %}
-          <button type="button" data-bs-target="#camperCarousel" data-bs-slide-to="{{ forloop.counter0 }}" {% if forloop.first %}class="active"{% endif %} aria-current="true" aria-label="Slide {{ forloop.counter }}"></button>
-        {% endfor %}
-      </div>
+          <!-- Manual date entry -->
+          <div class="mt-4">
+            <label for="start_date" class="form-label">{{ _('Start Date') }}</label>
+            <input type="date" name="start_date" class="form-control mb-3" id="start_date" required />
 
-      <div class="carousel-inner">
-        {% for img in van.images.all %}
-          <div class="carousel-item {% if forloop.first %}active{% endif %}">
-            <img src="{{ img.image.url }}" class="d-block w-100" alt="Camper image {{ forloop.counter }}">
+            <label for="end_date" class="form-label">{{ _('End Date') }}</label>
+            <input type="date" name="end_date" class="form-control" id="end_date" required />
           </div>
-        {% endfor %}
-      </div>
-
-      <button class="carousel-control-prev" type="button" data-bs-target="#camperCarousel" data-bs-slide="prev">
-        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-        <span class="visually-hidden">{{ _('Previous') }}</span>
-      </button>
-      <button class="carousel-control-next" type="button" data-bs-target="#camperCarousel" data-bs-slide="next">
-        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-        <span class="visually-hidden">{{ _('Next') }}</span>
-      </button>
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-primary">{{ _('Search') }}</button>
+        </div>
+      </form>
     </div>
   </div>
-  <script>
-    $(function() {
-      const bookedDates = {{ booked_dates|safe }};
-
-      let disabledDates = [];
-      bookedDates.forEach(range => {
-        let current = new Date(range.start);
-        let end = new Date(range.end);
-        while (current <= end) {
-          disabledDates.push(new Date(current).toISOString().split('T')[0]);
-          current.setDate(current.getDate() + 1);
-        }
-      });
-
-      $('#rental-date').datepicker({
-        format: 'yyyy-mm-dd',
-        startDate: new Date(),
-        datesDisabled: disabledDates,
-        autoclose: true,
-        todayHighlight: true,
-      });
-    });
-  </script>
 </div>
-</body>
-</html>
+
+<!-- Page-specific Scripts -->
+<script>
+  $(function() {
+    const bookedDates = [{ booked_dates | safe }];
+    let disabledDates = [];
+
+    bookedDates.forEach(range => {
+      let current = new Date(range.start);
+      let end = new Date(range.end);
+      while (current <= end) {
+        disabledDates.push(new Date(current).toISOString().split('T')[0]);
+        current.setDate(current.getDate() + 1);
+      }
+    });
+
+    $('.datepicker').datepicker({
+      format: 'yyyy-mm-dd',
+      startDate: new Date(),
+      datesDisabled: disabledDates,
+      autoclose: true,
+      todayHighlight: true,
+    });
+  });
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const calendarEl = document.getElementById('calendar');
+    const events = {{ calendar_events|safe }};
+
+    function getResponsiveHeight() {
+      const width = window.innerWidth;
+      if (width < 480) return 350;
+      if (width < 992) return 450;
+      return 500;
+    }
+
+    const calendar = new FullCalendar.Calendar(calendarEl, {
+      initialView: 'dayGridMonth',
+      height: getResponsiveHeight(),
+      events: events,
+      headerToolbar: {
+        left: 'prev,next today',
+        center: 'title',
+        right: ''
+      },
+      eventDidMount: function(info) {
+        if (info.event.display === 'background') {
+          info.el.setAttribute('title', info.event.title);
+        }
+      }
+    });
+
+    calendar.render();
+
+    window.addEventListener('resize', () => {
+      calendar.setOption('height', getResponsiveHeight());
+    });
+  });
+</script>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const priceDisplay = document.getElementById('price-display');
+    const startInput = document.getElementById('start_date');
+    const endInput = document.getElementById('end_date');
+    const datePrices = {{ date_prices|safe }};
+
+    function formatDate(date) {
+      return date.toISOString().split('T')[0];
+    }
+
+    function calculateTotalPrice(startStr, endStr) {
+      let current = new Date(startStr);
+      const end = new Date(endStr);
+      let total = 0;
+      let days = 0;
+
+      while (current <= end) {
+        const key = formatDate(current);
+        const price = datePrices[key] || 0;
+        total += price;
+        days++;
+        current.setDate(current.getDate() + 1);
+      }
+
+      return { total, days };
+    }
+
+    function updatePrice() {
+      const start = startInput.value;
+      const end = endInput.value;
+
+      if (start && end && new Date(start) <= new Date(end)) {
+        const { total, days } = calculateTotalPrice(start, end);
+        const avg = days > 0 ? (total / days).toFixed(2) : 0;
+        priceDisplay.textContent = `${avg}€`;
+      } else {
+        priceDisplay.textContent = "{{ van.price_per_day }}€";
+      }
+    }
+
+    startInput.addEventListener('change', updatePrice);
+    endInput.addEventListener('change', updatePrice);
+  });
+</script>
+{% endblock %}

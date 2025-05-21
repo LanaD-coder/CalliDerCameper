@@ -1,5 +1,6 @@
 from django.contrib import admin
 from .models import Campervan, Booking, SeasonalRate, CampervanImage
+from django_summernote.admin import SummernoteModelAdmin
 
 
 class BookingAdmin(admin.ModelAdmin):
@@ -17,11 +18,12 @@ class CampervanImageInline(admin.TabularInline):
     extra = 3
 
 
-class CampervanAdmin(admin.ModelAdmin):
+class CampervanAdmin(SummernoteModelAdmin):
     inlines = [CampervanImageInline]
+    summernote_fields = ('description',)
 
-# Register each model
-admin.site.register(Campervan)
-admin.site.register(Booking)
-admin.site.register(SeasonalRate)
+
+admin.site.register(Campervan, CampervanAdmin)
+admin.site.register(Booking, BookingAdmin)
+admin.site.register(SeasonalRate, SeasonalRateAdmin)
 admin.site.register(CampervanImage)
