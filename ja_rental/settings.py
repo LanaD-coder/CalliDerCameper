@@ -19,6 +19,7 @@ import cloudinary
 env = environ.Env()
 # reading .env file
 environ.Env.read_env()
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -31,7 +32,11 @@ SECRET_KEY = env('DJANGO_SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG=True
-ALLOWED_HOSTS = env.list('ALLOWED_HOSTS', default=['localhost'])
+
+ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', 'localhost,jarental-9127907f3428.herokuapp.com').split(',')
+
+
+SECRET_KEY = os.getenv('DJANGO_SECRET_KEY')
 
 # Application definition
 
@@ -49,6 +54,7 @@ INSTALLED_APPS = [
     'pages',
     'rentals',
     'django_summernote',
+    'django_extensions',
 
 ]
 
@@ -87,13 +93,19 @@ WSGI_APPLICATION = 'ja_rental.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
-DATABASES = {
-    'default': dj_database_url.config(
-        default='sqlite:///db.sqlite3',
-        conn_max_age=600,
-        ssl_require=True
-    )
-}
+DATABASE_URL = env('DATABASE_URL', default=None)
+
+if DATABASE_URL:
+    DATABASES = {
+        'default': dj_database_url.config(default=DATABASE_URL, conn_max_age=600, ssl_require=True)
+    }
+else:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3',
+        }
+    }
 
 # Password validation
 # https://docs.djangoproject.com/en/5.2/ref/settings/#auth-password-validators
@@ -160,3 +172,6 @@ cloudinary.config(
 )
 
 DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / 'media'

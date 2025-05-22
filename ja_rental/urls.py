@@ -10,6 +10,7 @@ urlpatterns = [
     path('', include('rentals.urls')),
     path('i18n/', include('django.conf.urls.i18n')),
     path('about/', pages_views.about_view, name='about'),
+    path('contact/', pages_views.contact_view, name='contact_us'),
     path('register/', accounts_views.register_view, name='register'),
     path('login/', accounts_views.login_view, name='login'),
     path('summernote/', include('django_summernote.urls')),
