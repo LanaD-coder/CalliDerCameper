@@ -11,8 +11,31 @@
 
 <div class="container my-5 p-4 border rounded shadow-sm bg-light">
   {% get_current_language as LANGUAGE_CODE %}
-  <h1>{{ van.name_[LANGUAGE_CODE] }}</h1>
-  <p>{{ van.description_[LANGUAGE_CODE] }}</p>
+  <h1>{{ van.name }}</h1>
+
+  <!-- VW Grand California Merkmale & Ausstattung -->
+  <div class="vw-features mb-4">
+    <h2>{% trans "VW Grand California Merkmale & Ausstattung" %}</h2>
+    <ul class="list-unstyled">
+      <li>
+        <i class="bi bi-people-fill me-2"></i> {% trans "4 Sitzplätze & 2+2 Schlafplätze" %}
+      </li>
+      <li>
+        <i class="bi bi-arrow-up-circle-fill me-2"></i> {% trans "Sitzheizung" %}
+      </li>
+      <li>
+        <i class="bi bi-egg-fried me-2"></i> {% trans "Integrierte Küchenzeile" %}
+      </li>
+      <li>
+        <i class="bi bi-thermometer-half me-2"></i> {% trans "Standheizung" %}
+      </li>
+      <li>
+        <i class="bi bi-speedometer2 me-2"></i> {% trans "ACC, Tempomat & Einparkhilfe" %}
+      </li>
+    </ul>
+  </div>
+
+  <p>{{ van.description }}</p>
   <button id="availability-button" type="button" class="btn btn-lg" data-bs-toggle="modal" data-bs-target="#availabilityModal">
     {{ _('Check Availability') }}
   </button>

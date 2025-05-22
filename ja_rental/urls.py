@@ -2,6 +2,8 @@ from django.contrib import admin
 from django.urls import path, include
 from accounts import views as accounts_views
 from pages import views as pages_views
+from django.conf import settings
+from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -10,5 +12,8 @@ urlpatterns = [
     path('about/', pages_views.about_view, name='about'),
     path('register/', accounts_views.register_view, name='register'),
     path('login/', accounts_views.login_view, name='login'),
-    path('admin/summernote/', include('django_summernote.urls')),
+    path('summernote/', include('django_summernote.urls')),
 ]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
