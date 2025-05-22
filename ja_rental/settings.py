@@ -38,6 +38,8 @@ ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', 'localhost,jarental-9127907f3428.hero
 
 SECRET_KEY = os.getenv('DJANGO_SECRET_KEY')
 
+SITE_ID = 1
+
 # Application definition
 
 INSTALLED_APPS = [
@@ -55,6 +57,10 @@ INSTALLED_APPS = [
     'rentals',
     'django_summernote',
     'django_extensions',
+    'django.contrib.sites',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
 
 ]
 
@@ -88,6 +94,11 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'ja_rental.wsgi.application'
+
+AUTHENTICATION_BACKENDS = (
+    "django.contrib.auth.backends.ModelBackend",
+    "allauth.account.auth_backends.AuthenticationBackend",
+)
 
 
 # Database
@@ -175,3 +186,11 @@ DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
+
+
+# allauth settings (optional, but recommended)
+ACCOUNT_EMAIL_VERIFICATION = "mandatory"
+ACCOUNT_AUTHENTICATION_METHOD = "username_email"
+ACCOUNT_EMAIL_REQUIRED = True
+LOGIN_REDIRECT_URL = '/'
+LOGOUT_REDIRECT_URL = '/'
