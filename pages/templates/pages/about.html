@@ -3,9 +3,28 @@
 {% load i18n %}
 
 {% block content %}
-<div class="container my-5">
-  <h1>{% trans "About Us" %}</h1>
-  <p>{% trans "Welcome to Calli the Camper! We're passionate about helping you find the perfect campervan for your adventures." %}</p>
-  <p>{% trans "Our mission is to connect campers with amazing vehicles and unforgettable experiences." %}</p>
-</div>
+<section id="about-section">
+  <img src="{% static 'images/profile.jpg' %}" alt="{% trans 'Profile Image' %}" class="profile-image" />
+
+  <div class="about-text">
+    <h1>{% trans "About Us" %}</h1>
+    <p>{% trans "Welcome to Calli the Camper! We're passionate about helping you find the perfect campervan for your adventures." %}</p>
+    <p>{% trans "Our mission is to connect campers with amazing vehicles and unforgettable experiences." %}</p>
+  </div>
+</section>
+
+<section id="destinations-section">
+  <h2>{% trans "Recommended Camping Destinations" %}</h2>
+  <div class="destinations-list">
+    {% for dest in destinations %}
+      <div class="destination-card">
+        <img src="{{ dest.image.url }}" alt="{{ dest.name }}" />
+        <h3>{{ dest.name }}</h3>
+        <p>{{ dest.description }}</p>
+      </div>
+    {% empty %}
+      <p>{% trans "No destinations available at the moment." %}</p>
+    {% endfor %}
+  </div>
+</section>
 {% endblock %}
