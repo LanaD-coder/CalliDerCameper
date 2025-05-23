@@ -21,6 +21,22 @@
         <img src="{{ dest.image.url }}" alt="{{ dest.name }}" />
         <h3>{{ dest.name }}</h3>
         <p>{{ dest.description }}</p>
+
+        {% if dest.website_url %}
+          <p><a href="{{ dest.website_url }}" target="_blank" rel="noopener">{% trans "Visit Website" %}</a></p>
+        {% endif %}
+
+        {% if dest.map_url %}
+          <iframe
+            src="{{ dest.map_url }}"
+            width="300"
+            height="200"
+            style="border:0;"
+            allowfullscreen=""
+            loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade">
+          </iframe>
+        {% endif %}
       </div>
     {% empty %}
       <p>{% trans "No destinations available at the moment." %}</p>

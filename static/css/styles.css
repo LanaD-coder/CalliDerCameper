@@ -27,18 +27,23 @@ body {
 
 #main-container {
   min-width: 100%;
-  padding: 0;
+  margin-top: 135px;
 }
 
 /* Navbar */
 .navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
   display: flex;
   align-items: center;
   background-color: #e5e5e5;
   padding: 0 1rem;
   justify-content: space-between;
   flex-wrap: wrap;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.6)
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.6);
 }
 
 #site-title {
@@ -48,22 +53,38 @@ body {
   text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
 }
 
- .banner {
-    background-color: rgba(255, 255, 255, 0.9);
-    color: #14213D;
-    padding: 1.5rem;
+.banner {
+    background-image: url('/static/images/VW-Grand-California.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    height: 800px;
+    padding: 2rem;
     margin-top: 0;
+    position: relative;
+    z-index: 1;
+    border-top-right-radius: 80px;
+}
+
+.banner-text {
+    position: absolute;
+    top: 0;
+    right: 0;
+    background-color: rgba(255, 255, 255, 0.85);
+    color: #6a8a7b;
     text-align: center;
+    padding: 1.5rem;
     font-size: 1.25rem;
     font-weight: 500;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    position: relative;
-    z-index: 1;
-  }
+    max-width: 800px;
+    margin: 0 auto;
+    border-top-right-radius: 80px;
+}
 
-  .navbar + .banner {
+.navbar + .banner {
     margin-top: 4rem;
-  }
+}
 
 .navbar-brand img {
   height: 120px;
@@ -150,6 +171,8 @@ body {
 
 #calendar {
     width: 100%;
+    min-width: 600px;
+    max-width: 100%;
     margin: 0 auto;
   }
 
@@ -241,7 +264,7 @@ footer {
 }
 
 .destination-card h3 {
- font-family: "Cookie", cursive;
+  font-family: "Cookie", cursive;
   font-size: 1.8rem;
   color: #6a8a7b;
   margin-bottom: 0.5rem;
@@ -265,9 +288,9 @@ footer {
 }
 
 #contact-section h2 {
-  font-family: 'Titan One', cursive;
+  font-family: "Cookie", cursive;
   font-size: 3rem;
-  color: #fca311;
+  color: #6a8a7b;
   text-align: center;
   margin-bottom: 1rem;
 }
@@ -310,9 +333,9 @@ footer {
 #contact-section input[type="text"]:focus,
 #contact-section input[type="email"]:focus,
 #contact-section textarea:focus {
-  border-color: #fca311;
+  border-color: #d5b474;
   outline: none;
-  box-shadow: 0 0 6px #fca311;
+  box-shadow: inset 0 2px 4px rgba(0,0,0,0.1);
   background-color: #fff;
 }
 
@@ -323,7 +346,7 @@ footer {
 }
 
 #send-message-btn {
-  background-color: #fca311;
+  background-color: #877960;
   color: white;
   padding: 0.75rem 1.5rem;
   border: none;
@@ -338,7 +361,7 @@ footer {
 
 #send-message-btn:hover,
 #send-message-btn:focus {
-  background-color: #e59400;
+  background-color: #877960;
   outline: none;
 }
 
@@ -351,9 +374,9 @@ footer {
 }
 
 #faq-section h2 {
-  font-family: 'Titan One', cursive;
+  font-family: "Cookie", cursive;
   font-size: 3rem;
-  color: #fca311;
+  color: #6a8a7b;
   text-align: center;
   margin-bottom: 2rem;
 }

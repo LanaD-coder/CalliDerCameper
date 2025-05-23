@@ -3,13 +3,15 @@
 {% load i18n %}
 
 {% block content %}
-<div class="banner text-center" style="font-family: ;">
-  <p>{% trans "Time camping isn't time spent, it's invested." %}</p>
-  <p>{% trans "There is no Wi-Fi in the forest, but I promise you will find a better connection." %}</p>
-  <p>{% trans "Wander often, wander always — because not all who wander are lost.  - RVC" %}</p>
+<div class="banner text-center">
+  <div class="banner-text">
+    <p>{% trans "Time camping isn't time spent, it's invested." %}</p>
+    <p>{% trans "There is no Wi-Fi in the forest, but I promise you will find a better connection." %}</p>
+    <p>{% trans "Wander often, wander always — because not all who wander are lost.  - RVC" %}</p>
+  </div>
 </div>
 
-<div class="container my-5 p-4 border rounded shadow-sm bg-light">
+<div class="container my-5 p-4 border shadow-sm bg-light" style="border-top-right-radius: 80px;">
   {% get_current_language as LANGUAGE_CODE %}
   <h1>{{ van.name }}</h1>
 
@@ -68,7 +70,7 @@
 
 <!-- Check Availability Modal -->
 <div class="modal fade" id="availabilityModal" tabindex="-1" aria-labelledby="availabilityModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered">
+  <div class="modal-dialog modal-dialog-centered modal-xl">
     <div class="modal-content">
       <form method="GET" action="/search">
         <div class="modal-header">
@@ -124,8 +126,10 @@
 <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.js"></script>
 <script>
   document.addEventListener('DOMContentLoaded', function () {
+    let calendar;
     const calendarEl = document.getElementById('calendar');
     const events = {{ calendar_events|safe }};
+    const datePrices = {{ date_prices|safe }};
 
     function getResponsiveHeight() {
       const width = window.innerWidth;
@@ -134,26 +138,46 @@
       return 500;
     }
 
-    const calendar = new FullCalendar.Calendar(calendarEl, {
-      initialView: 'dayGridMonth',
-      height: getResponsiveHeight(),
-      events: events,
-      headerToolbar: {
-        left: 'prev,next today',
-        center: 'title',
-        right: ''
-      },
-      eventDidMount: function(info) {
-        if (info.event.display === 'background') {
-          info.el.setAttribute('title', info.event.title);
-        }
+    // Bootstrap modal event
+    const modal = document.getElementById('availabilityModal');
+    modal.addEventListener('shown.bs.modal', function () {
+      if (!calendar) {
+        calendar = new FullCalendar.Calendar(calendarEl, {
+          initialView: 'dayGridMonth',
+          height: getResponsiveHeight(),
+          events: events,
+          headerToolbar: {
+            left: 'prev,next today',
+            center: 'title',
+            right: ''
+          },
+          dayCellDidMount: function (info) {
+            const dateStr = info.date.toISOString().split('T')[0];
+            const price = datePrices[dateStr];
+
+            if (price) {
+              const priceEl = document.createElement('div');
+              priceEl.textContent = price + '€';
+              priceEl.style.fontSize = '0.75rem';
+              priceEl.style.fontWeight = 'bold';
+              priceEl.style.color = '#198754';
+              priceEl.style.position = 'absolute';
+              priceEl.style.bottom = '4px';
+              priceEl.style.right = '4px';
+              info.el.style.position = 'relative';
+              info.el.appendChild(priceEl);
+            }
+          }
+        });
+
+        calendar.render();
+      } else {
+        calendar.updateSize();
       }
     });
 
-    calendar.render();
-
     window.addEventListener('resize', () => {
-      calendar.setOption('height', getResponsiveHeight());
+      if (calendar) calendar.setOption('height', getResponsiveHeight());
     });
   });
 </script>
