@@ -415,6 +415,21 @@ footer {
   line-height: 1.5;
 }
 
+  #camperCarousel .carousel-inner {
+    max-height: 600px;
+  }
+
+  #camperCarousel .carousel-item img {
+    height: 600px;
+    object-fit: contain;
+    width: auto;
+    margin: 0 auto;
+  }
+
+  #camperCarousel {
+    background-color: #d5b474;
+    border-top-right-radius: 8px;
+  }
 
 /* Desktop: 1200px and up */
 @media (min-width: 992px) {
@@ -508,6 +523,11 @@ footer {
   #contact-section h2, #faq-section h2 {
     font-size: 2.2rem;
   }
+
+  #camperCarousel .carousel-inner,
+  #camperCarousel .carousel-item img {
+    height: 300px;
+  }
 }
 
 
@@ -544,5 +564,10 @@ footer {
 
   .faq-question {
     font-size: 1rem;
+  }
+
+  #camperCarousel .carousel-inner,
+  #camperCarousel .carousel-item img {
+    height: 600px;
   }
 }
