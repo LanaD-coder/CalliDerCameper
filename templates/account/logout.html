@@ -5,7 +5,9 @@
 {% block head_title %}
     {% trans "Sign Out" %}
 {% endblock head_title %}
+
 {% block content %}
+<section id="logout-section">
     {% element h1 %}
         {% trans "Sign Out" %}
     {% endelement %}
@@ -24,4 +26,5 @@
             {% endelement %}
         {% endslot %}
     {% endelement %}
+</section>
 {% endblock content %}

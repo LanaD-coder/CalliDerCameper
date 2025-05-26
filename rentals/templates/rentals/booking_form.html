@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+{% load static %}
+{% load i18n %}
+
+{% block content %}
+<section id="booking-section" class="form-section">
+  <h2>{% trans "Book Calli the Camper" %}</h2>
+
+  {% if messages %}
+    {% for message in messages %}
+      <div class="form-message">
+        {{ message }}
+      </div>
+    {% endfor %}
+  {% endif %}
+
+  <form method="post" novalidate>
+    {% csrf_token %}
+
+    <fieldset>
+      <legend>{% trans "Booking Dates" %}</legend>
+
+      <label for="{{ form.start_date.id_for_label }}">{{ form.start_date.label }}:</label>
+      {{ form.start_date }}
+      <div class="field-error">{{ form.start_date.errors }}</div>
+
+      <label for="{{ form.end_date.id_for_label }}">{{ form.end_date.label }}:</label>
+      {{ form.end_date }}
+      <div class="field-error">{{ form.end_date.errors }}</div>
+    </fieldset>
+
+    <fieldset>
+      <legend>{% trans "Primary Driver Details" %}</legend>
+
+      <label for="{{ form.primary_driver_name.id_for_label }}">{{ form.primary_driver_name.label }}:</label>
+      {{ form.primary_driver_name }}
+      <div class="field-error">{{ form.primary_driver_name.errors }}</div>
+
+      <label for="{{ form.primary_driver_address.id_for_label }}">{{ form.primary_driver_address.label }}:</label>
+      {{ form.primary_driver_address }}
+      <div class="field-error">{{ form.primary_driver_address.errors }}</div>
+    </fieldset>
+
+    <fieldset>
+      <legend>{% trans "Additional Driver (Optional)" %}</legend>
+
+      <label for="{{ form.additional_driver_name.id_for_label }}">{{ form.additional_driver_name.label }}:</label>
+      {{ form.additional_driver_name }}
+      <div class="field-error">{{ form.additional_driver_name.errors }}</div>
+
+      <label for="{{ form.additional_driver_address.id_for_label }}">{{ form.additional_driver_address.label }}:</label>
+      {{ form.additional_driver_address }}
+      <div class="field-error">{{ form.additional_driver_address.errors }}</div>
+
+      <label for="{{ form.additional_driver_contact_number.id_for_label }}">{{ form.additional_driver_contact_number.label }}:</label>
+      {{ form.additional_driver_contact_number }}
+      <div class="field-error">{{ form.additional_driver_contact_number.errors }}</div>
+
+      <div>
+        {{ form.additional_driver_has_license }} {{ form.additional_driver_has_license.label_tag }}
+        <div class="field-error">{{ form.additional_driver_has_license.errors }}</div>
+      </div>
+
+      <div>
+        {{ form.additional_driver_over_21 }} {{ form.additional_driver_over_21.label_tag }}
+        <div class="field-error">{{ form.additional_driver_over_21.errors }}</div>
+      </div>
+    </fieldset>
+
+    <fieldset>
+      <legend>{% trans "Additional Options" %}</legend>
+
+      <div>
+        {{ form.additional_insurance }} {{ form.additional_insurance.label_tag }}
+        <div class="field-error">{{ form.additional_insurance.errors }}</div>
+      </div>
+
+      <label for="{{ form.additional_services.id_for_label }}">{{ form.additional_services.label }}:</label>
+      {{ form.additional_services }}
+      <div class="field-error">{{ form.additional_services.errors }}</div>
+    </fieldset>
+
+    <button type="submit" id="book-now-btn">{% trans "Book Now" %}</button>
+  </form>
+</section>
+{% endblock %}

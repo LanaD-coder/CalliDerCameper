@@ -1,8 +1,12 @@
-from django.shortcuts import get_object_or_404, render
+from django.contrib.auth.decorators import login_required
+from django.shortcuts import get_object_or_404, render, redirect
 from .models import Campervan, Booking, SeasonalRate
 from datetime import timedelta
+from django.http import JsonResponse
 import json
 from django.utils.translation import gettext as _
+from django.contrib import messages
+from .forms import BookingForm
 
 
 def home(request):
@@ -69,8 +73,38 @@ def campervan_detail(request, pk):
     context = {
             'van': campervan,
             'van_images': images,
-            'date_prices': json.dumps(date_prices_dict),  # JSON string
-            # add other context vars like booked_dates, calendar_events, etc.
+            'date_prices': json.dumps(date_prices_dict),
+
     }
 
     return render(request, 'home.html', context)
+
+
+@login_required(login_url='/account/login/')
+def book_campervan(request, pk):
+    campervan = get_object_or_404(Campervan, pk=pk)
+
+    initial_data = {}
+    if 'start_date' in request.GET and 'end_date' in request.GET:
+        initial_data['start_date'] = request.GET['start_date']
+        initial_data['end_date'] = request.GET['end_date']
+
+    if request.method == 'POST':
+        form = BookingForm(request.POST, user=request.user, campervan=campervan)
+        if form.is_valid():
+            booking = form.save(commit=False)
+            # campervan set in form.save(), so no need to set here again
+            booking.save()
+            messages.success(request, _('Booking confirmed!'))
+            return redirect('campervan_detail', pk=campervan.pk)
+    else:
+        form = BookingForm(initial=initial_data, user=request.user, campervan=campervan)
+
+    return render(request, 'rentals/booking_form.html', {'form': form, 'campervan': campervan})
+
+
+def booked_dates_api(request, pk):
+    campervan = get_object_or_404(Campervan, pk=pk)
+    bookings = campervan.bookings.all()
+    booked_ranges = [{'start': b.start_date.isoformat(), 'end': b.end_date.isoformat()} for b in bookings]
+    return JsonResponse(booked_ranges, safe=False)

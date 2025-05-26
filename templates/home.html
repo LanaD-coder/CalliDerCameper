@@ -73,54 +73,56 @@
 <div class="modal fade" id="availabilityModal" tabindex="-1" aria-labelledby="availabilityModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered modal-xl">
     <div class="modal-content">
-      <form method="GET" action="/search">
-        <div class="modal-header">
-          <h5 class="modal-title" id="availabilityModalLabel">{{ _('Check Availability') }}</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="{{ _('Close') }}"></button>
+      <div class="modal-header">
+        <h5 class="modal-title" id="availabilityModalLabel">{{ _('Check Availability') }}</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="{{ _('Close') }}"></button>
+      </div>
+      <div class="modal-body">
+        <div id="calendar"></div>
+        <div class="mt-4 text-end">
+          <button id="book-now-btn" class="btn btn-success" disabled>{{ _('Book Now') }}</button>
         </div>
-        <div class="modal-body">
-          <!-- Calendar -->
-          <div id="calendar"></div>
-
-          <!-- Manual date entry -->
-          <div class="mt-4">
-            <label for="start_date" class="form-label">{{ _('Start Date') }}</label>
-            <input type="date" name="start_date" class="form-control mb-3" id="start_date" required />
-
-            <label for="end_date" class="form-label">{{ _('End Date') }}</label>
-            <input type="date" name="end_date" class="form-control" id="end_date" required />
-          </div>
-        </div>
-        <div class="modal-footer">
-          <button type="submit" class="btn btn-primary">{{ _('Search') }}</button>
-        </div>
-      </form>
+      </div>
     </div>
   </div>
 </div>
 
 <!-- Page-specific Scripts -->
 <script>
-  $(function() {
-    const bookedDates = [{ booked_dates | safe }];
-    let disabledDates = [];
+  document.addEventListener('DOMContentLoaded', () => {
+    const campervanId = {{ van.id }};
+    fetch(`/api/campervan/${campervanId}/booked_dates/`)
+      .then(response => response.json())
+      .then(bookedDates => {
+        let disabledDates = [];
 
-    bookedDates.forEach(range => {
-      let current = new Date(range.start);
-      let end = new Date(range.end);
-      while (current <= end) {
-        disabledDates.push(new Date(current).toISOString().split('T')[0]);
-        current.setDate(current.getDate() + 1);
-      }
-    });
+        bookedDates.forEach(range => {
+          let current = new Date(range.start);
+          let end = new Date(range.end);
+          while (current <= end) {
+            disabledDates.push(current.toISOString().split('T')[0]);
+            current.setDate(current.getDate() + 1);
+          }
+        });
 
-    $('.datepicker').datepicker({
-      format: 'yyyy-mm-dd',
-      startDate: new Date(),
-      datesDisabled: disabledDates,
-      autoclose: true,
-      todayHighlight: true,
-    });
+        $('.datepicker').datepicker({
+          format: 'yyyy-mm-dd',
+          startDate: new Date(),
+          datesDisabled: disabledDates,
+          autoclose: true,
+          todayHighlight: true,
+        });
+      })
+      .catch(error => {
+        console.error('Error loading booked dates:', error);
+        // fallback: init datepicker without disabled dates
+        $('.datepicker').datepicker({
+          format: 'yyyy-mm-dd',
+          startDate: new Date(),
+          autoclose: true,
+          todayHighlight: true,
+        });
+      });
   });
 </script>
 
@@ -128,7 +130,11 @@
 <script>
   document.addEventListener('DOMContentLoaded', function () {
     let calendar;
+    let selectedRange = null;
+    const campervanId = {{ van.id }};
     const calendarEl = document.getElementById('calendar');
+    const bookBtn = document.getElementById('book-now-btn');
+
     const events = {{ calendar_events|safe }};
     const datePrices = {{ date_prices|safe }};
 
@@ -139,46 +145,109 @@
       return 500;
     }
 
-    // Bootstrap modal event
     const modal = document.getElementById('availabilityModal');
     modal.addEventListener('shown.bs.modal', function () {
-      if (!calendar) {
-        calendar = new FullCalendar.Calendar(calendarEl, {
-          initialView: 'dayGridMonth',
-          height: getResponsiveHeight(),
-          events: events,
-          headerToolbar: {
-            left: 'prev,next today',
-            center: 'title',
-            right: ''
-          },
-          dayCellDidMount: function (info) {
-            const dateStr = info.date.toISOString().split('T')[0];
-            const price = datePrices[dateStr];
-
-            if (price) {
-              const priceEl = document.createElement('div');
-              priceEl.textContent = price + '€';
-              priceEl.style.fontSize = '0.75rem';
-              priceEl.style.fontWeight = 'bold';
-              priceEl.style.color = '#198754';
-              priceEl.style.position = 'absolute';
-              priceEl.style.bottom = '4px';
-              priceEl.style.right = '4px';
-              info.el.style.position = 'relative';
-              info.el.appendChild(priceEl);
-            }
-          }
-        });
-
-        calendar.render();
-      } else {
-        calendar.updateSize();
+  if (!calendar) {
+    calendar = new FullCalendar.Calendar(calendarEl, {
+      initialView: 'dayGridMonth',
+      selectable: true,
+      selectMirror: true,
+      height: getResponsiveHeight(),
+      events: events,
+      headerToolbar: {
+        left: 'prev,next today',
+        center: 'title',
+        right: ''
+      },
+      select: function (info) {
+        selectedRange = {
+          start: info.startStr,
+          end: info.endStr
+        };
+        bookBtn.disabled = false;
+      },
+      dayCellDidMount: function (info) {
+        const dateStr = info.date.toISOString().split('T')[0];
+        const price = datePrices[dateStr];
+        if (price) {
+          const priceEl = document.createElement('div');
+          priceEl.textContent = price + '€';
+          priceEl.style.fontSize = '0.75rem';
+          priceEl.style.fontWeight = 'bold';
+          priceEl.style.color = '#198754';
+          priceEl.style.position = 'absolute';
+          priceEl.style.bottom = '4px';
+          priceEl.style.right = '4px';
+          info.el.style.position = 'relative';
+          info.el.appendChild(priceEl);
+        }
       }
     });
 
+    // --- START: Add this two-click date selection logic ---
+
+    let clickCount = 0;
+    let startDate = null;
+    let endDate = null;
+
+    calendar.on('dateClick', function(info) {
+      if (clickCount === 0) {
+        startDate = info.dateStr;
+        endDate = null;
+        clickCount = 1;
+
+        calendar.unselect();
+        calendar.select(info.dateStr, info.dateStr);
+
+        bookBtn.disabled = true;
+      } else if (clickCount === 1) {
+        endDate = info.dateStr;
+
+        if (new Date(endDate) < new Date(startDate)) {
+          [startDate, endDate] = [endDate, startDate];
+        }
+
+        // FullCalendar 'select' expects exclusive end date, so add 1 day to endDate
+        const exclusiveEndDate = new Date(new Date(endDate).getTime() + 24*60*60*1000)
+          .toISOString().split('T')[0];
+
+        calendar.select(startDate, exclusiveEndDate);
+
+        selectedRange = { start: startDate, end: exclusiveEndDate };
+        bookBtn.disabled = false;
+
+        clickCount = 0;
+      }
+    });
+
+    // Optional: Clear selection when modal closes
+    modal.addEventListener('hidden.bs.modal', function () {
+      calendar.unselect();
+      clickCount = 0;
+      startDate = null;
+      endDate = null;
+      bookBtn.disabled = true;
+    });
+
+    // --- END two-click date selection logic ---
+
+    calendar.render();
+  } else {
+    calendar.updateSize();
+  }
+});
+
+    // Handle resizing
     window.addEventListener('resize', () => {
       if (calendar) calendar.setOption('height', getResponsiveHeight());
+    });
+
+    // Handle booking button
+    bookBtn.addEventListener('click', () => {
+      if (selectedRange) {
+        const url = `/campervan/${campervanId}/book/?start_date=${selectedRange.start}&end_date=${selectedRange.end}`;
+        window.location.href = url;
+      }
     });
   });
 </script>
