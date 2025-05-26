@@ -5,7 +5,7 @@
 }
 
 body {
-  background-color: #bad6c6;
+  background-color: #bbd4c5;
   margin: 0;
   height: 100vh;
 }
@@ -39,7 +39,7 @@ body {
   z-index: 1000;
   display: flex;
   align-items: center;
-  background-color: #e5e5e5;
+  background-color: #ebae16;
   padding: 0 1rem;
   justify-content: space-between;
   flex-wrap: wrap;
@@ -48,7 +48,7 @@ body {
 
 #site-title {
   font-family: "Cookie", cursive;
-  color: #6a8a7b;
+  color: black;
   font-size: 5rem;
   text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
 }
@@ -71,7 +71,7 @@ body {
     top: 0;
     right: 0;
     background-color: rgba(255, 255, 255, 0.85);
-    color: #6a8a7b;
+    color: #6edad9;
     text-align: center;
     padding: 1.5rem;
     font-size: 1.25rem;
@@ -92,7 +92,7 @@ body {
 }
 
 .navbar ul {
-  color: #6a8a7b;
+  color: black;
   list-style: none;
   display: flex;
   padding-left: 0;
@@ -105,7 +105,7 @@ body {
 }
 
 .navbar ul li a {
-  color: #6a8a7b;
+  color: black;
   text-decoration: none;
   font-weight: 400;
   padding: 0.8rem 0;
@@ -114,7 +114,7 @@ body {
 }
 
 .navbar ul li a:hover {
-  color: #bad6c6;
+  color: darkgrey;
 }
 
 .navbar form {
@@ -131,8 +131,8 @@ body {
 .navbar button {
   padding: 0.4rem 0.8rem;
   border: none;
-  background-color: #e5e5e5;
-  color: #6a8a7b;
+  background-color: #0dc1bf;
+  color: black;
   cursor: pointer;
   font-family: "Roboto", sans-serif;
   outline: 0;
@@ -140,13 +140,13 @@ body {
 }
 
 .navbar button:hover {
-  background-color: #bad6c6;
+  background-color: darkgray;
   outline: 0;
 }
 
 #availability-button {
   color: white;
-  background-color: #877960;
+  background-color: #0dc1bf;
   margin-bottom: 5px;
 }
 
@@ -159,7 +159,7 @@ body {
 .hamburger div {
   width: 25px;
   height: 3px;
-  background-color: white;
+  background-color: black;
   margin: 4px 0;
 }
 
@@ -177,7 +177,7 @@ body {
   }
 
 footer {
-  background-color: #e5e5e5;
+  background-color: #ebae16;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.6);
 
 }
@@ -191,7 +191,7 @@ footer {
   border-radius: 1rem;
   box-shadow: 0 4px 8px rgba(0,0,0,0.15);
   font-family: 'Roboto', sans-serif;
-  color: #6a8a7b;
+  color: black;
   display: flex;
   align-items: flex-start;
   gap: 1.5rem;
@@ -214,7 +214,7 @@ footer {
 #about-section h1 {
   font-family: "Cookie", cursive;
   font-size: 3rem;
-  color: #6a8a7b;
+  color: #a5822d;
   margin-bottom: 1.5rem;
 }
 
@@ -234,7 +234,7 @@ footer {
 #destinations-section h2 {
   font-family: "Cookie", cursive;
   font-size: 2.8rem;
-  color: #6a8a7b;
+  color: #a5822d;
   text-align: center;
   margin-bottom: 2rem;
 }
@@ -266,13 +266,13 @@ footer {
 .destination-card h3 {
   font-family: "Cookie", cursive;
   font-size: 1.8rem;
-  color: #6a8a7b;
+  color: black;
   margin-bottom: 0.5rem;
 }
 
 .destination-card p {
   font-size: 1.1rem;
-  color: #6a8a7b;
+  color: black;
   line-height: 1.5;
 }
 
@@ -290,7 +290,7 @@ footer {
 #contact-section h2 {
   font-family: "Cookie", cursive;
   font-size: 3rem;
-  color: #6a8a7b;
+  color: #a5822d;
   text-align: center;
   margin-bottom: 1rem;
 }
@@ -333,7 +333,7 @@ footer {
 #contact-section input[type="text"]:focus,
 #contact-section input[type="email"]:focus,
 #contact-section textarea:focus {
-  border-color: #d5b474;
+  border-color: #ebae16;
   outline: none;
   box-shadow: inset 0 2px 4px rgba(0,0,0,0.1);
   background-color: #fff;
@@ -346,8 +346,8 @@ footer {
 }
 
 #send-message-btn {
-  background-color: #877960;
-  color: white;
+  background-color: #0dc1bf;
+  color: black;
   padding: 0.75rem 1.5rem;
   border: none;
   border-radius: 0.8rem;
@@ -361,7 +361,7 @@ footer {
 
 #send-message-btn:hover,
 #send-message-btn:focus {
-  background-color: #877960;
+  background-color: #6edad9;
   outline: none;
 }
 
@@ -376,7 +376,7 @@ footer {
 #faq-section h2 {
   font-family: "Cookie", cursive;
   font-size: 3rem;
-  color: #6a8a7b;
+  color: #a5822d;
   text-align: center;
   margin-bottom: 2rem;
 }
@@ -394,7 +394,7 @@ footer {
   text-align: left;
   font-weight: 700;
   font-size: 1.1rem;
-  color: #14213D;
+  color: black;
   border: none;
   background: none;
   cursor: pointer;
@@ -411,7 +411,7 @@ footer {
 .faq-answer {
   display: none;
   margin-top: 0.5rem;
-  color: #4a4a4a;
+  color: darkgray;
   line-height: 1.5;
 }
 
@@ -427,7 +427,7 @@ footer {
   }
 
   #camperCarousel {
-    background-color: #d5b474;
+    background-color: #bbd4c5;
     border-top-right-radius: 8px;
   }
 
