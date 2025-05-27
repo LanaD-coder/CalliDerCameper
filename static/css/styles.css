@@ -92,7 +92,7 @@ body {
     top: 0;
     right: 0;
     background-color: rgba(255, 255, 255, 0.85);
-    color: #a5822d;
+    color: #0dc1bf;
     text-align: center;
     padding: 1.5rem;
     font-size: 1.25rem;
@@ -303,7 +303,9 @@ footer {
 #logout-section,
 #signup-section,
 #verify-email-section,
-#booking-section {
+#booking-section,
+#imp-section,
+#daten-section {
   background: rgba(255, 255, 255, 0.9);
   padding: 2rem;
   max-width: 600px;
@@ -319,7 +321,9 @@ footer {
 #logout-section h1,
 #signup-section h1,
 #verify-email-section h1,
-#booking-section h2 {
+#booking-section h2,
+#imp-section h2,
+#daten-section h2 {
   font-family: "Cookie", cursive;
   font-size: 3rem;
   color: #a5822d;
@@ -438,6 +442,37 @@ footer {
   outline: none;
 }
 
+
+/* Paragraphs inside imp-section */
+#imp-section p {
+  margin-top: 1rem;
+  color: #14213D;
+}
+
+/* Links */
+#imp-section a {
+  color: #0dc1bf;
+  text-decoration: underline;
+}
+
+/* Small print */
+#imp-section p.text-sm {
+  font-size: 0.85rem;
+  color: #6b7280;
+}
+
+#daten-section h3 {
+  font-family: "Cookie", cursive;
+  font-size: 1.75rem;
+  color: #a5822d;
+  margin-top: 2rem;
+  margin-bottom: 0.75rem;
+}
+
+#daten-section p {
+  color: #14213D;
+  line-height: 1.6;
+}
 
 /* === FAQ Section === */
 #faq-section {

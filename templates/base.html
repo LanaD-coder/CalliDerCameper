@@ -5,6 +5,8 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="description" content="Rent Calli the Camper – your fully equipped VW Grand California for adventures in nature.">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>{% block title %}{{ _('Calli the Camper') }}{% endblock %}</title>
 
     <!-- Bootstrap CSS -->
@@ -24,11 +26,10 @@
 
     <!-- Favicon -->
     <link rel="shortcut icon" href="{% static 'favicon.ico' %}" type="image/x-icon" />
-    <link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <link rel="shortcut icon" href="/favicon.ico" />
-    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
-    <link rel="manifest" href="/site.webmanifest" />
+    <link rel="icon" type="image/png" href="{% static 'favicon-96x96.png' %}" sizes="96x96" />
+    <link rel="icon" type="image/svg+xml" href="{% static 'favicon.svg' %}" />
+    <link rel="apple-touch-icon" sizes="180x180" href="{% static 'apple-touch-icon.png' %}" />
+    <link rel="manifest" href="{% static 'site.webmanifest' %}" />
 
     {% block extra_head %}{% endblock %}
 </head>
@@ -127,21 +128,5 @@
 
 {% block extra_scripts %}{% endblock %}
 
-<div id="cookie-toast" class="fixed bottom-4 right-4 bg-gray-800 text-white p-4 rounded-lg shadow-lg hidden z-50">
-  Diese Website verwendet Cookies. <a href="{% url 'datenschutz' %}" class="underline">Mehr erfahren</a>.
-  <button onclick="acceptCookies()" class="ml-4 bg-blue-600 px-2 py-1 rounded text-sm">OK</button>
-</div>
-
-<script>
-function acceptCookies() {
-  localStorage.setItem('cookiesAccepted', 'true');
-  document.getElementById('cookie-toast').classList.add('hidden');
-}
-document.addEventListener('DOMContentLoaded', function () {
-  if (!localStorage.getItem('cookiesAccepted')) {
-    document.getElementById('cookie-toast').classList.remove('hidden');
-  }
-});
-</script>
 </body>
 </html>

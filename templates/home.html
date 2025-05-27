@@ -3,12 +3,25 @@
 {% load i18n %}
 
 {% block content %}
-<div class="banner text-center">
+<div class="banner text-center position-relative" style="position: relative;">
   <div class="banner-text">
     <h2 class="display-4 fw-bold" style="font-family: Cookie;">{% trans "Calli explores the world – and you can join in!" %}</h2>
     <p>{% trans "Time camping isn't time spent, it's invested." %}</p>
     <p>{% trans "There is no Wi-Fi in the forest, but I promise you will find a better connection." %}</p>
     <p>{% trans "Wander often, wander always — because not all who wander are lost.  - RVC" %}</p>
+  </div>
+
+  <!-- Cookie Toast placed at top-left of banner -->
+  <div id="cookieToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true" data-bs-autohide="false"
+      style="position: absolute; bottom: 10px; left: 10px; z-index: 9999; min-width: 280px;">
+    <div class="toast-header">
+      <strong class="me-auto">Cookies</strong>
+      <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+    </div>
+    <div class="toast-body">
+      Diese Website verwendet Cookies. <a href="{% url 'datenschutz' %}">Mehr erfahren</a>.
+      <button id="acceptCookiesBtn" class="btn btn-primary btn-sm ms-2">OK</button>
+    </div>
   </div>
 </div>
 
@@ -16,40 +29,30 @@
   {% get_current_language as LANGUAGE_CODE %}
   <h1>{{ van.name }}</h1>
 
-  <!-- VW Grand California Merkmale & Ausstattung -->
+  <!-- VW Grand California Features -->
   <div class="vw-features mb-4">
     <h2>{% trans "VW Grand California Merkmale & Ausstattung" %}</h2>
     <ul class="list-unstyled">
-      <li>
-        <i class="bi bi-people-fill me-2"></i> {% trans "4 seats & 2+2 sleeping places" %}
-      </li>
-      <li>
-        <i class="bi bi-arrow-up-circle-fill me-2"></i> {% trans "Seat heating" %}
-      </li>
-      <li>
-        <i class="bi bi-egg-fried me-2"></i> {% trans "Integrated kitchenette" %}
-      </li>
-      <li>
-        <i class="bi bi-thermometer-half me-2"></i> {% trans "Auxiliary heater" %}
-      </li>
-      <li>
-        <i class="bi bi-speedometer2 me-2"></i> {% trans " Adaptive cruise control, cruise control & parking assist" %}
-      </li>
+      <li><i class="bi bi-people-fill me-2"></i> {% trans "4 seats & 2+2 sleeping places" %}</li>
+      <li><i class="bi bi-arrow-up-circle-fill me-2"></i> {% trans "Seat heating" %}</li>
+      <li><i class="bi bi-egg-fried me-2"></i> {% trans "Integrated kitchenette" %}</li>
+      <li><i class="bi bi-thermometer-half me-2"></i> {% trans "Auxiliary heater" %}</li>
+      <li><i class="bi bi-speedometer2 me-2"></i> {% trans "Adaptive cruise control, cruise control & parking assist" %}</li>
     </ul>
   </div>
 
   <p>{{ van.description }}</p>
-  <button id="availability-button" type="button" class="btn btn-lg" data-bs-toggle="modal" data-bs-target="#availabilityModal">
+  <button id="availability-button" type="button" class="btn btn-lg btn-primary" data-bs-toggle="modal" data-bs-target="#availabilityModal">
     {{ _('Check Availability') }}
   </button>
 
-  <div id="camperCarousel" class="carousel slide" data-bs-ride="carousel">
+  <!-- Campervan image carousel -->
+  <div id="camperCarousel" class="carousel slide mt-4" data-bs-ride="carousel">
     <div class="carousel-indicators">
       {% for img in van.images.all %}
         <button type="button" data-bs-target="#camperCarousel" data-bs-slide-to="{{ forloop.counter0 }}" {% if forloop.first %}class="active"{% endif %} aria-current="true" aria-label="Slide {{ forloop.counter }}"></button>
       {% endfor %}
     </div>
-
     <div class="carousel-inner">
       {% for img in van.images.all %}
         <div class="carousel-item {% if forloop.first %}active{% endif %}">
@@ -57,7 +60,6 @@
         </div>
       {% endfor %}
     </div>
-
     <button class="carousel-control-prev" type="button" data-bs-target="#camperCarousel" data-bs-slide="prev">
       <span class="carousel-control-prev-icon" aria-hidden="true"></span>
       <span class="visually-hidden">{{ _('Previous') }}</span>
@@ -69,7 +71,7 @@
   </div>
 </div>
 
-<!-- Check Availability Modal -->
+<!-- Availability Modal -->
 <div class="modal fade" id="availabilityModal" tabindex="-1" aria-labelledby="availabilityModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered modal-xl">
     <div class="modal-content">
@@ -87,214 +89,196 @@
   </div>
 </div>
 
-<!-- Page-specific Scripts -->
-<script>
-  document.addEventListener('DOMContentLoaded', () => {
-    const campervanId = {{ van.id }};
-    fetch(`/api/campervan/${campervanId}/booked_dates/`)
-      .then(response => response.json())
-      .then(bookedDates => {
-        let disabledDates = [];
-
-        bookedDates.forEach(range => {
-          let current = new Date(range.start);
-          let end = new Date(range.end);
-          while (current <= end) {
-            disabledDates.push(current.toISOString().split('T')[0]);
-            current.setDate(current.getDate() + 1);
-          }
-        });
-
-        $('.datepicker').datepicker({
-          format: 'yyyy-mm-dd',
-          startDate: new Date(),
-          datesDisabled: disabledDates,
-          autoclose: true,
-          todayHighlight: true,
-        });
-      })
-      .catch(error => {
-        console.error('Error loading booked dates:', error);
-        // fallback: init datepicker without disabled dates
-        $('.datepicker').datepicker({
-          format: 'yyyy-mm-dd',
-          startDate: new Date(),
-          autoclose: true,
-          todayHighlight: true,
-        });
-      });
-  });
-</script>
-
+<!-- FullCalendar and booking JS -->
 <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.js"></script>
 <script>
-  document.addEventListener('DOMContentLoaded', function () {
-    let calendar;
-    let selectedRange = null;
-    const campervanId = {{ van.id }};
-    const calendarEl = document.getElementById('calendar');
-    const bookBtn = document.getElementById('book-now-btn');
+document.addEventListener('DOMContentLoaded', function () {
+  let calendar;
+  let selectedRange = null;
+  const campervanId = {{ van.id }};
+  const calendarEl = document.getElementById('calendar');
+  const bookBtn = document.getElementById('book-now-btn');
 
-    const events = {{ calendar_events|safe }};
-    const datePrices = {{ date_prices|safe }};
+  const events = {{ calendar_events|safe }};
+  const datePrices = {{ date_prices|safe }};
 
-    function getResponsiveHeight() {
-      const width = window.innerWidth;
-      if (width < 480) return 350;
-      if (width < 992) return 450;
-      return 500;
-    }
+  function getResponsiveHeight() {
+    const width = window.innerWidth;
+    if (width < 480) return 350;
+    if (width < 992) return 450;
+    return 500;
+  }
 
-    const modal = document.getElementById('availabilityModal');
-    modal.addEventListener('shown.bs.modal', function () {
-  if (!calendar) {
-    calendar = new FullCalendar.Calendar(calendarEl, {
-      initialView: 'dayGridMonth',
-      selectable: true,
-      selectMirror: true,
-      height: getResponsiveHeight(),
-      events: events,
-      headerToolbar: {
-        left: 'prev,next today',
-        center: 'title',
-        right: ''
-      },
-      select: function (info) {
-        selectedRange = {
-          start: info.startStr,
-          end: info.endStr
-        };
-        bookBtn.disabled = false;
-      },
-      dayCellDidMount: function (info) {
-        const dateStr = info.date.toISOString().split('T')[0];
-        const price = datePrices[dateStr];
-        if (price) {
-          const priceEl = document.createElement('div');
-          priceEl.textContent = price + '€';
-          priceEl.style.fontSize = '0.75rem';
-          priceEl.style.fontWeight = 'bold';
-          priceEl.style.color = '#198754';
-          priceEl.style.position = 'absolute';
-          priceEl.style.bottom = '4px';
-          priceEl.style.right = '4px';
-          info.el.style.position = 'relative';
-          info.el.appendChild(priceEl);
+  const modal = document.getElementById('availabilityModal');
+  modal.addEventListener('shown.bs.modal', function () {
+    if (!calendar) {
+      calendar = new FullCalendar.Calendar(calendarEl, {
+        initialView: 'dayGridMonth',
+        selectable: true,
+        selectMirror: true,
+        height: getResponsiveHeight(),
+        events: events,
+        headerToolbar: {
+          left: 'prev,next today',
+          center: 'title',
+          right: ''
+        },
+        select: function(info) {
+          // This function triggered when user selects with drag - we'll disable and rely on clicks instead
+          // So disable the book button here
+          bookBtn.disabled = true;
+        },
+        dayCellDidMount: function(info) {
+          const dateStr = info.date.toISOString().split('T')[0];
+          const price = datePrices[dateStr];
+          if (price) {
+            const priceEl = document.createElement('div');
+            priceEl.textContent = price + '€';
+            priceEl.style.fontSize = '0.75rem';
+            priceEl.style.fontWeight = 'bold';
+            priceEl.style.color = '#198754';
+            priceEl.style.position = 'absolute';
+            priceEl.style.bottom = '4px';
+            priceEl.style.right = '4px';
+            info.el.style.position = 'relative';
+            info.el.appendChild(priceEl);
+          }
         }
-      }
-    });
+      });
 
-    // --- START: Add this two-click date selection logic ---
+      // Two-click selection logic:
+      let clickCount = 0;
+      let startDate = null;
+      let endDate = null;
 
-    let clickCount = 0;
-    let startDate = null;
-    let endDate = null;
+      calendar.on('dateClick', function(info) {
+        if (clickCount === 0) {
+          startDate = info.dateStr;
+          endDate = null;
+          clickCount = 1;
+          calendar.unselect();
+          calendar.select(info.dateStr, info.dateStr);
+          bookBtn.disabled = true;
+        } else if (clickCount === 1) {
+          endDate = info.dateStr;
+          if (new Date(endDate) < new Date(startDate)) {
+            [startDate, endDate] = [endDate, startDate];
+          }
+          // FullCalendar select expects exclusive end date (+1 day)
+          const exclusiveEndDate = new Date(new Date(endDate).getTime() + 24*60*60*1000).toISOString().split('T')[0];
+          calendar.select(startDate, exclusiveEndDate);
+          selectedRange = { start: startDate, end: exclusiveEndDate };
+          bookBtn.disabled = false;
+          clickCount = 0;
+        }
+      });
 
-    calendar.on('dateClick', function(info) {
-      if (clickCount === 0) {
-        startDate = info.dateStr;
-        endDate = null;
-        clickCount = 1;
-
+      modal.addEventListener('hidden.bs.modal', function () {
         calendar.unselect();
-        calendar.select(info.dateStr, info.dateStr);
-
-        bookBtn.disabled = true;
-      } else if (clickCount === 1) {
-        endDate = info.dateStr;
-
-        if (new Date(endDate) < new Date(startDate)) {
-          [startDate, endDate] = [endDate, startDate];
-        }
-
-        // FullCalendar 'select' expects exclusive end date, so add 1 day to endDate
-        const exclusiveEndDate = new Date(new Date(endDate).getTime() + 24*60*60*1000)
-          .toISOString().split('T')[0];
-
-        calendar.select(startDate, exclusiveEndDate);
-
-        selectedRange = { start: startDate, end: exclusiveEndDate };
-        bookBtn.disabled = false;
-
         clickCount = 0;
-      }
-    });
+        startDate = null;
+        endDate = null;
+        bookBtn.disabled = true;
+      });
 
-    // Optional: Clear selection when modal closes
-    modal.addEventListener('hidden.bs.modal', function () {
-      calendar.unselect();
-      clickCount = 0;
-      startDate = null;
-      endDate = null;
-      bookBtn.disabled = true;
-    });
+      calendar.render();
+    } else {
+      calendar.updateSize();
+    }
+  });
 
-    // --- END two-click date selection logic ---
+  window.addEventListener('resize', () => {
+    if (calendar) calendar.setOption('height', getResponsiveHeight());
+  });
 
-    calendar.render();
-  } else {
-    calendar.updateSize();
+  bookBtn.addEventListener('click', () => {
+    if (selectedRange) {
+      const url = `/campervan/${campervanId}/book/?start_date=${selectedRange.start}&end_date=${selectedRange.end}`;
+      window.location.href = url;
+    }
+  });
+});
+</script>
+
+<!-- Price calculation script -->
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const priceDisplay = document.getElementById('price-display');
+  const startInput = document.getElementById('start_date');
+  const endInput = document.getElementById('end_date');
+  const datePrices = {{ date_prices|safe }};
+
+  function formatDate(date) {
+    return date.toISOString().split('T')[0];
+  }
+
+  function calculateTotalPrice(startStr, endStr) {
+    let current = new Date(startStr);
+    const end = new Date(endStr);
+    let total = 0;
+    let days = 0;
+
+    while (current <= end) {
+      const key = formatDate(current);
+      const price = datePrices[key] || 0;
+      total += price;
+      days++;
+      current.setDate(current.getDate() + 1);
+    }
+    return { total, days };
+  }
+
+  function updatePrice() {
+    const start = startInput.value;
+    const end = endInput.value;
+
+    if (start && end && new Date(start) <= new Date(end)) {
+      const { total, days } = calculateTotalPrice(start, end);
+      const avg = days > 0 ? (total / days).toFixed(2) : 0;
+      if (priceDisplay) priceDisplay.textContent = `${avg}€`;
+    } else {
+      if (priceDisplay) priceDisplay.textContent = "{{ van.price_per_day }}€";
+    }
+  }
+
+  if (startInput && endInput) {
+    startInput.addEventListener('change', updatePrice);
+    endInput.addEventListener('change', updatePrice);
   }
 });
-
-    // Handle resizing
-    window.addEventListener('resize', () => {
-      if (calendar) calendar.setOption('height', getResponsiveHeight());
-    });
-
-    // Handle booking button
-    bookBtn.addEventListener('click', () => {
-      if (selectedRange) {
-        const url = `/campervan/${campervanId}/book/?start_date=${selectedRange.start}&end_date=${selectedRange.end}`;
-        window.location.href = url;
-      }
-    });
-  });
 </script>
 
 <script>
-  document.addEventListener('DOMContentLoaded', () => {
-    const priceDisplay = document.getElementById('price-display');
-    const startInput = document.getElementById('start_date');
-    const endInput = document.getElementById('end_date');
-    const datePrices = {{ date_prices|safe }};
+document.addEventListener('DOMContentLoaded', function () {
+  console.log('Toast init');  // <-- add this line for debug
 
-    function formatDate(date) {
-      return date.toISOString().split('T')[0];
-    }
+  if (typeof bootstrap === 'undefined' || !bootstrap.Toast) {
+    console.log('Bootstrap Toast not available');
+    return;
+  }
 
-    function calculateTotalPrice(startStr, endStr) {
-      let current = new Date(startStr);
-      const end = new Date(endStr);
-      let total = 0;
-      let days = 0;
+  const cookieToastEl = document.getElementById('cookieToast');
+  const acceptBtn = document.getElementById('acceptCookiesBtn');
 
-      while (current <= end) {
-        const key = formatDate(current);
-        const price = datePrices[key] || 0;
-        total += price;
-        days++;
-        current.setDate(current.getDate() + 1);
-      }
+  if (!cookieToastEl) {
+    console.log('Toast element not found');
+    return;
+  }
 
-      return { total, days };
-    }
+  const cookiesAccepted = localStorage.getItem('cookiesAccepted');
 
-    function updatePrice() {
-      const start = startInput.value;
-      const end = endInput.value;
+  if (!cookiesAccepted) {
+    const cookieToast = new bootstrap.Toast(cookieToastEl, { autohide: false });
+    cookieToast.show();
 
-      if (start && end && new Date(start) <= new Date(end)) {
-        const { total, days } = calculateTotalPrice(start, end);
-        const avg = days > 0 ? (total / days).toFixed(2) : 0;
-        priceDisplay.textContent = `${avg}€`;
-      } else {
-        priceDisplay.textContent = "{{ van.price_per_day }}€";
-      }
-    }
-
-    startInput.addEventListener('change', updatePrice);
-    endInput.addEventListener('change', updatePrice);
-  });
+    acceptBtn?.addEventListener('click', function () {
+      localStorage.setItem('cookiesAccepted', 'true');
+      cookieToast.hide();
+      console.log('Cookies accepted and toast hidden');
+    });
+  } else {
+    console.log('Cookies already accepted, toast not shown');
+  }
+});
 </script>
 {% endblock %}
