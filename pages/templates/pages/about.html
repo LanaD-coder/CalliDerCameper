@@ -3,15 +3,109 @@
 {% load i18n %}
 
 {% block content %}
-<section id="about-section">
-  <img src="{% static 'images/profile.jpg' %}" alt="{% trans 'Profile Image' %}" class="profile-image" />
+<section id="about-section" class="py-5">
+  <div class="container">
+    <div class="row align-items-start">
+      <!-- TEXT CONTENT -->
+      <div class="col-md-6 pe-md-5">
+        <div class="about-calli">
+          <h1>{% trans "About Calli the Camper" %}</h1>
+          <p>{% trans "Check this out! Here you’ll learn what Calli has on board – from the loft bed for the kids to the small kitchen with a gas stove. Everything you need for big and small adventures." %}</p>
 
-  <div class="about-text">
-    <h1>{% trans "About Us" %}</h1>
-    <p>{% trans "Welcome to Calli the Camper! We're passionate about helping you find the perfect campervan for your adventures." %}</p>
-    <p>{% trans "Our mission is to connect campers with amazing vehicles and unforgettable experiences." %}</p>
+          <h2>{% trans "VW Grand California 600" %}</h2>
+
+          <h3>{% trans "Technical Details" %}</h3>
+          <ul class="list-unstyled">
+            <li><i class="fas fa-calendar me-2"></i> {% trans "Year of manufacture" %}: 2022</li>
+            <li><i class="fas fa-bolt me-2"></i> {% trans "Power" %}: 177 HP</li>
+            <li><i class="fas fa-gas-pump me-2"></i> {% trans "Fuel type" %}: Diesel</li>
+            <li><i class="fas fa-smog me-2"></i> {% trans "Emission standard" %}: Euro 6</li>
+            <li><i class="fas fa-tachometer-alt me-2"></i> {% trans "Fuel consumption per 100 km" %}: 8.5 L</li>
+            <li><i class="fas fa-tint me-2"></i> {% trans "Fuel tank capacity" %}: 80 L</li>
+            <li><i class="fas fa-ruler-horizontal me-2"></i> {% trans "Vehicle dimensions (L/W/H)" %}: 599 / 204 / 309 cm</li>
+            <li><i class="fas fa-ship me-2"></i> {% trans "Length for ferry booking" %}: 600 cm</li>
+            <li><i class="fas fa-ship me-2"></i> {% trans "Length for ferry booking with bike rack" %}: 700 cm</li>
+            <li><i class="fas fa-weight-hanging me-2"></i> {% trans "Permissible total weight" %}: 3500 kg</li>
+          </ul>
+
+          <h3>{% trans "Driving" %}</h3>
+          <ul class="list-unstyled">
+            <li><i class="fas fa-users me-2"></i> {% trans "Seats for 4 people" %}</li>
+            <li><i class="fas fa-cogs me-2"></i> {% trans "Automatic transmission" %}</li>
+            <li><i class="fas fa-car me-2"></i> {% trans "Cruise control including ACC (Adaptive Cruise Control)" %}</li>
+            <li><i class="fas fa-snowflake me-2"></i> {% trans "Air conditioning" %}</li>
+            <li><i class="fas fa-tv me-2"></i> {% trans "Multimedia system with DAB+" %}</li>
+            <li><i class="fas fa-car me-2"></i> {% trans "Partly all-season & summer tires" %}</li>
+            <li><i class="fas fa-parking me-2"></i> {% trans "Parking assist front & rear including rearview camera" %}</li>
+            <li><i class="fas fa-map-marker-alt me-2"></i> {% trans "Integrated navigation system" %}</li>
+            <li><i class="fas fa-child me-2"></i> Isofix</li>
+          </ul>
+
+          <h3>{% trans "Living & Sleeping" %}</h3>
+          <ul class="list-unstyled">
+            <li><i class="fas fa-bed me-2"></i> {% trans "Sleeping places for 2 + 2 people" %}</li>
+            <li><i class="fas fa-child me-2"></i> {% trans "Loft bed (122 × 160 / 190 cm)" %}</li>
+            <li><i class="fas fa-table me-2"></i> {% trans "Stowable interior table" %}</li>
+            <li><i class="fas fa-toilet me-2"></i> {% trans "Toilet with mobile wastewater cassette" %}</li>
+            <li><i class="fas fa-user-secret me-2"></i> {% trans "All-round privacy (including front & rear window)" %}</li>
+            <li><i class="fas fa-box me-2"></i> {% trans "Storage space under the cross bed" %}</li>
+            <li><i class="fas fa-plug me-2"></i> {% trans "5V USB, 12V & 230V sockets" %}</li>
+            <li><i class="fas fa-bed me-2"></i> {% trans "Cross bed in rear (193 × 140 cm)" %}</li>
+            <li><i class="fas fa-chair me-2"></i> {% trans "Swivel front seats" %}</li>
+            <li><i class="fas fa-shower me-2"></i> {% trans "Wet room with shower & WC" %}</li>
+            <li><i class="fas fa-fire me-2"></i> {% trans "Hot water boiler (12 L)" %}</li>
+            <li><i class="fas fa-box me-2"></i> {% trans "Cabinet system with generous storage space" %}</li>
+            <li><i class="fas fa-fire me-2"></i> {% trans "Parking heater" %}</li>
+            <li><i class="fas fa-battery-full me-2"></i> {% trans "Second battery" %}</li>
+          </ul>
+
+          <h3>{% trans "Kitchen" %}</h3>
+          <ul class="list-unstyled">
+            <li><i class="fas fa-fire me-2"></i> {% trans "2-burner gas stove" %}</li>
+            <li><i class="fas fa-water me-2"></i> {% trans "Sink" %}</li>
+            <li><i class="fas fa-utensils me-2"></i> {% trans "Cooking & kitchen utensils included" %}</li>
+            <li><i class="fas fa-tint me-2"></i> {% trans "Fresh water tank (110 L) & wastewater tank (90 L)" %}</li>
+            <li><i class="fas fa-snowflake me-2"></i> {% trans "Refrigerator (70 L) & freezer (7.5 L)" %}</li>
+            <li><i class="fas fa-expand-arrows-alt me-2"></i> {% trans "Pull-out kitchen for more space" %}</li>
+            <li><i class="fas fa-coffee me-2"></i> French press</li>
+          </ul>
+
+          <h3>{% trans "Outdoor Area" %}</h3>
+          <ul class="list-unstyled">
+            <li><i class="fas fa-umbrella-beach me-2"></i> {% trans "Awning with fold-out support legs" %}</li>
+            <li><i class="fas fa-plug me-2"></i> {% trans "Outdoor socket & extension cable" %}</li>
+            <li><i class="fas fa-chair me-2"></i> {% trans "Camping table & 2 camping chairs" %}</li>
+          </ul>
+
+          <h3>{% trans "Other Camping Equipment" %}</h3>
+          <ul class="list-unstyled">
+            <li><i class="fas fa-cubes me-2"></i> {% trans "Leveling blocks" %}</li>
+          </ul>
+
+          <h3>{% trans "Cozy On The Road" %}</h3>
+          <p>{% trans "Sleeping places for 2+2 people with a cross bed in the rear and a loft bed for kids. The swivel front seats and interior table make it cozy, and the cabinet system as well as under the bed provide plenty of storage space for everything you need." %}</p>
+          <p><strong>{% trans "Note:" %}</strong> {% trans "Pets are unfortunately not allowed." %}</p>
+        </div>
+      </div>
+
+    <!-- IMAGE COLUMN with floating logo -->
+    <div class="col-md-6 position-relative">
+      <!-- Background image -->
+      <img
+        src="https://res.cloudinary.com/dvs5uituk/image/upload/v1748349358/abnehmende-perspektive-der-strasse-inmitten-der-berge-gegen-den-himmel-wahrend-des-sonnenuntergangs_1_affcht.webp"
+        alt="{% trans 'Camper Image' %}"
+        class="img-fluid shadow"
+        style="object-fit: cover; height: auto; max-height: 1000px; width: 100%; border-radius: 0 80px 0 0;">
+
+      <!-- Floating logo image -->
+     <img
+      src="/static/images/extra/logo.png"
+      alt="{% trans 'Camper Logo' %}"
+      class="position-absolute logo-img">
+    </div>
   </div>
 </section>
+
 
 <section id="destinations-section">
   <h2>{% trans "Recommended Camping Destinations" %}</h2>

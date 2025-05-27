@@ -24,6 +24,9 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cookie&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
 
+     <!-- Font awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
     <!-- Favicon -->
     <link rel="shortcut icon" href="{% static 'favicon.ico' %}" type="image/x-icon" />
     <link rel="icon" type="image/png" href="{% static 'favicon-96x96.png' %}" sizes="96x96" />
@@ -35,11 +38,11 @@
 </head>
 <body>
 
-<nav class="navbar navbar-expand-lg">
+<nav class="navbar navbar-expand-lg bg-light">
   <div class="container-fluid">
     <!-- Logo -->
     <a class="navbar-brand d-flex align-items-center" href="{% url 'home' %}">
-      <img src="https://res.cloudinary.com/dvs5uituk/image/upload/v1747742379/freepik__background__6179_fdyics.webp" alt="Logo" style="margin-right: 10px;">
+      <img src="https://res.cloudinary.com/dvs5uituk/image/upload/v1747742379/freepik__background__6179_fdyics.webp" alt="Logo">
       <span id="site-title">Calli the Camper</span>
     </a>
 
@@ -51,46 +54,60 @@
 
     <!-- Navbar links and language switcher -->
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <!-- Navigation Links -->
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-        <li class="nav-item"><a class="nav-link" href="/">{{ _('Home') }}</a></li>
-        <li class="nav-item"><a class="nav-link" href="/about">{{ _('Introduction to Calli') }}</a></li>
-        <li class="nav-item"><a class="nav-link" href="/information">{{ _('How this works') }}</a></li>
-        <li class="nav-item"><a class="nav-link" href="/videos">{{ _('Videos & Tipps') }}</a></li>
-        <li class="nav-item"><a class="nav-link" href="/">{{ _('Book') }}</a></li>
-        <li class="nav-item"><a class="nav-link" href="/contact">{{ _('Contact') }}</a></li>
+        <li class="nav-item"><a class="nav-link" href="/">{% trans "Home" %}</a></li>
+        <li class="nav-item"><a class="nav-link" href="/about">{% trans "Introduction to Calli" %}</a></li>
+        <li class="nav-item"><a class="nav-link" href="/information">{% trans "How this works" %}</a></li>
+        <li class="nav-item"><a class="nav-link" href="/videos">{% trans "Videos & Tipps" %}</a></li>
+        <li class="nav-item"><a class="nav-link" href="/">{% trans "Book" %}</a></li>
+        <li class="nav-item"><a class="nav-link" href="/contact">{% trans "Contact" %}</a></li>
 
         {% if user.is_authenticated %}
           <li class="nav-item">
-            <a class="nav-link" href="{% url 'account_logout' %}">{{ _('Logout') }}</a>
+            <a class="nav-link" href="{% url 'account_logout' %}">{% trans "Logout" %}</a>
           </li>
         {% else %}
           <li class="nav-item">
-            <a class="nav-link" href="{% url 'account_signup' %}">{{ _('Register') }}</a>
+            <a class="nav-link" href="{% url 'account_signup' %}">{% trans "Register" %}</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="{% url 'account_login' %}">{{ _('Login') }}</a>
+            <a class="nav-link" href="{% url 'account_login' %}">{% trans "Login" %}</a>
           </li>
         {% endif %}
       </ul>
 
-      <div class="hotline-label">
-        📞 Hotline: +49 1715245206
-      </div>
+      <!-- Hotline and Language Switcher -->
+      <div class="d-flex flex-column flex-lg-row align-items-start align-items-lg-center">
+        <div class="hotline-label mb-2 mb-lg-0 me-lg-3">
+          📞 Hotline: +49 1715245206
+        </div>
 
-      <form action="{% url 'set_language' %}" method="post" class="ms-3">
-        {% csrf_token %}
-        <input name="next" type="hidden" value="{{ request.path }}">
-        <select name="language" onchange="this.form.submit()" class="form-select form-select-sm">
-          {% get_current_language as LANGUAGE_CODE %}
-          {% get_available_languages as LANGUAGES %}
-          {% for lang_code, lang_name in LANGUAGES %}
-            <option value="{{ lang_code }}" {% if lang_code == LANGUAGE_CODE %}selected{% endif %}>{{ lang_name }}</option>
-          {% endfor %}
-        </select>
-      </form>
+        <form action="{% url 'set_language' %}" method="post" class="d-flex">
+          {% csrf_token %}
+          <input name="next" type="hidden" value="{{ request.path }}">
+          <select name="language" onchange="this.form.submit()" class="form-select form-select-sm">
+            {% get_current_language as LANGUAGE_CODE %}
+            {% get_available_languages as LANGUAGES %}
+            {% for lang_code, lang_name in LANGUAGES %}
+              <option value="{{ lang_code }}" {% if lang_code == LANGUAGE_CODE %}selected{% endif %}>{{ lang_name }}</option>
+            {% endfor %}
+          </select>
+        </form>
+      </div>
     </div>
   </div>
 </nav>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const hamburger = document.querySelector('.navbar-toggler');
+  const navMenu = document.querySelector('.navbar-nav');
+
+  hamburger.addEventListener('click', () => {
+    navMenu.classList.toggle('active');
+  });
+});
+</script>
 
 <!-- Main page content -->
 <div class="container" id="main-container">
@@ -114,7 +131,7 @@
     </a>
   </div>
   &copy; {{ current_year|default:2025 }} Calli the Camper. All rights reserved.
-  <a href="{% url 'impressum' %}" class="underline text-blue-600">Impressum</a>
+  <a href="{% url 'impressum' %}" class="text-primary text-decoration-underline">Impressum</a>
 </footer>
 
 <!-- jQuery (required) -->

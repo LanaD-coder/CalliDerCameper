@@ -6,9 +6,13 @@
 <div class="banner text-center position-relative" style="position: relative;">
   <div class="banner-text">
     <h2 class="display-4 fw-bold" style="font-family: Cookie;">{% trans "Calli explores the world – and you can join in!" %}</h2>
-    <p>{% trans "Time camping isn't time spent, it's invested." %}</p>
-    <p>{% trans "There is no Wi-Fi in the forest, but I promise you will find a better connection." %}</p>
-    <p>{% trans "Wander often, wander always — because not all who wander are lost.  - RVC" %}</p>
+    <p>
+      {% blocktrans %}
+      Calli is more than just a camper – he’s our little adventure on four wheels.
+      But instead of just using him ourselves, we want other people to experience the freedom of travel too.
+      That way, Calli keeps discovering new places, and you might find your very own favorite spot.
+      {% endblocktrans %}
+    </p>
   </div>
 
   <!-- Cookie Toast placed at top-left of banner -->
@@ -278,6 +282,29 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   } else {
     console.log('Cookies already accepted, toast not shown');
+  }
+});
+</script>
+
+<!-- Welcome Toast Container -->
+<div class="toast-container position-fixed bottom-0 end-0 p-3" style="z-index: 1055;">
+  <div id="welcomeToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true" data-bs-delay="5000">
+    <div class="toast-header">
+      <strong class="me-auto">Welcome</strong>
+      <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+    </div>
+    <div class="toast-body">
+      Welcome! Please <a href="{% url 'account_signup' %}">Register</a> or <a href="{% url 'account_login' %}">Login</a> to get started.
+    </div>
+  </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  const welcomeToastEl = document.getElementById('welcomeToast');
+  if (welcomeToastEl && bootstrap && bootstrap.Toast) {
+    const welcomeToast = new bootstrap.Toast(welcomeToastEl);
+    welcomeToast.show();
   }
 });
 </script>

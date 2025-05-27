@@ -203,33 +203,34 @@ footer {
 
 }
 
-/* === About Section === */
 #about-section {
+  position: relative;
   background: rgba(255, 255, 255, 0.9);
   padding: 2rem;
-  max-width: 600px;
-  margin: 3rem auto;
-  border-radius: 1rem;
+  max-width: 100%;
+  margin-top: 60px;
+  border-radius: 0 80px 0 0;
   box-shadow: 0 4px 8px rgba(0,0,0,0.15);
   font-family: 'Roboto', sans-serif;
   color: black;
-  display: flex;
-  align-items: flex-start;
-  gap: 1.5rem;
-  flex-wrap: wrap;
+  display: block;
+}
+
+.about-calli {
+  max-width: 600px;
+  width: 100%;
 }
 
 .profile-image {
   width: 120px;
   height: 120px;
   object-fit: cover;
-  border-radius: 8px;
+  position: absolute;
+  top: 2rem;
+  right: 2rem;
+  border-radius: 0 80px 0 0;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.15);
   flex-shrink: 0;
-}
-
-.about-text {
-  flex: 1;
-  min-width: 250px;
 }
 
 #about-section h1 {
@@ -243,6 +244,16 @@ footer {
   font-size: 1.1rem;
   line-height: 1.6;
   margin-bottom: 1rem;
+}
+
+.logo-img {
+        bottom: -220px;
+        left: -8vw;
+        width: 40vw;
+        height: auto;
+        max-width: 400px;
+        max-height: 250px;
+        z-index: 10;
 }
 
 #destinations-section {
@@ -540,6 +551,41 @@ footer {
     border-top-right-radius: 8px;
   }
 
+  .toast {
+  visibility: hidden;
+  min-width: 300px;
+  margin-left: -150px;
+  background-color: white;
+  color: black;
+  text-align: center;
+  border-radius: 6px;
+  padding: 16px;
+  position: fixed;
+  z-index: 9999;
+  left: 50%;
+  bottom: 30px;
+  font-size: 16px;
+  opacity: 0;
+  transition: opacity 0.5s ease-in-out;
+  font-family: Arial, sans-serif;
+}
+
+.toast.show {
+  visibility: visible;
+  opacity: 1;
+}
+
+.toast-link {
+  color: #ebae16;
+  text-decoration: underline;
+  margin: 0 8px;
+  cursor: pointer;
+}
+
+.toast-link:hover {
+  color: darkgrey;
+}
+
 /* Desktop: 1200px and up */
 @media (min-width: 992px) {
   #calendar {
@@ -572,13 +618,12 @@ footer {
   }
 
 @media (max-width: 768px) {
-  .navbar ul {
+   .navbar-nav {
+    display: none;
     flex-direction: column;
     width: 100%;
-    display: none;
   }
-
-  .navbar ul.active {
+  .navbar-nav.active {
     display: flex;
   }
 
@@ -637,11 +682,36 @@ footer {
   #camperCarousel .carousel-item img {
     height: 300px;
   }
+
+  .logo-img {
+    bottom: -10vh;
+    left: -10vw;
+    width: 60vw;
+    max-width: 300px;
+    height: auto;
+  }
 }
 
 
 /* Mobile: 320px and up */
 @media (max-width: 480px) {
+  .navbar {
+    padding: 0;
+  }
+
+  #site-title {
+    font-size: 3rem;
+  }
+
+  .navbar-brand img {
+    height: 80px;
+    width: 60px;
+  }
+
+  .navbar button {
+    margin-bottom: 2px;
+  }
+
   #calendar {
     font-size: 12px;
   }
@@ -678,5 +748,12 @@ footer {
   #camperCarousel .carousel-inner,
   #camperCarousel .carousel-item img {
     height: 600px;
+  }
+
+  .logo-img {
+    bottom: -10vh;
+    left: -5vw;
+    width: 50vw;
+    max-width: 100px;
   }
 }
