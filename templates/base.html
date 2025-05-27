@@ -113,8 +113,8 @@
     </a>
   </div>
   &copy; {{ current_year|default:2025 }} Calli the Camper. All rights reserved.
+  <a href="{% url 'impressum' %}" class="underline text-blue-600">Impressum</a>
 </footer>
-
 
 <!-- jQuery (required) -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -127,5 +127,21 @@
 
 {% block extra_scripts %}{% endblock %}
 
+<div id="cookie-toast" class="fixed bottom-4 right-4 bg-gray-800 text-white p-4 rounded-lg shadow-lg hidden z-50">
+  Diese Website verwendet Cookies. <a href="{% url 'datenschutz' %}" class="underline">Mehr erfahren</a>.
+  <button onclick="acceptCookies()" class="ml-4 bg-blue-600 px-2 py-1 rounded text-sm">OK</button>
+</div>
+
+<script>
+function acceptCookies() {
+  localStorage.setItem('cookiesAccepted', 'true');
+  document.getElementById('cookie-toast').classList.add('hidden');
+}
+document.addEventListener('DOMContentLoaded', function () {
+  if (!localStorage.getItem('cookiesAccepted')) {
+    document.getElementById('cookie-toast').classList.remove('hidden');
+  }
+});
+</script>
 </body>
 </html>

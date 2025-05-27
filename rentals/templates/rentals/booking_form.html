@@ -14,7 +14,7 @@
     {% endfor %}
   {% endif %}
 
-  <form method="post" novalidate>
+  <form method="POST" novalidate>
     {% csrf_token %}
 
     <fieldset>
@@ -80,7 +80,49 @@
       <div class="field-error">{{ form.additional_services.errors }}</div>
     </fieldset>
 
+     <!-- Datenschutz -->
+    <div class="mt-4">
+      <input type="checkbox" id="accept-datenschutz" required>
+      <label for="accept-datenschutz">
+        Ich akzeptiere die <a href="#" onclick="openDatenschutzModal(); return false;" class="underline text-blue-600">Datenschutzerklärung</a>.
+      </label>
+    </div>
+
     <button type="submit" id="book-now-btn">{% trans "Book Now" %}</button>
   </form>
 </section>
+
+<div id="datenschutz-modal" role="dialog" aria-modal="true" aria-labelledby="datenschutz-title"
+     class="fixed inset-0 bg-black bg-opacity-50 hidden z-50 flex items-center justify-center">
+  <div class="bg-white p-6 rounded-lg w-full max-w-xl mx-auto">
+    <h2 id="datenschutz-title" class="text-xl font-bold mb-4">Datenschutzerklärung</h2>
+    <div class="max-h-80 overflow-y-auto text-sm text-gray-800">
+      <!-- Insert your Datenschutz text here -->
+      <p>
+        Beim Absenden der Buchung erklären Sie sich mit unserer Datenschutzerklärung einverstanden...
+      </p>
+    </div>
+    <div class="text-right mt-4">
+      <button onclick="closeDatenschutzModal()" class="bg-blue-600 text-white px-4 py-2 rounded">Schließen</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  document.getElementById('booking-form')?.addEventListener('submit', function (e) {
+    const checkbox = document.getElementById('accept-datenschutz');
+    if (!checkbox.checked) {
+      e.preventDefault();
+      alert("Bitte bestätigen Sie die Datenschutzerklärung, um fortzufahren.");
+    }
+  });
+
+  function openDatenschutzModal() {
+    document.getElementById('datenschutz-modal').classList.remove('hidden');
+  }
+
+  function closeDatenschutzModal() {
+    document.getElementById('datenschutz-modal').classList.add('hidden');
+  }
+</script>
 {% endblock %}

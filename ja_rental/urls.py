@@ -19,6 +19,7 @@ urlpatterns += [
     path('login/', RedirectView.as_view(url='/accounts/login/', permanent=True)),
     path('logout/', RedirectView.as_view(url='/accounts/logout/', permanent=True)),
     path('register/', RedirectView.as_view(url='/accounts/signup/', permanent=True)),
+
 ]
 
 if settings.DEBUG:
