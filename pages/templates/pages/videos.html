@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block content %}
+<section class="media-showcase my-5">
+  <h2 class="mb-4">{% trans "Explore VW Grand California Features" %}</h2>
+  <p class="mb-5">{% trans "Get to know the innovative and practical functions of the VW Grand California." %}</p>
+  <p class="mb-5">{% trans "Watch videos and view images demonstrating how each feature enhances your travel experience." %}</p>
+
+  <div class="row g-4">
+    <div class="col-12 col-md-6 col-lg-4">
+      <div class="card h-100 shadow-sm">
+        <video controls class="w-100" style="max-height: 200px; object-fit: cover;">
+          <source src="/static/videos/seat_heating.mp4" type="video/mp4">
+          Your browser does not support the video tag.
+        </video>
+        <div class="card-body">
+          <h5 class="card-title">{% trans "Seat Heating" %}</h5>
+          <p class="card-text">{% trans "Stay warm and cozy during chilly drives with the integrated seat heating system." %}</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-12 col-md-6 col-lg-4">
+      <div class="card h-100 shadow-sm">
+        <img src="/static/images/kitchenette.jpg" class="card-img-top" alt="{% trans 'Integrated Kitchenette' %}" style="max-height: 200px; object-fit: cover;">
+        <div class="card-body">
+          <h5 class="card-title">{% trans "Integrated Kitchenette" %}</h5>
+          <p class="card-text">{% trans "Prepare your favorite meals on the go with the fully equipped kitchenette inside." %}</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-12 col-md-6 col-lg-4">
+      <div class="card h-100 shadow-sm">
+        <video controls class="w-100" style="max-height: 200px; object-fit: cover;">
+          <source src="/static/videos/aux_heater.mp4" type="video/mp4">
+          Your browser does not support the video tag.
+        </video>
+        <div class="card-body">
+          <h5 class="card-title">{% trans "Auxiliary Heater" %}</h5>
+          <p class="card-text">{% trans "Keep the interior comfortable even on cold nights using the auxiliary heater." %}</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-12 col-md-6 col-lg-4">
+      <div class="card h-100 shadow-sm">
+        <img src="/static/images/cruise_control.jpg" class="card-img-top" alt="{% trans 'Adaptive Cruise Control' %}" style="max-height: 200px; object-fit: cover;">
+        <div class="card-body">
+          <h5 class="card-title">{% trans "Adaptive Cruise Control" %}</h5>
+          <p class="card-text">{% trans "Enjoy a relaxed drive with adaptive cruise control and parking assist." %}</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-12 col-md-6 col-lg-4">
+      <div class="card h-100 shadow-sm">
+        <video controls class="w-100" style="max-height: 200px; object-fit: cover;">
+          <source src="/static/videos/sleeping_area.mp4" type="video/mp4">
+          Your browser does not support the video tag.
+        </video>
+        <div class="card-body">
+          <h5 class="card-title">{% trans "Sleeping Area Setup" %}</h5>
+          <p class="card-text">{% trans "See how easy it is to transform the seating area into comfortable sleeping spots." %}</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-12 col-md-6 col-lg-4">
+      <div class="card h-100 shadow-sm">
+        <img src="/static/images/storage_space.jpg" class="card-img-top" alt="{% trans 'Storage Space' %}" style="max-height: 200px; object-fit: cover;">
+        <div class="card-body">
+          <h5 class="card-title">{% trans "Smart Storage Solutions" %}</h5>
+          <p class="card-text">{% trans "Discover the clever storage options to keep everything organized during your trip." %}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

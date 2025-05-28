@@ -287,14 +287,12 @@ document.addEventListener('DOMContentLoaded', function () {
 </script>
 
 <!-- Welcome Toast Container -->
-<div class="toast-container position-fixed bottom-0 end-0 p-3" style="z-index: 1055;">
-  <div id="welcomeToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true" data-bs-delay="5000">
-    <div class="toast-header">
-      <strong class="me-auto">Welcome</strong>
-      <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
-    </div>
+<div class="toast-container position-fixed bottom-0 start-0 p-3" style="z-index: 1055;">
+  <div id="welcomeToast" class="toast text-black bg-white position-relative" role="alert" aria-live="assertive" aria-atomic="true" data-bs-delay="5000">
+    <button type="button" class="btn-close position-absolute top-0 start-0 m-2" style="filter: invert(0);" data-bs-dismiss="toast" aria-label="Close"></button>
     <div class="toast-body">
-      Welcome! Please <a href="{% url 'account_signup' %}">Register</a> or <a href="{% url 'account_login' %}">Login</a> to get started.
+      Welcome! Please <a href="{% url 'account_signup' %}" class="text-decoration-underline" style="color: #ebae16;">Register</a> or
+      <a href="{% url 'account_login' %}" class="text-decoration-underline" style="color: #ebae16;">Login</a> to get started.
     </div>
   </div>
 </div>

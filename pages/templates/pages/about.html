@@ -12,7 +12,7 @@
           <h1>{% trans "About Calli the Camper" %}</h1>
           <p>{% trans "Check this out! Here you’ll learn what Calli has on board – from the loft bed for the kids to the small kitchen with a gas stove. Everything you need for big and small adventures." %}</p>
 
-          <h2>{% trans "VW Grand California 600" %}</h2>
+          <h2 style="font-weight: 400;">{% trans "VW Grand California 600" %}</h2>
 
           <h3>{% trans "Technical Details" %}</h3>
           <ul class="list-unstyled">
@@ -121,15 +121,17 @@
         {% endif %}
 
         {% if dest.map_url %}
+        <div class="map-responsive">
           <iframe
             src="{{ dest.map_url }}"
-            width="300"
-            height="200"
+            width="600"
+            height="450"
             style="border:0;"
             allowfullscreen=""
             loading="lazy"
             referrerpolicy="no-referrer-when-downgrade">
           </iframe>
+        </div>
         {% endif %}
       </div>
     {% empty %}

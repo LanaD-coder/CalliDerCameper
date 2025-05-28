@@ -14,7 +14,7 @@
     {% endfor %}
   {% endif %}
 
-  <form method="POST" novalidate>
+  <form id="booking-form" method="POST" novalidate>
     {% csrf_token %}
 
     <fieldset>
@@ -27,58 +27,107 @@
       <label for="{{ form.end_date.id_for_label }}">{{ form.end_date.label }}:</label>
       {{ form.end_date }}
       <div class="field-error">{{ form.end_date.errors }}</div>
+
+      <!-- Base Rental Cost Display -->
+      <p><strong>{% trans "Base Rental Cost:" %}</strong> <span id="base-rental-cost">--</span> €</p>
     </fieldset>
 
     <fieldset>
       <legend>{% trans "Primary Driver Details" %}</legend>
 
-      <label for="{{ form.primary_driver_name.id_for_label }}">{{ form.primary_driver_name.label }}:</label>
-      {{ form.primary_driver_name }}
-      <div class="field-error">{{ form.primary_driver_name.errors }}</div>
+      <label for="primary_driver_name">{% trans "Name" %}:</label>
+      <input type="text" id="primary_driver_name" value="{{ primary_driver_name }}">
 
-      <label for="{{ form.primary_driver_address.id_for_label }}">{{ form.primary_driver_address.label }}:</label>
-      {{ form.primary_driver_address }}
-      <div class="field-error">{{ form.primary_driver_address.errors }}</div>
+      <label for="primary_driver_email">{% trans "Email" %}:</label>
+      <input type="email" id="primary_driver_email" value="{{ primary_driver_email }}">
+
+      <label for="primary_driver_contact_number">{% trans "Contact Number" %}:</label>
+      <input type="text" id="primary_driver_contact_number" value="{{ primary_driver_contact_number }}">
+
+      <fieldset class="address-fieldset">
+        <legend>{% trans "Address" %}</legend>
+
+        <label for="primary_driver_street">{% trans "Street" %}:</label>
+        <input type="text" id="primary_driver_street" value="{{ primary_driver_street }}">
+
+        <label for="primary_driver_postal_code">{% trans "Postal Code" %}:</label>
+        <input type="text" id="primary_driver_postal_code" value="{{ primary_driver_postal_code }}">
+
+        <label for="primary_driver_town">{% trans "Town" %}:</label>
+        <input type="text" id="primary_driver_town" value="{{ primary_driver_town }}">
+
+        <label for="primary_driver_country">{% trans "Country" %}:</label>
+        <input type="text" id="primary_driver_country" value="{{ primary_driver_country }}">
+      </fieldset>
     </fieldset>
 
     <fieldset>
       <legend>{% trans "Additional Driver (Optional)" %}</legend>
 
-      <label for="{{ form.additional_driver_name.id_for_label }}">{{ form.additional_driver_name.label }}:</label>
-      {{ form.additional_driver_name }}
-      <div class="field-error">{{ form.additional_driver_name.errors }}</div>
+      <label>{% trans "Add additional driver?" %}</label><br>
+      <input type="radio" name="add_additional_driver" id="add_driver_yes" value="yes">
+      <label for="add_driver_yes">{% trans "Yes" %}</label>
+      <input type="radio" name="add_additional_driver" id="add_driver_no" value="no" checked>
+      <label for="add_driver_no">{% trans "No" %}</label>
 
-      <label for="{{ form.additional_driver_address.id_for_label }}">{{ form.additional_driver_address.label }}:</label>
-      {{ form.additional_driver_address }}
-      <div class="field-error">{{ form.additional_driver_address.errors }}</div>
+      <div id="additional-driver-fields" style="display:none; margin-top:1em;">
 
-      <label for="{{ form.additional_driver_contact_number.id_for_label }}">{{ form.additional_driver_contact_number.label }}:</label>
-      {{ form.additional_driver_contact_number }}
-      <div class="field-error">{{ form.additional_driver_contact_number.errors }}</div>
+        <label for="{{ form.additional_driver_name.id_for_label }}">{{ form.additional_driver_name.label }}:</label>
+        {{ form.additional_driver_name }}
+        <div class="field-error">{{ form.additional_driver_name.errors }}</div>
 
-      <div>
-        {{ form.additional_driver_has_license }} {{ form.additional_driver_has_license.label_tag }}
-        <div class="field-error">{{ form.additional_driver_has_license.errors }}</div>
-      </div>
+        <label for="additional_driver_email">{% trans "Email" %}:</label>
+        <input type="email" name="additional_driver_email" id="additional_driver_email" value="{{ additional_driver_email|default_if_none:'' }}">
 
-      <div>
-        {{ form.additional_driver_over_21 }} {{ form.additional_driver_over_21.label_tag }}
-        <div class="field-error">{{ form.additional_driver_over_21.errors }}</div>
+        <label for="{{ form.additional_driver_contact_number.id_for_label }}">{{ form.additional_driver_contact_number.label }}:</label>
+        {{ form.additional_driver_contact_number }}
+        <div class="field-error">{{ form.additional_driver_contact_number.errors }}</div>
+
+        <fieldset class="address-fieldset" style="margin-top:1em;">
+          <legend>{% trans "Address" %}</legend>
+
+          <label for="additional_driver_street">{% trans "Street" %}:</label>
+          <input type="text" name="additional_driver_street" id="additional_driver_street" value="{{ additional_driver_street|default_if_none:'' }}">
+
+          <label for="additional_driver_postal_code">{% trans "Postal Code" %}:</label>
+          <input type="text" name="additional_driver_postal_code" id="additional_driver_postal_code" value="{{ additional_driver_postal_code|default_if_none:'' }}">
+
+          <label for="additional_driver_town">{% trans "Town" %}:</label>
+          <input type="text" name="additional_driver_town" id="additional_driver_town" value="{{ additional_driver_town|default_if_none:'' }}">
+
+          <label for="additional_driver_country">{% trans "Country" %}:</label>
+          <input type="text" name="additional_driver_country" id="additional_driver_country" value="{{ additional_driver_country|default_if_none:'' }}">
+        </fieldset>
+
       </div>
     </fieldset>
 
-    <fieldset>
-      <legend>{% trans "Additional Options" %}</legend>
+    <script>
+      const yesRadio = document.getElementById('add_driver_yes');
+      const noRadio = document.getElementById('add_driver_no');
+      const additionalFields = document.getElementById('additional-driver-fields');
 
-      <div>
-        {{ form.additional_insurance }} {{ form.additional_insurance.label_tag }}
-        <div class="field-error">{{ form.additional_insurance.errors }}</div>
-      </div>
+      function toggleAdditionalDriverFields() {
+        if (yesRadio.checked) {
+          additionalFields.style.display = 'block';
+        } else {
+          additionalFields.style.display = 'none';
 
-      <label for="{{ form.additional_services.id_for_label }}">{{ form.additional_services.label }}:</label>
-      {{ form.additional_services }}
-      <div class="field-error">{{ form.additional_services.errors }}</div>
-    </fieldset>
+          // Optionally clear fields when hidden
+          const inputs = additionalFields.querySelectorAll('input');
+          inputs.forEach(input => input.value = '');
+        }
+      }
+
+      yesRadio.addEventListener('change', toggleAdditionalDriverFields);
+      noRadio.addEventListener('change', toggleAdditionalDriverFields);
+
+      // Run on page load (in case of form errors and data retention)
+      document.addEventListener('DOMContentLoaded', () => {
+        toggleAdditionalDriverFields();
+      });
+    </script>
+
 
      <!-- Datenschutz -->
     <div class="mt-4">
@@ -91,22 +140,6 @@
     <button type="submit" id="book-now-btn">{% trans "Book Now" %}</button>
   </form>
 </section>
-
-<div id="datenschutz-modal" role="dialog" aria-modal="true" aria-labelledby="datenschutz-title"
-     class="fixed inset-0 bg-black bg-opacity-50 hidden z-50 flex items-center justify-center">
-  <div class="bg-white p-6 rounded-lg w-full max-w-xl mx-auto">
-    <h2 id="datenschutz-title" class="text-xl font-bold mb-4">Datenschutzerklärung</h2>
-    <div class="max-h-80 overflow-y-auto text-sm text-gray-800">
-      <!-- Insert your Datenschutz text here -->
-      <p>
-        Beim Absenden der Buchung erklären Sie sich mit unserer Datenschutzerklärung einverstanden...
-      </p>
-    </div>
-    <div class="text-right mt-4">
-      <button onclick="closeDatenschutzModal()" class="bg-blue-600 text-white px-4 py-2 rounded">Schließen</button>
-    </div>
-  </div>
-</div>
 
 <script>
   document.getElementById('booking-form')?.addEventListener('submit', function (e) {
@@ -124,5 +157,43 @@
   function closeDatenschutzModal() {
     document.getElementById('datenschutz-modal').classList.add('hidden');
   }
+</script>
+
+<script>
+  const datePrices = {{ date_prices_json|safe }};
+  const startDateInput = document.getElementById("id_start_date");
+  const endDateInput = document.getElementById("id_end_date");
+  const baseCostEl = document.getElementById('base-rental-cost');
+
+  function calculateBaseRentalCost() {
+    const startDateStr = startDateInput.value;
+    const endDateStr = endDateInput.value;
+
+    if (!startDateStr || !endDateStr) {
+      baseCostEl.textContent = '--';
+      return;
+    }
+
+    const startDate = new Date(startDateStr);
+    const endDate = new Date(endDateStr);
+
+    if (endDate < startDate) {
+      baseCostEl.textContent = 'Invalid dates';
+      return;
+    }
+
+    let totalCost = 0;
+    for (let d = new Date(startDate); d <= endDate; d.setDate(d.getDate() + 1)) {
+      const key = d.toISOString().split('T')[0];
+      totalCost += datePrices[key] || 0;
+    }
+
+    baseCostEl.textContent = totalCost.toFixed(2);
+  }
+
+  startDateInput.addEventListener('change', calculateBaseRentalCost);
+  endDateInput.addEventListener('change', calculateBaseRentalCost);
+
+  calculateBaseRentalCost();
 </script>
 {% endblock %}

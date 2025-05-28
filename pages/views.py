@@ -11,6 +11,14 @@ def about_view(request):
     return render(request, 'pages/about.html', {'destinations': destinations})
 
 
+def information_view(request):
+    return render(request, 'pages/information.html')
+
+
+def videos_view(request):
+    return render(request, 'pages/videos.html')
+
+
 def contact_view(request):
     faqs = FAQ.objects.all()
     form = ContactForm(request.POST or None)

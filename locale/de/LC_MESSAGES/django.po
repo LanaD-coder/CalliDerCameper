@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-05-24 12:51+0200\n"
+"POT-Creation-Date: 2025-05-28 14:53+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: German <de@li.org>\n"
@@ -34,56 +34,402 @@ msgstr "Willkommen bei Calli dem Camper!"
 msgid "Please select your language."
 msgstr "Bitte wählen Sie Ihre Sprache aus."
 
-#: .\pages\templates\pages\about.html:7
-msgid "Profile Image"
-msgstr ""
-
-#: .\pages\templates\pages\about.html:10
-#, fuzzy
-#| msgid "About"
-msgid "About Us"
-msgstr "Über uns"
-
-#: .\pages\templates\pages\about.html:11
-msgid ""
-"Welcome to Calli the Camper! We're passionate about helping you find the "
-"perfect campervan for your adventures."
-msgstr ""
-"Willkommen bei Calli dem Camper!Wir helfen dir leidenschaftlich gern dabei, "
-"das perfekte Wohnmobil für dein Abenteuer zu finden."
-
 #: .\pages\templates\pages\about.html:12
+#, fuzzy
+#| msgid "Calli the Camper"
+msgid "About Calli the Camper"
+msgstr "Calli der Camper"
+
+#: .\pages\templates\pages\about.html:13
 msgid ""
-"Our mission is to connect campers with amazing vehicles and unforgettable "
-"experiences."
+"Check this out! Here you’ll learn what Calli has on board – from the loft "
+"bed for the kids to the small kitchen with a gas stove. Everything you need "
+"for big and small adventures."
 msgstr ""
-"Unsere Mission ist es, Camper mit großartigen Fahrzeugen und unvergesslichen "
-"Erlebnissen zu verbinden."
+
+#: .\pages\templates\pages\about.html:15
+#, fuzzy
+#| msgid "VW Grand California Merkmale & Ausstattung"
+msgid "VW Grand California 600"
+msgstr "VW Grand California Features & Ausstattung"
 
 #: .\pages\templates\pages\about.html:17
-msgid "Recommended Camping Destinations"
-msgstr ""
+msgid "Technical Details"
+msgstr "Technische Daten"
+
+#: .\pages\templates\pages\about.html:19
+msgid "Year of manufacture"
+msgstr "Baujahr"
+
+#: .\pages\templates\pages\about.html:20
+msgid "Power"
+msgstr "Leistung"
+
+#: .\pages\templates\pages\about.html:21
+msgid "Fuel type"
+msgstr "Kraftstoffart"
+
+#: .\pages\templates\pages\about.html:22
+msgid "Emission standard"
+msgstr "Abgasnorm"
+
+#: .\pages\templates\pages\about.html:23
+msgid "Fuel consumption per 100 km"
+msgstr "Kraftstoffverbrauch pro 100 km"
+
+#: .\pages\templates\pages\about.html:24
+msgid "Fuel tank capacity"
+msgstr "Tankinhalt"
+
+#: .\pages\templates\pages\about.html:25
+msgid "Vehicle dimensions (L/W/H)"
+msgstr "Fahrzeugabmessungen (L/B/H)"
 
 #: .\pages\templates\pages\about.html:26
+msgid "Length for ferry booking"
+msgstr "Länge für Fährbuchung"
+
+#: .\pages\templates\pages\about.html:27
+msgid "Length for ferry booking with bike rack"
+msgstr "Länge für Fährbuchung mit Fahrradträger"
+
+#: .\pages\templates\pages\about.html:28
+msgid "Permissible total weight"
+msgstr "Zulässiges Gesamtgewicht"
+
+#: .\pages\templates\pages\about.html:31
+msgid "Driving"
+msgstr "Fahren"
+
+#: .\pages\templates\pages\about.html:33
+msgid "Seats for 4 people"
+msgstr "Sitzplätze für 4 Personen"
+
+#: .\pages\templates\pages\about.html:34
+msgid "Automatic transmission"
+msgstr "Automatikgetriebe"
+
+#: .\pages\templates\pages\about.html:35
+msgid "Cruise control including ACC (Adaptive Cruise Control)"
+msgstr "Tempomat inkl. ACC (Adaptiver Tempomat)"
+
+#: .\pages\templates\pages\about.html:36
+msgid "Air conditioning"
+msgstr "Klimaanlage"
+
+#: .\pages\templates\pages\about.html:37
+msgid "Multimedia system with DAB+"
+msgstr "Multimediasystem mit DAB+"
+
+#: .\pages\templates\pages\about.html:38
+msgid "Partly all-season & summer tires"
+msgstr "Teilweise Ganzjahres- & Sommerreifen"
+
+#: .\pages\templates\pages\about.html:39
+msgid "Parking assist front & rear including rearview camera"
+msgstr "Einparkhilfe vorne & hinten inkl. Rückfahrkamera"
+
+#: .\pages\templates\pages\about.html:40
+#, fuzzy
+#| msgid "Integrated kitchenette"
+msgid "Integrated navigation system"
+msgstr "Integrierte Küchenzeile"
+
+#: .\pages\templates\pages\about.html:44
+msgid "Living & Sleeping"
+msgstr "Wohnen & Schlafen"
+
+#: .\pages\templates\pages\about.html:46
+msgid "Sleeping places for 2 + 2 people"
+msgstr "Schlafplätze für 2 + 2 Personen"
+
+#: .\pages\templates\pages\about.html:47
+msgid "Loft bed (122 × 160 / 190 cm)"
+msgstr "Hubbett (122 × 160 / 190 cm)"
+
+#: .\pages\templates\pages\about.html:48
+msgid "Stowable interior table"
+msgstr "Verstaubarer Innentisch"
+
+#: .\pages\templates\pages\about.html:49
+msgid "Toilet with mobile wastewater cassette"
+msgstr "Toilette mit mobiler Abwasserkassette"
+
+#: .\pages\templates\pages\about.html:50
+msgid "All-round privacy (including front & rear window)"
+msgstr "Rundum-Sichtschutz (inkl. Front- & Heckscheibe)"
+
+#: .\pages\templates\pages\about.html:51
+msgid "Storage space under the cross bed"
+msgstr "Stauraum unter dem Querbett"
+
+#: .\pages\templates\pages\about.html:52
+msgid "5V USB, 12V & 230V sockets"
+msgstr "5V USB-, 12V- & 230V-Steckdosen"
+
+#: .\pages\templates\pages\about.html:53
+msgid "Cross bed in rear (193 × 140 cm)"
+msgstr "Querbett im Heck (193 × 140 cm)"
+
+#: .\pages\templates\pages\about.html:54
+msgid "Swivel front seats"
+msgstr "Drehbare Vordersitze"
+
+#: .\pages\templates\pages\about.html:55
+msgid "Wet room with shower & WC"
+msgstr "Nasszelle mit Dusche & WC"
+
+#: .\pages\templates\pages\about.html:56
+msgid "Hot water boiler (12 L)"
+msgstr "Warmwasserboiler (12 L)"
+
+#: .\pages\templates\pages\about.html:57
+msgid "Cabinet system with generous storage space"
+msgstr "Schranksystem mit großzügigem Stauraum"
+
+#: .\pages\templates\pages\about.html:58
+msgid "Parking heater"
+msgstr "Standheizung"
+
+#: .\pages\templates\pages\about.html:59
+msgid "Second battery"
+msgstr "Zweite Batterie"
+
+#: .\pages\templates\pages\about.html:62
+msgid "Kitchen"
+msgstr "Küche"
+
+#: .\pages\templates\pages\about.html:64
+msgid "2-burner gas stove"
+msgstr "2-Flammen-Gaskocher"
+
+#: .\pages\templates\pages\about.html:65
+msgid "Sink"
+msgstr "Spüle"
+
+#: .\pages\templates\pages\about.html:66
+msgid "Cooking & kitchen utensils included"
+msgstr "Koch- & Küchenutensilien inklusive"
+
+#: .\pages\templates\pages\about.html:67
+msgid "Fresh water tank (110 L) & wastewater tank (90 L)"
+msgstr "Frischwassertank (110 L) & Abwassertank (90 L)"
+
+#: .\pages\templates\pages\about.html:68
+msgid "Refrigerator (70 L) & freezer (7.5 L)"
+msgstr "Kühlschrank (70 L) & Gefrierfach (7,5 L)"
+
+#: .\pages\templates\pages\about.html:69
+msgid "Pull-out kitchen for more space"
+msgstr "Ausziehbare Küche für mehr Platz"
+
+#: .\pages\templates\pages\about.html:73
+msgid "Outdoor Area"
+msgstr "Außenbereich"
+
+#: .\pages\templates\pages\about.html:75
+msgid "Awning with fold-out support legs"
+msgstr "Markise mit ausklappbaren Stützbeinen"
+
+#: .\pages\templates\pages\about.html:76
+msgid "Outdoor socket & extension cable"
+msgstr "Außensteckdose & Verlängerungskabel"
+
+#: .\pages\templates\pages\about.html:77
+msgid "Camping table & 2 camping chairs"
+msgstr "Campingtisch & 2 Campingstühle"
+
+#: .\pages\templates\pages\about.html:80
+msgid "Other Camping Equipment"
+msgstr "Weitere Campingausstattung"
+
+#: .\pages\templates\pages\about.html:82
+msgid "Leveling blocks"
+msgstr "Auffahrkeile"
+
+#: .\pages\templates\pages\about.html:85
+msgid "Cozy On The Road"
+msgstr "Gemütlich unterwegs"
+
+#: .\pages\templates\pages\about.html:86
+msgid ""
+"Sleeping places for 2+2 people with a cross bed in the rear and a loft bed "
+"for kids. The swivel front seats and interior table make it cozy, and the "
+"cabinet system as well as under the bed provide plenty of storage space for "
+"everything you need."
+msgstr "Schlafplätze für 2+2 Personen mit einem Querbett im Heck und einem Hubbett für Kinder. Die drehbaren Vordersitze und der Innentisch sorgen für Gemütlichkeit, und das Schranksystem sowie der Stauraum unter dem Bett bieten ausreichend Platz für alles, was man braucht."
+
+#: .\pages\templates\pages\about.html:87
+msgid "Note:"
+msgstr "Hinweis:"
+
+#: .\pages\templates\pages\about.html:87
+msgid "Pets are unfortunately not allowed."
+msgstr "Haustiere sind leider nicht erlaubt."
+
+#: .\pages\templates\pages\about.html:96
+msgid "Camper Image"
+msgstr "Camper-Bild"
+
+#: .\pages\templates\pages\about.html:103
+msgid "Camper Logo"
+msgstr "Camper-Logo"
+
+#: .\pages\templates\pages\about.html:111
+msgid "Recommended Camping Destinations"
+msgstr "Empfohlene Campingziele"
+
+#: .\pages\templates\pages\about.html:120
 msgid "Visit Website"
-msgstr ""
+msgstr "Website besuchen"
 
-#: .\pages\templates\pages\about.html:42
+#: .\pages\templates\pages\about.html:138
 msgid "No destinations available at the moment."
-msgstr ""
+msgstr "Zurzeit sind keine Reiseziele verfügbar."
 
-#: .\rentals\views.py:28
+#: .\pages\templates\pages\information.html:6
+msgid "3. This is how it works"
+msgstr "3. So funktioniert es"
+
+#: .\pages\templates\pages\information.html:7
+msgid "All about renting."
+msgstr "Alles rund ums Mieten."
+
+#: .\pages\templates\pages\information.html:8
+msgid ""
+"Here you will learn everything important about renting Calli. Starting from "
+"the pickup..."
+msgstr "Hier erfährst du alles Wichtige zur Miete von Calli – beginnend bei der Abholung..."
+
+#: .\pages\templates\pages\information.html:14
+msgid "Step 1: Booking"
+msgstr "Schritt 1: Buchung"
+
+#: .\pages\templates\pages\information.html:15
+msgid "Choose your dates and book Calli easily online."
+msgstr "Wähle deine Reisedaten und buche Calli ganz einfach online."
+
+#: .\pages\templates\pages\information.html:22
+msgid "Step 2: Pickup"
+msgstr "Schritt 2: Abholung"
+
+#: .\pages\templates\pages\information.html:23
+msgid "Pick up Calli at the agreed location and time."
+msgstr "Hole Calli am vereinbarten Ort und zur vereinbarten Zeit ab."
+
+#: .\pages\templates\pages\information.html:30
+msgid "Step 3: Enjoy your trip"
+msgstr "Schritt 3: Reise genießen"
+
+#: .\pages\templates\pages\information.html:31
+msgid "Explore freely with Calli and make great memories."
+msgstr "Erkunde frei mit Calli und sammle unvergessliche Erlebnisse."
+
+#: .\pages\templates\pages\information.html:38
+msgid "Step 4: Return"
+msgstr "Schritt 4: Rückgabe"
+
+#: .\pages\templates\pages\information.html:39
+msgid "Return Calli clean and on time at the agreed spot."
+msgstr "Gib Calli sauber und pünktlich am vereinbarten Ort zurück."
+
+#: .\pages\templates\pages\information.html:46
+msgid "Step 5: Feedback"
+msgstr "Schritt 5: Feedback"
+
+#: .\pages\templates\pages\information.html:47
+msgid "Tell us about your experience and help us improve."
+msgstr "Erzähl uns von deinen Erfahrungen und hilf uns, besser zu werden."
+
+#: .\pages\templates\pages\information.html:54
+msgid "Step 6: Ready for the next adventure"
+msgstr "Schritt 6: Bereit für das nächste Abenteuer"
+
+#: .\pages\templates\pages\information.html:55
+msgid "Prepare for your next journey with Calli or recommend us."
+msgstr "Bereite dich auf deine nächste Reise mit Calli vor oder empfehle uns weiter."
+
+#: .\pages\templates\pages\videos.html:7
+msgid ""
+"Get to know the innovative and practical functions of the VW Grand "
+"California."
+msgstr "Lerne die innovativen und praktischen Funktionen des VW Grand California kennen."
+
+#: .\pages\templates\pages\videos.html:8
+msgid ""
+"Watch videos and view images demonstrating how each feature enhances your "
+"travel experience."
+msgstr "Sieh dir Videos und Bilder an, die zeigen, wie jede Funktion dein Reiseerlebnis verbessert."
+
+#: .\pages\templates\pages\videos.html:19
+msgid ""
+"Stay warm and cozy during chilly drives with the integrated seat heating "
+"system."
+msgstr "Bleib auch bei kühleren Fahrten warm und gemütlich dank der integrierten Sitzheizung."
+
+#: .\pages\templates\pages\videos.html:29
+msgid ""
+"Prepare your favorite meals on the go with the fully equipped kitchenette "
+"inside."
+msgstr "Bereite unterwegs deine Lieblingsgerichte in der voll ausgestatteten Küchenzeile zu."
+
+#: .\pages\templates\pages\videos.html:42
+msgid ""
+"Keep the interior comfortable even on cold nights using the auxiliary heater."
+msgstr "Halte den Innenraum auch in kalten Nächten angenehm warm mit der Zusatzheizung."
+
+#: .\pages\templates\pages\videos.html:52
+msgid "Enjoy a relaxed drive with adaptive cruise control and parking assist."
+msgstr "Genieße eine entspannte Fahrt mit adaptivem Tempomat und Einparkhilfe."
+
+#: .\pages\templates\pages\videos.html:65
+msgid ""
+"See how easy it is to transform the seating area into comfortable sleeping "
+"spots."
+msgstr "Sieh dir an, wie einfach sich der Sitzbereich in gemütliche Schlafplätze verwandeln lässt."
+
+#: .\pages\templates\pages\videos.html:75
+msgid ""
+"Discover the clever storage options to keep everything organized during your "
+"trip."
+msgstr "Entdecke clevere Stauraumlösungen, um während deiner Reise alles ordentlich zu verstauen."
+
+#: .\rentals\templates\rentals\booking_form.html:21
+msgid "Booking Dates"
+msgstr "Buchungsdaten"
+
+#: .\rentals\templates\rentals\booking_form.html:33
+msgid "Primary Driver Details"
+msgstr "Angaben zum Hauptfahrer"
+
+#: .\rentals\templates\rentals\booking_form.html:45
+msgid "Additional Driver (Optional)"
+msgstr "Zusätzlicher Fahrer (optional)"
+
+#: .\rentals\templates\rentals\booking_form.html:71
+msgid "Additional Options"
+msgstr "Zusätzliche Optionen"
+
+#: .\rentals\templates\rentals\booking_form.html:91 .\templates\home.html:89
+msgid "Book Now"
+msgstr "Jetzt buchen"
+
+#: .\rentals\views.py:32
 msgid "Booked"
 msgstr "Gebucht"
+
+#: .\rentals\views.py:98
+msgid "Booking confirmed!"
+msgstr "Buchung bestätigt!"
 
 #: .\templates\account\account_inactive.html:5
 #: .\templates\account\account_inactive.html:9
 msgid "Account Inactive"
-msgstr ""
+msgstr "Konto inaktiv"
 
 #: .\templates\account\account_inactive.html:12
 msgid "This account is inactive."
-msgstr ""
+msgstr "Dieses Konto ist inaktiv."
 
 #: .\templates\account\base_confirm_code.html:27
 #, python-format
@@ -91,58 +437,60 @@ msgid ""
 "We've sent a code to %(recipient)s. The code expires shortly, so please "
 "enter it soon."
 msgstr ""
+"Wir haben einen Code an %(recipient)s gesendet. Der Code läuft bald ab, "
+"bitte geben Sie ihn zeitnah ein."
 
 #: .\templates\account\base_confirm_code.html:39
 #: .\templates\account\email_confirm.html:24
 #: .\templates\account\reauthenticate.html:18
 msgid "Confirm"
-msgstr ""
+msgstr "Bestätigen"
 
 #: .\templates\account\base_confirm_code.html:43
 msgid "Request new code"
-msgstr ""
+msgstr "Neuen Code anfordern"
 
 #: .\templates\account\base_confirm_code.html:48
 #: .\templates\account\base_confirm_code.html:52
 #: .\templates\account\password_reset_from_key.html:33
 msgid "Cancel"
-msgstr ""
+msgstr "Abbrechen"
 
 #: .\templates\account\base_reauthenticate.html:5
 #: .\templates\account\base_reauthenticate.html:9
 msgid "Confirm Access"
-msgstr ""
+msgstr "Zugang bestätigen"
 
 #: .\templates\account\base_reauthenticate.html:12
 msgid "Please reauthenticate to safeguard your account."
-msgstr ""
+msgstr "Bitte authentifizieren Sie sich erneut, um Ihr Konto zu schützen."
 
 #: .\templates\account\base_reauthenticate.html:19
 msgid "Alternative options"
-msgstr ""
+msgstr "Alternative Optionen"
 
 #: .\templates\account\confirm_email_verification_code.html:5
 msgid "Email Verification"
-msgstr ""
+msgstr "E-Mail-Verifizierung"
 
 #: .\templates\account\confirm_email_verification_code.html:8
 msgid "Enter Email Verification Code"
-msgstr ""
+msgstr "E-Mail-Verifizierungscode eingeben"
 
 #: .\templates\account\confirm_email_verification_code.html:16
 msgid "Use a different email address"
-msgstr ""
+msgstr "Andere E-Mail-Adresse verwenden"
 
 #: .\templates\account\confirm_login_code.html:5
-#: .\templates\account\login.html:7 .\templates\account\login.html:11
-#: .\templates\account\login.html:33
+#: .\templates\account\login.html:7 .\templates\account\login.html:12
+#: .\templates\account\login.html:43
 #: .\templates\account\request_login_code.html:5
 msgid "Sign In"
-msgstr ""
+msgstr "Anmelden"
 
 #: .\templates\account\confirm_login_code.html:8
 msgid "Enter Sign-In Code"
-msgstr ""
+msgstr "Anmeldecode eingeben"
 
 #: .\templates\account\confirm_password_reset_code.html:5
 #: .\templates\account\email\password_reset_subject.txt:3
@@ -150,75 +498,69 @@ msgstr ""
 #: .\templates\account\password_reset.html:8
 #: .\templates\account\password_reset_done.html:6
 #: .\templates\account\password_reset_done.html:10
-#, fuzzy
-#| msgid "Password"
 msgid "Password Reset"
-msgstr "Kennwort"
+msgstr "Passwort zurücksetzen"
 
 #: .\templates\account\confirm_password_reset_code.html:8
 msgid "Enter Password Reset Code"
-msgstr ""
+msgstr "Code zum Zurücksetzen des Passworts eingeben"
 
 #: .\templates\account\confirm_phone_verification_code.html:5
 msgid "Phone Verification"
-msgstr ""
+msgstr "Telefonverifizierung"
 
 #: .\templates\account\confirm_phone_verification_code.html:8
 msgid "Enter Phone Verification Code"
-msgstr ""
+msgstr "Telefonverifizierungscode eingeben"
 
 #: .\templates\account\confirm_phone_verification_code.html:15
 msgid "Use a different phone number"
-msgstr ""
+msgstr "Andere Telefonnummer verwenden"
 
 #: .\templates\account\email.html:4 .\templates\account\email.html:8
-#, fuzzy
-#| msgid "E-mail address"
 msgid "Email Addresses"
-msgstr "E-Mail Adresse"
+msgstr "E-Mail-Adressen"
 
 #: .\templates\account\email.html:12
 msgid "The following email addresses are associated with your account:"
-msgstr ""
+msgstr "Folgende E-Mail-Adressen sind mit Ihrem Konto verknüpft:"
 
 #: .\templates\account\email.html:25
 msgid "Verified"
-msgstr ""
+msgstr "Verifiziert"
 
 #: .\templates\account\email.html:29
 msgid "Unverified"
-msgstr ""
+msgstr "Nicht verifiziert"
 
 #: .\templates\account\email.html:34
 msgid "Primary"
-msgstr ""
+msgstr "Primär"
 
 #: .\templates\account\email.html:44
 msgid "Make Primary"
-msgstr ""
+msgstr "Als primär festlegen"
 
 #: .\templates\account\email.html:47 .\templates\account\email_change.html:37
 #: .\templates\account\phone_change.html:24
 msgid "Re-send Verification"
-msgstr ""
+msgstr "Verifizierung erneut senden"
 
 #: .\templates\account\email.html:50
 msgid "Remove"
-msgstr ""
+msgstr "Entfernen"
 
 #: .\templates\account\email.html:59
-#, fuzzy
-#| msgid "E-mail address"
 msgid "Add Email Address"
-msgstr "E-Mail Adresse"
+msgstr "E-Mail-Adresse hinzufügen"
 
 #: .\templates\account\email.html:70
 msgid "Add Email"
-msgstr ""
+msgstr "E-Mail hinzufügen"
 
 #: .\templates\account\email.html:80
 msgid "Do you really want to remove the selected email address?"
-msgstr ""
+msgstr "Möchten Sie die ausgewählte E-Mail-Adresse wirklich entfernen?"
 
 #: .\templates\account\email\account_already_exists_message.txt:4
 #, python-format
@@ -237,15 +579,25 @@ msgid ""
 "\n"
 "%(password_reset_url)s"
 msgstr ""
+"Sie erhalten diese E-Mail, weil Sie oder jemand anderes versucht hat, sich mit "
+"der folgenden E-Mail-Adresse anzumelden:\n"
+"\n"
+"%(email)s\n"
+"\n"
+"Es existiert jedoch bereits ein Konto mit dieser E-Mail-Adresse. Falls Sie das "
+"vergessen haben, nutzen Sie bitte die Funktion 'Passwort vergessen', um Ihr "
+"Konto wiederherzustellen:\n"
+"\n"
+"%(password_reset_url)s"
 
 #: .\templates\account\email\account_already_exists_subject.txt:3
 msgid "Account Already Exists"
-msgstr ""
+msgstr "Konto existiert bereits"
 
 #: .\templates\account\email\base_message.txt:1
 #, python-format
 msgid "Hello from %(site_name)s!"
-msgstr ""
+msgstr "Hallo von %(site_name)s!"
 
 #: .\templates\account\email\base_message.txt:5
 #, python-format
@@ -253,12 +605,14 @@ msgid ""
 "Thank you for using %(site_name)s!\n"
 "%(site_domain)s"
 msgstr ""
+"Vielen Dank, dass Sie %(site_name)s verwenden!\n"
+"%(site_domain)s"
 
 #: .\templates\account\email\base_notification.txt:5
 msgid ""
 "You are receiving this mail because the following change was made to your "
 "account:"
-msgstr ""
+msgstr "Sie erhalten diese Nachricht, weil folgende Änderung an Ihrem Konto vorgenommen wurde:"
 
 #: .\templates\account\email\base_notification.txt:10
 #, python-format
@@ -270,23 +624,29 @@ msgid ""
 "- Browser: %(user_agent)s\n"
 "- Date: %(timestamp)s"
 msgstr ""
+"Wenn Sie diese Änderung nicht erkennen, treffen Sie bitte umgehend entsprechende "
+"Sicherheitsvorkehrungen. Die Änderung stammt von:\n"
+"\n"
+"- IP-Adresse: %(ip)s\n"
+"- Browser: %(user_agent)s\n"
+"- Datum: %(timestamp)s"
 
 #: .\templates\account\email\email_changed_message.txt:4
 #, python-format
 msgid "Your email has been changed from %(from_email)s to %(to_email)s."
-msgstr ""
+msgstr "Ihre E-Mail-Adresse wurde von %(from_email)s zu %(to_email)s geändert."
 
 #: .\templates\account\email\email_changed_subject.txt:3
 msgid "Email Changed"
-msgstr ""
+msgstr "E-Mail-Adresse geändert"
 
 #: .\templates\account\email\email_confirm_message.txt:4
 msgid "Your email has been confirmed."
-msgstr ""
+msgstr "Ihre E-Mail-Adresse wurde bestätigt."
 
 #: .\templates\account\email\email_confirm_subject.txt:3
 msgid "Email Confirmation"
-msgstr ""
+msgstr "E-Mail-Bestätigung"
 
 #: .\templates\account\email\email_confirmation_message.txt:5
 #, python-format
@@ -294,66 +654,64 @@ msgid ""
 "You're receiving this email because user %(user_display)s has given your "
 "email address to register an account on %(site_domain)s."
 msgstr ""
+"Sie erhalten diese E-Mail, weil der Benutzer %(user_display)s Ihre E-Mail-Adresse "
+"zur Registrierung eines Kontos auf %(site_domain)s angegeben hat."
 
 #: .\templates\account\email\email_confirmation_message.txt:7
 msgid ""
 "Your email verification code is listed below. Please enter it in your open "
 "browser window."
 msgstr ""
+"Ihr Verifizierungscode für die E-Mail ist unten aufgeführt. Bitte geben Sie ihn "
+"in Ihrem offenen Browserfenster ein."
 
 #: .\templates\account\email\email_confirmation_message.txt:9
 #, python-format
 msgid "To confirm this is correct, go to %(activate_url)s"
-msgstr ""
+msgstr "Um dies zu bestätigen, besuchen Sie bitte: %(activate_url)s"
 
 #: .\templates\account\email\email_confirmation_subject.txt:3
 msgid "Please Confirm Your Email Address"
-msgstr ""
+msgstr "Bitte bestätigen Sie Ihre E-Mail-Adresse"
 
 #: .\templates\account\email\email_deleted_message.txt:4
 #, python-format
 msgid "Email address %(deleted_email)s has been removed from your account."
-msgstr ""
+msgstr "Die E-Mail-Adresse %(deleted_email)s wurde von Ihrem Konto entfernt."
 
 #: .\templates\account\email\email_deleted_subject.txt:3
 msgid "Email Removed"
-msgstr ""
+msgstr "E-Mail entfernt"
 
 #: .\templates\account\email\login_code_message.txt:5
-msgid ""
-"Your sign-in code is listed below. Please enter it in your open browser "
-"window."
-msgstr ""
+msgid "Your sign-in code is listed below. Please enter it in your open browser window."
+msgstr "Ihr Anmeldecode ist unten aufgeführt. Bitte geben Sie ihn in Ihrem offenen Browserfenster ein."
 
 #: .\templates\account\email\login_code_message.txt:9
 #: .\templates\account\email\password_reset_code_message.txt:9
 #: .\templates\account\email\unknown_account_message.txt:6
 msgid "This mail can be safely ignored if you did not initiate this action."
-msgstr ""
+msgstr "Diese E-Mail kann ignoriert werden, wenn Sie diese Aktion nicht selbst veranlasst haben."
 
 #: .\templates\account\email\login_code_subject.txt:3
 msgid "Sign-In Code"
-msgstr ""
+msgstr "Anmeldecode"
 
 #: .\templates\account\email\password_changed_message.txt:4
 msgid "Your password has been changed."
-msgstr ""
+msgstr "Ihr Passwort wurde geändert."
 
 #: .\templates\account\email\password_changed_subject.txt:3
-#, fuzzy
-#| msgid "Password"
 msgid "Password Changed"
-msgstr "Kennwort"
+msgstr "Passwort geändert"
 
 #: .\templates\account\email\password_reset_code_message.txt:5
-msgid ""
-"Your password reset code is listed below. Please enter it in your open "
-"browser window."
-msgstr ""
+msgid "Your password reset code is listed below. Please enter it in your open browser window."
+msgstr "Ihr Code zum Zurücksetzen des Passworts ist unten aufgeführt. Bitte geben Sie ihn in Ihrem offenen Browserfenster ein."
 
 #: .\templates\account\email\password_reset_code_subject.txt:3
 msgid "Password Reset Code"
-msgstr ""
+msgstr "Passwort-Zurücksetzungscode"
 
 #: .\templates\account\email\password_reset_key_message.txt:4
 msgid ""
@@ -362,29 +720,29 @@ msgid ""
 "It can be safely ignored if you did not request a password reset. Click the "
 "link below to reset your password."
 msgstr ""
+"Sie erhalten diese E-Mail, weil Sie oder jemand anderes das Zurücksetzen des Passworts für Ihr Benutzerkonto angefordert hat.\n"
+"Wenn Sie dies nicht angefordert haben, können Sie diese E-Mail ignorieren. Klicken Sie auf den folgenden Link, um Ihr Passwort zurückzusetzen."
 
 #: .\templates\account\email\password_reset_key_message.txt:9
 #, python-format
 msgid "In case you forgot, your username is %(username)s."
-msgstr ""
+msgstr "Falls Sie es vergessen haben: Ihr Benutzername ist %(username)s."
 
 #: .\templates\account\email\password_reset_key_subject.txt:3
 msgid "Password Reset Email"
-msgstr ""
+msgstr "E-Mail zum Zurücksetzen des Passworts"
 
 #: .\templates\account\email\password_reset_message.txt:4
 msgid "Your password has been reset."
-msgstr ""
+msgstr "Ihr Passwort wurde zurückgesetzt."
 
 #: .\templates\account\email\password_set_message.txt:4
 msgid "Your password has been set."
-msgstr ""
+msgstr "Ihr Passwort wurde festgelegt."
 
 #: .\templates\account\email\password_set_subject.txt:3
-#, fuzzy
-#| msgid "Password"
 msgid "Password Set"
-msgstr "Kennwort"
+msgstr "Passwort festgelegt"
 
 #: .\templates\account\email\unknown_account_message.txt:4
 #, python-format
@@ -393,54 +751,51 @@ msgid ""
 "an account with email %(email)s. However, we do not have any record of such "
 "an account in our database."
 msgstr ""
+"Sie erhalten diese E-Mail, weil Sie oder jemand anderes versucht hat, auf ein Konto mit der E-Mail-Adresse %(email)s zuzugreifen. In unserer Datenbank ist jedoch kein solches Konto verzeichnet."
 
 #: .\templates\account\email\unknown_account_message.txt:8
 msgid "If it was you, you can sign up for an account using the link below."
-msgstr ""
+msgstr "Falls Sie es waren, können Sie über den folgenden Link ein Konto erstellen."
 
 #: .\templates\account\email\unknown_account_subject.txt:3
 msgid "Unknown Account"
-msgstr ""
+msgstr "Unbekanntes Konto"
 
 #: .\templates\account\email_change.html:5
 #: .\templates\account\email_change.html:9
-#, fuzzy
-#| msgid "E-mail address"
 msgid "Email Address"
-msgstr "E-Mail Adresse"
+msgstr "E-Mail-Adresse"
 
 #: .\templates\account\email_change.html:21
 #: .\templates\account\email_change.html:29
 msgid "Current email"
-msgstr ""
+msgstr "Aktuelle E-Mail"
 
 #: .\templates\account\email_change.html:31
 msgid "Changing to"
-msgstr ""
+msgstr "Wechselt zu"
 
 #: .\templates\account\email_change.html:35
 msgid "Your email address is still pending verification."
-msgstr ""
+msgstr "Ihre E-Mail-Adresse wartet noch auf die Verifizierung."
 
 #: .\templates\account\email_change.html:41
 msgid "Cancel Change"
-msgstr ""
+msgstr "Änderung abbrechen"
 
 #: .\templates\account\email_change.html:49
 #: .\templates\account\phone_change.html:32
 msgid "Change to"
-msgstr ""
+msgstr "Ändern zu"
 
 #: .\templates\account\email_change.html:55
 msgid "Change Email"
-msgstr ""
+msgstr "E-Mail ändern"
 
 #: .\templates\account\email_confirm.html:6
 #: .\templates\account\email_confirm.html:10
-#, fuzzy
-#| msgid "E-mail address"
 msgid "Confirm Email Address"
-msgstr "E-Mail Adresse"
+msgstr "E-Mail-Adresse bestätigen"
 
 #: .\templates\account\email_confirm.html:16
 #, python-format
@@ -448,6 +803,8 @@ msgid ""
 "Please confirm that <a href=\"mailto:%(email)s\">%(email)s</a> is an email "
 "address for user %(user_display)s."
 msgstr ""
+"Bitte bestätigen Sie, dass <a href=\"mailto:%(email)s\">%(email)s</a> eine "
+"E-Mail-Adresse von Benutzer %(user_display)s ist."
 
 #: .\templates\account\email_confirm.html:30
 #: .\templates\account\messages\email_confirmation_failed.txt:2
@@ -456,6 +813,7 @@ msgid ""
 "Unable to confirm %(email)s because it is already confirmed by a different "
 "account."
 msgstr ""
+"%(email)s kann nicht bestätigt werden, da diese Adresse bereits von einem anderen Konto bestätigt wurde."
 
 #: .\templates\account\email_confirm.html:36
 #, python-format
@@ -463,93 +821,95 @@ msgid ""
 "This email confirmation link expired or is invalid. Please <a "
 "href=\"%(email_url)s\">issue a new email confirmation request</a>."
 msgstr ""
+"Dieser Bestätigungslink ist abgelaufen oder ungültig. Bitte <a "
+"href=\"%(email_url)s\">fordern Sie eine neue E-Mail-Bestätigung an</a>."
 
-#: .\templates\account\login.html:21
+#: .\templates\account\login.html:30
 #, python-format
 msgid ""
 "If you have not created an account yet, then please %(link)ssign "
 "up%(end_link)s first."
 msgstr ""
+"Wenn Sie noch kein Konto erstellt haben, dann %(link)serstellen Sie bitte zuerst eines%(end_link)s."
 
-#: .\templates\account\login.html:44
+#: .\templates\account\login.html:54
 msgid "Sign in with a passkey"
-msgstr ""
+msgstr "Mit einem Sicherheitsschlüssel anmelden"
 
-#: .\templates\account\login.html:49
+#: .\templates\account\login.html:59
 #: .\templates\account\request_login_code.html:9
 msgid "Send me a sign-in code"
-msgstr ""
+msgstr "Senden Sie mir einen Anmeldecode"
 
-#: .\templates\account\logout.html:6 .\templates\account\logout.html:10
-#: .\templates\account\logout.html:23
+#: .\templates\account\logout.html:6
+#: .\templates\account\logout.html:12
+#: .\templates\account\logout.html:25
 msgid "Sign Out"
-msgstr ""
+msgstr "Abmelden"
 
-#: .\templates\account\logout.html:13
+#: .\templates\account\logout.html:15
 msgid "Are you sure you want to sign out?"
-msgstr ""
+msgstr "Sind Sie sicher, dass Sie sich abmelden möchten?"
 
 #: .\templates\account\messages\cannot_delete_primary_email.txt:2
 #, python-format
 msgid "You cannot remove your primary email address (%(email)s)."
-msgstr ""
+msgstr "Sie können Ihre primäre E-Mail-Adresse (%(email)s) nicht entfernen."
 
 #: .\templates\account\messages\email_confirmation_sent.txt:2
 #, python-format
 msgid "Confirmation email sent to %(email)s."
-msgstr ""
+msgstr "Bestätigungs-E-Mail wurde an %(email)s gesendet."
 
 #: .\templates\account\messages\email_confirmed.txt:2
 #, python-format
 msgid "You have confirmed %(email)s."
-msgstr ""
+msgstr "Sie haben %(email)s bestätigt."
 
 #: .\templates\account\messages\email_deleted.txt:2
 #, python-format
 msgid "Removed email address %(email)s."
-msgstr ""
+msgstr "E-Mail-Adresse %(email)s wurde entfernt."
 
 #: .\templates\account\messages\logged_in.txt:4
 #, python-format
 msgid "Successfully signed in as %(name)s."
-msgstr ""
+msgstr "Erfolgreich angemeldet als %(name)s."
 
 #: .\templates\account\messages\logged_out.txt:2
 msgid "You have signed out."
-msgstr ""
+msgstr "Sie haben sich abgemeldet."
 
 #: .\templates\account\messages\login_code_sent.txt:2
 #, python-format
 msgid "A sign-in code has been sent to %(recipient)s."
-msgstr ""
+msgstr "Ein Anmeldecode wurde an %(recipient)s gesendet."
 
 #: .\templates\account\messages\password_changed.txt:2
 msgid "Password successfully changed."
-msgstr ""
+msgstr "Passwort erfolgreich geändert."
 
 #: .\templates\account\messages\password_set.txt:2
 msgid "Password successfully set."
-msgstr ""
+msgstr "Passwort erfolgreich festgelegt."
 
 #: .\templates\account\messages\phone_verification_sent.txt:2
 #, python-format
 msgid "A verification code has been sent to %(phone)s."
-msgstr ""
+msgstr "Ein Verifizierungscode wurde an %(phone)s gesendet."
 
 #: .\templates\account\messages\phone_verified.txt:2
 #, python-format
 msgid "You have verified phone number %(phone)s."
-msgstr ""
+msgstr "Sie haben die Telefonnummer %(phone)s verifiziert."
 
 #: .\templates\account\messages\primary_email_set.txt:2
-#, fuzzy
-#| msgid "E-mail address"
 msgid "Primary email address set."
-msgstr "E-Mail Adresse"
+msgstr "Primäre E-Mail-Adresse festgelegt."
 
 #: .\templates\account\messages\unverified_primary_email.txt:2
 msgid "Your primary email address must be verified."
-msgstr ""
+msgstr "Ihre primäre E-Mail-Adresse muss verifiziert werden."
 
 #: .\templates\account\password_change.html:4
 #: .\templates\account\password_change.html:8
@@ -559,42 +919,38 @@ msgstr ""
 #: .\templates\account\password_reset_from_key.html:30
 #: .\templates\account\password_reset_from_key_done.html:5
 #: .\templates\account\password_reset_from_key_done.html:9
-#, fuzzy
-#| msgid "Password"
 msgid "Change Password"
-msgstr "Kennwort"
+msgstr "Passwort ändern"
 
 #: .\templates\account\password_change.html:22
-#, fuzzy
-#| msgid "Password"
 msgid "Forgot Password?"
-msgstr "Kennwort"
+msgstr "Passwort vergessen?"
 
 #: .\templates\account\password_reset.html:14
 msgid ""
 "Forgotten your password? Enter your email address below, and we'll send you "
 "an email allowing you to reset it."
 msgstr ""
+"Passwort vergessen? Geben Sie unten Ihre E-Mail-Adresse ein, und wir senden Ihnen eine E-Mail, mit der Sie es zurücksetzen können."
 
 #: .\templates\account\password_reset.html:26
-#, fuzzy
-#| msgid "Password"
 msgid "Reset My Password"
-msgstr "Kennwort"
+msgstr "Mein Passwort zurücksetzen"
 
 #: .\templates\account\password_reset.html:31
 msgid "Please contact us if you have any trouble resetting your password."
-msgstr ""
+msgstr "Bitte kontaktieren Sie uns, wenn Sie Probleme beim Zurücksetzen Ihres Passworts haben."
 
 #: .\templates\account\password_reset_done.html:16
 msgid ""
 "We have sent you an email. If you have not received it please check your "
 "spam folder. Otherwise contact us if you do not receive it in a few minutes."
 msgstr ""
+"Wir haben Ihnen eine E-Mail gesendet. Wenn Sie sie nicht erhalten haben, überprüfen Sie bitte Ihren Spam-Ordner. Andernfalls kontaktieren Sie uns, falls Sie sie nach einigen Minuten nicht erhalten."
 
 #: .\templates\account\password_reset_from_key.html:10
 msgid "Bad Token"
-msgstr ""
+msgstr "Ungültiges Token"
 
 #: .\templates\account\password_reset_from_key.html:18
 #, python-format
@@ -603,107 +959,107 @@ msgid ""
 "used.  Please request a <a href=\"%(passwd_reset_url)s\">new password reset</"
 "a>."
 msgstr ""
+"Der Link zum Zurücksetzen des Passworts war ungültig, möglicherweise wurde er bereits verwendet. Bitte <a href=\"%(passwd_reset_url)s\">fordern Sie ein neues Passwort-Reset an</a>."
 
 #: .\templates\account\password_reset_from_key_done.html:12
 msgid "Your password is now changed."
-msgstr ""
+msgstr "Ihr Passwort wurde erfolgreich geändert."
 
 #: .\templates\account\password_set.html:5
 #: .\templates\account\password_set.html:9
 #: .\templates\account\password_set.html:21
-#, fuzzy
-#| msgid "Password"
 msgid "Set Password"
-msgstr "Kennwort"
+msgstr "Passwort festlegen"
 
 #: .\templates\account\phone_change.html:5
 #: .\templates\account\phone_change.html:9
 #: .\templates\account\phone_change.html:38
 msgid "Change Phone"
-msgstr ""
+msgstr "Telefonnummer ändern"
 
 #: .\templates\account\phone_change.html:18
 msgid "Current phone"
-msgstr ""
+msgstr "Aktuelle Telefonnummer"
 
 #: .\templates\account\phone_change.html:22
 msgid "Your phone number is still pending verification."
-msgstr ""
+msgstr "Ihre Telefonnummer wartet noch auf die Bestätigung."
 
 #: .\templates\account\reauthenticate.html:6
 msgid "Enter your password:"
-msgstr ""
+msgstr "Geben Sie Ihr Passwort ein:"
 
 #: .\templates\account\request_login_code.html:12
 msgid "You will receive a special code for a password-free sign-in."
-msgstr ""
+msgstr "Sie erhalten einen speziellen Code für die passwortfreie Anmeldung."
 
 #: .\templates\account\request_login_code.html:24
 msgid "Request Code"
-msgstr ""
+msgstr "Code anfordern"
 
 #: .\templates\account\request_login_code.html:30
 msgid "Other sign-in options"
-msgstr ""
+msgstr "Weitere Anmeldeoptionen"
 
 #: .\templates\account\signup.html:6
 #: .\templates\account\signup_by_passkey.html:4
 msgid "Signup"
-msgstr ""
+msgstr "Registrierung"
 
-#: .\templates\account\signup.html:10 .\templates\account\signup.html:32
+#: .\templates\account\signup.html:12 .\templates\account\signup.html:34
 #: .\templates\account\signup_by_passkey.html:29
 msgid "Sign Up"
-msgstr ""
+msgstr "Registrieren"
 
-#: .\templates\account\signup.html:19
+#: .\templates\account\signup.html:21
 #: .\templates\account\signup_by_passkey.html:17
 #, python-format
 msgid "Already have an account? Then please %(link)ssign in%(end_link)s."
-msgstr ""
+msgstr "Sie haben bereits ein Konto? Dann bitte %(link)sanmelden%(end_link)s."
 
-#: .\templates\account\signup.html:41
+#: .\templates\account\signup.html:43
 msgid "Sign up using a passkey"
-msgstr ""
+msgstr "Mit einem Passkey registrieren"
 
 #: .\templates\account\signup_by_passkey.html:8
 msgid "Passkey Sign Up"
-msgstr ""
+msgstr "Passkey-Registrierung"
 
 #: .\templates\account\signup_by_passkey.html:36
 msgid "Other options"
-msgstr ""
+msgstr "Weitere Optionen"
 
 #: .\templates\account\signup_closed.html:5
 #: .\templates\account\signup_closed.html:9
 msgid "Sign Up Closed"
-msgstr ""
+msgstr "Registrierung geschlossen"
 
 #: .\templates\account\signup_closed.html:12
 msgid "We are sorry, but the sign up is currently closed."
-msgstr ""
+msgstr "Es tut uns leid, aber die Registrierung ist derzeit geschlossen."
 
 #: .\templates\account\snippets\already_logged_in.html:7
 msgid "Note"
-msgstr ""
+msgstr "Hinweis"
 
 #: .\templates\account\snippets\already_logged_in.html:7
 #, python-format
 msgid "You are already logged in as %(user_display)s."
-msgstr ""
+msgstr "Sie sind bereits als %(user_display)s angemeldet."
 
 #: .\templates\account\snippets\warn_no_email.html:3
 msgid "Warning:"
-msgstr ""
+msgstr "Warnung:"
 
 #: .\templates\account\snippets\warn_no_email.html:3
 msgid ""
 "You currently do not have any email address set up. You should really add an "
 "email address so you can receive notifications, reset your password, etc."
 msgstr ""
+"Sie haben derzeit keine E-Mail-Adresse eingerichtet. Sie sollten unbedingt eine E-Mail-Adresse hinzufügen, damit Sie Benachrichtigungen erhalten, Ihr Passwort zurücksetzen usw. können."
 
-#: .\templates\account\verification_sent.html:5
-#: .\templates\account\verification_sent.html:9
+#: .\templates\account\verification_sent.html:7
+#: .\templates\account\verification_sent.html:13
 #: .\templates\account\verified_email_required.html:5
 #: .\templates\account\verified_email_required.html:9
 #, fuzzy
@@ -711,13 +1067,22 @@ msgstr ""
 msgid "Verify Your Email Address"
 msgstr "E-Mail Adresse"
 
-#: .\templates\account\verification_sent.html:12
+#: .\templates\account\verification_sent.html:17
 msgid ""
-"We have sent an email to you for verification. Follow the link provided to "
-"finalize the signup process. If you do not see the verification email in "
-"your main inbox, check your spam folder. Please contact us if you do not "
-"receive the verification email within a few minutes."
+"\n"
+"            We have sent an email to you for verification. Follow the link "
+"provided to finalize the signup process.\n"
+"            If you do not see the verification email in your main inbox, "
+"check your spam folder.\n"
+"            Please contact us if you do not receive the verification email "
+"within a few minutes.\n"
+"        "
 msgstr ""
+"\n"
+"            Wir haben Ihnen eine E-Mail zur Verifizierung gesendet. Folgen Sie dem Link in der E-Mail, um die Registrierung abzuschließen.\n"
+"            Wenn Sie die E-Mail nicht in Ihrem Posteingang finden, überprüfen Sie bitte Ihren Spam-Ordner.\n"
+"            Kontaktieren Sie uns, wenn Sie die E-Mail nicht innerhalb weniger Minuten erhalten.\n"
+"        "
 
 #: .\templates\account\verified_email_required.html:13
 msgid ""
@@ -725,6 +1090,7 @@ msgid ""
 "you are who you claim to be. For this purpose, we require that you\n"
 "verify ownership of your email address. "
 msgstr ""
+"Für diesen Teil der Website müssen wir bestätigen, dass Sie tatsächlich die Person sind, für die Sie sich ausgeben. Dazu müssen Sie den Besitz Ihrer E-Mail-Adresse verifizieren."
 
 #: .\templates\account\verified_email_required.html:18
 msgid ""
@@ -734,6 +1100,7 @@ msgid ""
 "Otherwise\n"
 "contact us if you do not receive it within a few minutes."
 msgstr ""
+"Wir haben Ihnen eine E-Mail zur Verifizierung gesendet. Bitte klicken Sie auf den Link in dieser E-Mail. Wenn Sie die Verifizierungs-E-Mail nicht in Ihrem Posteingang sehen, überprüfen Sie Ihren Spam-Ordner. Kontaktieren Sie uns, wenn Sie sie nicht innerhalb weniger Minuten erhalten."
 
 #: .\templates\account\verified_email_required.html:23
 #, python-format
@@ -741,32 +1108,47 @@ msgid ""
 "<strong>Note:</strong> you can still <a href=\"%(email_url)s\">change your "
 "email address</a>."
 msgstr ""
+"<strong>Hinweis:</strong> Sie können Ihre <a href=\"%(email_url)s\">E-Mail-Adresse weiterhin ändern</a>."
 
-#: .\templates\base.html:8
+#: .\templates\base.html:10
 msgid "Calli the Camper"
 msgstr "Calli der Camper"
 
-#: .\templates\base.html:54
+#: .\templates\base.html:59
 msgid "Home"
 msgstr "Startseite"
 
-#: .\templates\base.html:55
-msgid "About"
-msgstr "Über uns"
+#: .\templates\base.html:60
+msgid "Introduction to Calli"
+msgstr "Über Calli"
 
-#: .\templates\base.html:56
+#: .\templates\base.html:61
+msgid "How this works"
+msgstr "So läuft`s ab"
+
+#: .\templates\base.html:62
+msgid "Videos & Tipps"
+msgstr "Videos & Tipps"
+
+#: .\templates\base.html:63
+#, fuzzy
+#| msgid "Booked"
+msgid "Book"
+msgstr "Gebucht"
+
+#: .\templates\base.html:64
 msgid "Contact"
 msgstr "Kontakt"
 
-#: .\templates\base.html:60
+#: .\templates\base.html:68
 msgid "Logout"
-msgstr ""
+msgstr "Abmelden"
 
-#: .\templates\base.html:64
+#: .\templates\base.html:72
 msgid "Register"
 msgstr "Registrieren"
 
-#: .\templates\base.html:67
+#: .\templates\base.html:75
 msgid "Login"
 msgstr "Anmelden"
 
@@ -774,78 +1156,114 @@ msgstr "Anmelden"
 msgid "Calli explores the world – and you can join in!"
 msgstr "Calli entdeckt die Welt – und du kannst mit!"
 
-#: .\templates\home.html:9
-msgid "Time camping isn't time spent, it's invested."
-msgstr "Zeit beim Campen ist keine verlorene Zeit, sondern eine Investition."
-
-#: .\templates\home.html:10
 msgid ""
-"There is no Wi-Fi in the forest, but I promise you will find a better "
-"connection."
+"\n"
+"      Calli is more than just a camper – he’s our little adventure on four "
+"wheels.\n"
+"      But instead of just using him ourselves, we want other people to "
+"experience the freedom of travel too.\n"
+"      That way, Calli keeps discovering new places, and you might find your "
+"very own favorite spot.\n"
+"      "
 msgstr ""
-"Im Wald gibt es kein WLAN, aber ich verspreche dir, du wirst eine bessere "
-"Verbindung finden."
+"\n"
+"      Calli ist mehr als nur ein Camper – er ist unser kleines Abenteuer auf vier Rädern.\n"
+"      Aber anstatt ihn nur selbst zu nutzen, möchten wir auch anderen die Freiheit des Reisens ermöglichen.\n"
+"      So entdeckt Calli ständig neue Orte – und vielleicht findest du dabei deinen ganz persönlichen Lieblingsplatz.\n"
+"      "
 
-#: .\templates\home.html:11
-#, fuzzy
-#| msgid "Wander often, wander always — because not all who wander are lost."
-msgid ""
-"Wander often, wander always — because not all who wander are lost.  - RVC"
-msgstr ""
-"Wandere oft, wandere immer – denn nicht alle, die umherirren, sind verloren. "
-"- RVC"
 
-#: .\templates\home.html:21
+#: .\templates\home.html:38
 msgid "VW Grand California Merkmale & Ausstattung"
 msgstr "VW Grand California Features & Ausstattung"
 
-#: .\templates\home.html:24
+#: .\templates\home.html:40
 msgid "4 seats & 2+2 sleeping places"
 msgstr "4 Sitze & 2+2 Schlafplätze"
 
-#: .\templates\home.html:27
+#: .\templates\home.html:41
 msgid "Seat heating"
 msgstr "Sitzheizung"
 
-#: .\templates\home.html:30
+#: .\templates\home.html:42
 msgid "Integrated kitchenette"
 msgstr "Integrierte Küchenzeile"
 
-#: .\templates\home.html:33
+#: .\templates\home.html:43
 msgid "Auxiliary heater"
 msgstr "Zusatzheizung"
 
-#: .\templates\home.html:36
-msgid " Adaptive cruise control, cruise control & parking assist"
+#: .\templates\home.html:44
+#, fuzzy
+#| msgid " Adaptive cruise control, cruise control & parking assist"
+msgid "Adaptive cruise control, cruise control & parking assist"
 msgstr "Adaptiver Tempomat, Tempomat & Einparkhilfe"
 
-#: .\templates\home.html:43 .\templates\home.html:78
+#: .\templates\home.html:50 .\templates\home.html:83
 msgid "Check Availability"
 msgstr "Verfügbarkeit prüfen"
 
-#: .\templates\home.html:63
+#: .\templates\home.html:69
 msgid "Previous"
 msgstr "Vorherige"
 
-#: .\templates\home.html:67
+#: .\templates\home.html:73
 msgid "Next"
 msgstr "Nächste"
 
-#: .\templates\home.html:79
+#: .\templates\home.html:84
 msgid "Close"
 msgstr "Schließen"
 
-#: .\templates\home.html:87
-msgid "Start Date"
-msgstr "Startdatum"
+#, fuzzy
+#~| msgid "About"
+#~ msgid "About Us"
+#~ msgstr "Über uns"
 
-#: .\templates\home.html:90
-msgid "End Date"
-msgstr "Enddatum"
+#~ msgid ""
+#~ "Welcome to Calli the Camper! We're passionate about helping you find the "
+#~ "perfect campervan for your adventures."
+#~ msgstr ""
+#~ "Willkommen bei Calli dem Camper!Wir helfen dir leidenschaftlich gern "
+#~ "dabei, das perfekte Wohnmobil für dein Abenteuer zu finden."
 
-#: .\templates\home.html:95
-msgid "Search"
-msgstr "Suchen"
+#~ msgid ""
+#~ "Our mission is to connect campers with amazing vehicles and unforgettable "
+#~ "experiences."
+#~ msgstr ""
+#~ "Unsere Mission ist es, Camper mit großartigen Fahrzeugen und "
+#~ "unvergesslichen Erlebnissen zu verbinden."
+
+#~ msgid "About"
+#~ msgstr "Über uns"
+
+#~ msgid "Time camping isn't time spent, it's invested."
+#~ msgstr ""
+#~ "Zeit beim Campen ist keine verlorene Zeit, sondern eine Investition."
+
+#~ msgid ""
+#~ "There is no Wi-Fi in the forest, but I promise you will find a better "
+#~ "connection."
+#~ msgstr ""
+#~ "Im Wald gibt es kein WLAN, aber ich verspreche dir, du wirst eine bessere "
+#~ "Verbindung finden."
+
+#, fuzzy
+#~| msgid "Wander often, wander always — because not all who wander are lost."
+#~ msgid ""
+#~ "Wander often, wander always — because not all who wander are lost.  - RVC"
+#~ msgstr ""
+#~ "Wandere oft, wandere immer – denn nicht alle, die umherirren, sind "
+#~ "verloren. - RVC"
+
+#~ msgid "Start Date"
+#~ msgstr "Startdatum"
+
+#~ msgid "End Date"
+#~ msgstr "Enddatum"
+
+#~ msgid "Search"
+#~ msgstr "Suchen"
 
 #~ msgid "Username"
 #~ msgstr "Benutzername"

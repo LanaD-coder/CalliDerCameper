@@ -22,7 +22,8 @@ class CampingDestination(models.Model):
     description = models.TextField()
     image = CloudinaryField('image')
     website_url = models.URLField(blank=True, null=True)
-    map_url = models.URLField(blank=True, null=True)
+    map_url = models.TextField(blank=True, null=True)
+
 
     def __str__(self):
         return self.name

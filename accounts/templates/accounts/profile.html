@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load i18n %}
+
+{% block title %}{% trans "My Profile" %}{% endblock %}
+
+{% block content %}
+<h1>{% trans "My Bookings" %}</h1>
+
+{% if bookings %}
+<table class="table">
+  <thead>
+    <tr>
+      <th>{% trans "Campervan" %}</th>
+      <th>{% trans "Start Date" %}</th>
+      <th>{% trans "End Date" %}</th>
+      <th>{% trans "Status" %}</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for booking in bookings %}
+    <tr>
+      <td>{{ booking.campervan.name }}</td>
+      <td>{{ booking.start_date }}</td>
+      <td>{{ booking.end_date }}</td>
+      <td>{{ booking.get_status_display }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% else %}
+<p>{% trans "You have no bookings yet." %}</p>
+{% endif %}
+
+{% endblock %}

@@ -16,6 +16,13 @@ body {
   background-color: #bbd4c5;
 }
 
+.h1, .h2, .h3, .h4, .h5, .h6, h1, h2, h3, h4, h5, h6 {
+    margin-top: 0;
+    margin-bottom: .5rem;
+    font-weight: 400;
+    line-height: 1.2;
+}
+
 /* Fonts */
 .roboto-vantext {
   font-family: "Roboto", sans-serif;
@@ -191,11 +198,11 @@ body {
 }
 
 #calendar {
-    width: 100%;
-    min-width: 600px;
-    max-width: 100%;
-    margin: 0 auto;
-  }
+  min-width: 600px;
+  max-width: 100%;
+  margin: 0 auto;
+  overflow-x: hidden;
+}
 
 footer {
   background-color: white;
@@ -279,12 +286,15 @@ footer {
 
 .destination-card {
   background: rgba(255,255,255,0.9);
-  border-radius: 1rem;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  border-radius: 0 80px 0 0;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.6);
   overflow: hidden;
   display: flex;
   flex-direction: column;
   padding: 2rem;
+  max-width: 100%;
+  margin-bottom: 1rem;
+  box-sizing: border-box;
 }
 
 .destination-card img {
@@ -307,6 +317,25 @@ footer {
   color: black;
   line-height: 1.5;
 }
+
+.map-responsive {
+  position: relative;
+  width: 100%;
+  padding-bottom: 56.25%;
+  height: 0;
+  overflow: hidden;
+  border-radius: 0.5rem;
+}
+
+.map-responsive iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
 
 /* === Shared Section Styles === */
 #contact-section,
@@ -505,7 +534,7 @@ footer {
   background: rgba(255, 255, 255, 0.9);
   margin-bottom: 1rem;
   border-radius: 0.8rem;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.6);
   padding: 1rem;
 }
 
@@ -586,6 +615,13 @@ footer {
   color: darkgrey;
 }
 
+#welcomeToast {
+  background-color: #a5822d;
+  color: white;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.6);
+  border-radius: 0 80px 0 0;
+}
+
 /* Desktop: 1200px and up */
 @media (min-width: 992px) {
   #calendar {
@@ -618,7 +654,11 @@ footer {
   }
 
 @media (max-width: 768px) {
-   .navbar-nav {
+
+  #main-container {
+    margin-top: 100px;
+  }
+  .navbar-nav {
     display: none;
     flex-direction: column;
     width: 100%;
@@ -647,6 +687,7 @@ footer {
   #about-section {
     flex-direction: column;
     max-width: 90%;
+    margin-top: 15px;
   }
   #about-section h1 {
     font-size: 2.2rem;
@@ -660,6 +701,9 @@ footer {
 
    #destinations-section {
     max-width: 90%;
+    margin: 0;
+    margin-top: 4rem;
+    padding: 0;
   }
   .destination-card img {
     height: 140px;
@@ -690,6 +734,13 @@ footer {
     max-width: 300px;
     height: auto;
   }
+   #availabilityModal .modal-dialog {
+    max-width: 95vw;
+    margin: 1rem auto;
+  }
+  #availabilityModal .modal-body {
+    padding: 0.5rem;
+  }
 }
 
 
@@ -709,22 +760,51 @@ footer {
   }
 
   .navbar button {
-    margin-bottom: 2px;
+    margin-bottom: 4px;
+  }
+  .banner {
+    margin-top: 10px;
+  }
+  .banner-text {
+    font-size: 0.75rem;
+  }
+  #availabilityModal .modal-body {
+    max-height: 80vh;
+    overflow-y: auto;
+    padding: 1rem;
+  }
+
+   #calendar-wrapper {
+    max-height: 70vh;
+    overflow-y: auto;
   }
 
   #calendar {
-    font-size: 12px;
+    min-height: 400px;
+    width: 100%;
   }
-  .fc-toolbar-title {
-    font-size: 1rem;
+
+  .fc {
+    width: 100% !important;
+  }
+
+  .fc-scrollgrid {
+    overflow-x: hidden !important;
+  }
+
+  .fc-daygrid-body,
+  .fc-daygrid-body table {
+    width: 100% !important;
+    table-layout: fixed !important;
   }
 
   #about-section h1 {
-    font-size: 1.8rem;
+    font-size: 2.5rem;
   }
 
   #destinations-section h2 {
     font-size: 2.2rem;
+    margin-top: 2rem;
   }
   .destination-card h3 {
     font-size: 1.4rem;
@@ -735,6 +815,10 @@ footer {
 
   .destinations-list {
     grid-template-columns: repeat(1, 1fr);
+  }
+
+  .map-responsive {
+    padding-bottom: 75%;
   }
 
    #contact-section h2, #faq-section h2 {

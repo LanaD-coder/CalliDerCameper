@@ -68,7 +68,7 @@ def campervan_detail(request, pk):
     campervan = get_object_or_404(Campervan, pk=pk)
     images = campervan.images.all()
 
-    date_prices_dict = get_date_prices_for_van(campervan)
+    date_prices_dict = get_date_price_map()
 
     context = {
             'van': campervan,
@@ -91,6 +91,7 @@ def book_campervan(request, pk):
 
     if request.method == 'POST':
         form = BookingForm(request.POST, user=request.user, campervan=campervan)
+        form.instance.campervan = campervan
         if form.is_valid():
             booking = form.save(commit=False)
             # campervan set in form.save(), so no need to set here again
@@ -100,7 +101,13 @@ def book_campervan(request, pk):
     else:
         form = BookingForm(initial=initial_data, user=request.user, campervan=campervan)
 
-    return render(request, 'rentals/booking_form.html', {'form': form, 'campervan': campervan})
+    date_prices_dict = get_date_price_map()
+
+    return render(request, 'rentals/booking_form.html', {
+        'form': form,
+        'campervan': campervan,
+        'date_prices_json': json.dumps(date_prices_dict),
+        })
 
 
 def booked_dates_api(request, pk):

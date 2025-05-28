@@ -1,55 +1,57 @@
 from django.contrib import admin
-from .models import Campervan, Booking, SeasonalRate, CampervanImage, AdditionalService
+from .models import (Campervan,
+                     Booking,
+                     SeasonalRate,
+                     CampervanImage,
+                     AdditionalService,
+                     Invoice)
 from django_summernote.admin import SummernoteModelAdmin
 
 
 class BookingAdmin(admin.ModelAdmin):
-    list_display = (
-        'booking_number',
-        'campervan',
-        'start_date',
-        'end_date',
-        'total_price',
-        'status',
-        'primary_driver',
-        'additional_driver_name',
-        'additional_driver_contact_number',
-        'additional_driver_has_license',
-        'additional_driver_over_21',
-        'additional_insurance',
-        'display_additional_services',
-    )
-    list_filter = ('campervan', 'start_date', 'status', 'additional_insurance', 'additional_services')
-    search_fields = ('booking_number', 'primary_driver__username', 'additional_driver_name')
+    list_display = ('booking_number', 'campervan', 'start_date', 'end_date', 'total_price', 'status', 'payment_status')
+    list_filter = ('status', 'payment_status', 'additional_insurance')
+    search_fields = ('booking_number', 'primary_driver__username', 'primary_driver_name', 'additional_driver_name')
+    readonly_fields = ('booking_number', 'total_price', 'created_at', 'updated_at')
 
     fieldsets = (
         (None, {
-            'fields': ('booking_number', 'campervan', 'status')
+            'fields': ('campervan', 'start_date', 'end_date', 'total_price', 'status', 'booking_number')
         }),
-        ('Booking Dates', {
-            'fields': ('start_date', 'end_date', 'total_price')
+        ('Primary Driver Details', {
+            'fields': ('primary_driver', 'primary_driver_name', 'primary_driver_address_manual'),
         }),
-        ('Primary Driver', {
-            'fields': ('primary_driver',)
-        }),
-        ('Additional Driver (Optional)', {
+        ('Additional Driver Details', {
             'fields': (
-                'additional_driver_name',
-                'additional_driver_address',
-                'additional_driver_contact_number',
-                'additional_driver_has_license',
-                'additional_driver_over_21',
-            )
+                'additional_driver_name', 'additional_driver_address', 'additional_driver_contact_number',
+                'additional_driver_license_number', 'additional_driver_license_expiry', 'additional_driver_license_document',
+                'additional_driver_has_license', 'additional_driver_over_21',
+            ),
         }),
-        ('Additional Options', {
-            'fields': ('additional_insurance', 'additional_services')
+        ('Services & Insurance', {
+            'fields': ('additional_insurance', 'additional_services'),
+        }),
+        ('Pickup and Dropoff', {
+            'fields': ('pickup_location', 'pickup_time', 'dropoff_location', 'dropoff_time'),
+        }),
+        ('Payment & Invoice', {
+            'fields': ('payment_status', 'payment_reference', 'invoice'),
+        }),
+        ('Customer Notes & Cancellation', {
+            'fields': ('customer_notes', 'cancellation_reason', 'refund_amount'),
+        }),
+        ('Timestamps', {
+            'fields': ('created_at', 'updated_at'),
         }),
     )
-    readonly_fields = ('booking_number', 'total_price')
 
-    def display_additional_services(self, obj):
-        return ", ".join(service.name for service in obj.additional_services.all())
-    display_additional_services.short_description = "Additional Services"
+    filter_horizontal = ('additional_services',)
+
+@admin.register(Invoice)
+class InvoiceAdmin(admin.ModelAdmin):
+    list_display = ('invoice_number', 'amount', 'issued_date', 'paid')
+    search_fields = ('invoice_number',)
+
 
 class SeasonalRateAdmin(admin.ModelAdmin):
     list_display = ('start', 'end', 'rate')

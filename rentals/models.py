@@ -36,6 +36,21 @@ class AdditionalService(models.Model):
         return self.name
 
 
+class Invoice(models.Model):
+    invoice_number = models.CharField(max_length=36, unique=True, editable=False, blank=True)
+    amount = models.DecimalField(max_digits=10, decimal_places=2)
+    issued_date = models.DateField(auto_now_add=True)
+    paid = models.BooleanField(default=False)
+
+    def save(self, *args, **kwargs):
+        if not self.invoice_number:
+            self.invoice_number = str(uuid.uuid4())
+        super().save(*args, **kwargs)
+
+    def __str__(self):
+        return f"Invoice {self.invoice_number} - {'Paid' if self.paid else 'Unpaid'}"
+
+
 class Booking(models.Model):
     campervan = models.ForeignKey(Campervan, on_delete=models.CASCADE, related_name='bookings')
     start_date = models.DateField()
@@ -61,10 +76,19 @@ class Booking(models.Model):
             return self.primary_driver.userprofile.address
         return None
 
+    # New editable primary driver fields if you want to allow manual input instead of FK
+    primary_driver_name = models.CharField(max_length=100, blank=True, null=True)
+    primary_driver_address_manual = models.TextField(blank=True, null=True)
+
     # Additional driver info (optional)
     additional_driver_name = models.CharField(max_length=100, blank=True, null=True)
     additional_driver_address = models.TextField(blank=True, null=True)
     additional_driver_contact_number = models.CharField(max_length=20, blank=True, null=True)
+
+    # More detailed driver info
+    additional_driver_license_number = models.CharField(max_length=50, blank=True, null=True)
+    additional_driver_license_expiry = models.DateField(blank=True, null=True)
+    additional_driver_license_document = CloudinaryField('license_document', blank=True, null=True)
 
     # Confirmations as BooleanFields
     additional_driver_has_license = models.BooleanField(default=False)
@@ -74,6 +98,28 @@ class Booking(models.Model):
     additional_insurance = models.BooleanField(default=False)
     additional_services = models.ManyToManyField(AdditionalService, blank=True)
 
+    # Pickup and dropoff details
+    pickup_location = models.CharField(max_length=255, blank=True, null=True)
+    pickup_time = models.TimeField(blank=True, null=True)
+    dropoff_location = models.CharField(max_length=255, blank=True, null=True)
+    dropoff_time = models.TimeField(blank=True, null=True)
+
+    # Customer notes or special requests
+    customer_notes = models.TextField(blank=True, null=True)
+
+    # Payment info/status
+    payment_status_choices = [
+        ('pending', 'Pending'),
+        ('paid', 'Paid'),
+        ('failed', 'Failed'),
+        ('refunded', 'Refunded'),
+    ]
+    payment_status = models.CharField(max_length=10, choices=payment_status_choices, default='pending')
+    payment_reference = models.CharField(max_length=100, blank=True, null=True)
+
+    # Invoice relation
+    invoice = models.ForeignKey(Invoice, on_delete=models.SET_NULL, blank=True, null=True, related_name='bookings')
+
     booking_number = models.CharField(max_length=36, unique=True, editable=False, blank=True)
 
     STATUS_CHOICES = [
@@ -82,6 +128,14 @@ class Booking(models.Model):
         ('completed', 'Completed'),
     ]
     status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='active')
+
+    # Cancellation/refund details
+    cancellation_reason = models.TextField(blank=True, null=True)
+    refund_amount = models.DecimalField(max_digits=8, decimal_places=2, blank=True, null=True)
+
+    # Timestamps
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
     def clean(self):
         # Date validation
@@ -98,9 +152,14 @@ class Booking(models.Model):
         if overlapping.exists():
             raise ValidationError("This campervan is already booked for the selected dates.")
 
-    def cancel(self):
-        """Cancel the booking"""
+    def cancel(self, reason=None, refund_amount=None):
+        """Cancel the booking with optional reason and refund"""
         self.status = 'cancelled'
+        if reason:
+            self.cancellation_reason = reason
+        if refund_amount:
+            self.refund_amount = refund_amount
+            self.payment_status = 'refunded'
         self.save()
 
     def save(self, *args, **kwargs):
@@ -121,6 +180,7 @@ class Booking(models.Model):
 
     def __str__(self):
         return f"Booking {self.booking_number} for {self.campervan.name} ({self.start_date} to {self.end_date})"
+
 
 class SeasonalRate(models.Model):
     start = models.DateField()

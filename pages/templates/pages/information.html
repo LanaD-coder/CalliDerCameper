@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block content %}
+<section class="rental-info my-5">
+  <h2 class="mb-4">{% trans "3. This is how it works" %}</h2>
+  <p class="mb-5">{% trans "All about renting." %}</p>
+  <p class="mb-5">{% trans "Here you will learn everything important about renting Calli. Starting from the pickup..." %}</p>
+
+  <div class="row g-4">
+    <div class="col-12 col-md-6 col-lg-4">
+      <div class="card h-100 shadow-sm">
+        <div class="card-body">
+          <h5 class="card-title">{% trans "Step 1: Booking" %}</h5>
+          <p class="card-text">{% trans "Choose your dates and book Calli easily online." %}</p>
+        </div>
+      </div>
+    </div>
+    <div class="col-12 col-md-6 col-lg-4">
+      <div class="card h-100 shadow-sm">
+        <div class="card-body">
+          <h5 class="card-title">{% trans "Step 2: Pickup" %}</h5>
+          <p class="card-text">{% trans "Pick up Calli at the agreed location and time." %}</p>
+        </div>
+      </div>
+    </div>
+    <div class="col-12 col-md-6 col-lg-4">
+      <div class="card h-100 shadow-sm">
+        <div class="card-body">
+          <h5 class="card-title">{% trans "Step 3: Enjoy your trip" %}</h5>
+          <p class="card-text">{% trans "Explore freely with Calli and make great memories." %}</p>
+        </div>
+      </div>
+    </div>
+    <div class="col-12 col-md-6 col-lg-4">
+      <div class="card h-100 shadow-sm">
+        <div class="card-body">
+          <h5 class="card-title">{% trans "Step 4: Return" %}</h5>
+          <p class="card-text">{% trans "Return Calli clean and on time at the agreed spot." %}</p>
+        </div>
+      </div>
+    </div>
+    <div class="col-12 col-md-6 col-lg-4">
+      <div class="card h-100 shadow-sm">
+        <div class="card-body">
+          <h5 class="card-title">{% trans "Step 5: Feedback" %}</h5>
+          <p class="card-text">{% trans "Tell us about your experience and help us improve." %}</p>
+        </div>
+      </div>
+    </div>
+    <div class="col-12 col-md-6 col-lg-4">
+      <div class="card h-100 shadow-sm">
+        <div class="card-body">
+          <h5 class="card-title">{% trans "Step 6: Ready for the next adventure" %}</h5>
+          <p class="card-text">{% trans "Prepare for your next journey with Calli or recommend us." %}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}
