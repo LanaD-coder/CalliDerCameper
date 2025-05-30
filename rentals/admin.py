@@ -54,8 +54,8 @@ class InvoiceAdmin(admin.ModelAdmin):
 
 
 class SeasonalRateAdmin(admin.ModelAdmin):
-    list_display = ('start', 'end', 'rate')
-    list_filter = ('start',)
+    list_display = ('start_month', 'start_day', 'end_month', 'end_day', 'rate')
+    list_filter = ('start_month', 'end_month', 'rate')
 
 
 class CampervanImageInline(admin.TabularInline):

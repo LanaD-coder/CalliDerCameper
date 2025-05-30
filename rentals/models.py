@@ -9,15 +9,14 @@ from cloudinary.models import CloudinaryField
 class Campervan(models.Model):
     name = models.CharField(max_length=100)
     description = models.TextField()
-    price_per_day = models.DecimalField(max_digits=6, decimal_places=2)
     available = models.BooleanField(default=True)
 
     def get_rate_for_date(self, date):
-        rate = SeasonalRate.objects.filter(start__lte=date, end__gte=date).first()
-        return rate.rate if rate else self.price_per_day
-
-    def __str__(self):
-        return self.name
+        rates = SeasonalRate.objects.all()
+        for rate in rates:
+            if rate.includes_date(date):
+                return rate.rate
+        return None
 
 
 class CampervanImage(models.Model):
@@ -173,6 +172,8 @@ class Booking(models.Model):
         for i in range(days):
             current_date = self.start_date + timedelta(days=i)
             rate = self.campervan.get_rate_for_date(current_date)
+            if rate is None:
+                raise ValidationError(f"No seasonal rate found for date {current_date}")
             total += rate
         self.total_price = total
 
@@ -183,9 +184,22 @@ class Booking(models.Model):
 
 
 class SeasonalRate(models.Model):
-    start = models.DateField()
-    end = models.DateField()
+    start_month = models.PositiveSmallIntegerField()
+    start_day = models.PositiveSmallIntegerField()
+    end_month = models.PositiveSmallIntegerField()
+    end_day = models.PositiveSmallIntegerField()
     rate = models.DecimalField(max_digits=6, decimal_places=2)
 
+    def includes_date(self, date_to_check):
+        check = date_to_check.month * 100 + date_to_check.day
+        start = self.start_month * 100 + self.start_day
+        end = self.end_month * 100 + self.end_day
+
+        if start <= end:
+            return start <= check <= end
+        else:
+            # Range crosses year end (e.g. Dec 15 to Feb 15)
+            return check >= start or check <= end
+
     def __str__(self):
-        return f"{self.start} to {self.end}: ${self.rate}"
+        return f"{self.start_month}/{self.start_day} to {self.end_month}/{self.end_day}: ${self.rate}"
