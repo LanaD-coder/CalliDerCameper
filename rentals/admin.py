@@ -1,10 +1,13 @@
-from django.contrib import admin
-from .models import (Campervan,
-                     Booking,
-                     SeasonalRate,
-                     CampervanImage,
-                     AdditionalService,
-                     Invoice)
+from django.contrib import admin, messages
+from django import forms
+from .models import (
+    Campervan,
+    Booking,
+    SeasonalRate,
+    CampervanImage,
+    AdditionalService,
+    Invoice,
+)
 from django_summernote.admin import SummernoteModelAdmin
 
 
@@ -13,6 +16,8 @@ class BookingAdmin(admin.ModelAdmin):
     list_filter = ('status', 'payment_status', 'additional_insurance')
     search_fields = ('booking_number', 'primary_driver__username', 'primary_driver_name', 'additional_driver_name')
     readonly_fields = ('booking_number', 'total_price', 'created_at', 'updated_at')
+    ordering = ('-created_at',)
+    filter_horizontal = ('additional_services',)
 
     fieldsets = (
         (None, {
@@ -45,7 +50,16 @@ class BookingAdmin(admin.ModelAdmin):
         }),
     )
 
-    filter_horizontal = ('additional_services',)
+    def save_model(self, request, obj, form, change):
+        # Warn if both FK and manual name are filled
+        if obj.primary_driver and obj.primary_driver_name:
+            messages.warning(
+                request,
+                "Both 'primary_driver' and 'primary_driver_name' are set. "
+                "Only one should be used. Consider clearing one."
+            )
+        super().save_model(request, obj, form, change)
+
 
 @admin.register(Invoice)
 class InvoiceAdmin(admin.ModelAdmin):
@@ -53,7 +67,31 @@ class InvoiceAdmin(admin.ModelAdmin):
     search_fields = ('invoice_number',)
 
 
+class SeasonalRateForm(forms.ModelForm):
+    start_date = forms.DateField(required=False, label="Start Date (for UI only)")
+    end_date = forms.DateField(required=False, label="End Date (for UI only)")
+
+    class Meta:
+        model = SeasonalRate
+        fields = ['start_month', 'start_day', 'end_month', 'end_day', 'rate']
+
+    def clean(self):
+        cleaned_data = super().clean()
+        start_date = cleaned_data.get("start_date")
+        end_date = cleaned_data.get("end_date")
+
+        if start_date:
+            cleaned_data["start_month"] = start_date.month
+            cleaned_data["start_day"] = start_date.day
+        if end_date:
+            cleaned_data["end_month"] = end_date.month
+            cleaned_data["end_day"] = end_date.day
+
+        return cleaned_data
+
+
 class SeasonalRateAdmin(admin.ModelAdmin):
+    form = SeasonalRateForm
     list_display = ('start_month', 'start_day', 'end_month', 'end_day', 'rate')
     list_filter = ('start_month', 'end_month', 'rate')
 

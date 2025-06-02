@@ -16,5 +16,8 @@
   "bugs": {
     "url": "https://github.com/LanaD-cell/ja_rental/issues"
   },
-  "homepage": "https://github.com/LanaD-cell/ja_rental#readme"
+  "homepage": "https://github.com/LanaD-cell/ja_rental#readme",
+  "dependencies": {
+    "@stripe/stripe-js": "^7.3.1"
+  }
 }

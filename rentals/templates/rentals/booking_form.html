@@ -1,5 +1,4 @@
 {% extends "base.html" %}
-{% load static %}
 {% load i18n %}
 
 {% block content %}
@@ -8,57 +7,83 @@
 
   {% if messages %}
     {% for message in messages %}
-      <div class="form-message">
-        {{ message }}
-      </div>
+      <div class="form-message">{{ message }}</div>
     {% endfor %}
   {% endif %}
 
-  <form id="booking-form" method="POST" novalidate>
+  <form id="booking-form" method="POST" action="{% url 'book_campervan' campervan.pk %}" novalidate>
     {% csrf_token %}
 
     <fieldset>
       <legend>{% trans "Booking Dates" %}</legend>
 
-      <label for="{{ form.start_date.id_for_label }}">{{ form.start_date.label }}:</label>
+      {{ form.start_date.label_tag }}
       {{ form.start_date }}
       <div class="field-error">{{ form.start_date.errors }}</div>
 
-      <label for="{{ form.end_date.id_for_label }}">{{ form.end_date.label }}:</label>
+      {{ form.end_date.label_tag }}
       {{ form.end_date }}
       <div class="field-error">{{ form.end_date.errors }}</div>
+      <div class="calendar-legend" style="margin-top: 1rem;">
+        <strong>Legend:</strong>
+        <div style="display: flex; gap: 1rem; margin-top: 0.5rem;">
+          <div style="display: flex; align-items: center; gap: 0.3rem;">
+            <div style="width: 16px; height: 16px; background-color: #f8d7da; border: 1px solid #dc3545;"></div>
+            <span>Booked</span>
+          </div>
+          <div style="display: flex; align-items: center; gap: 0.3rem;">
+            <div style="width: 16px; height: 16px; background-color: #d1ecf1; border: 1px solid #17a2b8;"></div>
+            <span>Seasonal Rate</span>
+          </div>
+        </div>
+      </div>
 
-      <!-- Base Rental Cost Display -->
-      <p><strong>{% trans "Base Rental Cost:" %}</strong> <span id="base-rental-cost">--</span> €</p>
+      {% if total_price %}
+      <div class="alert alert-info">
+        Base price for selected dates: <strong>{{ total_price }} €</strong>
+      </div>
+      {% endif %}
+
+      <div>
+        <strong>{% trans "Base price for selected dates:" %}</strong>
+        <span id="base-rental-cost">{{ total_price|default:"--" }}</span> €
+      </div>
+    </fieldset>
+
+    <!-- Add discount code input here -->
+    <fieldset>
+      <legend>{% trans "Discount Code" %}</legend>
+      <label for="id_discount_code">{% trans "Enter discount code (if any)" %}</label>
+      <input type="text" name="discount_code" id="id_discount_code" value="{{ form.discount_code.value|default_if_none:'' }}">
+      <div class="field-error">{{ form.discount_code.errors }}</div>
     </fieldset>
 
     <fieldset>
       <legend>{% trans "Primary Driver Details" %}</legend>
 
-      <label for="primary_driver_name">{% trans "Name" %}:</label>
-      <input type="text" id="primary_driver_name" value="{{ primary_driver_name }}">
+      {{ form.primary_driver_name.label_tag }}
+      {{ form.primary_driver_name }}
+      <div class="field-error">{{ form.primary_driver_name.errors }}</div>
 
-      <label for="primary_driver_email">{% trans "Email" %}:</label>
-      <input type="email" id="primary_driver_email" value="{{ primary_driver_email }}">
+      {{ form.primary_driver_street_name.label_tag }}
+      {{ form.primary_driver_street_name }}
+      <div class="field-error">{{ form.primary_driver_street_name.errors }}</div>
 
-      <label for="primary_driver_contact_number">{% trans "Contact Number" %}:</label>
-      <input type="text" id="primary_driver_contact_number" value="{{ primary_driver_contact_number }}">
+      {{ form.primary_driver_street_number.label_tag }}
+      {{ form.primary_driver_street_number }}
+      <div class="field-error">{{ form.primary_driver_street_number.errors }}</div>
 
-      <fieldset class="address-fieldset">
-        <legend>{% trans "Address" %}</legend>
+      {{ form.primary_driver_postal_code.label_tag }}
+      {{ form.primary_driver_postal_code }}
+      <div class="field-error">{{ form.primary_driver_postal_code.errors }}</div>
 
-        <label for="primary_driver_street">{% trans "Street" %}:</label>
-        <input type="text" id="primary_driver_street" value="{{ primary_driver_street }}">
+      {{ form.primary_driver_town.label_tag }}
+      {{ form.primary_driver_town }}
+      <div class="field-error">{{ form.primary_driver_town.errors }}</div>
 
-        <label for="primary_driver_postal_code">{% trans "Postal Code" %}:</label>
-        <input type="text" id="primary_driver_postal_code" value="{{ primary_driver_postal_code }}">
-
-        <label for="primary_driver_town">{% trans "Town" %}:</label>
-        <input type="text" id="primary_driver_town" value="{{ primary_driver_town }}">
-
-        <label for="primary_driver_country">{% trans "Country" %}:</label>
-        <input type="text" id="primary_driver_country" value="{{ primary_driver_country }}">
-      </fieldset>
+      {{ form.primary_driver_country.label_tag }}
+      {{ form.primary_driver_country }}
+      <div class="field-error">{{ form.primary_driver_country.errors }}</div>
     </fieldset>
 
     <fieldset>
@@ -71,65 +96,54 @@
       <label for="add_driver_no">{% trans "No" %}</label>
 
       <div id="additional-driver-fields" style="display:none; margin-top:1em;">
-
-        <label for="{{ form.additional_driver_name.id_for_label }}">{{ form.additional_driver_name.label }}:</label>
+        {{ form.additional_driver_name.label_tag }}
         {{ form.additional_driver_name }}
         <div class="field-error">{{ form.additional_driver_name.errors }}</div>
 
-        <label for="additional_driver_email">{% trans "Email" %}:</label>
-        <input type="email" name="additional_driver_email" id="additional_driver_email" value="{{ additional_driver_email|default_if_none:'' }}">
+        {{ form.additional_driver_email.label_tag }}
+        {{ form.additional_driver_email }}
+        <div class="field-error">{{ form.additional_driver_email.errors }}</div>
 
-        <label for="{{ form.additional_driver_contact_number.id_for_label }}">{{ form.additional_driver_contact_number.label }}:</label>
+        {{ form.additional_driver_contact_number.label_tag }}
         {{ form.additional_driver_contact_number }}
         <div class="field-error">{{ form.additional_driver_contact_number.errors }}</div>
 
         <fieldset class="address-fieldset" style="margin-top:1em;">
           <legend>{% trans "Address" %}</legend>
 
-          <label for="additional_driver_street">{% trans "Street" %}:</label>
-          <input type="text" name="additional_driver_street" id="additional_driver_street" value="{{ additional_driver_street|default_if_none:'' }}">
+          {{ form.additional_driver_street.label_tag }}
+          {{ form.additional_driver_street }}
+          <div class="field-error">{{ form.additional_driver_street.errors }}</div>
 
-          <label for="additional_driver_postal_code">{% trans "Postal Code" %}:</label>
-          <input type="text" name="additional_driver_postal_code" id="additional_driver_postal_code" value="{{ additional_driver_postal_code|default_if_none:'' }}">
+          {{ form.additional_driver_postal_code.label_tag }}
+          {{ form.additional_driver_postal_code }}
+          <div class="field-error">{{ form.additional_driver_postal_code.errors }}</div>
 
-          <label for="additional_driver_town">{% trans "Town" %}:</label>
-          <input type="text" name="additional_driver_town" id="additional_driver_town" value="{{ additional_driver_town|default_if_none:'' }}">
+          {{ form.additional_driver_town.label_tag }}
+          {{ form.additional_driver_town }}
+          <div class="field-error">{{ form.additional_driver_town.errors }}</div>
 
-          <label for="additional_driver_country">{% trans "Country" %}:</label>
-          <input type="text" name="additional_driver_country" id="additional_driver_country" value="{{ additional_driver_country|default_if_none:'' }}">
+          {{ form.additional_driver_country.label_tag }}
+          {{ form.additional_driver_country }}
+          <div class="field-error">{{ form.additional_driver_country.errors }}</div>
         </fieldset>
-
       </div>
     </fieldset>
 
-    <script>
-      const yesRadio = document.getElementById('add_driver_yes');
-      const noRadio = document.getElementById('add_driver_no');
-      const additionalFields = document.getElementById('additional-driver-fields');
+    <fieldset>
+      <legend>{% trans "Additional Insurance" %}</legend>
+      <label>
+        <input type="checkbox" name="additional_insurance" id="id_additional_insurance" {% if form.additional_insurance.value %}checked{% endif %}>
+        {% trans "Add Additional Insurance (€20)" %}
+      </label>
+    </fieldset>
 
-      function toggleAdditionalDriverFields() {
-        if (yesRadio.checked) {
-          additionalFields.style.display = 'block';
-        } else {
-          additionalFields.style.display = 'none';
+    <fieldset>
+      <legend>{% trans "Additional Services" %}</legend>
+      {{ form.additional_services }}
+      <div class="field-error">{{ form.additional_services.errors }}</div>
+    </fieldset>
 
-          // Optionally clear fields when hidden
-          const inputs = additionalFields.querySelectorAll('input');
-          inputs.forEach(input => input.value = '');
-        }
-      }
-
-      yesRadio.addEventListener('change', toggleAdditionalDriverFields);
-      noRadio.addEventListener('change', toggleAdditionalDriverFields);
-
-      // Run on page load (in case of form errors and data retention)
-      document.addEventListener('DOMContentLoaded', () => {
-        toggleAdditionalDriverFields();
-      });
-    </script>
-
-
-     <!-- Datenschutz -->
     <div class="mt-4">
       <input type="checkbox" id="accept-datenschutz" required>
       <label for="accept-datenschutz">
@@ -137,29 +151,43 @@
       </label>
     </div>
 
+    <fieldset>
+      <legend><strong>{% trans "Summary" %}</strong></legend>
+      <p><strong>{% trans "Base price:" %}</strong> <span id="summary-base-price">--</span> €</p>
+      <p><strong>{% trans "Additional services:" %}</strong> <span id="summary-services-price">--</span> €</p>
+      <p><strong>{% trans "Additional insurance:" %}</strong> <span id="summary-insurance-price">--</span> €</p>
+      <p><strong>{% trans "Grand total:" %}</strong> <span id="summary-grand-total">--</span> €</p>
+    </fieldset>
+
+    <input type="hidden" name="status" value="active">
+
     <button type="submit" id="book-now-btn">{% trans "Book Now" %}</button>
   </form>
 </section>
 
 <script>
-  document.getElementById('booking-form')?.addEventListener('submit', function (e) {
-    const checkbox = document.getElementById('accept-datenschutz');
-    if (!checkbox.checked) {
-      e.preventDefault();
-      alert("Bitte bestätigen Sie die Datenschutzerklärung, um fortzufahren.");
+  const yesRadio = document.getElementById('add_driver_yes');
+  const noRadio = document.getElementById('add_driver_no');
+  const additionalFields = document.getElementById('additional-driver-fields');
+
+  function toggleAdditionalDriverFields() {
+    if (yesRadio.checked) {
+      additionalFields.style.display = 'block';
+    } else {
+      additionalFields.style.display = 'none';
+      // Clear additional fields when hidden
+      additionalFields.querySelectorAll('input').forEach(input => input.value = '');
     }
+  }
+
+  yesRadio.addEventListener('change', toggleAdditionalDriverFields);
+  noRadio.addEventListener('change', toggleAdditionalDriverFields);
+
+  document.addEventListener('DOMContentLoaded', () => {
+    toggleAdditionalDriverFields();
   });
 
-  function openDatenschutzModal() {
-    document.getElementById('datenschutz-modal').classList.remove('hidden');
-  }
-
-  function closeDatenschutzModal() {
-    document.getElementById('datenschutz-modal').classList.add('hidden');
-  }
-</script>
-
-<script>
+  // Rental cost calculation
   const datePrices = {{ date_prices_json|safe }};
   const startDateInput = document.getElementById("id_start_date");
   const endDateInput = document.getElementById("id_end_date");
@@ -195,5 +223,121 @@
   endDateInput.addEventListener('change', calculateBaseRentalCost);
 
   calculateBaseRentalCost();
+
+  // Prices for additional services (must be passed from backend)
+  const additionalServicePrices = {{ additional_service_prices_json|safe }};
+  const additionalServiceCheckboxes = document.querySelectorAll('input[name="additional_services"]');
+  const insuranceCheckbox = document.getElementById("id_additional_insurance");
+
+  function calculateSummary() {
+    let base = parseFloat(baseCostEl.textContent) || 0;
+    let insurance = insuranceCheckbox.checked ? 20 : 0;
+
+    let servicesTotal = 0;
+    additionalServiceCheckboxes.forEach(cb => {
+      if (cb.checked) {
+        servicesTotal += additionalServicePrices[cb.value] || 0;
+      }
+    });
+
+    let grandTotal = base + servicesTotal + insurance;
+
+    document.getElementById('summary-base-price').textContent = base.toFixed(2);
+    document.getElementById('summary-insurance-price').textContent = insurance.toFixed(2);
+    document.getElementById('summary-services-price').textContent = servicesTotal.toFixed(2);
+    document.getElementById('summary-grand-total').textContent = grandTotal.toFixed(2);
+  }
+
+  // Bind events
+  additionalServiceCheckboxes.forEach(cb => cb.addEventListener('change', calculateSummary));
+  insuranceCheckbox.addEventListener('change', calculateSummary);
+  startDateInput.addEventListener('change', () => {
+    calculateBaseRentalCost();
+    calculateSummary();
+  });
+  endDateInput.addEventListener('change', () => {
+    calculateBaseRentalCost();
+    calculateSummary();
+  });
+
+  // Initial run
+  calculateSummary();
+
+  // --- New fetch POST form submit handler ---
+  document.getElementById('booking-form').addEventListener('submit', function(e) {
+    e.preventDefault();  // prevent default form submission
+
+    if (!document.getElementById('accept-datenschutz').checked) {
+      alert("Bitte bestätigen Sie die Datenschutzerklärung, um fortzufahren.");
+      return;
+    }
+
+    // Collect form data from inputs
+    const formData = {
+      start_date: startDateInput.value,
+      end_date: endDateInput.value,
+      discount_code: document.getElementById('id_discount_code').value,
+      primary_driver_name: document.getElementById('id_primary_driver_name').value,
+      primary_driver_street_name: document.getElementById('id_primary_driver_street_name').value,
+      primary_driver_street_number: document.getElementById('id_primary_driver_street_number').value,
+      primary_driver_postal_code: document.getElementById('id_primary_driver_postal_code').value,
+      primary_driver_town: document.getElementById('id_primary_driver_town').value,
+      primary_driver_country: document.getElementById('id_primary_driver_country').value,
+      add_additional_driver: document.querySelector('input[name="add_additional_driver"]:checked')?.value || 'no',
+      additional_driver_name: document.getElementById('id_additional_driver_name') ? document.getElementById('id_additional_driver_name').value : '',
+      additional_driver_email: document.getElementById('id_additional_driver_email') ? document.getElementById('id_additional_driver_email').value : '',
+      additional_driver_contact_number: document.getElementById('id_additional_driver_contact_number') ? document.getElementById('id_additional_driver_contact_number').value : '',
+      additional_driver_street: document.getElementById('id_additional_driver_street') ? document.getElementById('id_additional_driver_street').value : '',
+      additional_driver_postal_code: document.getElementById('id_additional_driver_postal_code') ? document.getElementById('id_additional_driver_postal_code').value : '',
+      additional_driver_town: document.getElementById('id_additional_driver_town') ? document.getElementById('id_additional_driver_town').value : '',
+      additional_driver_country: document.getElementById('id_additional_driver_country') ? document.getElementById('id_additional_driver_country').value : '',
+      additional_insurance: insuranceCheckbox.checked,
+      additional_services: Array.from(additionalServiceCheckboxes).filter(cb => cb.checked).map(cb => cb.value),
+      status: 'active',
+    };
+
+    fetch("{% url 'book_campervan' campervan.pk %}", {
+      method: 'POST',
+      headers: {
+         'Content-Type': 'application/json',
+          'X-CSRFToken': csrftoken,
+      },
+      body: JSON.stringify(formData),
+    })
+    .then(response => response.json())
+    .then(data => {
+      if (data.redirect_url) {
+        window.location.href = data.redirect_url;
+      } else if (data.errors) {
+        alert("Fehler: " + JSON.stringify(data.errors));
+      } else {
+        alert("Ein unbekannter Fehler ist aufgetreten.");
+      }
+    })
+    .catch(error => {
+      console.error('Error:', error);
+      alert("Beim Buchen ist ein Fehler aufgetreten.");
+    });
+  });
+
+</script>
+<script>
+function getCookie(name) {
+  let cookieValue = null;
+  if (document.cookie && document.cookie !== '') {
+    const cookies = document.cookie.split(';');
+    for (let i = 0; i < cookies.length; i++) {
+      const cookie = cookies[i].trim();
+      if (cookie.substring(0, name.length + 1) === (name + '=')) {
+        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+        break;
+      }
+    }
+  }
+  return cookieValue;
+}
+
+const csrftoken = getCookie('csrftoken');
+
 </script>
 {% endblock %}

@@ -29,232 +29,45 @@
   </div>
 </div>
 
-<div class="container my-5 p-4 border shadow-sm bg-light" style="border-top-right-radius: 80px;">
-  {% get_current_language as LANGUAGE_CODE %}
-  <h1>{{ van.name }}</h1>
+<section id="destinations-section">
+  <h2>{% trans "Recommended Camping Destinations" %}</h2>
+  <div class="destinations-list">
+    {% for dest in destinations %}
+      <div class="destination-card">
+        <img src="{{ dest.image.url }}" alt="{{ dest.name }}" />
+        <h3>{{ dest.name }}</h3>
+        <p>{{ dest.description }}</p>
 
-  <!-- VW Grand California Features -->
-  <div class="vw-features mb-4">
-    <h2>{% trans "VW Grand California Merkmale & Ausstattung" %}</h2>
-    <ul class="list-unstyled">
-      <li><i class="bi bi-people-fill me-2"></i> {% trans "4 seats & 2+2 sleeping places" %}</li>
-      <li><i class="bi bi-arrow-up-circle-fill me-2"></i> {% trans "Seat heating" %}</li>
-      <li><i class="bi bi-egg-fried me-2"></i> {% trans "Integrated kitchenette" %}</li>
-      <li><i class="bi bi-thermometer-half me-2"></i> {% trans "Auxiliary heater" %}</li>
-      <li><i class="bi bi-speedometer2 me-2"></i> {% trans "Adaptive cruise control, cruise control & parking assist" %}</li>
-    </ul>
-  </div>
+        {% if dest.website_url %}
+          <p><a href="{{ dest.website_url }}" target="_blank" rel="noopener">{% trans "Visit Website" %}</a></p>
+        {% endif %}
 
-  <p>{{ van.description }}</p>
-  <button id="availability-button" type="button" class="btn btn-lg btn-primary" data-bs-toggle="modal" data-bs-target="#availabilityModal">
-    {{ _('Check Availability') }}
-  </button>
-
-  <!-- Campervan image carousel -->
-  <div id="camperCarousel" class="carousel slide mt-4" data-bs-ride="carousel">
-    <div class="carousel-indicators">
-      {% for img in van.images.all %}
-        <button type="button" data-bs-target="#camperCarousel" data-bs-slide-to="{{ forloop.counter0 }}" {% if forloop.first %}class="active"{% endif %} aria-current="true" aria-label="Slide {{ forloop.counter }}"></button>
-      {% endfor %}
-    </div>
-    <div class="carousel-inner">
-      {% for img in van.images.all %}
-        <div class="carousel-item {% if forloop.first %}active{% endif %}">
-          <img src="{{ img.image.url }}" class="d-block w-100" alt="Camper image {{ forloop.counter }}">
+        {% if dest.map_url %}
+        <div class="map-responsive">
+          <iframe
+            src="{{ dest.map_url }}"
+            width="600"
+            height="450"
+            style="border:0;"
+            allowfullscreen=""
+            loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade">
+          </iframe>
         </div>
-      {% endfor %}
-    </div>
-    <button class="carousel-control-prev" type="button" data-bs-target="#camperCarousel" data-bs-slide="prev">
-      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-      <span class="visually-hidden">{{ _('Previous') }}</span>
-    </button>
-    <button class="carousel-control-next" type="button" data-bs-target="#camperCarousel" data-bs-slide="next">
-      <span class="carousel-control-next-icon" aria-hidden="true"></span>
-      <span class="visually-hidden">{{ _('Next') }}</span>
-    </button>
-  </div>
-</div>
-
-<!-- Availability Modal -->
-<div class="modal fade" id="availabilityModal" tabindex="-1" aria-labelledby="availabilityModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered modal-xl">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="availabilityModalLabel">{{ _('Check Availability') }}</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="{{ _('Close') }}"></button>
+        {% endif %}
       </div>
-      <div class="modal-body">
-        <div id="calendar"></div>
-        <div class="mt-4 text-end">
-          <button id="book-now-btn" class="btn btn-success" disabled>{{ _('Book Now') }}</button>
-        </div>
-      </div>
-    </div>
+    {% empty %}
+      <p>{% trans "No destinations available at the moment." %}</p>
+    {% endfor %}
   </div>
-</div>
+</section>
 
-<!-- FullCalendar and booking JS -->
-<script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.js"></script>
-<script>
-document.addEventListener('DOMContentLoaded', function () {
-  let calendar;
-  let selectedRange = null;
-  const campervanId = {{ van.id }};
-  const calendarEl = document.getElementById('calendar');
-  const bookBtn = document.getElementById('book-now-btn');
+{% get_current_language as LANGUAGE_CODE %}
 
-  const events = {{ calendar_events|safe }};
-  const datePrices = {{ date_prices|safe }};
-
-  function getResponsiveHeight() {
-    const width = window.innerWidth;
-    if (width < 480) return 350;
-    if (width < 992) return 450;
-    return 500;
-  }
-
-  const modal = document.getElementById('availabilityModal');
-  modal.addEventListener('shown.bs.modal', function () {
-    if (!calendar) {
-      calendar = new FullCalendar.Calendar(calendarEl, {
-        initialView: 'dayGridMonth',
-        selectable: true,
-        selectMirror: true,
-        height: getResponsiveHeight(),
-        events: events,
-        headerToolbar: {
-          left: 'prev,next today',
-          center: 'title',
-          right: ''
-        },
-        select: function(info) {
-          // This function triggered when user selects with drag - we'll disable and rely on clicks instead
-          // So disable the book button here
-          bookBtn.disabled = true;
-        },
-        dayCellDidMount: function(info) {
-          const dateStr = info.date.toISOString().split('T')[0];
-          const price = datePrices[dateStr];
-          if (price) {
-            const priceEl = document.createElement('div');
-            priceEl.textContent = price + '€';
-            priceEl.style.fontSize = '0.75rem';
-            priceEl.style.fontWeight = 'bold';
-            priceEl.style.color = '#198754';
-            priceEl.style.position = 'absolute';
-            priceEl.style.bottom = '4px';
-            priceEl.style.right = '4px';
-            info.el.style.position = 'relative';
-            info.el.appendChild(priceEl);
-          }
-        }
-      });
-
-      // Two-click selection logic:
-      let clickCount = 0;
-      let startDate = null;
-      let endDate = null;
-
-      calendar.on('dateClick', function(info) {
-        if (clickCount === 0) {
-          startDate = info.dateStr;
-          endDate = null;
-          clickCount = 1;
-          calendar.unselect();
-          calendar.select(info.dateStr, info.dateStr);
-          bookBtn.disabled = true;
-        } else if (clickCount === 1) {
-          endDate = info.dateStr;
-          if (new Date(endDate) < new Date(startDate)) {
-            [startDate, endDate] = [endDate, startDate];
-          }
-          // FullCalendar select expects exclusive end date (+1 day)
-          const exclusiveEndDate = new Date(new Date(endDate).getTime() + 24*60*60*1000).toISOString().split('T')[0];
-          calendar.select(startDate, exclusiveEndDate);
-          selectedRange = { start: startDate, end: exclusiveEndDate };
-          bookBtn.disabled = false;
-          clickCount = 0;
-        }
-      });
-
-      modal.addEventListener('hidden.bs.modal', function () {
-        calendar.unselect();
-        clickCount = 0;
-        startDate = null;
-        endDate = null;
-        bookBtn.disabled = true;
-      });
-
-      calendar.render();
-    } else {
-      calendar.updateSize();
-    }
-  });
-
-  window.addEventListener('resize', () => {
-    if (calendar) calendar.setOption('height', getResponsiveHeight());
-  });
-
-  bookBtn.addEventListener('click', () => {
-    if (selectedRange) {
-      const url = `/campervan/${campervanId}/book/?start_date=${selectedRange.start}&end_date=${selectedRange.end}`;
-      window.location.href = url;
-    }
-  });
-});
-</script>
-
-<!-- Price calculation script -->
-<script>
-document.addEventListener('DOMContentLoaded', () => {
-  const priceDisplay = document.getElementById('price-display');
-  const startInput = document.getElementById('start_date');
-  const endInput = document.getElementById('end_date');
-  const datePrices = {{ date_prices|safe }};
-
-  function formatDate(date) {
-    return date.toISOString().split('T')[0];
-  }
-
-  function calculateTotalPrice(startStr, endStr) {
-    let current = new Date(startStr);
-    const end = new Date(endStr);
-    let total = 0;
-    let days = 0;
-
-    while (current <= end) {
-      const key = formatDate(current);
-      const price = datePrices[key] || 0;
-      total += price;
-      days++;
-      current.setDate(current.getDate() + 1);
-    }
-    return { total, days };
-  }
-
-  function updatePrice() {
-    const start = startInput.value;
-    const end = endInput.value;
-
-    if (start && end && new Date(start) <= new Date(end)) {
-      const { total, days } = calculateTotalPrice(start, end);
-      const avg = days > 0 ? (total / days).toFixed(2) : 0;
-      if (priceDisplay) priceDisplay.textContent = `${avg}€`;
-    } else {
-      if (priceDisplay) priceDisplay.textContent = "{{ van.price_per_day }}€";
-    }
-  }
-
-  if (startInput && endInput) {
-    startInput.addEventListener('change', updatePrice);
-    endInput.addEventListener('change', updatePrice);
-  }
-});
-</script>
 
 <script>
 document.addEventListener('DOMContentLoaded', function () {
-  console.log('Toast init');  // <-- add this line for debug
+  console.log('Toast init');
 
   if (typeof bootstrap === 'undefined' || !bootstrap.Toast) {
     console.log('Bootstrap Toast not available');

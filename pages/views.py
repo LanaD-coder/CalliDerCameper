@@ -1,15 +1,18 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from .forms import ContactForm
-from .models import FAQ, CampingDestination
+from .models import FAQ
+from rentals.models import Campervan
 from datetime import datetime
 
 
-
 def about_view(request):
-    destinations = CampingDestination.objects.all()
-    return render(request, 'pages/about.html', {'destinations': destinations})
-
+    campervan = get_object_or_404(Campervan, pk=1)
+    images = campervan.images.all()
+    return render(request, 'pages/about.html', {
+        'campervan': campervan,
+        'images': images,
+    })
 
 def information_view(request):
     return render(request, 'pages/information.html')
@@ -34,3 +37,15 @@ def impressum(request):
 
 def datenschutz(request):
     return render(request, "legal/datenschutz.html", {"year": datetime.now().year})
+
+def custom_404(request, exception):
+    return render(request, 'errors/404.html', status=404)
+
+def custom_500(request):
+    return render(request, 'errors/500.html', status=500)
+
+def custom_403(request, exception):
+    return render(request, 'errors/403.html', status=403)
+
+def custom_400(request, exception):
+    return render(request, 'errors/400.html', status=400)

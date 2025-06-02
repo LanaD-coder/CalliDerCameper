@@ -11,7 +11,6 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 import os
 from pathlib import Path
-
 import environ
 import dj_database_url
 from django.utils.translation import gettext_lazy as _
@@ -27,6 +26,10 @@ DEBUG = env.bool('DEBUG', default=True)
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = env('DJANGO_SECRET_KEY', default='insecure-development-key')
+
+# STRIPE Keys
+STRIPE_SECRET_KEY = env("STRIPE_SECRET_KEY")
+STRIPE_PUBLISHABLE_KEY = env("STRIPE_PUBLISHABLE_KEY")
 
 ALLOWED_HOSTS = env.list(
     'ALLOWED_HOSTS',

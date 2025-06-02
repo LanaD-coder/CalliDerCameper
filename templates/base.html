@@ -11,10 +11,13 @@
 
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+
+    <!-- Calendar css-->
+    <link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.css" rel="stylesheet">
+
 
     <!-- Datepicker CSS -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css">
 
     <!-- Your custom CSS -->
     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
@@ -28,11 +31,11 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <!-- Favicon -->
-    <link rel="shortcut icon" href="{% static 'favicon.ico' %}" type="image/x-icon" />
-    <link rel="icon" type="image/png" href="{% static 'favicon-96x96.png' %}" sizes="96x96" />
-    <link rel="icon" type="image/svg+xml" href="{% static 'favicon.svg' %}" />
-    <link rel="apple-touch-icon" sizes="180x180" href="{% static 'apple-touch-icon.png' %}" />
-    <link rel="manifest" href="{% static 'site.webmanifest' %}" />
+    <link rel="shortcut icon" href="{% static 'favicon.ico' %}" type="image/x-icon">
+    <link rel="icon" type="image/png" href="{% static 'favicon-96x96.png' %}" sizes="96x96">
+    <link rel="icon" type="image/svg+xml" href="{% static 'favicon.svg' %}">
+    <link rel="apple-touch-icon" sizes="180x180" href="{% static 'apple-touch-icon.png' %}">
+    <link rel="manifest" href="{% static 'site.webmanifest' %}">
 
     {% block extra_head %}{% endblock %}
 </head>
@@ -101,6 +104,33 @@
     </div>
   </div>
 </nav>
+
+<div id="page-wrapper" class="d-flex flex-column min-vh-100">
+    <main class="flex-grow-1 container" id="main-container">
+      {% block content %}{% endblock %}
+    </main>
+
+      <!-- Footer -->
+    <footer class="text-center py-4">
+      <div class="mb-3">
+        <a href="https://www.facebook.com" target="_blank" class="text-primary mx-2 fs-4 text-decoration-none">
+          <i class="bi bi-facebook"></i>
+        </a>
+        <a href="https://www.google.com" target="_blank" class="text-danger mx-2 fs-4 text-decoration-none">
+          <i class="bi bi-google"></i>
+        </a>
+        <a href="https://www.apple.com" target="_blank" class="text-dark mx-2 fs-4 text-decoration-none">
+          <i class="bi bi-apple"></i>
+        </a>
+        <a href="https://www.instagram.com" target="_blank" class="mx-2 fs-4 text-decoration-none" style="color: #E1306C;">
+          <i class="bi bi-instagram"></i>
+        </a>
+      </div>
+      &copy; {{ current_year|default:2025 }} Calli the Camper. All rights reserved.
+      <a href="{% url 'impressum' %}" class="text-primary text-decoration-underline">Impressum</a>
+    </footer>
+</div>
+
 <script>
 document.addEventListener('DOMContentLoaded', () => {
   const hamburger = document.querySelector('.navbar-toggler');
@@ -112,31 +142,6 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 </script>
 
-<!-- Main page content -->
-<div class="container" id="main-container">
-  {% block content %}{% endblock %}
-</div>
-
-<!-- Footer -->
-<footer class="text-center py-4">
-  <div class="mb-3">
-    <a href="https://www.facebook.com" target="_blank" class="text-primary mx-2 fs-4 text-decoration-none">
-      <i class="bi bi-facebook"></i>
-    </a>
-    <a href="https://www.google.com" target="_blank" class="text-danger mx-2 fs-4 text-decoration-none">
-      <i class="bi bi-google"></i>
-    </a>
-    <a href="https://www.apple.com" target="_blank" class="text-dark mx-2 fs-4 text-decoration-none">
-      <i class="bi bi-apple"></i>
-    </a>
-    <a href="https://www.instagram.com" target="_blank" class="mx-2 fs-4 text-decoration-none" style="color: #E1306C;">
-      <i class="bi bi-instagram"></i>
-    </a>
-  </div>
-  &copy; {{ current_year|default:2025 }} Calli the Camper. All rights reserved.
-  <a href="{% url 'impressum' %}" class="text-primary text-decoration-underline">Impressum</a>
-</footer>
-
 <!-- jQuery (required) -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
@@ -145,7 +150,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
 <!-- Datepicker JS -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
-
 {% block extra_scripts %}{% endblock %}
 
 </body>

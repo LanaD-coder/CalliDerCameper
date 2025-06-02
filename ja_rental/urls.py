@@ -17,6 +17,7 @@ urlpatterns = [
     path('information/', pages_views.information_view, name='info'),
     path('videos/', pages_views.videos_view, name='vids_pics'),
     path('accounts/', include('allauth.urls')),
+    path('account/', include('accounts.urls')),
     path('summernote/', include('django_summernote.urls')),
 ]
 
@@ -27,6 +28,11 @@ urlpatterns += [
     path('profile/', accounts_views.profile_view, name='profile'),
 
 ]
+
+handler404 = 'pages.views.custom_404'
+handler500 = 'pages.views.custom_500'
+handler403 = 'pages.views.custom_403'
+handler400 = 'pages.views.custom_400'
 
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

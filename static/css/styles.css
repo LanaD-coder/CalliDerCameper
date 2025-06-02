@@ -13,7 +13,11 @@ body {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
-  background-color: #bbd4c5;
+  background-color: #f5f5f5;
+}
+
+#content {
+  flex: 1 0 auto;
 }
 
 .h1, .h2, .h3, .h4, .h5, .h6, h1, h2, h3, h4, h5, h6 {
@@ -254,12 +258,12 @@ footer {
 }
 
 .logo-img {
-        bottom: -220px;
-        left: -8vw;
+        bottom: 0;
+        right:0;
         width: 40vw;
         height: auto;
-        max-width: 400px;
-        max-height: 250px;
+        max-width: 300px;
+        max-height: 180px;
         z-index: 10;
 }
 

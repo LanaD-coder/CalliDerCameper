@@ -162,7 +162,7 @@ class Booking(models.Model):
         self.save()
 
     def save(self, *args, **kwargs):
-        self.clean()  # Run validations before save
+        self.clean()  # validations
 
         if not self.booking_number:
             self.booking_number = str(uuid.uuid4())
@@ -175,6 +175,12 @@ class Booking(models.Model):
             if rate is None:
                 raise ValidationError(f"No seasonal rate found for date {current_date}")
             total += rate
+
+        # Add additional insurance fixed price if selected
+        if self.additional_insurance:
+            insurance_price = 50  # for example, fixed $50 flat fee, or you can make it a model field
+            total += insurance_price
+
         self.total_price = total
 
         super().save(*args, **kwargs)
@@ -198,7 +204,6 @@ class SeasonalRate(models.Model):
         if start <= end:
             return start <= check <= end
         else:
-            # Range crosses year end (e.g. Dec 15 to Feb 15)
             return check >= start or check <= end
 
     def __str__(self):
