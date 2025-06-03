@@ -136,7 +136,15 @@ export function initBookingForm({ datePrices, additionalServicePrices, insurance
 
     const formData = new FormData(this);
     const data = {};
-    formData.forEach((value, key) => { data[key] = value; });
+    // Loop through formData and build array for additional_services
+    formData.forEach((value, key) => {
+      if (key === "additional_services") {
+        if (!data[key]) data[key] = [];
+        data[key].push(value);
+      } else {
+        data[key] = value;
+      }
+    });
 
     console.log("Fetching URL:", ajaxUrl);
     fetch(ajaxUrl, {
