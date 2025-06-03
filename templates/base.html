@@ -63,7 +63,7 @@
         <li class="nav-item"><a class="nav-link" href="/about">{% trans "Introduction to Calli" %}</a></li>
         <li class="nav-item"><a class="nav-link" href="/information">{% trans "How this works" %}</a></li>
         <li class="nav-item"><a class="nav-link" href="/videos">{% trans "Videos & Tipps" %}</a></li>
-        <li class="nav-item"><a class="nav-link" href="/">{% trans "Book" %}</a></li>
+        <li class="nav-item"><a class="nav-link" href="{% url 'booking_page' 1 %}">{% trans "Book" %}</a></li>
         <li class="nav-item"><a class="nav-link" href="/contact">{% trans "Contact" %}</a></li>
 
         {% if user.is_authenticated %}

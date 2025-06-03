@@ -106,11 +106,13 @@ AUTHENTICATION_BACKENDS = (
 
 DATABASES = {
     'default': dj_database_url.config(
-        default=os.getenv('DATABASE_URL', 'sqlite:///db.sqlite3'),
+        default=os.getenv('DATABASE_URL'),
         conn_max_age=600,
         ssl_require=True
     )
 }
+# Explicitly set the ENGINE after parsing - Heroku deploy specs
+DATABASES['default']['ENGINE'] = 'django.db.backends.postgresql'
 
 # Password validation
 # https://docs.djangoproject.com/en/5.2/ref/settings/#auth-password-validators

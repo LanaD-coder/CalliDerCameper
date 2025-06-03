@@ -228,7 +228,7 @@ def create_booking_ajax(request, pk):
             cancel_url=request.build_absolute_uri('/payment-cancel/'),
             metadata={'booking_number': booking.booking_number}
         )
-        return JsonResponse({'redirect_url': checkout_session.url})
+        return JsonResponse({'session_id': checkout_session.id})
     except Exception as e:
         return JsonResponse({'error': f'Error creating Stripe session: {str(e)}'}, status=500)
 
