@@ -11,7 +11,8 @@
     <p>{% trans "Calli ist mehr als nur ein Camper – er ist unser kleines Abenteuer auf vier Rädern." %}</p>
     <p>{% trans "Aber statt ihn nur selbst zu nutzen, möchten wir, dass auch andere Menschen die Freiheit des Reisens erleben können." %}</p>
     <p>{% trans "So entdeckt Calli weiter neue Orte und du findest vielleicht dein ganz eigenes Lieblingsplätzchen." %}</p>
-    <a href="{% url 'book_campervan' pk=1 %}" class="btn btn-lg booking-btn" style="background-color: #0dc1bf; color: white;">{% trans "Jetzt buchen" %}</a>
+    <a href="{% url 'booking_page' pk=1 %}" class="btn btn-lg booking-btn" style="background-color: #0dc1bf; color: white;">
+    {% trans "Jetzt buchen" %}</a>
   </section>
 
   <div id="calliCarousel" class="carousel slide my-5" data-bs-ride="carousel">

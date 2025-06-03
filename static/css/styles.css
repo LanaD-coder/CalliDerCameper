@@ -16,6 +16,18 @@ body {
   background-color: #f5f5f5;
 }
 
+body.loading::after {
+  content: 'Loading Stripe Checkout...';
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  background: #fff;
+  padding: 1rem 2rem;
+  border: 1px solid #ccc;
+  transform: translate(-50%, -50%);
+  z-index: 9999;
+}
+
 #content {
   flex: 1 0 auto;
 }

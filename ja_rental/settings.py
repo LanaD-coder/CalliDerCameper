@@ -31,6 +31,8 @@ SECRET_KEY = env('DJANGO_SECRET_KEY', default='insecure-development-key')
 STRIPE_SECRET_KEY = env("STRIPE_SECRET_KEY")
 STRIPE_PUBLISHABLE_KEY = env("STRIPE_PUBLISHABLE_KEY")
 
+WEBHOOK_URL = "https://yourdomain.com/webhook/stripe/"
+
 ALLOWED_HOSTS = env.list(
     'ALLOWED_HOSTS',
     default=['localhost', '127.0.0.1', 'jarental-9127907f3428.herokuapp.com']
@@ -103,7 +105,11 @@ AUTHENTICATION_BACKENDS = (
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
 DATABASES = {
-    'default': dj_database_url.config(default=os.getenv('DATABASE_URL'))
+    'default': dj_database_url.config(
+        default=os.getenv('DATABASE_URL', 'sqlite:///db.sqlite3'),
+        conn_max_age=600,
+        ssl_require=True
+    )
 }
 
 # Password validation

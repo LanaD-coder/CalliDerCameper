@@ -138,18 +138,19 @@ class Booking(models.Model):
 
     def clean(self):
         # Date validation
-        if self.end_date < self.start_date:
-            raise ValidationError("End date cannot be before start date.")
+        if self.start_date and self.end_date:
+            if self.end_date < self.start_date:
+                raise ValidationError("End date cannot be before start date.")
 
-        # Overlapping bookings check
-        overlapping = Booking.objects.filter(
-            campervan=self.campervan,
-            end_date__gte=self.start_date,
-            start_date__lte=self.end_date
-        ).exclude(pk=self.pk)
+            # Overlapping bookings check
+            overlapping = Booking.objects.filter(
+                campervan=self.campervan,
+                end_date__gte=self.start_date,
+                start_date__lte=self.end_date
+            ).exclude(pk=self.pk)
 
-        if overlapping.exists():
-            raise ValidationError("This campervan is already booked for the selected dates.")
+            if overlapping.exists():
+                raise ValidationError("This campervan is already booked for the selected dates.")
 
     def cancel(self, reason=None, refund_amount=None):
         """Cancel the booking with optional reason and refund"""
@@ -164,9 +165,13 @@ class Booking(models.Model):
     def save(self, *args, **kwargs):
         self.clean()  # validations
 
+        if not self.start_date or not self.end_date:
+            raise ValidationError("Start date and end date must be set before saving a booking.")
+
         if not self.booking_number:
             self.booking_number = str(uuid.uuid4())
 
+        # Price calculation
         days = (self.end_date - self.start_date).days + 1
         total = 0
         for i in range(days):
@@ -176,10 +181,8 @@ class Booking(models.Model):
                 raise ValidationError(f"No seasonal rate found for date {current_date}")
             total += rate
 
-        # Add additional insurance fixed price if selected
         if self.additional_insurance:
-            insurance_price = 50  # for example, fixed $50 flat fee, or you can make it a model field
-            total += insurance_price
+            total += 50  # flat fee example
 
         self.total_price = total
 

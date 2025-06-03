@@ -16,22 +16,32 @@ def profile_view(request):
     })
 
 
-
 @csrf_exempt
 def webhook_receiver(request):
-    if request.method != 'POST':
-        return HttpResponseBadRequest("Invalid method")
+    payload = request.body
+    sig_header = request.META.get('HTTP_STRIPE_SIGNATURE')
+    endpoint_secret = settings.STRIPE_WEBHOOK_SECRET
 
     try:
-        payload = json.loads(request.body)
-    except json.JSONDecodeError:
-        return HttpResponseBadRequest("Invalid JSON")
+        event = stripe.Webhook.construct_event(payload, sig_header, endpoint_secret)
+    except ValueError:
+        return HttpResponseBadRequest("Invalid payload")
+    except stripe.error.SignatureVerificationError:
+        return HttpResponseBadRequest("Invalid signature")
 
-    # TODO: Validate webhook signature/token if provided
+    # Handle the event
+    if event['type'] == 'checkout.session.completed':
+        session = event['data']['object']
+        booking_number = session.get('metadata', {}).get('booking_number')
 
-    # Process the payload data
-    event_type = payload.get('event')
-    if event_type == 'booking_paid':
-        booking_id = payload.get('booking_id')
+        if booking_number:
+            try:
+                booking = Booking.objects.get(booking_number=booking_number)
+                booking.payment_status = 'paid'
+                booking.status = 'active'
+                booking.payment_reference = session.get('payment_intent')
+                booking.save()
+            except Booking.DoesNotExist:
+                return JsonResponse({'error': 'Booking not found'}, status=404)
 
     return JsonResponse({"status": "success"})

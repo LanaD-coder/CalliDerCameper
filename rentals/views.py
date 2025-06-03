@@ -3,6 +3,7 @@ import json
 import stripe
 from datetime import datetime, timedelta, date
 from django.shortcuts import render, get_object_or_404, redirect
+from django.views.decorators.csrf import csrf_exempt
 from django.contrib import messages
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
@@ -100,126 +101,35 @@ def campervan_detail(request):
 
 stripe.api_key = settings.STRIPE_SECRET_KEY
 
-
 @login_required(login_url='/account/login/')
-def book_campervan(request, pk):
+def booking_page(request, pk):
     campervan = get_object_or_404(Campervan, pk=pk)
+
     start_date_str = request.GET.get('start_date')
     end_date_str = request.GET.get('end_date')
 
     total_price = None
     subtotal = Decimal('0.00')
-    discount_amount = Decimal('0.00')
-    discount_obj = None
     insurance_cost = Decimal('20.00')
-    grand_total = Decimal('0.00')
 
     if start_date_str and end_date_str:
         try:
             start_date = datetime.strptime(start_date_str, '%Y-%m-%d').date()
             end_date = datetime.strptime(end_date_str, '%Y-%m-%d').date()
-
-            if end_date < start_date:
-                messages.error(request, _("End date cannot be before start date."))
-            else:
+            if end_date >= start_date:
                 days = (end_date - start_date).days + 1
-                total = Decimal('0.00')
                 for i in range(days):
-                    current_date = start_date + timedelta(days=i)
-                    rate = campervan.get_rate_for_date(current_date)
-                    total += Decimal(rate)
-
-                total_price = total
-                subtotal = total
-                grand_total = subtotal
+                    rate = campervan.get_rate_for_date(start_date + timedelta(days=i))
+                    subtotal += Decimal(rate)
+                total_price = subtotal
         except ValueError:
-            messages.error(request, _("Invalid date format."))
+            pass  # Show blank form with no price if dates invalid
 
-    if request.method == 'POST':
-        form = BookingForm(request.POST, user=request.user, campervan=campervan)
-        form.instance.campervan = campervan
-
-        if form.is_valid():
-            booking = form.save(commit=False)
-            booking.campervan = campervan
-            booking.primary_driver = request.user
-            booking.payment_status = 'pending'
-            booking.status = 'active'
-            booking.save()
-            form.save_m2m()
-
-            discount_code_str = form.cleaned_data.get('discount_code')
-            discount_amount = Decimal('0.00')
-
-            if discount_code_str:
-                try:
-                    discount_obj = DiscountCode.objects.get(code__iexact=discount_code_str, active=True)
-                    if not discount_obj.is_valid():
-                        messages.error(request, _("This discount code is invalid or expired."))
-                        return render_booking_form(request, form, campervan)
-                    discount_amount = discount_obj.amount
-                except DiscountCode.DoesNotExist:
-                    messages.error(request, _("Invalid discount code."))
-                    return render_booking_form(request, form, campervan)
-
-            for service in booking.additional_services.all():
-                booking.total_price += Decimal(service.price)
-
-            booking.save()
-
-            days = (booking.end_date - booking.start_date).days + 1
-            subtotal = Decimal('0.00')
-            for i in range(days):
-                current_date = booking.start_date + timedelta(days=i)
-                rate = campervan.get_rate_for_date(current_date)
-                subtotal += Decimal(rate)
-
-            if booking.additional_insurance:
-                subtotal += insurance_cost
-
-            for service in booking.additional_services.all():
-                subtotal += service.price
-
-            grand_total = max(Decimal('0.00'), subtotal - discount_amount)
-            booking.total_price = grand_total
-            booking.discount_code = discount_obj
-            booking.save()
-
-            if discount_obj:
-                discount_obj.used_count += 1
-                discount_obj.save()
-
-            try:
-                checkout_session = stripe.checkout.Session.create(
-                    payment_method_types=['card'],
-                    line_items=[{
-                        'price_data': {
-                            'currency': 'eur',
-                            'product_data': {
-                                'name': f'Booking {booking.booking_number} - {campervan.name}',
-                            },
-                            'unit_amount': int(booking.total_price * 100),
-                        },
-                        'quantity': 1,
-                    }],
-                    mode='payment',
-                    success_url=request.build_absolute_uri(
-                        f'/payment-success/?session_id={{CHECKOUT_SESSION_ID}}&booking={booking.booking_number}'
-                    ),
-                    cancel_url=request.build_absolute_uri('/payment-cancel/'),
-                    metadata={'booking_number': booking.booking_number}
-                )
-                return JsonResponse({'redirect_url': checkout_session.url})
-            except Exception as e:
-                messages.error(request, f"{_('Error creating Stripe session')}: {e}")
-        else:
-            print(form.errors)
-    else:
-        form = BookingForm(
-            initial={'start_date': start_date_str, 'end_date': end_date_str},
-            user=request.user,
-            campervan=campervan
-        )
+    form = BookingForm(
+        initial={'start_date': start_date_str, 'end_date': end_date_str},
+        user=request.user,
+        campervan=campervan
+    )
 
     additional_service_prices = {
         str(service.pk): float(service.price)
@@ -234,10 +144,93 @@ def book_campervan(request, pk):
         'stripe_public_key': settings.STRIPE_PUBLISHABLE_KEY,
         'total_price': total_price,
         'subtotal': subtotal,
-        'discount_amount': discount_amount,
-        'grand_total': grand_total,
         'insurance_cost': insurance_cost,
     })
+
+@csrf_exempt  # or use proper CSRF token with JS if login-protected
+def create_booking_ajax(request, pk):
+    if request.method != 'POST':
+        return JsonResponse({'error': 'Invalid request'}, status=405)
+
+    campervan = get_object_or_404(Campervan, pk=pk)
+
+    try:
+        data = json.loads(request.body)
+    except json.JSONDecodeError:
+        return JsonResponse({'errors': 'Invalid JSON'}, status=400)
+
+    form = BookingForm(data, user=request.user, campervan=campervan)
+    form.instance.campervan = campervan
+
+    if not form.is_valid():
+        return JsonResponse({'errors': form.errors}, status=400)
+
+    booking = form.save(commit=False)
+    booking.campervan = campervan
+    booking.primary_driver = request.user
+    booking.payment_status = 'pending'
+    booking.status = 'active'
+    booking.save()
+    form.save_m2m()
+
+    discount_code_str = form.cleaned_data.get('discount_code')
+    discount_obj = None
+    discount_amount = Decimal('0.00')
+    insurance_cost = Decimal('20.00')
+    subtotal = Decimal('0.00')
+
+    if discount_code_str:
+        try:
+            discount_obj = DiscountCode.objects.get(code__iexact=discount_code_str, active=True)
+            if not discount_obj.is_valid():
+                return JsonResponse({'errors': {'discount_code': ['Invalid or expired code']}}, status=400)
+            discount_amount = discount_obj.amount
+        except DiscountCode.DoesNotExist:
+            return JsonResponse({'errors': {'discount_code': ['Invalid discount code']}}, status=400)
+
+    for service in booking.additional_services.all():
+        subtotal += Decimal(service.price)
+
+    days = (booking.end_date - booking.start_date).days + 1
+    for i in range(days):
+        rate = campervan.get_rate_for_date(booking.start_date + timedelta(days=i))
+        subtotal += Decimal(rate)
+
+    if booking.additional_insurance:
+        subtotal += insurance_cost
+
+    grand_total = max(Decimal('0.00'), subtotal - discount_amount)
+    booking.total_price = grand_total
+    booking.discount_code = discount_obj
+    booking.save()
+
+    if discount_obj:
+        discount_obj.used_count += 1
+        discount_obj.save()
+
+    try:
+        checkout_session = stripe.checkout.Session.create(
+            payment_method_types=['card'],
+            line_items=[{
+                'price_data': {
+                    'currency': 'eur',
+                    'product_data': {
+                        'name': f'Booking {booking.booking_number} - {campervan.name}',
+                    },
+                    'unit_amount': int(grand_total * 100),
+                },
+                'quantity': 1,
+            }],
+            mode='payment',
+            success_url=request.build_absolute_uri(
+                f'/payment-success/?session_id={{CHECKOUT_SESSION_ID}}&booking={booking.booking_number}'
+            ),
+            cancel_url=request.build_absolute_uri('/payment-cancel/'),
+            metadata={'booking_number': booking.booking_number}
+        )
+        return JsonResponse({'redirect_url': checkout_session.url})
+    except Exception as e:
+        return JsonResponse({'error': f'Error creating Stripe session: {str(e)}'}, status=500)
 
 
 def render_booking_form(request, form, campervan):

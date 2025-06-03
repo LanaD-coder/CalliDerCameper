@@ -8,8 +8,9 @@ from django.conf.urls.static import static
 from django.views.generic import RedirectView
 
 urlpatterns = [
+    path('', rentals_views.home, name='home'),
     path('admin/', admin.site.urls),
-    path('', include('rentals.urls')),
+    path('/', include('rentals.urls')),
     path('pages/', include('pages.urls')),
     path('i18n/', include('django.conf.urls.i18n')),
     path('about/', pages_views.about_view, name='about'),

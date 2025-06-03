@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load static %}
 {% load i18n %}
 
 {% block content %}
@@ -11,7 +12,7 @@
     {% endfor %}
   {% endif %}
 
-  <form id="booking-form" method="POST" action="{% url 'book_campervan' campervan.pk %}" novalidate>
+  <form id="booking-form" method="POST" action="{% url 'create_booking_ajax' campervan.pk %}" novalidate>
     {% csrf_token %}
 
     <fieldset>
@@ -24,6 +25,7 @@
       {{ form.end_date.label_tag }}
       {{ form.end_date }}
       <div class="field-error">{{ form.end_date.errors }}</div>
+
       <div class="calendar-legend" style="margin-top: 1rem;">
         <strong>Legend:</strong>
         <div style="display: flex; gap: 1rem; margin-top: 0.5rem;">
@@ -165,179 +167,20 @@
   </form>
 </section>
 
-<script>
-  const yesRadio = document.getElementById('add_driver_yes');
-  const noRadio = document.getElementById('add_driver_no');
-  const additionalFields = document.getElementById('additional-driver-fields');
+<div id="form-errors" style="display:none; color:red; margin-top:10px;"></div>
 
-  function toggleAdditionalDriverFields() {
-    if (yesRadio.checked) {
-      additionalFields.style.display = 'block';
-    } else {
-      additionalFields.style.display = 'none';
-      // Clear additional fields when hidden
-      additionalFields.querySelectorAll('input').forEach(input => input.value = '');
-    }
-  }
+<script type="module">
+  import { initBookingForm } from "{% static 'js/booking.js' %}";
 
-  yesRadio.addEventListener('change', toggleAdditionalDriverFields);
-  noRadio.addEventListener('change', toggleAdditionalDriverFields);
+  const ajaxUrl = "{% url 'create_booking_ajax' campervan.pk %}";
+  console.log("Ajax URL:", ajaxUrl);
 
-  document.addEventListener('DOMContentLoaded', () => {
-    toggleAdditionalDriverFields();
+  initBookingForm({
+    datePrices: {{ date_prices_json|safe }},
+    additionalServicePrices: {{ additional_service_prices_json|safe }},
+    insuranceCost: 20,
+    ajaxUrl: ajaxUrl
   });
-
-  // Rental cost calculation
-  const datePrices = {{ date_prices_json|safe }};
-  const startDateInput = document.getElementById("id_start_date");
-  const endDateInput = document.getElementById("id_end_date");
-  const baseCostEl = document.getElementById('base-rental-cost');
-
-  function calculateBaseRentalCost() {
-    const startDateStr = startDateInput.value;
-    const endDateStr = endDateInput.value;
-
-    if (!startDateStr || !endDateStr) {
-      baseCostEl.textContent = '--';
-      return;
-    }
-
-    const startDate = new Date(startDateStr);
-    const endDate = new Date(endDateStr);
-
-    if (endDate < startDate) {
-      baseCostEl.textContent = 'Invalid dates';
-      return;
-    }
-
-    let totalCost = 0;
-    for (let d = new Date(startDate); d <= endDate; d.setDate(d.getDate() + 1)) {
-      const key = d.toISOString().split('T')[0];
-      totalCost += datePrices[key] || 0;
-    }
-
-    baseCostEl.textContent = totalCost.toFixed(2);
-  }
-
-  startDateInput.addEventListener('change', calculateBaseRentalCost);
-  endDateInput.addEventListener('change', calculateBaseRentalCost);
-
-  calculateBaseRentalCost();
-
-  // Prices for additional services (must be passed from backend)
-  const additionalServicePrices = {{ additional_service_prices_json|safe }};
-  const additionalServiceCheckboxes = document.querySelectorAll('input[name="additional_services"]');
-  const insuranceCheckbox = document.getElementById("id_additional_insurance");
-
-  function calculateSummary() {
-    let base = parseFloat(baseCostEl.textContent) || 0;
-    let insurance = insuranceCheckbox.checked ? 20 : 0;
-
-    let servicesTotal = 0;
-    additionalServiceCheckboxes.forEach(cb => {
-      if (cb.checked) {
-        servicesTotal += additionalServicePrices[cb.value] || 0;
-      }
-    });
-
-    let grandTotal = base + servicesTotal + insurance;
-
-    document.getElementById('summary-base-price').textContent = base.toFixed(2);
-    document.getElementById('summary-insurance-price').textContent = insurance.toFixed(2);
-    document.getElementById('summary-services-price').textContent = servicesTotal.toFixed(2);
-    document.getElementById('summary-grand-total').textContent = grandTotal.toFixed(2);
-  }
-
-  // Bind events
-  additionalServiceCheckboxes.forEach(cb => cb.addEventListener('change', calculateSummary));
-  insuranceCheckbox.addEventListener('change', calculateSummary);
-  startDateInput.addEventListener('change', () => {
-    calculateBaseRentalCost();
-    calculateSummary();
-  });
-  endDateInput.addEventListener('change', () => {
-    calculateBaseRentalCost();
-    calculateSummary();
-  });
-
-  // Initial run
-  calculateSummary();
-
-  // --- New fetch POST form submit handler ---
-  document.getElementById('booking-form').addEventListener('submit', function(e) {
-    e.preventDefault();  // prevent default form submission
-
-    if (!document.getElementById('accept-datenschutz').checked) {
-      alert("Bitte bestätigen Sie die Datenschutzerklärung, um fortzufahren.");
-      return;
-    }
-
-    // Collect form data from inputs
-    const formData = {
-      start_date: startDateInput.value,
-      end_date: endDateInput.value,
-      discount_code: document.getElementById('id_discount_code').value,
-      primary_driver_name: document.getElementById('id_primary_driver_name').value,
-      primary_driver_street_name: document.getElementById('id_primary_driver_street_name').value,
-      primary_driver_street_number: document.getElementById('id_primary_driver_street_number').value,
-      primary_driver_postal_code: document.getElementById('id_primary_driver_postal_code').value,
-      primary_driver_town: document.getElementById('id_primary_driver_town').value,
-      primary_driver_country: document.getElementById('id_primary_driver_country').value,
-      add_additional_driver: document.querySelector('input[name="add_additional_driver"]:checked')?.value || 'no',
-      additional_driver_name: document.getElementById('id_additional_driver_name') ? document.getElementById('id_additional_driver_name').value : '',
-      additional_driver_email: document.getElementById('id_additional_driver_email') ? document.getElementById('id_additional_driver_email').value : '',
-      additional_driver_contact_number: document.getElementById('id_additional_driver_contact_number') ? document.getElementById('id_additional_driver_contact_number').value : '',
-      additional_driver_street: document.getElementById('id_additional_driver_street') ? document.getElementById('id_additional_driver_street').value : '',
-      additional_driver_postal_code: document.getElementById('id_additional_driver_postal_code') ? document.getElementById('id_additional_driver_postal_code').value : '',
-      additional_driver_town: document.getElementById('id_additional_driver_town') ? document.getElementById('id_additional_driver_town').value : '',
-      additional_driver_country: document.getElementById('id_additional_driver_country') ? document.getElementById('id_additional_driver_country').value : '',
-      additional_insurance: insuranceCheckbox.checked,
-      additional_services: Array.from(additionalServiceCheckboxes).filter(cb => cb.checked).map(cb => cb.value),
-      status: 'active',
-    };
-
-    fetch("{% url 'book_campervan' campervan.pk %}", {
-      method: 'POST',
-      headers: {
-         'Content-Type': 'application/json',
-          'X-CSRFToken': csrftoken,
-      },
-      body: JSON.stringify(formData),
-    })
-    .then(response => response.json())
-    .then(data => {
-      if (data.redirect_url) {
-        window.location.href = data.redirect_url;
-      } else if (data.errors) {
-        alert("Fehler: " + JSON.stringify(data.errors));
-      } else {
-        alert("Ein unbekannter Fehler ist aufgetreten.");
-      }
-    })
-    .catch(error => {
-      console.error('Error:', error);
-      alert("Beim Buchen ist ein Fehler aufgetreten.");
-    });
-  });
-
 </script>
-<script>
-function getCookie(name) {
-  let cookieValue = null;
-  if (document.cookie && document.cookie !== '') {
-    const cookies = document.cookie.split(';');
-    for (let i = 0; i < cookies.length; i++) {
-      const cookie = cookies[i].trim();
-      if (cookie.substring(0, name.length + 1) === (name + '=')) {
-        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-        break;
-      }
-    }
-  }
-  return cookieValue;
-}
 
-const csrftoken = getCookie('csrftoken');
-
-</script>
 {% endblock %}
