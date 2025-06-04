@@ -14,6 +14,7 @@ function toggleAdditionalDriverFields() {
 }
 
 function calculateBaseRentalCost(datePrices) {
+  console.log("Calculating base rental cost, datePrices:", datePrices);
   const startDateInput = document.getElementById("id_start_date");
   const endDateInput = document.getElementById("id_end_date");
   const baseCostEl = document.getElementById('base-rental-cost');
@@ -73,6 +74,95 @@ function getCookie(name) {
   return cookie ? decodeURIComponent(cookie.split('=')[1]) : null;
 }
 
+// Datepicker Functionality
+async function checkAvailability(startDate, endDate) {
+  try {
+    const response = await fetch('/rentals/api/check-availability/', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-CSRFToken': getCookie('csrftoken'),
+      },
+      body: JSON.stringify({ start_date: startDate, end_date: endDate }),
+    });
+    const data = await response.json();
+    return data; // expect { available: true/false, errors: [...] }
+  } catch (err) {
+    console.error('Error checking availability:', err);
+    return { available: false, errors: ['Server error while checking availability'] };
+  }
+}
+
+function onDatesChanged(datePrices, additionalServicePrices, insuranceCost) {
+  return async function () {
+    const startDateInput = document.getElementById("id_start_date");
+    const endDateInput = document.getElementById("id_end_date");
+    const startDate = startDateInput.value;
+    const endDate = endDateInput.value;
+
+    if (!startDate || !endDate) return;
+
+    const availability = await checkAvailability(startDate, endDate);
+
+    if (!availability.available) {
+      showFormErrors(availability.errors || ["Selected dates are not available."]);
+    } else {
+      const errorBox = document.getElementById('form-errors');
+      errorBox.style.display = 'none';
+      errorBox.innerHTML = '';
+      let base = calculateBaseRentalCost(datePrices);
+      calculateSummary(base, insuranceCost, additionalServicePrices);
+    }
+  };
+}
+
+async function fetchBookedDates() {
+  try {
+    const response = await fetch('/rentals/api/booked-dates/', {
+      method: 'GET',
+      headers: { 'X-CSRFToken': getCookie('csrftoken') }
+    });
+    const data = await response.json();
+    return data.booked_dates || [];
+  } catch (error) {
+    console.error('Error fetching booked dates:', error);
+    return [];
+  }
+}
+
+async function refreshDatepickers() {
+  const bookedDates = await fetchBookedDates();
+
+  // Destroy previous datepickers
+  $('#id_start_date, #id_end_date').datepicker('destroy');
+
+  // Initialize datepickers with disabled dates and bind changeDate event here
+  $('#id_start_date, #id_end_date').datepicker({
+    format: 'yyyy-mm-dd',
+    datesDisabled: bookedDates,
+    autoclose: true,
+    todayHighlight: true,
+  }).off('changeDate').on('changeDate', onDatesChanged);
+}
+
+$(document).ready(function() {
+
+});
+
+let stripe, elements, card;
+
+function setupStripePayment() {
+  stripe = Stripe("pk_test_51RR5xNRuPRcbt1gx7WkgF3wbjT12gH7SELnXNXExbQnEyLrvoh8EIcXupxqPtDxoA1JEVv1QPU8njnADydc5SKrW000eLZzJwS");
+  elements = stripe.elements();
+  card = elements.create('card');
+  card.mount('#card-element');
+
+  card.on('change', event => {
+    const displayError = document.getElementById('card-errors');
+    displayError.textContent = event.error ? event.error.message : '';
+  });
+}
+
 function showFormErrors(errors) {
   const errorBox = document.getElementById('form-errors');
   errorBox.innerHTML = '';
@@ -95,38 +185,53 @@ export function initBookingForm({ datePrices, additionalServicePrices, insurance
   const endDateInput = document.getElementById("id_end_date");
   const insuranceCheckbox = document.getElementById("id_additional_insurance");
   const additionalServiceCheckboxes = document.querySelectorAll('input[name="additional_services"]');
+  const form = document.getElementById('booking-form');
 
-  document.addEventListener('DOMContentLoaded', () => {
-    toggleAdditionalDriverFields();
-    let base = calculateBaseRentalCost(datePrices);
-    calculateSummary(base, insuranceCost, additionalServicePrices);
-  });
+  // Setup datepicker, fetch booked dates and bind events
+  async function setupDatepickers() {
+    const bookedDates = await fetchBookedDates();
 
+    // Destroy previous datepickers (if any)
+    $('#id_start_date, #id_end_date').datepicker('destroy');
+
+    // Initialize datepickers with booked dates disabled
+    $('#id_start_date, #id_end_date').datepicker({
+      format: 'yyyy-mm-dd',
+      datesDisabled: bookedDates,
+      autoclose: true,
+      todayHighlight: true,
+    }).off('changeDate').on('changeDate', onDatesChanged(datePrices, additionalServicePrices, insuranceCost));
+  }
+
+  setupDatepickers();
+
+  // Toggle additional driver fields on page load and on radio change
+  toggleAdditionalDriverFields();
   document.getElementById('add_driver_yes').addEventListener('change', toggleAdditionalDriverFields);
   document.getElementById('add_driver_no').addEventListener('change', toggleAdditionalDriverFields);
 
-  startDateInput.addEventListener('change', () => {
-    let base = calculateBaseRentalCost(datePrices);
-    calculateSummary(base, insuranceCost, additionalServicePrices);
-  });
-  endDateInput.addEventListener('change', () => {
-    let base = calculateBaseRentalCost(datePrices);
-    calculateSummary(base, insuranceCost, additionalServicePrices);
-  });
-
+  // On insurance or additional service change, update summary
   insuranceCheckbox.addEventListener('change', () => {
-    let base = parseFloat(document.getElementById('base-rental-cost').textContent) || 0;
+    const base = parseFloat(document.getElementById('base-rental-cost').textContent) || 0;
     calculateSummary(base, insuranceCost, additionalServicePrices);
   });
 
   additionalServiceCheckboxes.forEach(cb => {
     cb.addEventListener('change', () => {
-      let base = parseFloat(document.getElementById('base-rental-cost').textContent) || 0;
+      const base = parseFloat(document.getElementById('base-rental-cost').textContent) || 0;
       calculateSummary(base, insuranceCost, additionalServicePrices);
     });
   });
 
-  document.getElementById('booking-form').addEventListener('submit', function (e) {
+  // Initialize Stripe payment elements
+  setupStripePayment();
+
+  // Calculate and show initial costs
+  const initialBase = calculateBaseRentalCost(datePrices);
+  calculateSummary(initialBase, insuranceCost, additionalServicePrices);
+
+  // Form submission handler
+  form.addEventListener('submit', function (e) {
     e.preventDefault();
 
     if (!document.getElementById('accept-datenschutz').checked) {
@@ -136,7 +241,6 @@ export function initBookingForm({ datePrices, additionalServicePrices, insurance
 
     const formData = new FormData(this);
     const data = {};
-    // Loop through formData and build array for additional_services
     formData.forEach((value, key) => {
       if (key === "additional_services") {
         if (!data[key]) data[key] = [];
@@ -146,7 +250,8 @@ export function initBookingForm({ datePrices, additionalServicePrices, insurance
       }
     });
 
-    console.log("Fetching URL:", ajaxUrl);
+    console.log("Submitting booking data:", data);
+
     fetch(ajaxUrl, {
       method: 'POST',
       headers: {
@@ -155,10 +260,14 @@ export function initBookingForm({ datePrices, additionalServicePrices, insurance
       },
       body: JSON.stringify(data),
     })
-    .then(res => res.json())
+     .then(res => {
+      console.log("Fetch response status:", res.status);
+      return res.json();
+    })
     .then(data => {
+      console.log("Response JSON:", data);
+
       if (data.session_id) {
-        const stripe = Stripe("pk_test_51RR5xNRuPRcbt1gx7WkgF3wbjT12gH7SELnXNXExbQnEyLrvoh8EIcXupxqPtDxoA1JEVv1QPU8njnADydc5SKrW000eLZzJwS");
         stripe.redirectToCheckout({ sessionId: data.session_id });
       } else if (data.errors) {
         showFormErrors(data.errors);
@@ -170,5 +279,5 @@ export function initBookingForm({ datePrices, additionalServicePrices, insurance
       console.error("Submit error:", err);
       showFormErrors(["Beim Buchen ist ein Fehler aufgetreten."]);
     });
-  });
+});
 }

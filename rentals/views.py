@@ -209,6 +209,10 @@ def create_booking_ajax(request, pk):
         discount_obj.save()
 
     try:
+        base_url = request.build_absolute_uri('/accounts/payment-success/')
+        success_url = f"{base_url}?session_id={{CHECKOUT_SESSION_ID}}&booking={booking.booking_number}"
+        print(f"Success URL: {success_url}")
+
         checkout_session = stripe.checkout.Session.create(
             payment_method_types=['card'],
             line_items=[{
@@ -222,10 +226,8 @@ def create_booking_ajax(request, pk):
                 'quantity': 1,
             }],
             mode='payment',
-            success_url=request.build_absolute_uri(
-                f'/payment-success/?session_id={{CHECKOUT_SESSION_ID}}&booking={booking.booking_number}'
-            ),
-            cancel_url=request.build_absolute_uri('/payment-cancel/'),
+            success_url=success_url,
+            cancel_url=request.build_absolute_uri('/accounts/payment-cancel/'),
             metadata={'booking_number': booking.booking_number}
         )
         return JsonResponse({'session_id': checkout_session.id})
@@ -243,6 +245,24 @@ def render_booking_form(request, form, campervan):
         }),
         'stripe_public_key': settings.STRIPE_PUBLISHABLE_KEY,
     })
+
+
+@csrf_exempt
+def create_payment_intent(request):
+    if request.method == "POST":
+        data = json.loads(request.body)
+        total_cost_cents = int(data.get("total_cost") * 100)  # amount in cents
+
+        try:
+            intent = stripe.PaymentIntent.create(
+                amount=total_cost_cents,
+                currency="eur",  # or your currency
+            )
+            return JsonResponse({"client_secret": intent.client_secret})
+        except Exception as e:
+            return JsonResponse({"error": str(e)}, status=400)
+
+    return JsonResponse({"error": "Invalid request method"}, status=405)
 
 
 def payment_success(request):
@@ -264,7 +284,7 @@ def payment_success(request):
             booking.status = 'active'
             booking.save()
             messages.success(request, "Payment successful! Your booking is confirmed.")
-            return redirect('booking_confirmation', booking_number=booking.booking_number)
+            return render(request, 'accounts/success.html', {'booking_number': booking.booking_number})
         except Booking.DoesNotExist:
             messages.error(request, "Booking not found.")
             return redirect('home')
@@ -275,14 +295,31 @@ def payment_success(request):
 
 def payment_cancel(request):
     messages.warning(request, "Payment cancelled.")
-    return redirect('home')
+    return render(request, 'accounts/cancel.html')
 
 
-def booked_dates_api(request, pk=None):
-    campervan = Campervan.objects.first() if pk is None else get_object_or_404(Campervan, pk=pk)
-    bookings = campervan.bookings.all()
-    booked_ranges = [
-        {'start': b.start_date.isoformat(), 'end': b.end_date.isoformat()}
-        for b in bookings
-    ]
-    return JsonResponse(booked_ranges, safe=False)
+def booked_dates_api(request):
+    bookings = Booking.objects.all()
+    dates = []
+    for booking in bookings:
+        current = booking.start_date
+        while current <= booking.end_date:
+            dates.append(current.isoformat())
+            current += timedelta(days=1)
+    return JsonResponse({'booked_dates': dates})
+
+
+@csrf_exempt
+def check_availability(request):
+    if request.method == "POST":
+        try:
+            data = json.loads(request.body)
+            start = datetime.strptime(data['start_date'], "%Y-%m-%d").date()
+            end = datetime.strptime(data['end_date'], "%Y-%m-%d").date()
+
+            overlapping = Booking.objects.filter(start_date__lte=end, end_date__gte=start).exists()
+            if overlapping:
+                return JsonResponse({"available": False, "errors": ["The car is not available for the selected dates."]})
+            return JsonResponse({"available": True})
+        except Exception as e:
+            return JsonResponse({"available": False, "errors": [str(e)]})

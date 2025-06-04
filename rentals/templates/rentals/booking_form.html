@@ -27,28 +27,16 @@
       <div class="field-error">{{ form.end_date.errors }}</div>
 
       <div class="calendar-legend" style="margin-top: 1rem;">
-        <strong>Legend:</strong>
-        <div style="display: flex; gap: 1rem; margin-top: 0.5rem;">
-          <div style="display: flex; align-items: center; gap: 0.3rem;">
-            <div style="width: 16px; height: 16px; background-color: #f8d7da; border: 1px solid #dc3545;"></div>
-            <span>Booked</span>
-          </div>
-          <div style="display: flex; align-items: center; gap: 0.3rem;">
-            <div style="width: 16px; height: 16px; background-color: #d1ecf1; border: 1px solid #17a2b8;"></div>
-            <span>Seasonal Rate</span>
-          </div>
+        <strong>Please note:</strong>
+        <div style="display: flex; align-items: center; gap: 0.5rem; margin-top: 0.5rem;">
+          <div style="width: 16px; height: 16px; background-color: #cccccc; border: 1px solid #999999;"></div>
+          <span>Grayed out dates are not bookable.</span>
         </div>
       </div>
 
-      {% if total_price %}
-      <div class="alert alert-info">
-        Base price for selected dates: <strong>{{ total_price }} €</strong>
-      </div>
-      {% endif %}
-
-      <div>
+      <div class="alert alert-info" style="margin-top: 1rem;">
         <strong>{% trans "Base price for selected dates:" %}</strong>
-        <span id="base-rental-cost">{{ total_price|default:"--" }}</span> €
+        <span id="base-rental-cost">--</span> €
       </div>
     </fieldset>
 
@@ -162,24 +150,37 @@
     </fieldset>
 
     <input type="hidden" name="status" value="active">
+    <!-- Stripe Card Element goes here -->
+    <div id="card-element" style="display: none;"></div>
 
-    <button type="submit" id="book-now-btn">{% trans "Book Now" %}</button>
+    <!-- Stripe will insert card UI into this -->
+    <div id="card-errors" role="alert"></div>
+
+    <button type="submit" id="book-now-btn">
+      {% trans "Confirm & Pay" %}
+    </button>
   </form>
 </section>
 
 <div id="form-errors" style="display:none; color:red; margin-top:10px;"></div>
 
+<script src="https://js.stripe.com/v3/"></script>
+
 <script type="module">
   import { initBookingForm } from "{% static 'js/booking.js' %}";
 
+  const datePrices = {{ date_prices_json|safe }};
+  console.log('datePrices:', datePrices);
+
+  const additionalServicePrices = {{ additional_service_prices_json|safe }};
+  const insuranceCost = 20;
   const ajaxUrl = "{% url 'create_booking_ajax' campervan.pk %}";
-  console.log("Ajax URL:", ajaxUrl);
 
   initBookingForm({
-    datePrices: {{ date_prices_json|safe }},
-    additionalServicePrices: {{ additional_service_prices_json|safe }},
-    insuranceCost: 20,
-    ajaxUrl: ajaxUrl
+    datePrices,
+    additionalServicePrices,
+    insuranceCost,
+    ajaxUrl
   });
 </script>
 

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-05-28 14:53+0200\n"
+"POT-Creation-Date: 2025-06-04 14:22+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: German <de@li.org>\n"
@@ -18,11 +18,45 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: .\ja_rental\settings.py:130
+#: .\accounts\templates\accounts\profile.html:5
+msgid "My Profile"
+msgstr "Mein Profil"
+
+#: .\accounts\templates\accounts\profile.html:8
+#, fuzzy
+#| msgid "Booking Dates"
+msgid "My Bookings"
+msgstr "Buchungsdaten"
+
+#: .\accounts\templates\accounts\profile.html:14
+#, fuzzy
+#| msgid "Camper Image"
+msgid "Campervan"
+msgstr "Camper-Bild"
+
+#: .\accounts\templates\accounts\profile.html:15
+msgid "Start Date"
+msgstr "Startdatum"
+
+#: .\accounts\templates\accounts\profile.html:16
+msgid "End Date"
+msgstr "Enddatum"
+
+#: .\accounts\templates\accounts\profile.html:17
+msgid "Status"
+msgstr "Status"
+
+#: .\accounts\templates\accounts\profile.html:32
+#, fuzzy
+#| msgid "You have signed out."
+msgid "You have no bookings yet."
+msgstr "Sie haben sich abgemeldet."
+
+#: .\ja_rental\settings.py:141
 msgid "English"
 msgstr "Englisch"
 
-#: .\ja_rental\settings.py:131
+#: .\ja_rental\settings.py:142
 msgid "German"
 msgstr "Deutsch"
 
@@ -34,393 +68,772 @@ msgstr "Willkommen bei Calli dem Camper!"
 msgid "Please select your language."
 msgstr "Bitte wählen Sie Ihre Sprache aus."
 
+#: .\pages\templates\pages\about.html:9
+msgid "Calli entdeckt die Welt – und du kannst mit!"
+msgstr "Calli explores the world – and you can come along!"
+
+#: .\pages\templates\pages\about.html:10
+msgid "Miete ihn für dein Abenteuer!"
+msgstr "Rent him for your adventure!"
+
+#: .\pages\templates\pages\about.html:11
+msgid ""
+"Calli ist mehr als nur ein Camper – er ist unser kleines Abenteuer auf vier "
+"Rädern."
+msgstr "Calli is more than just a camper – he's our little adventure on four wheels."
+
 #: .\pages\templates\pages\about.html:12
-#, fuzzy
-#| msgid "Calli the Camper"
-msgid "About Calli the Camper"
-msgstr "Calli der Camper"
+msgid ""
+"Aber statt ihn nur selbst zu nutzen, möchten wir, dass auch andere Menschen "
+"die Freiheit des Reisens erleben können."
+msgstr "Instead of keeping him just for ourselves, we want others to experience the freedom of travel too."
 
 #: .\pages\templates\pages\about.html:13
 msgid ""
-"Check this out! Here you’ll learn what Calli has on board – from the loft "
-"bed for the kids to the small kitchen with a gas stove. Everything you need "
-"for big and small adventures."
-msgstr ""
+"So entdeckt Calli weiter neue Orte und du findest vielleicht dein ganz "
+"eigenes Lieblingsplätzchen."
+msgstr "That way, Calli keeps discovering new places – and you might just find your own favorite spot."
 
 #: .\pages\templates\pages\about.html:15
+msgid "Jetzt buchen"
+msgstr "Book now!"
+
+#: .\pages\templates\pages\about.html:37
+msgid "Previous"
+msgstr "Vorherige"
+
+#: .\pages\templates\pages\about.html:41
+msgid "Next"
+msgstr "Nächste"
+
+#: .\pages\templates\pages\about.html:47
+msgid "Calli stellt sich vor"
+msgstr "Meet Calli"
+
+#: .\pages\templates\pages\about.html:48
+msgid ""
+"Schau mal hier rein! Hier erfährst du, was Calli alles an Bord hat – vom "
+"Hochbett für die Kids bis zur kleinen Küche mit Gaskocher. Alles drin für "
+"große und kleine Abenteuer."
+msgstr "Take a look here! You'll find out everything Calli has on board –
+from the bunk bed for the kids to the small kitchen with a gas stove.
+Everything you need for big and small adventures."
+
+#: .\pages\templates\pages\about.html:50
 #, fuzzy
 #| msgid "VW Grand California Merkmale & Ausstattung"
 msgid "VW Grand California 600"
 msgstr "VW Grand California Features & Ausstattung"
 
-#: .\pages\templates\pages\about.html:17
-msgid "Technical Details"
+#: .\pages\templates\pages\about.html:52
+#, fuzzy
+#| msgid "Technical Details"
+msgid "Technische Details"
 msgstr "Technische Daten"
 
-#: .\pages\templates\pages\about.html:19
-msgid "Year of manufacture"
-msgstr "Baujahr"
-
-#: .\pages\templates\pages\about.html:20
-msgid "Power"
-msgstr "Leistung"
-
-#: .\pages\templates\pages\about.html:21
-msgid "Fuel type"
-msgstr "Kraftstoffart"
-
-#: .\pages\templates\pages\about.html:22
-msgid "Emission standard"
-msgstr "Abgasnorm"
-
-#: .\pages\templates\pages\about.html:23
-msgid "Fuel consumption per 100 km"
-msgstr "Kraftstoffverbrauch pro 100 km"
-
-#: .\pages\templates\pages\about.html:24
-msgid "Fuel tank capacity"
-msgstr "Tankinhalt"
-
-#: .\pages\templates\pages\about.html:25
-msgid "Vehicle dimensions (L/W/H)"
-msgstr "Fahrzeugabmessungen (L/B/H)"
-
-#: .\pages\templates\pages\about.html:26
-msgid "Length for ferry booking"
-msgstr "Länge für Fährbuchung"
-
-#: .\pages\templates\pages\about.html:27
-msgid "Length for ferry booking with bike rack"
-msgstr "Länge für Fährbuchung mit Fahrradträger"
-
-#: .\pages\templates\pages\about.html:28
-msgid "Permissible total weight"
-msgstr "Zulässiges Gesamtgewicht"
-
-#: .\pages\templates\pages\about.html:31
-msgid "Driving"
-msgstr "Fahren"
-
-#: .\pages\templates\pages\about.html:33
-msgid "Seats for 4 people"
-msgstr "Sitzplätze für 4 Personen"
-
-#: .\pages\templates\pages\about.html:34
-msgid "Automatic transmission"
-msgstr "Automatikgetriebe"
-
-#: .\pages\templates\pages\about.html:35
-msgid "Cruise control including ACC (Adaptive Cruise Control)"
-msgstr "Tempomat inkl. ACC (Adaptiver Tempomat)"
-
-#: .\pages\templates\pages\about.html:36
-msgid "Air conditioning"
-msgstr "Klimaanlage"
-
-#: .\pages\templates\pages\about.html:37
-msgid "Multimedia system with DAB+"
-msgstr "Multimediasystem mit DAB+"
-
-#: .\pages\templates\pages\about.html:38
-msgid "Partly all-season & summer tires"
-msgstr "Teilweise Ganzjahres- & Sommerreifen"
-
-#: .\pages\templates\pages\about.html:39
-msgid "Parking assist front & rear including rearview camera"
-msgstr "Einparkhilfe vorne & hinten inkl. Rückfahrkamera"
-
-#: .\pages\templates\pages\about.html:40
-#, fuzzy
-#| msgid "Integrated kitchenette"
-msgid "Integrated navigation system"
-msgstr "Integrierte Küchenzeile"
-
-#: .\pages\templates\pages\about.html:44
-msgid "Living & Sleeping"
-msgstr "Wohnen & Schlafen"
-
-#: .\pages\templates\pages\about.html:46
-msgid "Sleeping places for 2 + 2 people"
-msgstr "Schlafplätze für 2 + 2 Personen"
-
-#: .\pages\templates\pages\about.html:47
-msgid "Loft bed (122 × 160 / 190 cm)"
-msgstr "Hubbett (122 × 160 / 190 cm)"
-
-#: .\pages\templates\pages\about.html:48
-msgid "Stowable interior table"
-msgstr "Verstaubarer Innentisch"
-
-#: .\pages\templates\pages\about.html:49
-msgid "Toilet with mobile wastewater cassette"
-msgstr "Toilette mit mobiler Abwasserkassette"
-
-#: .\pages\templates\pages\about.html:50
-msgid "All-round privacy (including front & rear window)"
-msgstr "Rundum-Sichtschutz (inkl. Front- & Heckscheibe)"
-
-#: .\pages\templates\pages\about.html:51
-msgid "Storage space under the cross bed"
-msgstr "Stauraum unter dem Querbett"
-
-#: .\pages\templates\pages\about.html:52
-msgid "5V USB, 12V & 230V sockets"
-msgstr "5V USB-, 12V- & 230V-Steckdosen"
-
-#: .\pages\templates\pages\about.html:53
-msgid "Cross bed in rear (193 × 140 cm)"
-msgstr "Querbett im Heck (193 × 140 cm)"
-
 #: .\pages\templates\pages\about.html:54
-msgid "Swivel front seats"
-msgstr "Drehbare Vordersitze"
+msgid "Baujahr"
+msgstr "Year of manufacture"
 
 #: .\pages\templates\pages\about.html:55
-msgid "Wet room with shower & WC"
-msgstr "Nasszelle mit Dusche & WC"
+msgid "Leistung"
+msgstr "Power"
 
 #: .\pages\templates\pages\about.html:56
-msgid "Hot water boiler (12 L)"
-msgstr "Warmwasserboiler (12 L)"
+msgid "Kraftstoffart"
+msgstr "Fuel type"
 
 #: .\pages\templates\pages\about.html:57
-msgid "Cabinet system with generous storage space"
-msgstr "Schranksystem mit großzügigem Stauraum"
+msgid "Abgasnorm"
+msgstr "Emission standard"
 
 #: .\pages\templates\pages\about.html:58
-msgid "Parking heater"
-msgstr "Standheizung"
+msgid "Kraftstoffverbrauch pro 100 km"
+msgstr "Fuel consumption per 100 km"
 
 #: .\pages\templates\pages\about.html:59
-msgid "Second battery"
-msgstr "Zweite Batterie"
+msgid "Fassungsvermögen Kraftstofftank"
+msgstr "Fuel tank capacity"
+
+#: .\pages\templates\pages\about.html:60
+msgid "Fahrzeugmaße (L/B/H)"
+msgstr "Vehicle dimensions (L/W/H)"
+
+#: .\pages\templates\pages\about.html:61
+msgid "Längenangabe bei Fährbuchung"
+msgstr "Length for ferry booking"
 
 #: .\pages\templates\pages\about.html:62
-msgid "Kitchen"
-msgstr "Küche"
+msgid "Längenangabe bei Fährbuchung mit Fahrradträger"
+msgstr "Length for ferry booking with bike rack"
 
-#: .\pages\templates\pages\about.html:64
-msgid "2-burner gas stove"
-msgstr "2-Flammen-Gaskocher"
-
-#: .\pages\templates\pages\about.html:65
-msgid "Sink"
-msgstr "Spüle"
+#: .\pages\templates\pages\about.html:63
+msgid "Zulässiges Gesamtgewicht"
+msgstr "Permissible total weight"
 
 #: .\pages\templates\pages\about.html:66
-msgid "Cooking & kitchen utensils included"
-msgstr "Koch- & Küchenutensilien inklusive"
-
-#: .\pages\templates\pages\about.html:67
-msgid "Fresh water tank (110 L) & wastewater tank (90 L)"
-msgstr "Frischwassertank (110 L) & Abwassertank (90 L)"
+msgid "Fahren"
+msgstr "Driving"
 
 #: .\pages\templates\pages\about.html:68
-msgid "Refrigerator (70 L) & freezer (7.5 L)"
-msgstr "Kühlschrank (70 L) & Gefrierfach (7,5 L)"
+msgid "Sitzplätze für 4 Personen"
+msgstr "Seating for 4 people"
 
 #: .\pages\templates\pages\about.html:69
-msgid "Pull-out kitchen for more space"
-msgstr "Ausziehbare Küche für mehr Platz"
+msgid "Automatikgetriebe"
+msgstr "Automatic transmission"
+
+#: .\pages\templates\pages\about.html:70
+msgid "Tempomat inkl. ACC (Automatische Distanzregelung)"
+msgstr "Cruise control incl. ACC (adaptive cruise control)"
+
+#: .\pages\templates\pages\about.html:71
+msgid "Klimaanlage"
+msgstr "Air conditioning"
+
+#: .\pages\templates\pages\about.html:72
+#, fuzzy
+#| msgid "Multimedia system with DAB+"
+msgid "Multimediasystem mit DAB+"
+msgstr "Multimediasystem mit DAB+"
 
 #: .\pages\templates\pages\about.html:73
-msgid "Outdoor Area"
-msgstr "Außenbereich"
+msgid "Teils Ganzjahres- & Sommerreifen"
+msgstr "Partly all-season & summer tires"
+
+#: .\pages\templates\pages\about.html:74
+msgid "Multifunktionslenkrad"
+msgstr "Multifunction steering wheel"
 
 #: .\pages\templates\pages\about.html:75
-msgid "Awning with fold-out support legs"
-msgstr "Markise mit ausklappbaren Stützbeinen"
+msgid "Parkhilfe in Front & Heck inkl. Rückfahrkamera"
+msgstr "Front & rear parking assist incl. rearview camera"
 
 #: .\pages\templates\pages\about.html:76
-msgid "Outdoor socket & extension cable"
-msgstr "Außensteckdose & Verlängerungskabel"
+msgid "Navigationssystem integriert"
+msgstr "Integrated navigation system"
 
 #: .\pages\templates\pages\about.html:77
-msgid "Camping table & 2 camping chairs"
-msgstr "Campingtisch & 2 Campingstühle"
+msgid "Isofix"
+msgstr "Isofix"
 
 #: .\pages\templates\pages\about.html:80
-msgid "Other Camping Equipment"
-msgstr "Weitere Campingausstattung"
+msgid "Wohnen & Schlafen"
+msgstr "Living & Sleeping"
 
 #: .\pages\templates\pages\about.html:82
-msgid "Leveling blocks"
-msgstr "Auffahrkeile"
+msgid "Schlafplätze für 2 + 2 Personen"
+msgstr "Sleeping space for 2 + 2 people"
+
+#: .\pages\templates\pages\about.html:83
+#, fuzzy
+#| msgid "Loft bed (122 × 160 / 190 cm)"
+msgid "Hochbett (122 × 160 / 190 cm)"
+msgstr "Hubbett (122 × 160 / 190 cm)"
+
+#: .\pages\templates\pages\about.html:84
+msgid "Verstaubarer Innenraumtisch"
+msgstr "Stowable indoor table"
 
 #: .\pages\templates\pages\about.html:85
-msgid "Cozy On The Road"
-msgstr "Gemütlich unterwegs"
+#, fuzzy
+#| msgid "Toilet with mobile wastewater cassette"
+msgid "Toilette mit mobiler Abwasserkassette"
+msgstr "Toilette mit mobiler Abwasserkassette"
 
 #: .\pages\templates\pages\about.html:86
-msgid ""
-"Sleeping places for 2+2 people with a cross bed in the rear and a loft bed "
-"for kids. The swivel front seats and interior table make it cozy, and the "
-"cabinet system as well as under the bed provide plenty of storage space for "
-"everything you need."
-msgstr "Schlafplätze für 2+2 Personen mit einem Querbett im Heck und einem Hubbett für Kinder. Die drehbaren Vordersitze und der Innentisch sorgen für Gemütlichkeit, und das Schranksystem sowie der Stauraum unter dem Bett bieten ausreichend Platz für alles, was man braucht."
+msgid "Rundum Sichtschutz (inkl. Front- & Heckscheibe)"
+msgstr "All-round privacy protection (incl. front & rear windows)"
 
 #: .\pages\templates\pages\about.html:87
-msgid "Note:"
-msgstr "Hinweis:"
+msgid "Stauraum unter Querbett"
+msgstr "Storage space under the transverse bed"
 
-#: .\pages\templates\pages\about.html:87
-msgid "Pets are unfortunately not allowed."
-msgstr "Haustiere sind leider nicht erlaubt."
+#: .\pages\templates\pages\about.html:88
+#, fuzzy
+#| msgid "5V USB, 12V & 230V sockets"
+msgid "5V USB, 12V & 230V Steckdosen"
+msgstr "5V USB-, 12V- & 230V-Steckdosen"
 
-#: .\pages\templates\pages\about.html:96
-msgid "Camper Image"
-msgstr "Camper-Bild"
+#: .\pages\templates\pages\about.html:89
+#, fuzzy
+#| msgid "Cross bed in rear (193 × 140 cm)"
+msgid "Querbett im Heck (193 × 140 cm)"
+msgstr "Querbett im Heck (193 × 140 cm)"
+
+#: .\pages\templates\pages\about.html:90
+msgid "Drehbare Vordersitze"
+msgstr "Swiveling front seats"
+
+#: .\pages\templates\pages\about.html:91
+msgid "Nasszelle mit Dusche & WC"
+msgstr "Wet room with shower & toilet"
+
+#: .\pages\templates\pages\about.html:92
+#, fuzzy
+#| msgid "Hot water boiler (12 L)"
+msgid "Warmwasser-Boiler (12 l)"
+msgstr "Hot water boiler (12 L)"
+
+#: .\pages\templates\pages\about.html:93
+msgid "Schranksystem mit großzügigem Stauraum"
+msgstr "Cabinet system with generous storage space"
+
+#: .\pages\templates\pages\about.html:94
+msgid "Standheizung"
+msgstr "Auxiliary heater"
+
+#: .\pages\templates\pages\about.html:95
+msgid "Zweite Batterie"
+msgstr "Second battery"
+
+#: .\pages\templates\pages\about.html:98
+msgid "Küche"
+msgstr "Kitchen"
+
+#: .\pages\templates\pages\about.html:100
+msgid "2-Felder-Gasherd"
+msgstr "2-burner gas stove"
+
+#: .\pages\templates\pages\about.html:101
+msgid "Spülbecken"
+msgstr "Sink"
+
+#: .\pages\templates\pages\about.html:102
+msgid "Koch- & Küchengeschirr inklusive"
+msgstr "Cooking & kitchen utensils included"
 
 #: .\pages\templates\pages\about.html:103
-msgid "Camper Logo"
-msgstr "Camper-Logo"
+#, fuzzy
+#| msgid "Fresh water tank (110 L) & wastewater tank (90 L)"
+msgid "Frischwassertank (110 l) & Abwassertank (90 l)"
+msgstr "Freshwater tank (110 L) & wastewater tank (90 L)"
+
+#: .\pages\templates\pages\about.html:104
+msgid "Kühlschrank (70 l) & Froster (7,5 l)"
+msgstr "Refrigerator (70 L) & freezer (7.5 L)"
+
+#: .\pages\templates\pages\about.html:105
+msgid "Ausziehbare Küche für mehr Platz"
+msgstr "Pull-out kitchen for more space"
+
+#: .\pages\templates\pages\about.html:106
+msgid "French-Press"
+msgstr "French Press"
+
+#: .\pages\templates\pages\about.html:109
+msgid "Außenbereich"
+msgstr "Outdoor area"
 
 #: .\pages\templates\pages\about.html:111
-msgid "Recommended Camping Destinations"
-msgstr "Empfohlene Campingziele"
+msgid "Markise mit ausklappbaren Standbeinen"
+msgstr "Awning with fold-out support legs"
 
-#: .\pages\templates\pages\about.html:120
-msgid "Visit Website"
-msgstr "Website besuchen"
+#: .\pages\templates\pages\about.html:112
+msgid "Außensteckdose & Verlängerungskabel"
+msgstr "Outdoor socket & extension cable"
 
-#: .\pages\templates\pages\about.html:138
-msgid "No destinations available at the moment."
-msgstr "Zurzeit sind keine Reiseziele verfügbar."
+#: .\pages\templates\pages\about.html:113
+#, fuzzy
+#| msgid "Camping table & 2 camping chairs"
+msgid "Campingtisch & 2 Campingstühle"
+msgstr "Camping table & 2 camping chairs"
 
-#: .\pages\templates\pages\information.html:6
-msgid "3. This is how it works"
-msgstr "3. So funktioniert es"
+#: .\pages\templates\pages\about.html:115
+msgid "Besonderheiten:"
+msgstr "Special features:"
 
-#: .\pages\templates\pages\information.html:7
-msgid "All about renting."
-msgstr "Alles rund ums Mieten."
+#: .\pages\templates\pages\about.html:115
+msgid "Haustiere sind leider nicht erlaubt."
+msgstr "Pets are unfortunately not allowed."
 
-#: .\pages\templates\pages\information.html:8
+#: .\pages\templates\pages\about.html:123
+msgid "Du musst ein registrierter Benutzer sein, um Calli zu buchen."
+msgstr "You need to be a registered user to book Calli."
+
+#: .\pages\templates\pages\about.html:127
+#, python-format
 msgid ""
-"Here you will learn everything important about renting Calli. Starting from "
-"the pickup..."
-msgstr "Hier erfährst du alles Wichtige zur Miete von Calli – beginnend bei der Abholung..."
+"\n"
+"    Please <a href=\"%(login_url)s\">log in</a> or <a "
+"href=\"%(signup_url)s\">sign up</a> to make a booking.\n"
+"    "
+msgstr ""
 
-#: .\pages\templates\pages\information.html:14
-msgid "Step 1: Booking"
-msgstr "Schritt 1: Buchung"
+#: .\pages\templates\pages\information.html:9
+msgid "So läuft`s ab"
+msgstr "Here’s how it works"
+
+#: .\pages\templates\pages\information.html:10
+msgid "Rund um die Vermietung."
+msgstr "All about the rental."
+
+#: .\pages\templates\pages\information.html:11
+msgid ""
+"Hier erfährst du alles Wichtige zur Miete von Calli. Angefangen von der "
+"Übernahme bis zur Rückgabe, zur Versicherung, die Mietpreise und unsere "
+"Stornobedingungen. Weiter erfährst du, was du mitbringen solltest und was "
+"Calli mitbringt."
+msgstr "Here you’ll find all important information about renting Calli."
+"From pickup to return, insurance, rental prices, and our cancellation policy."
+"Also what you should bring and what Calli provides."
+
+#: .\pages\templates\pages\information.html:13
+msgid "Abholung & Rückgabe"
+msgstr "Pickup & Return"
 
 #: .\pages\templates\pages\information.html:15
-msgid "Choose your dates and book Calli easily online."
-msgstr "Wähle deine Reisedaten und buche Calli ganz einfach online."
+msgid "Abholung und Rückgabe finden an einem unserer Standorte statt."
+msgstr "Pickup and return take place at one of our locations."
+
+#: .\pages\templates\pages\information.html:16
+msgid "Abholung: Wir warten zur vereinbarten Uhrzeit auf dich"
+msgstr "Pickup: We’ll be waiting for you at the agreed time"
+
+#: .\pages\templates\pages\information.html:17
+msgid "Ausführliche Einweisung (Dauer ca. 35 Minuten)"
+msgstr "Detailed briefing (duration approx. 35 minutes)"
+
+#: .\pages\templates\pages\information.html:18
+msgid "Quick Pickup (kürzere Übergabe) optional bei Buchung"
+msgstr "Quick Pickup (shorter handover) optional when booking"
+
+#: .\pages\templates\pages\information.html:19
+msgid "Rückgabe: Innenraum bitte reinigen (falls nicht gebucht)"
+msgstr "Return: Please clean the interior (if not booked)"
+
+#: .\pages\templates\pages\information.html:20
+msgid "Frisch- und Abwassertank entleeren"
+msgstr "Empty fresh and wastewater tanks"
+
+#: .\pages\templates\pages\information.html:21
+msgid "Toilette entleeren und reinigen"
+msgstr "Empty and clean the toilet"
 
 #: .\pages\templates\pages\information.html:22
-msgid "Step 2: Pickup"
-msgstr "Schritt 2: Abholung"
+msgid "Fahrzeug bitte vollgetankt zurückbringen"
+msgstr "Please return the vehicle with a full tank"
 
 #: .\pages\templates\pages\information.html:23
-msgid "Pick up Calli at the agreed location and time."
-msgstr "Hole Calli am vereinbarten Ort und zur vereinbarten Zeit ab."
+msgid "Rückgabe dauert ca. 20 Minuten"
+msgstr "Return takes approx. 20 minutes"
 
 #: .\pages\templates\pages\information.html:30
-msgid "Step 3: Enjoy your trip"
-msgstr "Schritt 3: Reise genießen"
+msgid "Verfügbarkeit / Kalender"
+msgstr "Availability / Calendar"
 
 #: .\pages\templates\pages\information.html:31
-msgid "Explore freely with Calli and make great memories."
-msgstr "Erkunde frei mit Calli und sammle unvergessliche Erlebnisse."
+msgid "Übersicht der freien Zeiten"
+msgstr "Overview of available times"
+
+#: .\pages\templates\pages\information.html:32
+msgid "Am besten verknüpft mit deinem Buchungssystem"
+msgstr "Best linked with your booking system"
 
 #: .\pages\templates\pages\information.html:38
-msgid "Step 4: Return"
-msgstr "Schritt 4: Rückgabe"
+msgid "Reiseinspiration & Tipps"
+msgstr "Travel inspiration & tips"
 
 #: .\pages\templates\pages\information.html:39
-msgid "Return Calli clean and on time at the agreed spot."
-msgstr "Gib Calli sauber und pünktlich am vereinbarten Ort zurück."
+msgid "Routenideen, Reiseberichte, Lieblingsplätze von Calli"
+msgstr "Route ideas, travel reports, Calli’s favorite spots"
 
-#: .\pages\templates\pages\information.html:46
-msgid "Step 5: Feedback"
-msgstr "Schritt 5: Feedback"
+#: .\pages\templates\pages\information.html:45
+msgid "Impressum"
+msgstr "Impressum"
 
-#: .\pages\templates\pages\information.html:47
-msgid "Tell us about your experience and help us improve."
-msgstr "Erzähl uns von deinen Erfahrungen und hilf uns, besser zu werden."
+#: .\pages\templates\pages\information.html:50
+msgid "Telefon"
+msgstr "Phone"
+
+#: .\pages\templates\pages\information.html:51
+msgid "E-Mail"
+msgstr "E-mail"
+
+#: .\pages\templates\pages\information.html:52
+#, fuzzy
+#| msgid "Register"
+msgid "Registergericht"
+msgstr "Registrieren"
+
+#: .\pages\templates\pages\information.html:53
+#, fuzzy
+#| msgid "Register"
+msgid "Registernummer"
+msgstr "Registrieren"
 
 #: .\pages\templates\pages\information.html:54
-msgid "Step 6: Ready for the next adventure"
-msgstr "Schritt 6: Bereit für das nächste Abenteuer"
+msgid "Geschäftsführer"
+msgstr "Managing Director"
 
 #: .\pages\templates\pages\information.html:55
-msgid "Prepare for your next journey with Calli or recommend us."
-msgstr "Bereite dich auf deine nächste Reise mit Calli vor oder empfehle uns weiter."
+msgid "Umsatzsteuer-Ident-Nr."
+msgstr "VAT Identification Number"
+
+#: .\pages\templates\pages\information.html:57
+msgid "Wir sind zur Teilnahme an einem Streitbeilegungsverfahren vor einer Verbraucherschlichtungsstelle weder verpflichtet noch bereit."
+msgstr "We are neither obliged nor willing to participate in a dispute resolution procedure before a consumer arbitration board."
+
+#: .\pages\templates\pages\information.html:59
+msgid "Bildrechte"
+msgstr "Image rights"
+
+#: .\pages\templates\pages\information.html:60
+msgid "Alle Bilder sind Eigentum von Calli oder lizenzfrei."
+msgstr "All images are owned by Calli or royalty-free."
+
+#: .\pages\templates\pages\information.html:62
+msgid "Datenschutzerklärung (DSGVO-konform)"
+msgstr "Privacy Policy (GDPR-compliant)"
+
+#: .\pages\templates\pages\information.html:63
+msgid "Was passiert mit den Nutzerdaten? Nutzung von Cookies, Buchungstools, Google Maps etc."
+msgstr "What happens with user data? Use of cookies, booking tools, Google Maps, etc."
+
+#: .\pages\templates\pages\information.html:65
+msgid "AGB & Mietbedingungen"
+msgstr "Terms & Rental Conditions"
+
+#: .\pages\templates\pages\information.html:66
+msgid "Vertragliche Grundlagen der Vermietung. Stornoregeln, Pflichten des Mieters, Versicherung."
+msgstr "Contractual basis of the rental. Cancellation policies, tenant obligations, insurance."
+
+#: .\pages\templates\pages\information.html:68
+msgid "Cookie-Banner"
+msgstr "Cookie Banner"
+
+#: .\pages\templates\pages\information.html:69
+msgid "Zustimmung einholen, wenn du z.B. Analytics nutzt."
+msgstr "Obtain consent if you use e.g. Analytics."
+
+#: .\pages\templates\pages\information.html:71
+msgid "Haftung & Versicherung"
+msgstr "Liability & Insurance"
+
+#: .\pages\templates\pages\information.html:72
+msgid "Steht in der Mietvereinbarung."
+msgstr "Stated in the rental agreement."
+
+#: .\pages\templates\pages\information.html:77
+msgid "Preisübersicht für Calli der Camper"
+msgstr "Price overview for Calli the camper"
+
+#: .\pages\templates\pages\information.html:81
+msgid "Saison"
+msgstr "Season"
+
+#: .\pages\templates\pages\information.html:82
+msgid "Zeitraum"
+msgstr "Period"
+
+#: .\pages\templates\pages\information.html:83
+msgid "Tagespreis"
+msgstr "Daily rate"
+
+#: .\pages\templates\pages\information.html:88
+msgid "Nebensaison"
+msgstr "Off-season"
+
+#: .\pages\templates\pages\information.html:93
+msgid "Zwischensaison"
+msgstr "Mid-season"
+
+#: .\pages\templates\pages\information.html:98
+msgid "Hauptsaison"
+msgstr "High season"
+
+#: .\pages\templates\pages\information.html:105
+msgid "Extras"
+msgstr "Extras"
+
+#: .\pages\templates\pages\information.html:107
+msgid "Fahrradträger: inklusive (begrenzt auf 50 kg)"
+msgstr "Bike rack: included (limited to 50 kg)"
+
+#: .\pages\templates\pages\information.html:108
+msgid "Campingtisch & Stühle: inklusive"
+msgstr "Camping table & chairs: included"
+
+#: .\pages\templates\pages\information.html:109
+msgid "Endreinigung (wenn nicht selbst gemacht): 59€"
+msgstr "Final cleaning (if not done yourself): €59"
+
+#: .\pages\templates\pages\information.html:112
+msgid "Kaution"
+msgstr "Deposit"
+
+#: .\pages\templates\pages\information.html:113
+msgid "Mindestmietdauer"
+msgstr "Minimum rental period"
+
+#: .\pages\templates\pages\information.html:115
+msgid "Stornobedingungen"
+msgstr "Cancellation policy"
+
+#: .\pages\templates\pages\information.html:116
+msgid "Stornierungen sind natürlich möglich – wir bitten um rechtzeitige Info. Folgende Regelung gilt:"
+msgstr "Cancellations are of course possible – we ask for timely notification. The following rules apply:"
+
+#: .\pages\templates\pages\information.html:118
+#, python-format
+msgid "Bis 30 Tage vor Reisebeginn: 90%% Erstattung des Gesamtmietpreises"
+msgstr "Up to 30 days before trip start: 90%% refund of total rental price"
+
+#: .\pages\templates\pages\information.html:119
+#, python-format
+msgid "14–29 Tage vor Reisebeginn: 50%% Erstattung"
+msgstr "14–29 days before trip start: 50%% refund"
+
+#: .\pages\templates\pages\information.html:120
+msgid "Weniger als 14 Tage vor Reisebeginn: Keine Rückerstattung"
+msgstr "Less than 14 days before trip start: No refund"
+
+#: .\pages\templates\pages\information.html:122
+msgid "Bei einer kurzfristigen Neuvermietung versuchen wir kulant zu sein und ggf. einen Teilbetrag zu erstatten."
+msgstr "In case of a short-term re-rental, we try to be accommodating and possibly refund part of the amount."
+
+#: .\pages\templates\pages\information.html:123
+msgid "Tipp:"
+msgstr "Tip:"
+
+#: .\pages\templates\pages\information.html:123
+msgid "Wir empfehlen den Abschluss einer Reiserücktrittsversicherung für den Fall der Fälle!"
+msgstr "We recommend taking out travel cancellation insurance just in case!"
+
+#: .\pages\templates\pages\information.html:128
+msgid "Wohin darf Calli fahren?"
+msgstr "Where is Calli allowed to go?"
+
+#: .\pages\templates\pages\information.html:129
+msgid "Mit Calli kannst du Europas schönste Ecken entdecken!"
+msgstr "With Calli, you can discover Europe's most beautiful spots!"
+
+#: .\pages\templates\pages\information.html:130
+msgid "Unsere Versicherung bei LVM deckt Fahrten in viele Länder ab – sicher, bequem und ganz entspannt."
+msgstr "Our insurance with LVM covers trips to many countries – safe, comfortable, and totally relaxed."
+
+#: .\pages\templates\pages\information.html:132
+msgid "✅ Versichert & erlaubt"
+msgstr "✅ Insured & allowed"
+
+#: .\pages\templates\pages\information.html:134
+msgid "Du darfst mit Calli in folgende Länder reisen:"
+msgstr "You are allowed to travel with Calli to the following countries:"
+
+#: .\pages\templates\pages\information.html:142
+msgid "Für diese Länder stellen wir dir auf Wunsch die „Grüne Karte“ (internationale Versicherungskarte) aus – dein offizieller Versicherungsnachweis."
+msgstr "For these countries, we provide the 'Green Card' (international insurance card) upon request – your official proof of insurance."
+
+#: .\pages\templates\pages\information.html:144
+msgid "❌ Nicht erlaubt / kein Versicherungsschutz"
+msgstr "❌ Not allowed / no insurance coverage"
+
+#: .\pages\templates\pages\information.html:155
+msgid "Diese Länder sind auf der Grünen Karte durchgestrichen und vom Versicherungsschutz ausgeschlossen."
+msgstr "These countries are crossed out on the Green Card and excluded from insurance coverage."
+
+#: .\pages\templates\pages\videos.html:6
+#, fuzzy
+#| msgid "VW Grand California Merkmale & Ausstattung"
+msgid "Explore VW Grand California Features"
+msgstr "VW Grand California Features & Ausstattung"
 
 #: .\pages\templates\pages\videos.html:7
 msgid ""
 "Get to know the innovative and practical functions of the VW Grand "
 "California."
-msgstr "Lerne die innovativen und praktischen Funktionen des VW Grand California kennen."
+msgstr ""
+"Lerne die innovativen und praktischen Funktionen des VW Grand California "
+"kennen."
 
 #: .\pages\templates\pages\videos.html:8
 msgid ""
 "Watch videos and view images demonstrating how each feature enhances your "
 "travel experience."
-msgstr "Sieh dir Videos und Bilder an, die zeigen, wie jede Funktion dein Reiseerlebnis verbessert."
+msgstr ""
+"Sieh dir Videos und Bilder an, die zeigen, wie jede Funktion dein "
+"Reiseerlebnis verbessert."
+
+#: .\pages\templates\pages\videos.html:18
+#, fuzzy
+#| msgid "Seat heating"
+msgid "Seat Heating"
+msgstr "Sitzheizung"
 
 #: .\pages\templates\pages\videos.html:19
 msgid ""
 "Stay warm and cozy during chilly drives with the integrated seat heating "
 "system."
-msgstr "Bleib auch bei kühleren Fahrten warm und gemütlich dank der integrierten Sitzheizung."
+msgstr ""
+"Bleib auch bei kühleren Fahrten warm und gemütlich dank der integrierten "
+"Sitzheizung."
+
+#: .\pages\templates\pages\videos.html:26
+#: .\pages\templates\pages\videos.html:28
+#, fuzzy
+#| msgid "Integrated kitchenette"
+msgid "Integrated Kitchenette"
+msgstr "Integrierte Küchenzeile"
 
 #: .\pages\templates\pages\videos.html:29
 msgid ""
 "Prepare your favorite meals on the go with the fully equipped kitchenette "
 "inside."
-msgstr "Bereite unterwegs deine Lieblingsgerichte in der voll ausgestatteten Küchenzeile zu."
+msgstr ""
+"Bereite unterwegs deine Lieblingsgerichte in der voll ausgestatteten "
+"Küchenzeile zu."
+
+#: .\pages\templates\pages\videos.html:41
+#, fuzzy
+#| msgid "Auxiliary heater"
+msgid "Auxiliary Heater"
+msgstr "Zusatzheizung"
 
 #: .\pages\templates\pages\videos.html:42
 msgid ""
 "Keep the interior comfortable even on cold nights using the auxiliary heater."
-msgstr "Halte den Innenraum auch in kalten Nächten angenehm warm mit der Zusatzheizung."
+msgstr ""
+"Halte den Innenraum auch in kalten Nächten angenehm warm mit der "
+"Zusatzheizung."
+
+#: .\pages\templates\pages\videos.html:49
+#: .\pages\templates\pages\videos.html:51
+msgid "Adaptive Cruise Control"
+msgstr ""
 
 #: .\pages\templates\pages\videos.html:52
 msgid "Enjoy a relaxed drive with adaptive cruise control and parking assist."
 msgstr "Genieße eine entspannte Fahrt mit adaptivem Tempomat und Einparkhilfe."
 
+#: .\pages\templates\pages\videos.html:64
+msgid "Sleeping Area Setup"
+msgstr ""
+
 #: .\pages\templates\pages\videos.html:65
 msgid ""
 "See how easy it is to transform the seating area into comfortable sleeping "
 "spots."
-msgstr "Sieh dir an, wie einfach sich der Sitzbereich in gemütliche Schlafplätze verwandeln lässt."
+msgstr ""
+"Sieh dir an, wie einfach sich der Sitzbereich in gemütliche Schlafplätze "
+"verwandeln lässt."
+
+#: .\pages\templates\pages\videos.html:72
+msgid "Storage Space"
+msgstr ""
+
+#: .\pages\templates\pages\videos.html:74
+msgid "Smart Storage Solutions"
+msgstr ""
 
 #: .\pages\templates\pages\videos.html:75
 msgid ""
 "Discover the clever storage options to keep everything organized during your "
 "trip."
-msgstr "Entdecke clevere Stauraumlösungen, um während deiner Reise alles ordentlich zu verstauen."
+msgstr ""
+"Entdecke clevere Stauraumlösungen, um während deiner Reise alles ordentlich "
+"zu verstauen."
 
-#: .\rentals\templates\rentals\booking_form.html:21
+#: .\rentals\templates\rentals\booking_form.html:7
+#, fuzzy
+#| msgid "Calli the Camper"
+msgid "Book Calli the Camper"
+msgstr "Calli der Camper"
+
+#: .\rentals\templates\rentals\booking_form.html:19
 msgid "Booking Dates"
 msgstr "Buchungsdaten"
 
-#: .\rentals\templates\rentals\booking_form.html:33
+#: .\rentals\templates\rentals\booking_form.html:44
+msgid "Base price for selected dates:"
+msgstr "Grundpreis für ausgewählte Daten:"
+
+#: .\rentals\templates\rentals\booking_form.html:51
+msgid "Discount Code"
+msgstr "Rabattcode"
+
+#: .\rentals\templates\rentals\booking_form.html:52
+msgid "Enter discount code (if any)"
+msgstr "Rabattcode eingeben (falls vorhanden)"
+
+#: .\rentals\templates\rentals\booking_form.html:58
 msgid "Primary Driver Details"
 msgstr "Angaben zum Hauptfahrer"
 
-#: .\rentals\templates\rentals\booking_form.html:45
+#: .\rentals\templates\rentals\booking_form.html:86
 msgid "Additional Driver (Optional)"
 msgstr "Zusätzlicher Fahrer (optional)"
 
-#: .\rentals\templates\rentals\booking_form.html:71
-msgid "Additional Options"
+#: .\rentals\templates\rentals\booking_form.html:88
+#, fuzzy
+#| msgid "Additional Driver (Optional)"
+msgid "Add additional driver?"
+msgstr "Zusätzlicher Fahrer (optional)"
+
+#: .\rentals\templates\rentals\booking_form.html:90
+msgid "Yes"
+msgstr "Ja"
+
+#: .\rentals\templates\rentals\booking_form.html:92
+#, fuzzy
+#| msgid "Note"
+msgid "No"
+msgstr "Hinweis"
+
+#: .\rentals\templates\rentals\booking_form.html:108
+#, fuzzy
+#| msgid "Email Address"
+msgid "Address"
+msgstr "E-Mail-Adresse"
+
+#: .\rentals\templates\rentals\booking_form.html:130
+#, fuzzy
+#| msgid "Additional Options"
+msgid "Additional Insurance"
 msgstr "Zusätzliche Optionen"
 
-#: .\rentals\templates\rentals\booking_form.html:91 .\templates\home.html:89
-msgid "Book Now"
-msgstr "Jetzt buchen"
+#: .\rentals\templates\rentals\booking_form.html:133
+msgid "Add Additional Insurance (€20)"
+msgstr "Zusätzliche Versicherung (20 €) hinzufügen"
 
-#: .\rentals\views.py:32
+#: .\rentals\templates\rentals\booking_form.html:138
+#, fuzzy
+#| msgid "Additional Options"
+msgid "Additional Services"
+msgstr "Zusätzliche Optionen"
+
+#: .\rentals\templates\rentals\booking_form.html:151
+msgid "Summary"
+msgstr "Übersicht"
+
+#: .\rentals\templates\rentals\booking_form.html:152
+msgid "Base price:"
+msgstr "Grundpreis:"
+
+#: .\rentals\templates\rentals\booking_form.html:153
+#, fuzzy
+#| msgid "Additional Options"
+msgid "Additional services:"
+msgstr "Zusätzliche Optionen"
+
+#: .\rentals\templates\rentals\booking_form.html:154
+#, fuzzy
+#| msgid "Additional Options"
+msgid "Additional insurance:"
+msgstr "Zusätzliche Optionen"
+
+#: .\rentals\templates\rentals\booking_form.html:155
+msgid "Grand total:"
+msgstr "Gesamtsumme:"
+
+#: .\rentals\templates\rentals\booking_form.html:171
+#, fuzzy
+#| msgid "Confirm"
+msgid "Confirm & Pay"
+msgstr "Bestätigen"
+
+#: .\rentals\views.py:35
 msgid "Booked"
 msgstr "Gebucht"
-
-#: .\rentals\views.py:98
-msgid "Booking confirmed!"
-msgstr "Buchung bestätigt!"
 
 #: .\templates\account\account_inactive.html:5
 #: .\templates\account\account_inactive.html:9
@@ -441,7 +854,7 @@ msgstr ""
 "bitte geben Sie ihn zeitnah ein."
 
 #: .\templates\account\base_confirm_code.html:39
-#: .\templates\account\email_confirm.html:24
+#: .\templates\account\email_confirm.html:26
 #: .\templates\account\reauthenticate.html:18
 msgid "Confirm"
 msgstr "Bestätigen"
@@ -579,14 +992,14 @@ msgid ""
 "\n"
 "%(password_reset_url)s"
 msgstr ""
-"Sie erhalten diese E-Mail, weil Sie oder jemand anderes versucht hat, sich mit "
-"der folgenden E-Mail-Adresse anzumelden:\n"
+"Sie erhalten diese E-Mail, weil Sie oder jemand anderes versucht hat, sich "
+"mit der folgenden E-Mail-Adresse anzumelden:\n"
 "\n"
 "%(email)s\n"
 "\n"
-"Es existiert jedoch bereits ein Konto mit dieser E-Mail-Adresse. Falls Sie das "
-"vergessen haben, nutzen Sie bitte die Funktion 'Passwort vergessen', um Ihr "
-"Konto wiederherzustellen:\n"
+"Es existiert jedoch bereits ein Konto mit dieser E-Mail-Adresse. Falls Sie "
+"das vergessen haben, nutzen Sie bitte die Funktion 'Passwort vergessen', um "
+"Ihr Konto wiederherzustellen:\n"
 "\n"
 "%(password_reset_url)s"
 
@@ -612,7 +1025,9 @@ msgstr ""
 msgid ""
 "You are receiving this mail because the following change was made to your "
 "account:"
-msgstr "Sie erhalten diese Nachricht, weil folgende Änderung an Ihrem Konto vorgenommen wurde:"
+msgstr ""
+"Sie erhalten diese Nachricht, weil folgende Änderung an Ihrem Konto "
+"vorgenommen wurde:"
 
 #: .\templates\account\email\base_notification.txt:10
 #, python-format
@@ -624,8 +1039,8 @@ msgid ""
 "- Browser: %(user_agent)s\n"
 "- Date: %(timestamp)s"
 msgstr ""
-"Wenn Sie diese Änderung nicht erkennen, treffen Sie bitte umgehend entsprechende "
-"Sicherheitsvorkehrungen. Die Änderung stammt von:\n"
+"Wenn Sie diese Änderung nicht erkennen, treffen Sie bitte umgehend "
+"entsprechende Sicherheitsvorkehrungen. Die Änderung stammt von:\n"
 "\n"
 "- IP-Adresse: %(ip)s\n"
 "- Browser: %(user_agent)s\n"
@@ -654,16 +1069,16 @@ msgid ""
 "You're receiving this email because user %(user_display)s has given your "
 "email address to register an account on %(site_domain)s."
 msgstr ""
-"Sie erhalten diese E-Mail, weil der Benutzer %(user_display)s Ihre E-Mail-Adresse "
-"zur Registrierung eines Kontos auf %(site_domain)s angegeben hat."
+"Sie erhalten diese E-Mail, weil der Benutzer %(user_display)s Ihre E-Mail-"
+"Adresse zur Registrierung eines Kontos auf %(site_domain)s angegeben hat."
 
 #: .\templates\account\email\email_confirmation_message.txt:7
 msgid ""
 "Your email verification code is listed below. Please enter it in your open "
 "browser window."
 msgstr ""
-"Ihr Verifizierungscode für die E-Mail ist unten aufgeführt. Bitte geben Sie ihn "
-"in Ihrem offenen Browserfenster ein."
+"Ihr Verifizierungscode für die E-Mail ist unten aufgeführt. Bitte geben Sie "
+"ihn in Ihrem offenen Browserfenster ein."
 
 #: .\templates\account\email\email_confirmation_message.txt:9
 #, python-format
@@ -684,14 +1099,20 @@ msgid "Email Removed"
 msgstr "E-Mail entfernt"
 
 #: .\templates\account\email\login_code_message.txt:5
-msgid "Your sign-in code is listed below. Please enter it in your open browser window."
-msgstr "Ihr Anmeldecode ist unten aufgeführt. Bitte geben Sie ihn in Ihrem offenen Browserfenster ein."
+msgid ""
+"Your sign-in code is listed below. Please enter it in your open browser "
+"window."
+msgstr ""
+"Ihr Anmeldecode ist unten aufgeführt. Bitte geben Sie ihn in Ihrem offenen "
+"Browserfenster ein."
 
 #: .\templates\account\email\login_code_message.txt:9
 #: .\templates\account\email\password_reset_code_message.txt:9
 #: .\templates\account\email\unknown_account_message.txt:6
 msgid "This mail can be safely ignored if you did not initiate this action."
-msgstr "Diese E-Mail kann ignoriert werden, wenn Sie diese Aktion nicht selbst veranlasst haben."
+msgstr ""
+"Diese E-Mail kann ignoriert werden, wenn Sie diese Aktion nicht selbst "
+"veranlasst haben."
 
 #: .\templates\account\email\login_code_subject.txt:3
 msgid "Sign-In Code"
@@ -706,8 +1127,12 @@ msgid "Password Changed"
 msgstr "Passwort geändert"
 
 #: .\templates\account\email\password_reset_code_message.txt:5
-msgid "Your password reset code is listed below. Please enter it in your open browser window."
-msgstr "Ihr Code zum Zurücksetzen des Passworts ist unten aufgeführt. Bitte geben Sie ihn in Ihrem offenen Browserfenster ein."
+msgid ""
+"Your password reset code is listed below. Please enter it in your open "
+"browser window."
+msgstr ""
+"Ihr Code zum Zurücksetzen des Passworts ist unten aufgeführt. Bitte geben "
+"Sie ihn in Ihrem offenen Browserfenster ein."
 
 #: .\templates\account\email\password_reset_code_subject.txt:3
 msgid "Password Reset Code"
@@ -720,8 +1145,10 @@ msgid ""
 "It can be safely ignored if you did not request a password reset. Click the "
 "link below to reset your password."
 msgstr ""
-"Sie erhalten diese E-Mail, weil Sie oder jemand anderes das Zurücksetzen des Passworts für Ihr Benutzerkonto angefordert hat.\n"
-"Wenn Sie dies nicht angefordert haben, können Sie diese E-Mail ignorieren. Klicken Sie auf den folgenden Link, um Ihr Passwort zurückzusetzen."
+"Sie erhalten diese E-Mail, weil Sie oder jemand anderes das Zurücksetzen des "
+"Passworts für Ihr Benutzerkonto angefordert hat.\n"
+"Wenn Sie dies nicht angefordert haben, können Sie diese E-Mail ignorieren. "
+"Klicken Sie auf den folgenden Link, um Ihr Passwort zurückzusetzen."
 
 #: .\templates\account\email\password_reset_key_message.txt:9
 #, python-format
@@ -751,11 +1178,14 @@ msgid ""
 "an account with email %(email)s. However, we do not have any record of such "
 "an account in our database."
 msgstr ""
-"Sie erhalten diese E-Mail, weil Sie oder jemand anderes versucht hat, auf ein Konto mit der E-Mail-Adresse %(email)s zuzugreifen. In unserer Datenbank ist jedoch kein solches Konto verzeichnet."
+"Sie erhalten diese E-Mail, weil Sie oder jemand anderes versucht hat, auf "
+"ein Konto mit der E-Mail-Adresse %(email)s zuzugreifen. In unserer Datenbank "
+"ist jedoch kein solches Konto verzeichnet."
 
 #: .\templates\account\email\unknown_account_message.txt:8
 msgid "If it was you, you can sign up for an account using the link below."
-msgstr "Falls Sie es waren, können Sie über den folgenden Link ein Konto erstellen."
+msgstr ""
+"Falls Sie es waren, können Sie über den folgenden Link ein Konto erstellen."
 
 #: .\templates\account\email\unknown_account_subject.txt:3
 msgid "Unknown Account"
@@ -792,30 +1222,31 @@ msgstr "Ändern zu"
 msgid "Change Email"
 msgstr "E-Mail ändern"
 
-#: .\templates\account\email_confirm.html:6
-#: .\templates\account\email_confirm.html:10
+#: .\templates\account\email_confirm.html:8
+#: .\templates\account\email_confirm.html:12
 msgid "Confirm Email Address"
 msgstr "E-Mail-Adresse bestätigen"
 
-#: .\templates\account\email_confirm.html:16
+#: .\templates\account\email_confirm.html:18
 #, python-format
 msgid ""
 "Please confirm that <a href=\"mailto:%(email)s\">%(email)s</a> is an email "
 "address for user %(user_display)s."
 msgstr ""
-"Bitte bestätigen Sie, dass <a href=\"mailto:%(email)s\">%(email)s</a> eine "
-"E-Mail-Adresse von Benutzer %(user_display)s ist."
+"Bitte bestätigen Sie, dass <a href=\"mailto:%(email)s\">%(email)s</a> eine E-"
+"Mail-Adresse von Benutzer %(user_display)s ist."
 
-#: .\templates\account\email_confirm.html:30
+#: .\templates\account\email_confirm.html:32
 #: .\templates\account\messages\email_confirmation_failed.txt:2
 #, python-format
 msgid ""
 "Unable to confirm %(email)s because it is already confirmed by a different "
 "account."
 msgstr ""
-"%(email)s kann nicht bestätigt werden, da diese Adresse bereits von einem anderen Konto bestätigt wurde."
+"%(email)s kann nicht bestätigt werden, da diese Adresse bereits von einem "
+"anderen Konto bestätigt wurde."
 
-#: .\templates\account\email_confirm.html:36
+#: .\templates\account\email_confirm.html:38
 #, python-format
 msgid ""
 "This email confirmation link expired or is invalid. Please <a "
@@ -830,7 +1261,8 @@ msgid ""
 "If you have not created an account yet, then please %(link)ssign "
 "up%(end_link)s first."
 msgstr ""
-"Wenn Sie noch kein Konto erstellt haben, dann %(link)serstellen Sie bitte zuerst eines%(end_link)s."
+"Wenn Sie noch kein Konto erstellt haben, dann %(link)serstellen Sie bitte "
+"zuerst eines%(end_link)s."
 
 #: .\templates\account\login.html:54
 msgid "Sign in with a passkey"
@@ -841,8 +1273,7 @@ msgstr "Mit einem Sicherheitsschlüssel anmelden"
 msgid "Send me a sign-in code"
 msgstr "Senden Sie mir einen Anmeldecode"
 
-#: .\templates\account\logout.html:6
-#: .\templates\account\logout.html:12
+#: .\templates\account\logout.html:6 .\templates\account\logout.html:12
 #: .\templates\account\logout.html:25
 msgid "Sign Out"
 msgstr "Abmelden"
@@ -931,7 +1362,8 @@ msgid ""
 "Forgotten your password? Enter your email address below, and we'll send you "
 "an email allowing you to reset it."
 msgstr ""
-"Passwort vergessen? Geben Sie unten Ihre E-Mail-Adresse ein, und wir senden Ihnen eine E-Mail, mit der Sie es zurücksetzen können."
+"Passwort vergessen? Geben Sie unten Ihre E-Mail-Adresse ein, und wir senden "
+"Ihnen eine E-Mail, mit der Sie es zurücksetzen können."
 
 #: .\templates\account\password_reset.html:26
 msgid "Reset My Password"
@@ -939,14 +1371,18 @@ msgstr "Mein Passwort zurücksetzen"
 
 #: .\templates\account\password_reset.html:31
 msgid "Please contact us if you have any trouble resetting your password."
-msgstr "Bitte kontaktieren Sie uns, wenn Sie Probleme beim Zurücksetzen Ihres Passworts haben."
+msgstr ""
+"Bitte kontaktieren Sie uns, wenn Sie Probleme beim Zurücksetzen Ihres "
+"Passworts haben."
 
 #: .\templates\account\password_reset_done.html:16
 msgid ""
 "We have sent you an email. If you have not received it please check your "
 "spam folder. Otherwise contact us if you do not receive it in a few minutes."
 msgstr ""
-"Wir haben Ihnen eine E-Mail gesendet. Wenn Sie sie nicht erhalten haben, überprüfen Sie bitte Ihren Spam-Ordner. Andernfalls kontaktieren Sie uns, falls Sie sie nach einigen Minuten nicht erhalten."
+"Wir haben Ihnen eine E-Mail gesendet. Wenn Sie sie nicht erhalten haben, "
+"überprüfen Sie bitte Ihren Spam-Ordner. Andernfalls kontaktieren Sie uns, "
+"falls Sie sie nach einigen Minuten nicht erhalten."
 
 #: .\templates\account\password_reset_from_key.html:10
 msgid "Bad Token"
@@ -959,7 +1395,9 @@ msgid ""
 "used.  Please request a <a href=\"%(passwd_reset_url)s\">new password reset</"
 "a>."
 msgstr ""
-"Der Link zum Zurücksetzen des Passworts war ungültig, möglicherweise wurde er bereits verwendet. Bitte <a href=\"%(passwd_reset_url)s\">fordern Sie ein neues Passwort-Reset an</a>."
+"Der Link zum Zurücksetzen des Passworts war ungültig, möglicherweise wurde "
+"er bereits verwendet. Bitte <a href=\"%(passwd_reset_url)s\">fordern Sie ein "
+"neues Passwort-Reset an</a>."
 
 #: .\templates\account\password_reset_from_key_done.html:12
 msgid "Your password is now changed."
@@ -1056,12 +1494,14 @@ msgid ""
 "You currently do not have any email address set up. You should really add an "
 "email address so you can receive notifications, reset your password, etc."
 msgstr ""
-"Sie haben derzeit keine E-Mail-Adresse eingerichtet. Sie sollten unbedingt eine E-Mail-Adresse hinzufügen, damit Sie Benachrichtigungen erhalten, Ihr Passwort zurücksetzen usw. können."
+"Sie haben derzeit keine E-Mail-Adresse eingerichtet. Sie sollten unbedingt "
+"eine E-Mail-Adresse hinzufügen, damit Sie Benachrichtigungen erhalten, Ihr "
+"Passwort zurücksetzen usw. können."
 
 #: .\templates\account\verification_sent.html:7
 #: .\templates\account\verification_sent.html:13
-#: .\templates\account\verified_email_required.html:5
-#: .\templates\account\verified_email_required.html:9
+#: .\templates\account\verified_email_required.html:6
+#: .\templates\account\verified_email_required.html:10
 #, fuzzy
 #| msgid "E-mail address"
 msgid "Verify Your Email Address"
@@ -1079,20 +1519,25 @@ msgid ""
 "        "
 msgstr ""
 "\n"
-"            Wir haben Ihnen eine E-Mail zur Verifizierung gesendet. Folgen Sie dem Link in der E-Mail, um die Registrierung abzuschließen.\n"
-"            Wenn Sie die E-Mail nicht in Ihrem Posteingang finden, überprüfen Sie bitte Ihren Spam-Ordner.\n"
-"            Kontaktieren Sie uns, wenn Sie die E-Mail nicht innerhalb weniger Minuten erhalten.\n"
+"            Wir haben Ihnen eine E-Mail zur Verifizierung gesendet. Folgen "
+"Sie dem Link in der E-Mail, um die Registrierung abzuschließen.\n"
+"            Wenn Sie die E-Mail nicht in Ihrem Posteingang finden, "
+"überprüfen Sie bitte Ihren Spam-Ordner.\n"
+"            Kontaktieren Sie uns, wenn Sie die E-Mail nicht innerhalb "
+"weniger Minuten erhalten.\n"
 "        "
 
-#: .\templates\account\verified_email_required.html:13
+#: .\templates\account\verified_email_required.html:14
 msgid ""
 "This part of the site requires us to verify that\n"
 "you are who you claim to be. For this purpose, we require that you\n"
 "verify ownership of your email address. "
 msgstr ""
-"Für diesen Teil der Website müssen wir bestätigen, dass Sie tatsächlich die Person sind, für die Sie sich ausgeben. Dazu müssen Sie den Besitz Ihrer E-Mail-Adresse verifizieren."
+"Für diesen Teil der Website müssen wir bestätigen, dass Sie tatsächlich die "
+"Person sind, für die Sie sich ausgeben. Dazu müssen Sie den Besitz Ihrer E-"
+"Mail-Adresse verifizieren."
 
-#: .\templates\account\verified_email_required.html:18
+#: .\templates\account\verified_email_required.html:19
 msgid ""
 "We have sent an email to you for\n"
 "verification. Please click on the link inside that email. If you do not see "
@@ -1100,55 +1545,63 @@ msgid ""
 "Otherwise\n"
 "contact us if you do not receive it within a few minutes."
 msgstr ""
-"Wir haben Ihnen eine E-Mail zur Verifizierung gesendet. Bitte klicken Sie auf den Link in dieser E-Mail. Wenn Sie die Verifizierungs-E-Mail nicht in Ihrem Posteingang sehen, überprüfen Sie Ihren Spam-Ordner. Kontaktieren Sie uns, wenn Sie sie nicht innerhalb weniger Minuten erhalten."
+"Wir haben Ihnen eine E-Mail zur Verifizierung gesendet. Bitte klicken Sie "
+"auf den Link in dieser E-Mail. Wenn Sie die Verifizierungs-E-Mail nicht in "
+"Ihrem Posteingang sehen, überprüfen Sie Ihren Spam-Ordner. Kontaktieren Sie "
+"uns, wenn Sie sie nicht innerhalb weniger Minuten erhalten."
 
-#: .\templates\account\verified_email_required.html:23
+#: .\templates\account\verified_email_required.html:24
 #, python-format
 msgid ""
 "<strong>Note:</strong> you can still <a href=\"%(email_url)s\">change your "
 "email address</a>."
 msgstr ""
-"<strong>Hinweis:</strong> Sie können Ihre <a href=\"%(email_url)s\">E-Mail-Adresse weiterhin ändern</a>."
+"<strong>Hinweis:</strong> Sie können Ihre <a href=\"%(email_url)s\">E-Mail-"
+"Adresse weiterhin ändern</a>."
 
 #: .\templates\base.html:10
 msgid "Calli the Camper"
 msgstr "Calli der Camper"
 
-#: .\templates\base.html:59
+#: .\templates\base.html:62
 msgid "Home"
 msgstr "Startseite"
 
-#: .\templates\base.html:60
+#: .\templates\base.html:63
 msgid "Introduction to Calli"
 msgstr "Über Calli"
 
-#: .\templates\base.html:61
+#: .\templates\base.html:64
 msgid "How this works"
 msgstr "So läuft`s ab"
 
-#: .\templates\base.html:62
+#: .\templates\base.html:65
 msgid "Videos & Tipps"
 msgstr "Videos & Tipps"
 
-#: .\templates\base.html:63
+#: .\templates\base.html:66
 #, fuzzy
 #| msgid "Booked"
 msgid "Book"
 msgstr "Gebucht"
 
-#: .\templates\base.html:64
+#: .\templates\base.html:67
 msgid "Contact"
 msgstr "Kontakt"
 
-#: .\templates\base.html:68
+#: .\templates\base.html:71
+msgid "Profile"
+msgstr ""
+
+#: .\templates\base.html:74
 msgid "Logout"
 msgstr "Abmelden"
 
-#: .\templates\base.html:72
+#: .\templates\base.html:78
 msgid "Register"
 msgstr "Registrieren"
 
-#: .\templates\base.html:75
+#: .\templates\base.html:81
 msgid "Login"
 msgstr "Anmelden"
 
@@ -1156,6 +1609,7 @@ msgstr "Anmelden"
 msgid "Calli explores the world – and you can join in!"
 msgstr "Calli entdeckt die Welt – und du kannst mit!"
 
+#: .\templates\home.html:10
 msgid ""
 "\n"
 "      Calli is more than just a camper – he’s our little adventure on four "
@@ -1167,53 +1621,246 @@ msgid ""
 "      "
 msgstr ""
 "\n"
-"      Calli ist mehr als nur ein Camper – er ist unser kleines Abenteuer auf vier Rädern.\n"
-"      Aber anstatt ihn nur selbst zu nutzen, möchten wir auch anderen die Freiheit des Reisens ermöglichen.\n"
-"      So entdeckt Calli ständig neue Orte – und vielleicht findest du dabei deinen ganz persönlichen Lieblingsplatz.\n"
+"      Calli ist mehr als nur ein Camper – er ist unser kleines Abenteuer auf "
+"vier Rädern.\n"
+"      Aber anstatt ihn nur selbst zu nutzen, möchten wir auch anderen die "
+"Freiheit des Reisens ermöglichen.\n"
+"      So entdeckt Calli ständig neue Orte – und vielleicht findest du dabei "
+"deinen ganz persönlichen Lieblingsplatz.\n"
 "      "
 
-
-#: .\templates\home.html:38
-msgid "VW Grand California Merkmale & Ausstattung"
-msgstr "VW Grand California Features & Ausstattung"
-
-#: .\templates\home.html:40
-msgid "4 seats & 2+2 sleeping places"
-msgstr "4 Sitze & 2+2 Schlafplätze"
-
-#: .\templates\home.html:41
-msgid "Seat heating"
-msgstr "Sitzheizung"
+#: .\templates\home.html:33
+msgid "Recommended Camping Destinations"
+msgstr "Empfohlene Campingziele"
 
 #: .\templates\home.html:42
-msgid "Integrated kitchenette"
-msgstr "Integrierte Küchenzeile"
+msgid "Visit Website"
+msgstr "Website besuchen"
 
-#: .\templates\home.html:43
-msgid "Auxiliary heater"
-msgstr "Zusatzheizung"
+#: .\templates\home.html:60
+msgid "No destinations available at the moment."
+msgstr "Zurzeit sind keine Reiseziele verfügbar."
 
-#: .\templates\home.html:44
 #, fuzzy
-#| msgid " Adaptive cruise control, cruise control & parking assist"
-msgid "Adaptive cruise control, cruise control & parking assist"
-msgstr "Adaptiver Tempomat, Tempomat & Einparkhilfe"
+#~| msgid "Calli the Camper"
+#~ msgid "About Calli the Camper"
+#~ msgstr "Calli der Camper"
 
-#: .\templates\home.html:50 .\templates\home.html:83
-msgid "Check Availability"
-msgstr "Verfügbarkeit prüfen"
+#~ msgid "Year of manufacture"
+#~ msgstr "Baujahr"
 
-#: .\templates\home.html:69
-msgid "Previous"
-msgstr "Vorherige"
+#~ msgid "Power"
+#~ msgstr "Leistung"
 
-#: .\templates\home.html:73
-msgid "Next"
-msgstr "Nächste"
+#~ msgid "Fuel type"
+#~ msgstr "Kraftstoffart"
 
-#: .\templates\home.html:84
-msgid "Close"
-msgstr "Schließen"
+#~ msgid "Emission standard"
+#~ msgstr "Abgasnorm"
+
+#~ msgid "Fuel consumption per 100 km"
+#~ msgstr "Kraftstoffverbrauch pro 100 km"
+
+#~ msgid "Fuel tank capacity"
+#~ msgstr "Tankinhalt"
+
+#~ msgid "Vehicle dimensions (L/W/H)"
+#~ msgstr "Fahrzeugabmessungen (L/B/H)"
+
+#~ msgid "Length for ferry booking"
+#~ msgstr "Länge für Fährbuchung"
+
+#~ msgid "Length for ferry booking with bike rack"
+#~ msgstr "Länge für Fährbuchung mit Fahrradträger"
+
+#~ msgid "Permissible total weight"
+#~ msgstr "Zulässiges Gesamtgewicht"
+
+#~ msgid "Driving"
+#~ msgstr "Fahren"
+
+#~ msgid "Seats for 4 people"
+#~ msgstr "Sitzplätze für 4 Personen"
+
+#~ msgid "Automatic transmission"
+#~ msgstr "Automatikgetriebe"
+
+#~ msgid "Cruise control including ACC (Adaptive Cruise Control)"
+#~ msgstr "Tempomat inkl. ACC (Adaptiver Tempomat)"
+
+#~ msgid "Air conditioning"
+#~ msgstr "Klimaanlage"
+
+#~ msgid "Partly all-season & summer tires"
+#~ msgstr "Teilweise Ganzjahres- & Sommerreifen"
+
+#~ msgid "Parking assist front & rear including rearview camera"
+#~ msgstr "Einparkhilfe vorne & hinten inkl. Rückfahrkamera"
+
+#, fuzzy
+#~| msgid "Integrated kitchenette"
+#~ msgid "Integrated navigation system"
+#~ msgstr "Integrierte Küchenzeile"
+
+#~ msgid "Living & Sleeping"
+#~ msgstr "Wohnen & Schlafen"
+
+#~ msgid "Sleeping places for 2 + 2 people"
+#~ msgstr "Schlafplätze für 2 + 2 Personen"
+
+#~ msgid "Stowable interior table"
+#~ msgstr "Verstaubarer Innentisch"
+
+#~ msgid "All-round privacy (including front & rear window)"
+#~ msgstr "Rundum-Sichtschutz (inkl. Front- & Heckscheibe)"
+
+#~ msgid "Storage space under the cross bed"
+#~ msgstr "Stauraum unter dem Querbett"
+
+#~ msgid "Swivel front seats"
+#~ msgstr "Drehbare Vordersitze"
+
+#~ msgid "Wet room with shower & WC"
+#~ msgstr "Nasszelle mit Dusche & WC"
+
+#~ msgid "Cabinet system with generous storage space"
+#~ msgstr "Schranksystem mit großzügigem Stauraum"
+
+#~ msgid "Parking heater"
+#~ msgstr "Standheizung"
+
+#~ msgid "Second battery"
+#~ msgstr "Zweite Batterie"
+
+#~ msgid "Kitchen"
+#~ msgstr "Küche"
+
+#~ msgid "2-burner gas stove"
+#~ msgstr "2-Flammen-Gaskocher"
+
+#~ msgid "Sink"
+#~ msgstr "Spüle"
+
+#~ msgid "Cooking & kitchen utensils included"
+#~ msgstr "Koch- & Küchenutensilien inklusive"
+
+#~ msgid "Refrigerator (70 L) & freezer (7.5 L)"
+#~ msgstr "Kühlschrank (70 L) & Gefrierfach (7,5 L)"
+
+#~ msgid "Pull-out kitchen for more space"
+#~ msgstr "Ausziehbare Küche für mehr Platz"
+
+#~ msgid "Outdoor Area"
+#~ msgstr "Außenbereich"
+
+#~ msgid "Awning with fold-out support legs"
+#~ msgstr "Markise mit ausklappbaren Stützbeinen"
+
+#~ msgid "Outdoor socket & extension cable"
+#~ msgstr "Außensteckdose & Verlängerungskabel"
+
+#~ msgid "Other Camping Equipment"
+#~ msgstr "Weitere Campingausstattung"
+
+#~ msgid "Leveling blocks"
+#~ msgstr "Auffahrkeile"
+
+#~ msgid "Cozy On The Road"
+#~ msgstr "Gemütlich unterwegs"
+
+#~ msgid ""
+#~ "Sleeping places for 2+2 people with a cross bed in the rear and a loft "
+#~ "bed for kids. The swivel front seats and interior table make it cozy, and "
+#~ "the cabinet system as well as under the bed provide plenty of storage "
+#~ "space for everything you need."
+#~ msgstr ""
+#~ "Schlafplätze für 2+2 Personen mit einem Querbett im Heck und einem "
+#~ "Hubbett für Kinder. Die drehbaren Vordersitze und der Innentisch sorgen "
+#~ "für Gemütlichkeit, und das Schranksystem sowie der Stauraum unter dem "
+#~ "Bett bieten ausreichend Platz für alles, was man braucht."
+
+#~ msgid "Note:"
+#~ msgstr "Hinweis:"
+
+#~ msgid "Pets are unfortunately not allowed."
+#~ msgstr "Haustiere sind leider nicht erlaubt."
+
+#~ msgid "Camper Logo"
+#~ msgstr "Camper-Logo"
+
+#~ msgid "3. This is how it works"
+#~ msgstr "3. So funktioniert es"
+
+#~ msgid "All about renting."
+#~ msgstr "Alles rund ums Mieten."
+
+#~ msgid ""
+#~ "Here you will learn everything important about renting Calli. Starting "
+#~ "from the pickup..."
+#~ msgstr ""
+#~ "Hier erfährst du alles Wichtige zur Miete von Calli – beginnend bei der "
+#~ "Abholung..."
+
+#~ msgid "Step 1: Booking"
+#~ msgstr "Schritt 1: Buchung"
+
+#~ msgid "Choose your dates and book Calli easily online."
+#~ msgstr "Wähle deine Reisedaten und buche Calli ganz einfach online."
+
+#~ msgid "Step 2: Pickup"
+#~ msgstr "Schritt 2: Abholung"
+
+#~ msgid "Pick up Calli at the agreed location and time."
+#~ msgstr "Hole Calli am vereinbarten Ort und zur vereinbarten Zeit ab."
+
+#~ msgid "Step 3: Enjoy your trip"
+#~ msgstr "Schritt 3: Reise genießen"
+
+#~ msgid "Explore freely with Calli and make great memories."
+#~ msgstr "Erkunde frei mit Calli und sammle unvergessliche Erlebnisse."
+
+#~ msgid "Step 4: Return"
+#~ msgstr "Schritt 4: Rückgabe"
+
+#~ msgid "Return Calli clean and on time at the agreed spot."
+#~ msgstr "Gib Calli sauber und pünktlich am vereinbarten Ort zurück."
+
+#~ msgid "Step 5: Feedback"
+#~ msgstr "Schritt 5: Feedback"
+
+#~ msgid "Tell us about your experience and help us improve."
+#~ msgstr "Erzähl uns von deinen Erfahrungen und hilf uns, besser zu werden."
+
+#~ msgid "Step 6: Ready for the next adventure"
+#~ msgstr "Schritt 6: Bereit für das nächste Abenteuer"
+
+#~ msgid "Prepare for your next journey with Calli or recommend us."
+#~ msgstr ""
+#~ "Bereite dich auf deine nächste Reise mit Calli vor oder empfehle uns "
+#~ "weiter."
+
+#~ msgid "Book Now"
+#~ msgstr "Jetzt buchen"
+
+#~ msgid "Booking confirmed!"
+#~ msgstr "Buchung bestätigt!"
+
+#~ msgid "VW Grand California Merkmale & Ausstattung"
+#~ msgstr "VW Grand California Features & Ausstattung"
+
+#~ msgid "4 seats & 2+2 sleeping places"
+#~ msgstr "4 Sitze & 2+2 Schlafplätze"
+
+#, fuzzy
+#~| msgid " Adaptive cruise control, cruise control & parking assist"
+#~ msgid "Adaptive cruise control, cruise control & parking assist"
+#~ msgstr "Adaptiver Tempomat, Tempomat & Einparkhilfe"
+
+#~ msgid "Check Availability"
+#~ msgstr "Verfügbarkeit prüfen"
+
+#~ msgid "Close"
+#~ msgstr "Schließen"
 
 #, fuzzy
 #~| msgid "About"
@@ -1255,12 +1902,6 @@ msgstr "Schließen"
 #~ msgstr ""
 #~ "Wandere oft, wandere immer – denn nicht alle, die umherirren, sind "
 #~ "verloren. - RVC"
-
-#~ msgid "Start Date"
-#~ msgstr "Startdatum"
-
-#~ msgid "End Date"
-#~ msgstr "Enddatum"
 
 #~ msgid "Search"
 #~ msgstr "Suchen"

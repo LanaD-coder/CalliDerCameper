@@ -17,8 +17,8 @@ urlpatterns = [
     path('contact/', pages_views.contact_view, name='contact_us'),
     path('information/', pages_views.information_view, name='info'),
     path('videos/', pages_views.videos_view, name='vids_pics'),
-    path('accounts/', include('allauth.urls')),
-    path('account/', include('accounts.urls')),
+    path('account/', include('allauth.urls')),
+    path('accounts/', include('accounts.urls')),
     path('summernote/', include('django_summernote.urls')),
 ]
 
