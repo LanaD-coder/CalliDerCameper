@@ -352,6 +352,13 @@ footer {
   border-radius: 0.5rem;
 }
 
+.cookie-heading {
+    font-family: 'Cookie', cursive;
+    font-size: 3rem;
+    color: #0dc1bf;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+}
+
 .map-responsive iframe {
   position: absolute;
   top: 0;
@@ -361,6 +368,13 @@ footer {
   border: 0;
 }
 
+#soläfst {
+    margin-left: 30px;
+    margin-bottom: 60px;
+    height: 400px;
+    z-index: 2;
+
+  }
 
 /* === Shared Section Styles === */
 #contact-section,
