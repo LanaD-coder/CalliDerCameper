@@ -64,7 +64,6 @@ INSTALLED_APPS = [
 SITE_ID = 1
 
 MIDDLEWARE = [
-    'basicauth.middleware.BasicAuthMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -76,8 +75,6 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
-BASIC_AUTH_LOGIN = os.getenv('BASIC_AUTH_LOGIN', 'tester')
-BASIC_AUTH_PASSWORD = os.getenv('BASIC_AUTH_PASSWORD','tester2025')
 
 
 ROOT_URLCONF = 'ja_rental.urls'
