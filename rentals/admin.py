@@ -13,8 +13,8 @@ from django_summernote.admin import SummernoteModelAdmin
 
 class BookingAdmin(admin.ModelAdmin):
     list_display = ('booking_number', 'campervan', 'start_date', 'end_date', 'total_price', 'status', 'payment_status')
-    list_filter = ('status', 'payment_status', 'additional_insurance')
-    search_fields = ('booking_number', 'primary_driver__username', 'primary_driver_name', 'additional_driver_name')
+    list_filter = ('status', 'payment_status')
+    search_fields = ('booking_number', 'primary_driver_name', 'additional_driver_name')
     readonly_fields = ('booking_number', 'total_price', 'created_at', 'updated_at')
     ordering = ('-created_at',)
     filter_horizontal = ('additional_services',)
@@ -24,20 +24,23 @@ class BookingAdmin(admin.ModelAdmin):
             'fields': ('campervan', 'start_date', 'end_date', 'total_price', 'status', 'booking_number')
         }),
         ('Primary Driver Details', {
-            'fields': ('primary_driver', 'primary_driver_name', 'primary_driver_address_manual'),
-        }),
-        ('Additional Driver Details', {
             'fields': (
-                'additional_driver_name', 'additional_driver_address', 'additional_driver_contact_number',
-                'additional_driver_license_number', 'additional_driver_license_expiry', 'additional_driver_license_document',
-                'additional_driver_has_license', 'additional_driver_over_21',
+                'primary_driver_name', 'primary_driver_street_name', 'primary_driver_street_number',
+                'primary_driver_postal_code', 'primary_driver_town', 'primary_driver_country'
             ),
         }),
-        ('Services & Insurance', {
-            'fields': ('additional_insurance', 'additional_services'),
+        ('Additional Driver (Optional)', {
+            'fields': (
+                'additional_driver_name', 'additional_driver_email',
+                'additional_driver_contact_number', 'additional_driver_street', 'additional_driver_postal_code',
+                'additional_driver_town', 'additional_driver_country',
+            ),
         }),
-        ('Pickup and Dropoff', {
-            'fields': ('pickup_location', 'pickup_time', 'dropoff_location', 'dropoff_time'),
+        ('Discount and Deposit', {
+            'fields': ('discount_code', 'deposit_hidden'),
+        }),
+        ('Services', {
+            'fields': ('additional_services',),
         }),
         ('Payment & Invoice', {
             'fields': ('payment_status', 'payment_reference', 'invoice'),
@@ -49,6 +52,11 @@ class BookingAdmin(admin.ModelAdmin):
             'fields': ('created_at', 'updated_at'),
         }),
     )
+
+
+    def deposit_amount_display(self, obj):
+        return "€1000 (always applied)"
+    deposit_amount_display.short_description = "Deposit"
 
     def save_model(self, request, obj, form, change):
         # Warn if both FK and manual name are filled

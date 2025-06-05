@@ -7,7 +7,10 @@
 <section id="info-section" class="my-5 position-relative">
   <!-- 3. So läuft's ab -->
   <section id="how-it-works" class="my-5">
-    <h2>{% trans "So läuft`s ab" %}</h2>
+    <div style="display: flex; align-items: center;">
+      <h2>{% trans "So läuft`s ab" %}</h2>
+      <img src="https://res.cloudinary.com/dvs5uituk/image/upload/v1749124923/sol%C3%A4ufst_grpn3o.png" id="soläfst" alt="Calli Camper Van">
+    </div>
     <p>{% trans "Rund um die Vermietung." %}</p>
     <p>{% trans "Hier erfährst du alles Wichtige zur Miete von Calli. Angefangen von der Übernahme bis zur Rückgabe, zur Versicherung, die Mietpreise und unsere Stornobedingungen. Weiter erfährst du, was du mitbringen solltest und was Calli mitbringt." %}</p>
 
@@ -62,34 +65,36 @@
   </section>
 
   <!-- 📋 Preisübersicht -->
-  <section id="pricing" class="my-5">
-    <h2>{% trans "Preisübersicht für Calli der Camper" %}</h2>
-    <table class="table table-bordered">
-      <thead>
-        <tr>
-          <th>{% trans "Saison" %}</th>
-          <th>{% trans "Zeitraum" %}</th>
-          <th>{% trans "Tagespreis" %}</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>{% trans "Nebensaison" %}</td>
-          <td>01.10. – 31.03.</td>
-          <td>ab 75€</td>
-        </tr>
-        <tr>
-          <td>{% trans "Zwischensaison" %}</td>
-          <td>01.04. – 31.05. & 01.09. – 30.09.</td>
-          <td>ab 95€</td>
-        </tr>
-        <tr>
-          <td>{% trans "Hauptsaison" %}</td>
-          <td>01.06. – 31.08.</td>
-          <td>ab 115€</td>
-        </tr>
-      </tbody>
-    </table>
+    <section id="pricing" class="my-5">
+      <h2 class="mb-4">{% trans "Preisübersicht für Calli der Camper" %}</h2>
+      <div class="row g-3">
+
+        <div class="col-12 col-md-6 col-lg-4">
+          <div class="border rounded p-3 text-center h-100 season-card nebensaison">
+            <h4>❄️ {% trans "Nebensaison" %}</h4>
+            <p class="mb-1">01.10. – 31.03.</p>
+            <p class="fw-bold">ab 75€</p>
+          </div>
+        </div>
+
+        <div class="col-12 col-md-6 col-lg-4">
+          <div class="border rounded p-3 text-center h-100 season-card zwischensaison">
+            <h4>🌤️ {% trans "Zwischensaison" %}</h4>
+            <p class="mb-1">01.04. – 31.05.<br>01.09. – 30.09.</p>
+            <p class="fw-bold">ab 95€</p>
+          </div>
+        </div>
+
+        <div class="col-12 col-md-6 col-lg-4">
+          <div class="border rounded p-3 text-center h-100 season-card hauptsaison">
+            <h4>☀️ {% trans "Hauptsaison" %}</h4>
+            <p class="mb-1">01.06. – 31.08.</p>
+            <p class="fw-bold">ab 115€</p>
+          </div>
+        </div>
+
+      </div>
+    </section>
 
     <h3>{% trans "Extras" %}</h3>
     <ul>

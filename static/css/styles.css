@@ -90,6 +90,15 @@ body.loading::after {
   z-index: 1050;
 }
 
+.navbar-toggler {
+  border-color: white;
+}
+
+.navbar-toggler-icon {
+  background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='white' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
+}
+
+
 #site-title {
   font-family: "Cookie", cursive;
   color: #ebae16;
@@ -638,6 +647,27 @@ footer {
   border-radius: 0 80px 0 0;
 }
 
+.season-card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .season-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
+  }
+
+  .nebensaison {
+    background-color: #e8f4fd; /* light blue */
+  }
+
+  .zwischensaison {
+    background-color: #fff8e1; /* warm light yellow */
+  }
+
+  .hauptsaison {
+    background-color: #fdecea; /* light red-pink */
+  }
+
 /* Desktop: 1200px and up */
 @media (min-width: 992px) {
   #calendar {
@@ -764,7 +794,7 @@ footer {
 @media (max-width: 480px) {
 
   #main-container {
-    margin-top: 150px;
+    margin-top: 120px;
   }
   .navbar {
     padding: 0;
@@ -804,6 +834,12 @@ footer {
     width: 100%;
   }
 
+  #soläfst {
+    margin-left: -55px;
+    height: 140px;
+    z-index: 2;
+
+  }
   .fc {
     width: 100% !important;
   }

@@ -112,7 +112,6 @@ def booking_page(request, pk):
 
     total_price = None
     subtotal = Decimal('0.00')
-    insurance_cost = Decimal('20.00')
 
     if start_date_str and end_date_str:
         try:
@@ -146,7 +145,6 @@ def booking_page(request, pk):
         'stripe_public_key': settings.STRIPE_PUBLISHABLE_KEY,
         'total_price': total_price,
         'subtotal': subtotal,
-        'insurance_cost': insurance_cost,
     })
 
 @csrf_exempt  # or use proper CSRF token with JS if login-protected
@@ -178,7 +176,7 @@ def create_booking_ajax(request, pk):
     discount_code_str = form.cleaned_data.get('discount_code')
     discount_obj = None
     discount_amount = Decimal('0.00')
-    insurance_cost = Decimal('20.00')
+    deposit = Decimal('1000.00')
     subtotal = Decimal('0.00')
 
     if discount_code_str:
@@ -198,10 +196,11 @@ def create_booking_ajax(request, pk):
         rate = campervan.get_rate_for_date(booking.start_date + timedelta(days=i))
         subtotal += Decimal(rate)
 
-    if booking.additional_insurance:
-        subtotal += insurance_cost
+    # Add deposit always
+    subtotal += deposit
 
     grand_total = max(Decimal('0.00'), subtotal - discount_amount)
+
     booking.total_price = grand_total
     booking.discount_code = discount_obj
     booking.save()
@@ -300,9 +299,11 @@ def payment_success(request):
 
 
 def send_payment_success_email(user):
+    name = user.get_full_name() or user.username
     subject = _("Your Payment Was Successful")
-    html_message = render_to_string("emails/payment_success.html", {'user': user})
-    plain_message = render_to_string("emails/payment_success.txt", {'user': user})
+    context = {'user': user, 'name': name}
+    html_message = render_to_string("emails/payment_success.html", context)
+    plain_message = render_to_string("emails/payment_success.txt", context)
     from_email = settings.DEFAULT_FROM_EMAIL
     recipient_list = [user.email]
 

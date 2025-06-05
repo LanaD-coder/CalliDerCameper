@@ -54,6 +54,8 @@ class Booking(models.Model):
     campervan = models.ForeignKey(Campervan, on_delete=models.CASCADE, related_name='bookings')
     start_date = models.DateField()
     end_date = models.DateField()
+    deposit_amount = models.DecimalField(max_digits=8, decimal_places=2, default=1000.00)
+    additional_services = models.ManyToManyField(AdditionalService, blank=True)
     total_price = models.DecimalField(max_digits=8, decimal_places=2, blank=True, null=True)
 
     primary_driver = models.ForeignKey(
@@ -75,27 +77,31 @@ class Booking(models.Model):
             return self.primary_driver.userprofile.address
         return None
 
+    discount_code = models.CharField(max_length=50, blank=True, null=True)
+
     # New editable primary driver fields if you want to allow manual input instead of FK
     primary_driver_name = models.CharField(max_length=100, blank=True, null=True)
-    primary_driver_address_manual = models.TextField(blank=True, null=True)
+    primary_driver_street_name = models.CharField(max_length=100, blank=True, null=True)
+    primary_driver_street_number = models.CharField(max_length=20, blank=True, null=True)
+    primary_driver_postal_code = models.CharField(max_length=20, blank=True, null=True)
+    primary_driver_town = models.CharField(max_length=100, blank=True, null=True)
+    primary_driver_country = models.CharField(max_length=100, blank=True, null=True)
 
     # Additional driver info (optional)
     additional_driver_name = models.CharField(max_length=100, blank=True, null=True)
-    additional_driver_address = models.TextField(blank=True, null=True)
+    additional_driver_street = models.CharField(max_length=255, blank=True, null=True)
+    additional_driver_postal_code = models.CharField(max_length=20, blank=True, null=True)
+    additional_driver_town = models.CharField(max_length=100, blank=True, null=True)
+    additional_driver_country = models.CharField(max_length=100, blank=True, null=True)
+    additional_driver_email = models.EmailField(blank=True, null=True)
     additional_driver_contact_number = models.CharField(max_length=20, blank=True, null=True)
-
-    # More detailed driver info
-    additional_driver_license_number = models.CharField(max_length=50, blank=True, null=True)
-    additional_driver_license_expiry = models.DateField(blank=True, null=True)
-    additional_driver_license_document = CloudinaryField('license_document', blank=True, null=True)
 
     # Confirmations as BooleanFields
     additional_driver_has_license = models.BooleanField(default=False)
     additional_driver_over_21 = models.BooleanField(default=False)
 
-    # Additional services and insurance
-    additional_insurance = models.BooleanField(default=False)
-    additional_services = models.ManyToManyField(AdditionalService, blank=True)
+    deposit_paid = models.BooleanField(default=True)
+    deposit_hidden = models.BooleanField(default=False)
 
     # Pickup and dropoff details
     pickup_location = models.CharField(max_length=255, blank=True, null=True)
@@ -181,8 +187,6 @@ class Booking(models.Model):
                 raise ValidationError(f"No seasonal rate found for date {current_date}")
             total += rate
 
-        if self.additional_insurance:
-            total += 50  # flat fee example
 
         self.total_price = total
 

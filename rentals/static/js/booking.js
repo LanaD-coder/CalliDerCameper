@@ -45,11 +45,9 @@ function calculateBaseRentalCost(datePrices) {
   return totalCost;
 }
 
-function calculateSummary(base, insuranceCost, additionalServicePrices) {
-  const insuranceCheckbox = document.getElementById("id_additional_insurance");
+function calculateSummary(base, additionalServicePrices) {
   const additionalServiceCheckboxes = document.querySelectorAll('input[name="additional_services"]');
 
-  let insurance = insuranceCheckbox.checked ? insuranceCost : 0;
   let servicesTotal = 0;
 
   additionalServiceCheckboxes.forEach(cb => {
@@ -58,10 +56,10 @@ function calculateSummary(base, insuranceCost, additionalServicePrices) {
     }
   });
 
-  const grandTotal = base + servicesTotal + insurance;
+  const grandTotal = base + servicesTotal + 1000;
 
   document.getElementById('summary-base-price').textContent = base.toFixed(2);
-  document.getElementById('summary-insurance-price').textContent = insurance.toFixed(2);
+  document.getElementById('summary-deposit-price').textContent = (1000).toFixed(2);
   document.getElementById('summary-services-price').textContent = servicesTotal.toFixed(2);
   document.getElementById('summary-grand-total').textContent = grandTotal.toFixed(2);
 }
@@ -93,7 +91,7 @@ async function checkAvailability(startDate, endDate) {
   }
 }
 
-function onDatesChanged(datePrices, additionalServicePrices, insuranceCost) {
+function onDatesChanged(datePrices, additionalServicePrices) {
   return async function () {
     const startDateInput = document.getElementById("id_start_date");
     const endDateInput = document.getElementById("id_end_date");
@@ -111,7 +109,7 @@ function onDatesChanged(datePrices, additionalServicePrices, insuranceCost) {
       errorBox.style.display = 'none';
       errorBox.innerHTML = '';
       let base = calculateBaseRentalCost(datePrices);
-      calculateSummary(base, insuranceCost, additionalServicePrices);
+      calculateSummary(base, additionalServicePrices);
     }
   };
 }
@@ -180,10 +178,9 @@ function showFormErrors(errors) {
   errorBox.style.display = 'block';
 }
 
-export function initBookingForm({ datePrices, additionalServicePrices, insuranceCost = 20, ajaxUrl }) {
+export function initBookingForm({ datePrices, additionalServicePrices, ajaxUrl }) {
   const startDateInput = document.getElementById("id_start_date");
   const endDateInput = document.getElementById("id_end_date");
-  const insuranceCheckbox = document.getElementById("id_additional_insurance");
   const additionalServiceCheckboxes = document.querySelectorAll('input[name="additional_services"]');
   const form = document.getElementById('booking-form');
 
@@ -200,7 +197,7 @@ export function initBookingForm({ datePrices, additionalServicePrices, insurance
       datesDisabled: bookedDates,
       autoclose: true,
       todayHighlight: true,
-    }).off('changeDate').on('changeDate', onDatesChanged(datePrices, additionalServicePrices, insuranceCost));
+    }).off('changeDate').on('changeDate', onDatesChanged(datePrices, additionalServicePrices));
   }
 
   setupDatepickers();
@@ -210,16 +207,10 @@ export function initBookingForm({ datePrices, additionalServicePrices, insurance
   document.getElementById('add_driver_yes').addEventListener('change', toggleAdditionalDriverFields);
   document.getElementById('add_driver_no').addEventListener('change', toggleAdditionalDriverFields);
 
-  // On insurance or additional service change, update summary
-  insuranceCheckbox.addEventListener('change', () => {
-    const base = parseFloat(document.getElementById('base-rental-cost').textContent) || 0;
-    calculateSummary(base, insuranceCost, additionalServicePrices);
-  });
-
   additionalServiceCheckboxes.forEach(cb => {
     cb.addEventListener('change', () => {
       const base = parseFloat(document.getElementById('base-rental-cost').textContent) || 0;
-      calculateSummary(base, insuranceCost, additionalServicePrices);
+      calculateSummary(base, additionalServicePrices);
     });
   });
 
@@ -228,7 +219,7 @@ export function initBookingForm({ datePrices, additionalServicePrices, insurance
 
   // Calculate and show initial costs
   const initialBase = calculateBaseRentalCost(datePrices);
-  calculateSummary(initialBase, insuranceCost, additionalServicePrices);
+  calculateSummary(initialBase, additionalServicePrices);
 
   // Form submission handler
   form.addEventListener('submit', function (e) {

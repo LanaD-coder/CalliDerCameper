@@ -121,11 +121,12 @@
     </fieldset>
 
     <fieldset>
-      <legend>{% trans "Additional Insurance" %}</legend>
-      <label>
-        <input type="checkbox" name="additional_insurance" id="id_additional_insurance" {% if form.additional_insurance.value %}checked{% endif %}>
-        {% trans "Add Additional Insurance (€20)" %}
-      </label>
+      <legend>{% trans "Deposit" %}</legend>
+      <div class="form-check">
+        <input type="checkbox" class="form-check-input" checked disabled>
+        <label class="form-check-label">{% trans "Deposit (€1000) – Automatically applied" %}</label>
+      </div>
+      {{ form.deposit_hidden }}
     </fieldset>
 
     <fieldset>
@@ -145,7 +146,7 @@
       <legend><strong>{% trans "Summary" %}</strong></legend>
       <p><strong>{% trans "Base price:" %}</strong> <span id="summary-base-price">--</span> €</p>
       <p><strong>{% trans "Additional services:" %}</strong> <span id="summary-services-price">--</span> €</p>
-      <p><strong>{% trans "Additional insurance:" %}</strong> <span id="summary-insurance-price">--</span> €</p>
+      <p><strong>{% trans "Deposit:" %}</strong> <span id="summary-deposit-price">1000</span> €</p>
       <p><strong>{% trans "Grand total:" %}</strong> <span id="summary-grand-total">--</span> €</p>
     </fieldset>
 
@@ -173,13 +174,11 @@
   console.log('datePrices:', datePrices);
 
   const additionalServicePrices = {{ additional_service_prices_json|safe }};
-  const insuranceCost = 20;
   const ajaxUrl = "{% url 'create_booking_ajax' campervan.pk %}";
 
   initBookingForm({
     datePrices,
     additionalServicePrices,
-    insuranceCost,
     ajaxUrl
   });
 </script>
