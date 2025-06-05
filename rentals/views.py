@@ -13,6 +13,8 @@ from pages.models import CampingDestination
 from accounts.models import DiscountCode
 from django.http import JsonResponse
 from .models import AdditionalService
+from django.core.mail import send_mail
+from django.template.loader import render_to_string
 from django.utils.translation import gettext as _
 
 
@@ -283,6 +285,10 @@ def payment_success(request):
             booking.payment_reference = session.payment_intent
             booking.status = 'active'
             booking.save()
+
+            # Trigger email
+            send_payment_success_email(booking.primary_driver)
+
             messages.success(request, "Payment successful! Your booking is confirmed.")
             return render(request, 'accounts/success.html', {'booking_number': booking.booking_number})
         except Booking.DoesNotExist:
@@ -291,6 +297,16 @@ def payment_success(request):
     else:
         messages.error(request, "Payment not successful.")
         return redirect('home')
+
+
+def send_payment_success_email(user):
+    subject = _("Your Payment Was Successful")
+    html_message = render_to_string("emails/payment_success.html", {'user': user})
+    plain_message = render_to_string("emails/payment_success.txt", {'user': user})
+    from_email = settings.DEFAULT_FROM_EMAIL
+    recipient_list = [user.email]
+
+    send_mail(subject, plain_message, from_email, recipient_list, html_message=html_message)
 
 
 def payment_cancel(request):

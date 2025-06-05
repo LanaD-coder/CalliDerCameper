@@ -1,0 +1,29 @@
+{% load i18n %}
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>{% trans "Payment Successful" %}</title>
+</head>
+<body style="font-family: Roboto; background-color: #f9f9f9; padding: 30px; color: #333;">
+  <div style="max-width: 600px; margin: auto; background: white; border-radius: 10px; padding: 20px; box-shadow: 0 2px 5px rgba(0,0,0,0.2);">
+
+    <!-- Logo -->
+    <div style="text-align: center; margin-bottom: 20px;">
+      <img src="https://res.cloudinary.com/dvs5uituk/image/upload/v1747742379/freepik__background__6179_fdyics.webp" alt="Logo" style="max-height: 60px;">
+    </div>
+
+    <h2 style="color: #0dc1bf;">{% trans "Thank you for your payment!" %}</h2>
+
+    <p>{% trans "Hi" %} {{ user.name }},</p>
+
+    <p>{% trans "We’ve received your payment successfully." %}</p>
+
+    <p>{% trans "If you have any questions, feel free to contact us." %}</p>
+
+    <p>{% trans "Best regards," %}<br>
+    CalliderCamper Team</p>
+
+  </div>
+</body>
+</html>

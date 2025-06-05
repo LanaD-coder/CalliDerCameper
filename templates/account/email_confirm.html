@@ -5,37 +5,73 @@
 {% load static %}
 
 {% block head_title %}
-    {% trans "Confirm Email Address" %}
+    {% trans "Confirm Your Email" %}
 {% endblock head_title %}
+
 {% block content %}
-    {% element h1 %}
-        {% trans "Confirm Email Address" %}
-    {% endelement %}
+<div style="max-width: 600px; margin: 0 auto; padding: 2rem; font-family: sans-serif; background-color: #ffffff; border-radius: 10px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);">
+
+    <!-- Logo Section -->
+    <div style="text-align: center; margin-bottom: 2rem;">
+        <img src="https://res.cloudinary.com/dvs5uituk/image/upload/v1747742379/freepik__background__6179_fdyics.webp"
+             alt="Company Logo"
+             style="max-height: 100px; border-radius: 10px;">
+    </div>
+
+    <!-- Title -->
+    <h1 style="font-size: 1.8rem; text-align: center; color: #333;">
+        {% trans "Confirm Your Email Address" %}
+    </h1>
+
     {% if confirmation %}
         {% user_display confirmation.email_address.user as user_display %}
         {% if can_confirm %}
-            {% element p %}
-                {% blocktrans with confirmation.email_address.email as email %}Please confirm that <a href="mailto:{{ email }}">{{ email }}</a> is an email address for user {{ user_display }}.{% endblocktrans %}
-            {% endelement %}
+            <p style="font-size: 1rem; color: #555; line-height: 1.6;">
+                {% blocktrans with confirmation.email_address.email as email %}
+                    Please confirm that <a href="mailto:{{ email }}">{{ email }}</a> is an email address for user <strong>{{ user_display }}</strong>.
+                {% endblocktrans %}
+            </p>
+
             {% url 'account_confirm_email' confirmation.key as action_url %}
-            {% element form method="post" action=action_url %}
-                {% slot actions %}
-                    {% csrf_token %}
-                    {{ redirect_field }}
-                    {% element button type="submit" %}
-                        {% trans 'Confirm' %}
-                    {% endelement %}
-                {% endslot %}
-            {% endelement %}
+            <form method="post" action="{{ action_url }}" style="text-align: center;">
+                {% csrf_token %}
+                {{ redirect_field }}
+                <button type="submit" style="background-color: #007bff; color: white; border: none; padding: 10px 20px; font-size: 1rem; border-radius: 6px; cursor: pointer;">
+                    {% trans "Confirm Email" %}
+                </button>
+            </form>
+
         {% else %}
-            {% element p %}
-                {% blocktrans %}Unable to confirm {{ email }} because it is already confirmed by a different account.{% endblocktrans %}
-            {% endelement %}
+            <p style="color: #cc0000;">
+                {% blocktrans %}
+                    Unable to confirm {{ email }} because it is already confirmed by a different account.
+                {% endblocktrans %}
+            </p>
         {% endif %}
     {% else %}
         {% url 'account_email' as email_url %}
-        {% element p %}
-            {% blocktrans %}This email confirmation link expired or is invalid. Please <a href="{{ email_url }}">issue a new email confirmation request</a>.{% endblocktrans %}
-        {% endelement %}
+        <p style="color: #cc0000;">
+            {% blocktrans %}
+                This email confirmation link expired or is invalid. Please <a href="mailto:abenteuer@callidercamper.de">request a new confirmation email</a>.
+            {% endblocktrans %}
+        </p>
     {% endif %}
+
+    <!-- Legal Footer -->
+    <hr style="margin: 2rem 0;">
+    <section id="legal" style="font-size: 0.85rem; color: #777; line-height: 1.4;">
+        <h2 style="font-size: 1rem; color: #333;">{% trans "Impressum" %}</h2>
+        <address>
+            Phoenix Corporate Health GmbH<br>
+            Gewerbegebiet Bitzen 19<br>
+            53804 Much<br>
+            {% trans "Telefon" %}: +49 171 5245206<br>
+            {% trans "E-Mail" %}: <a href="mailto:abenteuer@callidercamper.de">abenteuer@callidercamper.de</a><br>
+            {% trans "Registergericht" %}: Amtsgericht Siegburg<br>
+            {% trans "Registernummer" %}: HRB 14434<br>
+            {% trans "Geschäftsführer" %}: Jürgen Freitag<br>
+            {% trans "Umsatzsteuer-Ident-Nr." %}: DE311891137<br>
+        </address>
+    </section>
+</div>
 {% endblock content %}

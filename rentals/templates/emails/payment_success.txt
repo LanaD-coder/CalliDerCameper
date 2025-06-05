@@ -1,0 +1,11 @@
+{% load i18n %}
+{% trans "Thank you for your payment!" %}
+
+{% trans "Hi" %} {{ user.name }},
+
+{% trans "We’ve received your payment successfully." %}
+
+{% trans "If you have any questions, feel free to contact us." %}
+
+{% trans "Best regards," %}
+CalliderCamper Team
