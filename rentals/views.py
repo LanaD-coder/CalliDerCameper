@@ -173,24 +173,22 @@ def create_booking_ajax(request, pk):
     booking.save()
     form.save_m2m()
 
+    VALID_DISCOUNT_CODES = {
+        "WATERS": Decimal('100'), # Friends
+        "BLOODS": Decimal('100'), # Family
+    }
+
     discount_code_str = form.cleaned_data.get('discount_code')
     discount_obj = None
-    discount_amount = Decimal('0.00')
+
     deposit = Decimal('1000.00')
     subtotal = Decimal('0.00')
 
-    if discount_code_str:
-        try:
-            discount_obj = DiscountCode.objects.get(code__iexact=discount_code_str, active=True)
-            if not discount_obj.is_valid():
-                return JsonResponse({'errors': {'discount_code': ['Invalid or expired code']}}, status=400)
-            discount_amount = discount_obj.amount
-        except DiscountCode.DoesNotExist:
-            return JsonResponse({'errors': {'discount_code': ['Invalid discount code']}}, status=400)
-
+    # Calculate subtotal from additional services
     for service in booking.additional_services.all():
         subtotal += Decimal(service.price)
 
+    # Calculate subtotal from daily rates
     days = (booking.end_date - booking.start_date).days + 1
     for i in range(days):
         rate = campervan.get_rate_for_date(booking.start_date + timedelta(days=i))
@@ -198,6 +196,16 @@ def create_booking_ajax(request, pk):
 
     # Add deposit always
     subtotal += deposit
+
+    discount_amount = Decimal('0.00')
+
+    if discount_code_str:
+        code_upper = discount_code_str.strip().upper()
+        if code_upper not in VALID_DISCOUNT_CODES:
+            return JsonResponse({'errors': {'discount_code': ['Invalid discount code']}}, status=400)
+        discount_percentage = VALID_DISCOUNT_CODES[code_upper]
+        discount_amount = subtotal * (discount_percentage / Decimal('100'))
+        discount_obj = None
 
     grand_total = max(Decimal('0.00'), subtotal - discount_amount)
 

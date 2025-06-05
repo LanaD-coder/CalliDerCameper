@@ -22,7 +22,7 @@ class DiscountCode(models.Model):
     active = models.BooleanField(default=True)
     valid_from = models.DateTimeField(null=True, blank=True)
     valid_to = models.DateTimeField(null=True, blank=True)
-    used_count = models.PositiveIntegerField(default=0)  # track how many times used
+    used_count = models.PositiveIntegerField(default=0)
 
     def is_valid(self):
         now = timezone.now()
@@ -31,8 +31,6 @@ class DiscountCode(models.Model):
         if self.valid_from and now < self.valid_from:
             return False
         if self.valid_to and now > self.valid_to:
-            return False
-        if self.usage_limit and self.used_count >= self.usage_limit:
             return False
         return True
 
