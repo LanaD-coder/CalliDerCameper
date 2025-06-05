@@ -294,7 +294,7 @@ def payment_success(request):
             booking.save()
 
             # Trigger email
-            send_payment_success_email(booking.primary_driver)
+            send_payment_success_email(booking.primary_driver, booking)
 
             messages.success(request, "Payment successful! Your booking is confirmed.")
             return render(request, 'accounts/success.html', {'booking_number': booking.booking_number})
@@ -304,18 +304,6 @@ def payment_success(request):
     else:
         messages.error(request, "Payment not successful.")
         return redirect('home')
-
-
-def send_payment_success_email(user):
-    name = user.get_full_name() or user.username
-    subject = _("Your Payment Was Successful")
-    context = {'user': user, 'name': name}
-    html_message = render_to_string("emails/payment_success.html", context)
-    plain_message = render_to_string("emails/payment_success.txt", context)
-    from_email = settings.DEFAULT_FROM_EMAIL
-    recipient_list = [user.email]
-
-    send_mail(subject, plain_message, from_email, recipient_list, html_message=html_message)
 
 
 def payment_cancel(request):
@@ -348,3 +336,25 @@ def check_availability(request):
             return JsonResponse({"available": True})
         except Exception as e:
             return JsonResponse({"available": False, "errors": [str(e)]})
+
+
+def send_payment_success_email(user, booking):
+    # Debug print to check booking details
+    print("Booking campervan:", booking.campervan.name)
+    print("Booking number:", booking.booking_number)
+    print("Booking start date:", booking.start_date)
+
+    name = user.get_full_name() or user.username
+    subject = _("Your Payment Was Successful")
+    context = {
+        'user': user,
+        'name': name,
+        'booking': booking,
+        'deposit_amount': Decimal('1000.00'),
+    }
+    html_message = render_to_string("emails/payment_success.html", context)
+    plain_message = render_to_string("emails/payment_success.txt", context)
+    from_email = settings.DEFAULT_FROM_EMAIL
+    recipient_list = [user.email]
+
+    send_mail(subject, plain_message, from_email, recipient_list, html_message=html_message)

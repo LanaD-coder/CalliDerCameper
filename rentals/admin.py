@@ -1,4 +1,5 @@
 from django.contrib import admin, messages
+from decimal import Decimal
 from django import forms
 from .models import (
     Campervan,
@@ -15,7 +16,7 @@ class BookingAdmin(admin.ModelAdmin):
     list_display = ('booking_number', 'campervan', 'start_date', 'end_date', 'total_price', 'status', 'payment_status')
     list_filter = ('status', 'payment_status')
     search_fields = ('booking_number', 'primary_driver_name', 'additional_driver_name')
-    readonly_fields = ('booking_number', 'total_price', 'created_at', 'updated_at')
+    readonly_fields = ('booking_number', 'total_price', 'created_at', 'updated_at', 'deposit_amount_display')
     ordering = ('-created_at',)
     filter_horizontal = ('additional_services',)
 
@@ -37,7 +38,7 @@ class BookingAdmin(admin.ModelAdmin):
             ),
         }),
         ('Discount and Deposit', {
-            'fields': ('discount_code', 'deposit_hidden'),
+            'fields': ('discount_code', 'deposit_amount_display'),
         }),
         ('Services', {
             'fields': ('additional_services',),
@@ -55,7 +56,9 @@ class BookingAdmin(admin.ModelAdmin):
 
 
     def deposit_amount_display(self, obj):
-        return "€1000 (always applied)"
+        deposit_value = getattr(obj, 'deposit', Decimal('1000.00'))
+        return f"€{deposit_value:,.2f}"
+
     deposit_amount_display.short_description = "Deposit"
 
     def save_model(self, request, obj, form, change):

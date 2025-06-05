@@ -18,6 +18,9 @@ class Campervan(models.Model):
                 return rate.rate
         return None
 
+    def __str__(self):
+        return self.name
+
 
 class CampervanImage(models.Model):
     campervan = models.ForeignKey(Campervan, related_name='images', on_delete=models.CASCADE)
@@ -78,6 +81,7 @@ class Booking(models.Model):
         return None
 
     discount_code = models.CharField(max_length=50, blank=True, null=True)
+    discount_amount = models.DecimalField(max_digits=8, decimal_places=2, default=0)
 
     # New editable primary driver fields if you want to allow manual input instead of FK
     primary_driver_name = models.CharField(max_length=100, blank=True, null=True)
@@ -169,7 +173,7 @@ class Booking(models.Model):
         self.save()
 
     def save(self, *args, **kwargs):
-        self.clean()  # validations
+        self.clean()
 
         if not self.start_date or not self.end_date:
             raise ValidationError("Start date and end date must be set before saving a booking.")
@@ -187,6 +191,10 @@ class Booking(models.Model):
                 raise ValidationError(f"No seasonal rate found for date {current_date}")
             total += rate
 
+        # Subtract discount
+        total -= self.discount_amount or 0
+        if total < 0:
+            total = 0
 
         self.total_price = total
 
