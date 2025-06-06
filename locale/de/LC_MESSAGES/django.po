@@ -99,12 +99,12 @@ msgid "Jetzt buchen"
 msgstr "Book now!"
 
 #: .\pages\templates\pages\about.html:37
-msgid "Previous"
-msgstr "Vorherige"
+msgid "Vorherige"
+msgstr "Previous"
 
 #: .\pages\templates\pages\about.html:41
-msgid "Next"
-msgstr "Nächste"
+msgid "Nächste"
+msgstr "Next"
 
 #: .\pages\templates\pages\about.html:47
 msgid "Calli stellt sich vor"
@@ -115,9 +115,10 @@ msgid ""
 "Schau mal hier rein! Hier erfährst du, was Calli alles an Bord hat – vom "
 "Hochbett für die Kids bis zur kleinen Küche mit Gaskocher. Alles drin für "
 "große und kleine Abenteuer."
-msgstr "Take a look here! You'll find out everything Calli has on board –
-from the bunk bed for the kids to the small kitchen with a gas stove.
-Everything you need for big and small adventures."
+msgstr ""
+"Take a look here! You'll find out everything Calli has on board – "
+"from the bunk bed for the kids to the small kitchen with a gas stove. "
+"Everything you need for big and small adventures."
 
 #: .\pages\templates\pages\about.html:50
 #, fuzzy
@@ -195,11 +196,11 @@ msgstr "Air conditioning"
 #, fuzzy
 #| msgid "Multimedia system with DAB+"
 msgid "Multimediasystem mit DAB+"
-msgstr "Multimediasystem mit DAB+"
+msgstr "Multimediasystem with DAB+"
 
 #: .\pages\templates\pages\about.html:73
 msgid "Teils Ganzjahres- & Sommerreifen"
-msgstr "Partly all-season & summer tires"
+msgstr "Combination of all-season and summer tires"
 
 #: .\pages\templates\pages\about.html:74
 msgid "Multifunktionslenkrad"
@@ -228,8 +229,8 @@ msgstr "Sleeping space for 2 + 2 people"
 #: .\pages\templates\pages\about.html:83
 #, fuzzy
 #| msgid "Loft bed (122 × 160 / 190 cm)"
-msgid "Hochbett (122 × 160 / 190 cm)"
-msgstr "Hubbett (122 × 160 / 190 cm)"
+msgid "Hubbett (122 × 160 / 190 cm)"
+msgstr "High bed (122 × 160 / 190 cm)"
 
 #: .\pages\templates\pages\about.html:84
 msgid "Verstaubarer Innenraumtisch"
@@ -239,7 +240,7 @@ msgstr "Stowable indoor table"
 #, fuzzy
 #| msgid "Toilet with mobile wastewater cassette"
 msgid "Toilette mit mobiler Abwasserkassette"
-msgstr "Toilette mit mobiler Abwasserkassette"
+msgstr "Toilet with portable waste cassette"
 
 #: .\pages\templates\pages\about.html:86
 msgid "Rundum Sichtschutz (inkl. Front- & Heckscheibe)"
@@ -253,7 +254,7 @@ msgstr "Storage space under the transverse bed"
 #, fuzzy
 #| msgid "5V USB, 12V & 230V sockets"
 msgid "5V USB, 12V & 230V Steckdosen"
-msgstr "5V USB-, 12V- & 230V-Steckdosen"
+msgstr "5V USB, 12V & 230V sockets"
 
 #: .\pages\templates\pages\about.html:89
 #, fuzzy
@@ -354,11 +355,10 @@ msgstr "You need to be a registered user to book Calli."
 #: .\pages\templates\pages\about.html:127
 #, python-format
 msgid ""
-"\n"
-"    Please <a href=\"%(login_url)s\">log in</a> or <a "
-"href=\"%(signup_url)s\">sign up</a> to make a booking.\n"
-"    "
+"Bitte <a href=\"%(login_url)s\">melde dich an</a> oder <a href=\"%(signup_url)s\">registriere dich</a>, um eine Buchung vorzunehmen."
 msgstr ""
+"Please <a href=\"%(login_url)s\">log in</a> or <a "
+"href=\"%(signup_url)s\">sign up</a> to make a booking."
 
 #: .\pages\templates\pages\information.html:9
 msgid "So läuft`s ab"
@@ -452,15 +452,14 @@ msgstr "E-mail"
 
 #: .\pages\templates\pages\information.html:52
 #, fuzzy
-#| msgid "Register"
-msgid "Registergericht"
-msgstr "Registrieren"
+msgid ""Registrieren""
+msgstr "Register"
 
 #: .\pages\templates\pages\information.html:53
 #, fuzzy
 #| msgid "Register"
 msgid "Registernummer"
-msgstr "Registrieren"
+msgstr "Registration number"
 
 #: .\pages\templates\pages\information.html:54
 msgid "Geschäftsführer"
@@ -556,7 +555,7 @@ msgstr "Camping table & chairs: included"
 
 #: .\pages\templates\pages\information.html:109
 msgid "Endreinigung (wenn nicht selbst gemacht): 59€"
-msgstr "Final cleaning (if not done yourself): €59"
+msgstr “Final cleaning (if not done by renter): €59”
 
 #: .\pages\templates\pages\information.html:112
 msgid "Kaution"
@@ -577,7 +576,7 @@ msgstr "Cancellations are of course possible – we ask for timely notification.
 #: .\pages\templates\pages\information.html:118
 #, python-format
 msgid "Bis 30 Tage vor Reisebeginn: 90%% Erstattung des Gesamtmietpreises"
-msgstr "Up to 30 days before trip start: 90%% refund of total rental price"
+msgstr “Up to 30 days before departure: 90% refund of the total rental price”
 
 #: .\pages\templates\pages\information.html:119
 #, python-format
@@ -594,7 +593,7 @@ msgstr "In case of a short-term re-rental, we try to be accommodating and possib
 
 #: .\pages\templates\pages\information.html:123
 msgid "Tipp:"
-msgstr "Tip:"
+msgstr "Pro tip:"
 
 #: .\pages\templates\pages\information.html:123
 msgid "Wir empfehlen den Abschluss einer Reiserücktrittsversicherung für den Fall der Fälle!"
@@ -635,8 +634,8 @@ msgstr "These countries are crossed out on the Green Card and excluded from insu
 #: .\pages\templates\pages\videos.html:6
 #, fuzzy
 #| msgid "VW Grand California Merkmale & Ausstattung"
-msgid "Explore VW Grand California Features"
-msgstr "VW Grand California Features & Ausstattung"
+msgid "VW Grand California Features & Ausstattung"
+msgstr "Explore VW Grand California Features"
 
 #: .\pages\templates\pages\videos.html:7
 msgid ""
@@ -698,8 +697,8 @@ msgstr ""
 
 #: .\pages\templates\pages\videos.html:49
 #: .\pages\templates\pages\videos.html:51
-msgid "Adaptive Cruise Control"
-msgstr ""
+msgid "Abstandsregeltempomat"
+msgstr "Adaptive Cruise Control"
 
 #: .\pages\templates\pages\videos.html:52
 msgid "Enjoy a relaxed drive with adaptive cruise control and parking assist."

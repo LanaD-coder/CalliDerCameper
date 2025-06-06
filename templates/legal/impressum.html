@@ -1,12 +1,13 @@
 {% extends "base.html" %}
 {% load static %}
+{% load i18n %}
 
 {% block content %}
 <section id="imp-section">
-  <h2>Impressum</h2>
+  <h2>{% trans "Impressum" %}</h2>
 
   <p>
-    Angaben gemäß § 5 TMG:
+    {% trans "Angaben gemäß § 5 TMG:" %}
   </p>
   <p>
     Phoenix Corporate Health GmbH<br>
@@ -16,34 +17,33 @@
   </p>
 
   <p>
-    <strong>Kontakt:</strong><br>
-    Telefon: +491715245206<br>
-    E-Mail: abenteuer@callidercamper.de
+    <strong>{% trans "Kontakt:" %}</strong><br>
+    {% trans "Telefon:" %} +491715245206<br>
+    {% trans "E-Mail:" %} abenteuer@callidercamper.de
   </p>
 
   <p>
-    <strong>Registergericht: Amtsgericht Siegburg</strong><br>
-    Registernummer: HRB 14434<br>
-    Geschäftsführer: Jürgen Freitag
+    <strong>{% trans "Registergericht: Amtsgericht Siegburg" %}</strong><br>
+    {% trans "Registernummer:" %} HRB 14434<br>
+    {% trans "Geschäftsführer:" %} Jürgen Freitag
   </p>
 
   <p>
-    <strong>Umsatzsteuer-ID:</strong><br>
-    Umsatzsteuer-Identifikationsnummer gemäß §27a Umsatzsteuergesetz: DE311891137
+    <strong>{% trans "Umsatzsteuer-ID:" %}</strong><br>
+    {% trans "Umsatzsteuer-Identifikationsnummer gemäß §27a Umsatzsteuergesetz:" %} DE311891137
   </p>
 
   <p>
-    <strong>EU-Kommission</strong><br>
-    Plattform der EU-Kommission zur Online-Streitbegleitung: <a href="https://ec.europa.eu/consumers/odr" target="_blank" class="underline text-blue-600" rel="noopener noreferrer">https://ec.europa.eu/consumers/odr</a>
+    <strong>{% trans "EU-Kommission" %}</strong><br>
+    {% trans "Plattform der EU-Kommission zur Online-Streitbegleitung:" %} <a href="https://ec.europa.eu/consumers/odr" target="_blank" class="underline text-blue-600" rel="noopener noreferrer">https://ec.europa.eu/consumers/odr</a>
   </p>
 
   <p>
-    Wir sind zur Teilnahme an einem Streitbeilegungsverfahren vor einer Verbraucherschlichtungsstelle
-    weder verpflichtet noch bereit.
+    {% trans "Wir sind zur Teilnahme an einem Streitbeilegungsverfahren vor einer Verbraucherschlichtungsstelle weder verpflichtet noch bereit." %}
   </p>
 
   <p class="text-sm text-gray-500">
-    © {{ year }} Calli the Camper. Alle Rechte vorbehalten.
+    © {{ year }} Calli the Camper. {% trans "Alle Rechte vorbehalten." %}
   </p>
 </section>
 {% endblock %}

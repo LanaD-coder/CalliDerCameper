@@ -1,22 +1,23 @@
 {% extends "base.html" %}
 {% load static %}
+{% load i18n %}
 
 {% block content %}
 <section id="contact-section">
 
-    <title>Thanks for your order!</title>
+    <title>{% trans "Thanks for your order!" %}</title>
 
     <section>
       <p>
-        We appreciate your booking! If you have any questions, please feel free to contact us at:
+        {% trans "We appreciate your booking! If you have any questions, please feel free to contact us at:" %}
       </p>
     </section>
     <section>
-    Phoenix Corporate Health GmbH
-    Gewerbegebiet Bitzen 19
-    53804 Much
-    Telefon: +491715245206
-    E-Mail: abenteuer@callidercamper.de
+      Phoenix Corporate Health GmbH<br>
+      Gewerbegebiet Bitzen 19<br>
+      53804 Much<br>
+      {% trans "Telefon:" %} +491715245206<br>
+      {% trans "E-Mail:" %} abenteuer@callidercamper.de
     </section>
  </section>
 {% endblock %}

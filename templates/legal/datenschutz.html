@@ -1,40 +1,37 @@
 {% extends "base.html" %}
 {% load static %}
+{% load i18n %}
 
 {% block content %}
 <section id="daten-section">
-  <h2>Datenschutzerklärung</h2>
+  <h2>{% trans "Datenschutzerklärung" %}</h2>
   <p>
-    Der Schutz Ihrer persönlichen Daten ist uns wichtig. Nachfolgend informieren wir Sie über die Art, den Umfang
-    und Zweck der Erhebung und Verwendung personenbezogener Daten auf dieser Website.
+    {% trans "Der Schutz Ihrer persönlichen Daten ist uns wichtig. Nachfolgend informieren wir Sie über die Art, den Umfang und Zweck der Erhebung und Verwendung personenbezogener Daten auf dieser Website." %}
   </p>
 
-  <h3>Verantwortlicher</h3>
+  <h3>{% trans "Verantwortlicher" %}</h3>
   <p>
     Phoenix Corporate Health GmbH<br>
     Gewerbegebiet Blitzen 19<br>
     53804 Much<br>
     Deutschland<br>
-    Telefon: +491715245206<br>
-    E-Mail: abenteuer@callidercamper.de
+    {% trans "Telefon:" %} +491715245206<br>
+    {% trans "E-Mail:" %} abenteuer@callidercamper.de
   </p>
 
-  <h3>Erhebung und Verarbeitung</h3>
+  <h3>{% trans "Erhebung und Verarbeitung" %}</h3>
   <p>
-    Ihre personenbezogenen Daten werden nur dann erhoben, wenn Sie uns diese freiwillig mitteilen, z. B. bei der Buchung.
-    Die von Ihnen zur Verfügung gestellten Daten verwenden wir ausschließlich zur Abwicklung Ihrer Anfrage oder Buchung.
+    {% trans "Ihre personenbezogenen Daten werden nur dann erhoben, wenn Sie uns diese freiwillig mitteilen, z. B. bei der Buchung. Die von Ihnen zur Verfügung gestellten Daten verwenden wir ausschließlich zur Abwicklung Ihrer Anfrage oder Buchung." %}
   </p>
 
-  <h3>Cookies</h3>
+  <h3>{% trans "Cookies" %}</h3>
   <p>
-    Diese Website verwendet Cookies, um die Benutzerfreundlichkeit zu verbessern. Sie können die Speicherung von Cookies
-    in Ihrem Browser deaktivieren, was jedoch zu Einschränkungen in der Funktionalität führen kann.
+    {% trans "Diese Website verwendet Cookies, um die Benutzerfreundlichkeit zu verbessern. Sie können die Speicherung von Cookies in Ihrem Browser deaktivieren, was jedoch zu Einschränkungen in der Funktionalität führen kann." %}
   </p>
 
-  <h3>Ihre Rechte</h3>
+  <h3>{% trans "Ihre Rechte" %}</h3>
   <p>
-    Sie haben das Recht auf Auskunft, Berichtigung, Löschung oder Einschränkung der Verarbeitung Ihrer gespeicherten Daten
-    sowie ein Beschwerderecht bei einer Aufsichtsbehörde.
+    {% trans "Sie haben das Recht auf Auskunft, Berichtigung, Löschung oder Einschränkung der Verarbeitung Ihrer gespeicherten Daten sowie ein Beschwerderecht bei einer Aufsichtsbehörde." %}
   </p>
 </section>
 {% endblock %}
