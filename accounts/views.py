@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
-from rentals.models import Booking
+from rentals.models import Booking, Invoice
 from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse, HttpResponseBadRequest
 from django.contrib import messages
@@ -15,6 +15,7 @@ import stripe
 def profile_view(request):
     user = request.user
     bookings = Booking.objects.filter(primary_driver=user).order_by('-start_date')
+    invoices = Invoice.objects.filter(bookings__primary_driver=user).distinct().order_by('-issued_date')
     messages_list = ContactMessage.objects.filter(user=user).order_by('-submitted_at')
 
     # Determine action from query params: create, edit, delete
@@ -67,6 +68,7 @@ def profile_view(request):
         'form': form,
         'delete_message': delete_message,
         'action': action,
+        'invoices': invoices,
     })
 
 
@@ -93,6 +95,15 @@ def webhook_receiver(request):
                 booking.payment_status = 'paid'
                 booking.status = 'active'
                 booking.payment_reference = session.get('payment_intent')
+
+                 # Create and attach an invoice
+                invoice = Invoice.objects.create(
+                    user=booking.primary_driver,
+                    amount=booking.total_price,
+                    paid=True,
+                    issued_date=now().date()
+                )
+                booking.invoice = invoice
                 booking.save()
             except Booking.DoesNotExist:
                 return JsonResponse({'error': 'Booking not found'}, status=404)
