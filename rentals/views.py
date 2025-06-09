@@ -173,10 +173,7 @@ def create_booking_ajax(request, pk):
     booking.save()
     form.save_m2m()
 
-    VALID_DISCOUNT_CODES = {
-        "WATERS": Decimal('100'), # Friends
-        "BLOODS": Decimal('100'), # Family
-    }
+    VALID_DISCOUNT_CODES = settings.VALID_DISCOUNT_CODES
 
     discount_code_str = form.cleaned_data.get('discount_code')
     discount_obj = None

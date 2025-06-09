@@ -10,6 +10,8 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 import os
+import json
+from decimal import Decimal
 from pathlib import Path
 import environ
 import dj_database_url
@@ -198,3 +200,8 @@ EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'c.wnt.nd1053@gmail.com'
 EMAIL_HOST_PASSWORD = env('EMAIL_HOST_PASSWORD')
+
+discount_codes_raw = os.getenv('VALID_DISCOUNT_CODES', '{}')
+VALID_DISCOUNT_CODES = {
+    k: Decimal(v) for k, v in json.loads(discount_codes_raw).items()
+}
