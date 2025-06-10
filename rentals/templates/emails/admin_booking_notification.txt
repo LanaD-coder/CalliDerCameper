@@ -1,0 +1,27 @@
+{% trans "New Booking Received" %}
+
+{% trans "Booking Number:" %} {{ booking.booking_number }}
+
+{% trans "Campervan:" %} {{ booking.campervan.name }}
+
+{% trans "Customer:" %} {{ user.get_full_name }} ({{ user.email }})
+
+{% trans "Start Date:" %} {{ booking.start_date }}
+
+{% trans "End Date:" %} {{ booking.end_date }}
+
+{% trans "Total Price:" %} €{{ total_price }}
+
+{% trans "Payment Reference:" %} {{ payment_reference }}
+
+{% trans "Additional Services:" %}
+
+{% for service in booking.additional_services.all %}
+- {{ service.name }} - €{{ service.price }}
+{% empty %}
+- {% trans "No additional services selected." %}
+{% endfor %}
+
+{% trans "View in Admin Dashboard:" %} {{ admin_booking_url }}
+
+{% trans "This is an automated notification. No reply is necessary." %}

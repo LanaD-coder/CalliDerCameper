@@ -184,4 +184,40 @@
   });
 </script>
 
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const isAuthenticated = {{ user.is_authenticated|yesno:"true,false" }};
+  if (!isAuthenticated) {
+    const firstInput = document.querySelector('[name="{{ form.primary_driver_name.name }}"]');
+    if (firstInput) {
+      // Trigger on focus or input (you can choose)
+      firstInput.addEventListener('focus', function(e) {
+        e.target.blur();  // remove focus to prevent typing before login
+        document.getElementById('loginPromptModal').style.display = 'flex';
+      });
+
+      // Optional: also prevent typing by disabling input until login
+      firstInput.addEventListener('keydown', function(e) {
+        e.preventDefault();
+        document.getElementById('loginPromptModal').style.display = 'flex';
+      });
+    }
+  }
+});
+</script>
+
+<!-- Modal for login/register prompt -->
+<div id="loginPromptModal">
+  <div style="background:white; padding:20px; border-radius:8px; max-width:400px; text-align:center;">
+    <h2>{% trans "You need to be a registered user to book Calli." %}</h2>
+    {% url 'account_login' as login_url %}
+    {% url 'account_signup' as signup_url %}
+
+    {% blocktrans %}
+    Please <a href="{{ login_url }}">log in</a> or <a href="{{ signup_url }}">sign up</a> to make a booking.
+    {% endblocktrans %}
+    <button onclick="document.getElementById('loginPromptModal').style.display='none'" style="border: 0; border-radius: 0.8; background-color: #0dc1bf; color: white;">Close</button>
+  </div>
+</div>
+
 {% endblock %}

@@ -253,6 +253,10 @@ footer {
   width: 100%;
 }
 
+.centered-text {
+  text-align: center;
+}
+
 .profile-image {
   width: 120px;
   height: 120px;
@@ -263,6 +267,25 @@ footer {
   border-radius: 0 80px 0 0;
   box-shadow: 0 4px 8px rgba(0,0,0,0.2);
   flex-shrink: 0;
+}
+
+#loginPromptModal {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.5);
+  z-index: 10000;
+  justify-content: center;
+  align-items: center;
+}
+
+.about-btn,
+.booking-btn {
+  background-color: #0dc1bf;
+  color: white;
 }
 
 #about-section h1 {
@@ -288,6 +311,25 @@ footer {
         z-index: 10;
 }
 
+.video-card {
+  padding: 1rem;
+  background-color: #fff;
+  border-radius: 0.5rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.video-card video,
+.video-card img {
+  border-radius: 0.5rem;
+  margin-bottom: 1rem;
+  max-height: 200px;
+  object-fit: cover;
+}
+
 #destinations-section {
   max-width: 100%;
   margin: 3rem auto;
@@ -295,7 +337,8 @@ footer {
   padding: 0 1rem;
 }
 
-#destinations-section h2 {
+#destinations-section h2,
+.media-showcase h2 {
   font-family: "Cookie", cursive;
   font-size: 2.8rem;
   color: #a5822d;

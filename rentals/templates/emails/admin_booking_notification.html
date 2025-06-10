@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>{% trans "New Booking Notification" %}</title>
+</head>
+<body>
+    <h2>{% trans "New Booking Received" %}</h2>
+    <p><strong>{% trans "Booking Number:" %}</strong> {{ booking.booking_number }}</p>
+    <p><strong>{% trans "Campervan:" %}</strong> {{ booking.campervan.name }}</p>
+    <p><strong>{% trans "Customer:" %}</strong> {{ user.get_full_name }} ({{ user.email }})</p>
+    <p><strong>{% trans "Start Date:" %}</strong> {{ booking.start_date }}</p>
+    <p><strong>{% trans "End Date:" %}</strong> {{ booking.end_date }}</p>
+    <p><strong>{% trans "Total Price:" %}</strong> €{{ total_price }}</p>
+    <p><strong>{% trans "Payment Reference:" %}</strong> {{ payment_reference }}</p>
+    <p><strong>{% trans "Additional Services:" %}</strong></p>
+    <ul>
+        {% for service in booking.additional_services.all %}
+            <li>{{ service.name }} - €{{ service.price }}</li>
+        {% empty %}
+            <li>{% trans "No additional services selected." %}</li>
+        {% endfor %}
+    </ul>
+
+    <p>
+        <a href="{{ admin_booking_url }}">{% trans "View in Admin Dashboard" %}</a>
+    </p>
+
+    <hr>
+    <p>{% trans "This is an automated notification. No reply is necessary." %}</p>
+</body>
+</html>

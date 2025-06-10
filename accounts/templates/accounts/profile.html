@@ -23,11 +23,25 @@
           </thead>
           <tbody>
             {% for booking in bookings %}
-            <tr>
-              <td>{{ booking.campervan.name }}</td>
+            <tr class="booking-toggle" data-bs-toggle="collapse" data-bs-target="#bookingDetails{{ booking.id }}" aria-expanded="false" aria-controls="bookingDetails{{ booking.id }}" style="cursor: pointer;">
+              <td>
+                {{ booking.campervan.name }}
+                <i class="bi bi-chevron-down float-end transition" id="toggleIcon{{ booking.id }}"></i>
+              </td>
               <td>{{ booking.start_date }}</td>
               <td>{{ booking.end_date }}</td>
               <td>{{ booking.get_status_display }}</td>
+            </tr>
+            <tr class="collapse" id="bookingDetails{{ booking.id }}">
+              <td colspan="4">
+                <div class="p-3 bg-light border rounded">
+                  <strong>{% trans "Booking Number:" %}</strong> {{ booking.booking_number }}<br>
+                  <strong>{% trans "Pickup Location:" %}</strong> {{ booking.pickup_location }}<br>
+                  <strong>{% trans "Drop-off Location:" %}</strong> {{ booking.dropoff_location }}<br>
+                  <strong>{% trans "Extras:" %}</strong> {{ booking.extras|default:"-" }}<br>
+                  <strong>{% trans "Notes:" %}</strong> {{ booking.notes|default:"-" }}
+                </div>
+              </td>
             </tr>
             {% endfor %}
           </tbody>
@@ -141,4 +155,20 @@
     </div>
   </div>
 </div>
+
+<script>
+  document.querySelectorAll('.booking-toggle').forEach(row => {
+    row.addEventListener('click', () => {
+      const icon = row.querySelector('i');
+      const targetId = row.getAttribute('data-bs-target');
+      const target = document.querySelector(targetId);
+
+      if (target.classList.contains('show')) {
+        icon.classList.remove('rotate-180');
+      } else {
+        icon.classList.add('rotate-180');
+      }
+    });
+  });
+</script>
 {% endblock %}

@@ -4,6 +4,7 @@ from .forms import ContactForm
 from .models import FAQ
 from rentals.models import Campervan
 from datetime import datetime
+from pages.models import CampingDestination
 
 
 def about_view(request):
@@ -19,8 +20,10 @@ def information_view(request):
 
 
 def videos_view(request):
-    return render(request, 'pages/videos.html')
-
+    destinations = CampingDestination.objects.all()
+    return render(request, 'pages/videos.html', {
+        'destinations': destinations,
+    })
 
 def contact_view(request):
     faqs = FAQ.objects.all()

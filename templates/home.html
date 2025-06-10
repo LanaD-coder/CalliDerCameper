@@ -29,41 +29,127 @@
   </div>
 </div>
 
-<section id="destinations-section">
-  <h2>{% trans "Recommended Camping Destinations" %}</h2>
-  <div class="destinations-list">
-    {% for dest in destinations %}
-      <div class="destination-card">
-        <img src="{{ dest.image.url }}" alt="{{ dest.name }}" />
-        <h3>{{ dest.name }}</h3>
-        <p>{{ dest.description }}</p>
+<section id="about-section" class="my-5 position-relative">
+  <!-- 1. Home -->
+  <section id="home" class="my-5">
+    <h1>{% trans "Calli entdeckt die Welt – und du kannst mit!" %}</h1>
+    <p>{% trans "Miete ihn für dein Abenteuer!" %}</p>
+    <p>{% trans "Calli ist mehr als nur ein Camper – er ist unser kleines Abenteuer auf vier Rädern." %}</p>
+    <p>{% trans "Aber statt ihn nur selbst zu nutzen, möchten wir, dass auch andere Menschen die Freiheit des Reisens erleben können." %}</p>
+    <p>{% trans "So entdeckt Calli weiter neue Orte und du findest vielleicht dein ganz eigenes Lieblingsplätzchen." %}</p>
+    <a href="{% url 'booking_page' pk=1 %}" class="btn btn-lg booking-btn">
+    {% trans "Jetzt buchen" %}</a>
+  </section>
 
-        {% if dest.website_url %}
-          <p><a href="{{ dest.website_url }}" target="_blank" rel="noopener">{% trans "Visit Website" %}</a></p>
-        {% endif %}
+  <div id="calliCarousel" class="carousel slide my-5" data-bs-ride="carousel">
+    <div class="carousel-indicators">
+      {% for img in images %}
+        <button type="button" data-bs-target="#calliCarousel" data-bs-slide-to="{{ forloop.counter0 }}"
+                {% if forloop.first %}class="active" aria-current="true"{% endif %}
+                aria-label="Slide {{ forloop.counter }}"></button>
+      {% endfor %}
+    </div>
 
-        {% if dest.map_url %}
-        <div class="map-responsive">
-          <iframe
-            src="{{ dest.map_url }}"
-            width="600"
-            height="450"
-            style="border:0;"
-            allowfullscreen=""
-            loading="lazy"
-            referrerpolicy="no-referrer-when-downgrade">
-          </iframe>
+    <div class="carousel-inner">
+      {% for img in images %}
+        <div class="carousel-item {% if forloop.first %}active{% endif %}">
+          <img src="{{ img.image.url }}" class="d-block w-100" alt="Campervan image">
         </div>
-        {% endif %}
-      </div>
-    {% empty %}
-      <p>{% trans "No destinations available at the moment." %}</p>
-    {% endfor %}
+      {% endfor %}
+    </div>
+
+    <button class="carousel-control-prev" type="button" data-bs-target="#calliCarousel" data-bs-slide="prev">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">{% trans "Previous" %}</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#calliCarousel" data-bs-slide="next">
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">{% trans "Next" %}</span>
+    </button>
   </div>
+
+  <!-- About link -->
+  <div class="text-center mt-5">
+    <a href="{% url 'information' %}" class="btn btn-lg about-btn">
+      Learn more about renting Calli<br> <i class="fa-solid fa-circle-info"></i>
+    </a>
+  </div>
+
+  <!-- 2. Über Calli -->
+  <section id="about-calli" class="my-5">
+    <h2>{% trans "Calli stellt sich vor" %}</h2>
+    <p>{% trans "Schau mal hier rein! Hier erfährst du, was Calli alles an Bord hat – vom Hochbett für die Kids bis zur kleinen Küche mit Gaskocher. Alles drin für große und kleine Abenteuer." %}</p>
+
+    <h3>{% trans "VW Grand California 600" %}</h3>
+
+    <h4>{% trans "Technische Details" %}</h4>
+    <ul>
+      <li>{% trans "Baujahr" %}: 2022</li>
+      <li>{% trans "Leistung" %}: 177 PS</li>
+      <li>{% trans "Kraftstoffart" %}: Diesel</li>
+      <li>{% trans "Abgasnorm" %}: Euro 6</li>
+      <li>{% trans "Kraftstoffverbrauch pro 100 km" %}: 8,5 l</li>
+      <li>{% trans "Fassungsvermögen Kraftstofftank" %}: 80 l</li>
+      <li>{% trans "Fahrzeugmaße (L/B/H)" %}: 599 / 204 / 309 cm</li>
+      <li>{% trans "Längenangabe bei Fährbuchung" %}: 600 cm</li>
+      <li>{% trans "Längenangabe bei Fährbuchung mit Fahrradträger" %}: 700 cm</li>
+      <li>{% trans "Zulässiges Gesamtgewicht" %}: 3500 kg</li>
+    </ul>
+
+    <h4>{% trans "Fahren" %}</h4>
+    <ul>
+      <li>{% trans "Sitzplätze für 4 Personen" %}</li>
+      <li>{% trans "Automatikgetriebe" %}</li>
+      <li>{% trans "Tempomat inkl. ACC (Automatische Distanzregelung)" %}</li>
+      <li>{% trans "Klimaanlage" %}</li>
+      <li>{% trans "Multimediasystem mit DAB+" %}</li>
+      <li>{% trans "Teils Ganzjahres- & Sommerreifen" %}</li>
+      <li>{% trans "Multifunktionslenkrad" %}</li>
+      <li>{% trans "Parkhilfe in Front & Heck inkl. Rückfahrkamera" %}</li>
+      <li>{% trans "Navigationssystem integriert" %}</li>
+      <li>{% trans "Isofix" %}</li>
+    </ul>
+
+    <h4>{% trans "Wohnen & Schlafen" %}</h4>
+    <ul>
+      <li>{% trans "Schlafplätze für 2 + 2 Personen" %}</li>
+      <li>{% trans "Hochbett (122 × 160 / 190 cm)" %}</li>
+      <li>{% trans "Verstaubarer Innenraumtisch" %}</li>
+      <li>{% trans "Toilette mit mobiler Abwasserkassette" %}</li>
+      <li>{% trans "Rundum Sichtschutz (inkl. Front- & Heckscheibe)" %}</li>
+      <li>{% trans "Stauraum unter Querbett" %}</li>
+      <li>{% trans "5V USB, 12V & 230V Steckdosen" %}</li>
+      <li>{% trans "Querbett im Heck (193 × 140 cm)" %}</li>
+      <li>{% trans "Drehbare Vordersitze" %}</li>
+      <li>{% trans "Nasszelle mit Dusche & WC" %}</li>
+      <li>{% trans "Warmwasser-Boiler (12 l)" %}</li>
+      <li>{% trans "Schranksystem mit großzügigem Stauraum" %}</li>
+      <li>{% trans "Standheizung" %}</li>
+      <li>{% trans "Zweite Batterie" %}</li>
+    </ul>
+
+    <h4>{% trans "Küche" %}</h4>
+    <ul>
+      <li>{% trans "2-Felder-Gasherd" %}</li>
+      <li>{% trans "Spülbecken" %}</li>
+      <li>{% trans "Koch- & Küchengeschirr inklusive" %}</li>
+      <li>{% trans "Frischwassertank (110 l) & Abwassertank (90 l)" %}</li>
+      <li>{% trans "Kühlschrank (70 l) & Froster (7,5 l)" %}</li>
+      <li>{% trans "Ausziehbare Küche für mehr Platz" %}</li>
+      <li>{% trans "French-Press" %}</li>
+    </ul>
+
+    <h4>{% trans "Außenbereich" %}</h4>
+    <ul>
+      <li>{% trans "Markise mit ausklappbaren Standbeinen" %}</li>
+      <li>{% trans "Außensteckdose & Verlängerungskabel" %}</li>
+      <li>{% trans "Campingtisch & 2 Campingstühle" %}</li>
+    </ul>
+    <p><strong>{% trans "Besonderheiten:" %}</strong> {% trans "Haustiere sind leider nicht erlaubt." %} <i class="fa-solid fa-otter"></i></p>
+  </section>
 </section>
 
 {% get_current_language as LANGUAGE_CODE %}
-
 
 <script>
 document.addEventListener('DOMContentLoaded', function () {

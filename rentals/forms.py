@@ -40,7 +40,7 @@ class BookingForm(forms.ModelForm):
         self.campervan = kwargs.pop('campervan', None)
         super().__init__(*args, **kwargs)
 
-        if self.user:
+        if self.user and self.user.is_authenticated:
             full_name = self.user.get_full_name()
             if full_name:
                 self.fields['primary_driver_name'].initial = full_name

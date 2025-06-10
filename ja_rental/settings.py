@@ -201,7 +201,11 @@ EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'c.wnt.nd1053@gmail.com'
 EMAIL_HOST_PASSWORD = env('EMAIL_HOST_PASSWORD')
 
+
 discount_codes_raw = os.getenv('VALID_DISCOUNT_CODES', '{}')
 VALID_DISCOUNT_CODES = {
     k: Decimal(v) for k, v in json.loads(discount_codes_raw).items()
 }
+
+DEFAULT_FROM_EMAIL = "noreply@example.com"
+BOOKING_NOTIFICATION_EMAIL = "abenteuer@callidercamper.de"

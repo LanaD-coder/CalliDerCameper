@@ -57,14 +57,14 @@ def home(request):
         })
 
     date_prices = get_date_price_map()
-    destinations = CampingDestination.objects.all()
+    images = van.images.all() if van else []
 
     return render(request, 'home.html', {
         'van': van,
         'booked_dates': json.dumps(booked_dates),
         'calendar_events': json.dumps(calendar_events),
         'date_prices': json.dumps(date_prices),
-        'destinations': destinations,
+        'images': images,
     })
 
 
@@ -103,7 +103,7 @@ def campervan_detail(request):
 
 stripe.api_key = settings.STRIPE_SECRET_KEY
 
-@login_required(login_url='/account/login/')
+
 def booking_page(request, pk):
     campervan = get_object_or_404(Campervan, pk=pk)
 
@@ -148,6 +148,7 @@ def booking_page(request, pk):
     })
 
 @csrf_exempt  # or use proper CSRF token with JS if login-protected
+@login_required(login_url='/account/login/')
 def create_booking_ajax(request, pk):
     if request.method != 'POST':
         return JsonResponse({'error': 'Invalid request'}, status=405)
@@ -342,16 +343,42 @@ def send_payment_success_email(user, booking):
     print("Booking start date:", booking.start_date)
 
     name = user.get_full_name() or user.username
-    subject = _("Your Payment Was Successful")
-    context = {
+    from_email = settings.DEFAULT_FROM_EMAIL
+
+     # User email
+    user_subject = _("Your Payment Was Successful")
+    user_context = {
         'user': user,
         'name': name,
         'booking': booking,
         'deposit_amount': Decimal('1000.00'),
     }
-    html_message = render_to_string("emails/payment_success.html", context)
-    plain_message = render_to_string("emails/payment_success.txt", context)
-    from_email = settings.DEFAULT_FROM_EMAIL
-    recipient_list = [user.email]
+    user_html = render_to_string("emails/payment_success.html", user_context)
+    user_plain = render_to_string("emails/payment_success.txt", user_context)
+    send_mail(
+        user_subject,
+        user_plain,
+        from_email,
+        [user.email],
+        html_message=user_html
+    )
 
-    send_mail(subject, plain_message, from_email, recipient_list, html_message=html_message)
+    # Admin email
+    admin_subject = f"New Booking Received - {booking.booking_number}"
+
+    admin_context = {
+        'user': user,
+        'booking': booking,
+        'total_price': booking.total_price,
+        'payment_reference': booking.payment_reference,
+        'admin_booking_url': 'http://www.callidercamper.de/admin',
+    }
+    admin_html = render_to_string("emails/admin_booking_notification.html", admin_context)
+    admin_plain = render_to_string("emails/admin_booking_notification.txt", admin_context)
+    send_mail(
+        admin_subject,
+        admin_plain,
+        from_email,
+        [settings.BOOKING_NOTIFICATION_EMAIL],
+        html_message=admin_html
+    )
