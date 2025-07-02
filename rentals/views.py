@@ -7,7 +7,8 @@ from django.views.decorators.csrf import csrf_exempt
 from django.contrib import messages
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
-from .forms import BookingForm
+from .forms import BookingForm, HandoverChecklistForm, HandoverPhotoFormSet
+from django.forms import modelformset_factory
 from .models import Campervan, Booking, SeasonalRate
 from pages.models import CampingDestination
 from accounts.models import DiscountCode
@@ -382,3 +383,26 @@ def send_payment_success_email(user, booking):
         [settings.BOOKING_NOTIFICATION_EMAIL],
         html_message=admin_html
     )
+
+
+def create_handover_checklist(request):
+    if request.method == 'POST':
+        form = HandoverChecklistForm(request.POST)
+        formset = HandoverPhotoFormSet(request.POST, request.FILES, queryset=HandoverPhoto.objects.none())
+
+        if form.is_valid() and formset.is_valid():
+            checklist = form.save()
+            for photo_form in formset:
+                if photo_form.cleaned_data and photo_form.cleaned_data.get('image'):
+                    photo = photo_form.save(commit=False)
+                    photo.checklist = checklist
+                    photo.save()
+            return redirect('some-success-url')
+    else:
+        form = HandoverChecklistForm()
+        formset = HandoverPhotoFormSet(queryset=HandoverPhoto.objects.none())
+
+    return render(request, 'your_template.html', {
+        'form': form,
+        'formset': formset,
+    })

@@ -224,3 +224,47 @@ class SeasonalRate(models.Model):
 
     def __str__(self):
         return f"{self.start_month}/{self.start_day} to {self.end_month}/{self.end_day}: ${self.rate}"
+
+
+class HandoverChecklist(models.Model):
+    TYPE_CHOICES = [
+        ('pickup', 'Pickup'),
+        ('return', 'Return'),
+    ]
+
+    booking = models.ForeignKey(Booking, on_delete=models.CASCADE, related_name='checklists')
+    checklist_type = models.CharField(max_length=10, choices=TYPE_CHOICES)
+    date = models.DateField()
+    time = models.TimeField()
+    driver_name = models.CharField(max_length=100, blank=True)
+    phone_contact = models.CharField(max_length=30, blank=True)
+    odometer = models.PositiveIntegerField(null=True, blank=True)
+    location = models.TextField(blank=True)
+
+    # Exterior
+    windshields = models.TextField(blank=True)
+    paintwork = models.TextField(blank=True)
+    bodywork = models.TextField(blank=True)
+    tires_front = models.TextField(blank=True)
+    tires_rear = models.TextField(blank=True)
+
+    # Interior
+    seats = models.TextField(blank=True)
+    upholstery = models.TextField(blank=True)
+    windows = models.TextField(blank=True)
+    lights = models.TextField(blank=True)
+    flooring = models.TextField(blank=True)
+    known_damage = models.TextField(blank=True)
+
+    notes = models.TextField(blank=True)
+
+    customer_signature = models.ImageField(upload_to='signatures/', blank=True, null=True)
+
+    def __str__(self):
+        return f"{self.checklist_type.title()} Checklist - {self.booking.booking_number}"
+
+
+class HandoverPhoto(models.Model):
+    checklist = models.ForeignKey(HandoverChecklist, on_delete=models.CASCADE, related_name='photos')
+    image = models.ImageField(upload_to='handover_photos/')
+    uploaded_at = models.DateTimeField(auto_now_add=True)

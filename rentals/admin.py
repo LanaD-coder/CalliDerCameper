@@ -8,8 +8,32 @@ from .models import (
     CampervanImage,
     AdditionalService,
     Invoice,
+    HandoverPhoto,
+    HandoverChecklist,
 )
 from django_summernote.admin import SummernoteModelAdmin
+
+
+class HandoverPhotoInline(admin.TabularInline):
+    model = HandoverPhoto
+    extra = 1
+
+
+class HandoverChecklistInline(admin.StackedInline):
+    model = HandoverChecklist
+    extra = 0
+    show_change_link = True
+    fieldsets = (
+        (None, {
+            'fields': ('checklist_type', 'date', 'time', 'driver_name', 'phone_contact', 'odometer', 'location'),
+        }),
+        ('Exterior Check', {
+            'fields': ('windshields', 'paintwork', 'bodywork', 'tires_front', 'tires_rear'),
+        }),
+        ('Interior Check', {
+            'fields': ('seats', 'upholstery', 'windows', 'lights', 'flooring', 'known_damage', 'notes'),
+        }),
+    )
 
 
 class BookingAdmin(admin.ModelAdmin):
@@ -19,6 +43,7 @@ class BookingAdmin(admin.ModelAdmin):
     readonly_fields = ('booking_number', 'total_price', 'created_at', 'updated_at', 'deposit_amount_display')
     ordering = ('-created_at',)
     filter_horizontal = ('additional_services',)
+    inlines = [HandoverChecklistInline]
 
     fieldsets = (
         (None, {
@@ -50,7 +75,7 @@ class BookingAdmin(admin.ModelAdmin):
             'fields': ('customer_notes', 'cancellation_reason', 'refund_amount'),
         }),
         ('Timestamps', {
-            'fields': ('created_at', 'updated_at'),
+            'fields': ('created_at', 'updated_at', 'Customer Signature',),
         }),
     )
 
@@ -117,10 +142,23 @@ class CampervanAdmin(SummernoteModelAdmin):
     summernote_fields = ('description',)
 
 
+class HandoverChecklistAdmin(admin.ModelAdmin):
+    inlines = [HandoverPhotoInline]
+    fieldsets = (
+        (None, {
+            'fields': ('checklist_type', 'date', 'time', 'driver_name', 'phone_contact', 'odometer', 'location'),
+        }),
+        ('Exterior Check', {
+            'fields': ('windshields', 'paintwork', 'bodywork', 'tires_front', 'tires_rear'),
+        }),
+        ('Interior Check', {
+            'fields': ('seats', 'upholstery', 'windows', 'lights', 'flooring', 'known_damage', 'notes'),
+        }),
+    )
+
 @admin.register(AdditionalService)
 class AdditionalServiceAdmin(admin.ModelAdmin):
     list_display = ('name', 'price')
-
 
 admin.site.register(Campervan, CampervanAdmin)
 admin.site.register(Booking, BookingAdmin)

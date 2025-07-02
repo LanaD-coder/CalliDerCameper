@@ -269,6 +269,13 @@ footer {
   flex-shrink: 0;
 }
 
+textarea {
+  max-width: 100%;
+  box-sizing: border-box;
+  resize: vertical;
+  min-width: 0;
+}
+
 #loginPromptModal {
   display: none;
   position: fixed;
