@@ -290,7 +290,7 @@ textarea {
 }
 
 .about-btn,
-.booking-btn {
+.booking-btn, #message-btn {
   background-color: #0dc1bf;
   color: white;
 }

@@ -116,6 +116,9 @@ class Booking(models.Model):
 
     # Customer notes or special requests
     customer_notes = models.TextField(blank=True, null=True)
+    customer_signature = models.ImageField(
+        upload_to='signatures/', blank=True, null=True, verbose_name='Customer Signature'
+    )
 
     # Payment info/status
     payment_status_choices = [
@@ -232,7 +235,12 @@ class HandoverChecklist(models.Model):
         ('return', 'Return'),
     ]
 
-    booking = models.ForeignKey(Booking, on_delete=models.CASCADE, related_name='checklists')
+    CONDITION_CHOICES = [
+        ('good', 'Good'),
+        ('damaged', 'Damaged'),
+    ]
+
+    booking = models.ForeignKey(Booking, on_delete=models.CASCADE, related_name='handover_checklists')
     checklist_type = models.CharField(max_length=10, choices=TYPE_CHOICES)
     date = models.DateField()
     time = models.TimeField()
@@ -242,18 +250,18 @@ class HandoverChecklist(models.Model):
     location = models.TextField(blank=True)
 
     # Exterior
-    windshields = models.TextField(blank=True)
-    paintwork = models.TextField(blank=True)
-    bodywork = models.TextField(blank=True)
-    tires_front = models.TextField(blank=True)
-    tires_rear = models.TextField(blank=True)
+    windshields = models.CharField(max_length=10, choices=CONDITION_CHOICES, default='good')
+    paintwork = models.CharField(max_length=10, choices=CONDITION_CHOICES, default='good')
+    bodywork = models.CharField(max_length=10, choices=CONDITION_CHOICES, default='good')
+    tires_front = models.CharField(max_length=10, choices=CONDITION_CHOICES, default='good')
+    tires_rear = models.CharField(max_length=10, choices=CONDITION_CHOICES, default='good')
 
     # Interior
-    seats = models.TextField(blank=True)
-    upholstery = models.TextField(blank=True)
-    windows = models.TextField(blank=True)
-    lights = models.TextField(blank=True)
-    flooring = models.TextField(blank=True)
+    seats = models.CharField(max_length=10, choices=CONDITION_CHOICES, default='good')
+    upholstery = models.CharField(max_length=10, choices=CONDITION_CHOICES, default='good')
+    windows = models.CharField(max_length=10, choices=CONDITION_CHOICES, default='good')
+    lights = models.CharField(max_length=10, choices=CONDITION_CHOICES, default='good')
+    flooring = models.CharField(max_length=10, choices=CONDITION_CHOICES, default='good')
     known_damage = models.TextField(blank=True)
 
     notes = models.TextField(blank=True)
@@ -268,3 +276,46 @@ class HandoverPhoto(models.Model):
     checklist = models.ForeignKey(HandoverChecklist, on_delete=models.CASCADE, related_name='photos')
     image = models.ImageField(upload_to='handover_photos/')
     uploaded_at = models.DateTimeField(auto_now_add=True)
+
+
+class ReturnChecklist(models.Model):
+    TYPE_CHOICES = [
+        ('pickup', 'Pickup'),
+        ('return', 'Return'),
+    ]
+
+    CONDITION_CHOICES = [
+        ('good', 'Good'),
+        ('damaged', 'Damaged'),
+    ]
+
+    booking = models.ForeignKey(Booking, on_delete=models.CASCADE, related_name='return_checklists')
+    checklist_type = models.CharField(max_length=10, choices=TYPE_CHOICES)
+    date = models.DateField()
+    time = models.TimeField()
+    driver_name = models.CharField(max_length=100, blank=True)
+    phone_contact = models.CharField(max_length=30, blank=True)
+    odometer = models.PositiveIntegerField(null=True, blank=True)
+    location = models.TextField(blank=True)
+
+    # Exterior
+    windshields = models.CharField(max_length=10, choices=CONDITION_CHOICES, default='good')
+    paintwork = models.CharField(max_length=10, choices=CONDITION_CHOICES, default='good')
+    bodywork = models.CharField(max_length=10, choices=CONDITION_CHOICES, default='good')
+    tires_front = models.CharField(max_length=10, choices=CONDITION_CHOICES, default='good')
+    tires_rear = models.CharField(max_length=10, choices=CONDITION_CHOICES, default='good')
+
+    # Interior
+    seats = models.CharField(max_length=10, choices=CONDITION_CHOICES, default='good')
+    upholstery = models.CharField(max_length=10, choices=CONDITION_CHOICES, default='good')
+    windows = models.CharField(max_length=10, choices=CONDITION_CHOICES, default='good')
+    lights = models.CharField(max_length=10, choices=CONDITION_CHOICES, default='good')
+    flooring = models.CharField(max_length=10, choices=CONDITION_CHOICES, default='good')
+    known_damage = models.TextField(blank=True)
+
+    notes = models.TextField(blank=True)
+
+    customer_signature = models.ImageField(upload_to='signatures/', blank=True, null=True)
+
+    def __str__(self):
+        return f"{self.checklist_type.title()} Checklist - {self.booking.booking_number}"

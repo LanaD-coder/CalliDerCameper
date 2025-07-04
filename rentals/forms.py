@@ -1,11 +1,14 @@
-from django.forms import modelformset_factory
 from django import forms
+from django.forms import modelformset_factory
 from django.utils.translation import gettext_lazy as _
 from .models import Booking, HandoverChecklist, HandoverPhoto
 from rentals.models import AdditionalService
+import base64, uuid
+from django.core.files.base import ContentFile
 
 
 class BookingForm(forms.ModelForm):
+    # Primary driver fields
     primary_driver_name = forms.CharField(required=False, label=_("Name"))
     primary_driver_street_name = forms.CharField(max_length=100, required=False, label=_("Street Name"))
     primary_driver_street_number = forms.CharField(max_length=10, required=False, label=_("Street Number"))
@@ -13,13 +16,15 @@ class BookingForm(forms.ModelForm):
     primary_driver_town = forms.CharField(max_length=100, required=False, label=_("Town/City"))
     primary_driver_country = forms.CharField(max_length=100, required=False, label=_("Country"))
 
+    # Additional driver fields
     additional_driver_email = forms.EmailField(required=False, label=_("Additional Driver Email"))
     additional_driver_street = forms.CharField(required=False, label=_("Street"))
     additional_driver_postal_code = forms.CharField(required=False, label=_("Postal Code"))
     additional_driver_town = forms.CharField(required=False, label=_("Town/City"))
     additional_driver_country = forms.CharField(required=False, label=_("Country"))
-    discount_code = forms.CharField(max_length=50, required=False, label=_("Discount Code"))
 
+    # Other custom fields
+    discount_code = forms.CharField(max_length=50, required=False, label=_("Discount Code"))
     deposit = forms.BooleanField(
         required=False,
         label=_("Deposit (€1000) – Automatically applied"),
@@ -41,32 +46,26 @@ class BookingForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
 
         if self.user and self.user.is_authenticated:
-            full_name = self.user.get_full_name()
-            if full_name:
-                self.fields['primary_driver_name'].initial = full_name
-            else:
-                self.fields['primary_driver_name'].initial = self.user.username
+            self.fields['primary_driver_name'].initial = self.user.get_full_name() or self.user.username
 
     def clean(self):
-        cleaned_data = super().clean()
-        return cleaned_data
+        return super().clean()
 
     def save(self, commit=True):
         booking = super().save(commit=False)
 
-        # Compose primary driver address
+        # Set address-related fields
+        booking.primary_driver_name = self.cleaned_data.get('primary_driver_name', '')
+        booking.primary_driver_street_name = self.cleaned_data.get('primary_driver_street_name', '')
         booking.primary_driver_street_number = self.cleaned_data.get('primary_driver_street_number', '')
         booking.primary_driver_postal_code = self.cleaned_data.get('primary_driver_postal_code', '')
         booking.primary_driver_town = self.cleaned_data.get('primary_driver_town', '')
         booking.primary_driver_country = self.cleaned_data.get('primary_driver_country', '')
 
-        # Compose additional driver address
         booking.additional_driver_street = self.cleaned_data.get('additional_driver_street', '')
         booking.additional_driver_postal_code = self.cleaned_data.get('additional_driver_postal_code', '')
         booking.additional_driver_town = self.cleaned_data.get('additional_driver_town', '')
         booking.additional_driver_country = self.cleaned_data.get('additional_driver_country', '')
-
-        booking.primary_driver_name = self.cleaned_data.get('primary_driver_name', '')
 
         if self.user:
             booking.primary_driver = self.user
@@ -83,50 +82,71 @@ class BookingForm(forms.ModelForm):
         model = Booking
         fields = [
             'start_date', 'end_date',
-
-            'primary_driver_name',
-            'primary_driver_street_name',
-            'primary_driver_street_number',
-            'primary_driver_postal_code',
-            'primary_driver_town',
-            'primary_driver_country',
-
+            'primary_driver_name', 'primary_driver_street_name', 'primary_driver_street_number',
+            'primary_driver_postal_code', 'primary_driver_town', 'primary_driver_country',
             'additional_driver_name', 'additional_driver_email', 'additional_driver_contact_number',
-            'additional_driver_street', 'additional_driver_postal_code', 'additional_driver_town', 'additional_driver_country',
-
+            'additional_driver_street', 'additional_driver_postal_code', 'additional_driver_town',
+            'additional_driver_country',
             'deposit_hidden', 'additional_services',
-
             'pickup_location', 'pickup_time', 'dropoff_location', 'dropoff_time',
-
-            'customer_notes',
-
-            'cancellation_reason', 'refund_amount',
+            'customer_notes', 'cancellation_reason', 'refund_amount',
         ]
         widgets = {
-            'additional_driver_address': forms.Textarea(attrs={'rows': 2}),
             'start_date': forms.TextInput(attrs={'type': 'text', 'class': 'js-datepicker'}),
             'end_date': forms.TextInput(attrs={'type': 'text', 'class': 'js-datepicker'}),
             'pickup_time': forms.TimeInput(attrs={'type': 'time'}),
             'dropoff_time': forms.TimeInput(attrs={'type': 'time'}),
-            'additional_services': forms.CheckboxSelectMultiple(),
         }
 
-
 class HandoverChecklistForm(forms.ModelForm):
+    signature_data = forms.CharField(widget=forms.HiddenInput(), required=False)
+
     class Meta:
         model = HandoverChecklist
         fields = [
             'checklist_type', 'date', 'time', 'driver_name', 'phone_contact', 'odometer',
             'location', 'windshields', 'paintwork', 'bodywork',
             'tires_front', 'tires_rear', 'seats', 'upholstery',
-            'windows', 'lights', 'flooring', 'known_damage', 'notes'
+            'windows', 'lights', 'flooring', 'known_damage', 'notes',
+            'customer_signature'
         ]
         widgets = {
+            'customer_signature': forms.ClearableFileInput(),
             'checklist_type': forms.RadioSelect,
             'date': forms.DateInput(attrs={'type': 'date'}),
             'time': forms.TimeInput(attrs={'type': 'time'}),
             'photos': forms.ClearableFileInput(attrs={'multiple': False}),
         }
+
+    def save(self, commit=True):
+                instance = super().save(commit=False)
+                sig_data = self.cleaned_data.get('signature_data')
+
+                if sig_data:
+                    try:
+                        import base64, uuid
+                        from django.core.files.base import ContentFile
+
+                        format, imgstr = sig_data.split(';base64,')
+                        ext = format.split('/')[-1]
+                        filename = f"{uuid.uuid4()}.{ext}"
+                        file = ContentFile(base64.b64decode(imgstr), name=filename)
+
+                        # Save to checklist
+                        instance.customer_signature.save(filename, file, save=False)
+
+                        # Save to booking
+                        if instance.booking:
+                            instance.booking.customer_signature.save(filename, file, save=True)
+
+                    except Exception as e:
+                        print("Signature save error:", e)
+
+                if commit:
+                    instance.save()
+                    self.save_m2m()
+
+                return instance
 
 
 class HandoverPhotoForm(forms.ModelForm):
@@ -154,12 +174,27 @@ class ReturnChecklistForm(HandoverChecklistForm):
     )
 
     def __init__(self, *args, **kwargs):
-        # Accept related handover instance to fetch odometer
         handover_instance = kwargs.pop('handover_instance', None)
         super().__init__(*args, **kwargs)
-
         if handover_instance:
             self.fields['initial_odometer'].initial = handover_instance.odometer
 
     class Meta(HandoverChecklistForm.Meta):
         fields = HandoverChecklistForm.Meta.fields + ['initial_odometer']
+
+
+class HandoverPhotoForm(forms.ModelForm):
+    class Meta:
+        model = HandoverPhoto
+        fields = ['image']
+        widgets = {
+            'image': forms.ClearableFileInput(attrs={'multiple': False}),
+        }
+
+
+HandoverPhotoFormSet = modelformset_factory(
+    HandoverPhoto,
+    form=HandoverPhotoForm,
+    extra=3,
+    can_delete=True
+)

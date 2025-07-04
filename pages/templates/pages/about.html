@@ -2,4 +2,118 @@
 {% load static %}
 {% load i18n %}
 
+{% block content %}
 
+<section id="info-section" class="my-5 position-relative">
+  <!-- 3. So läuft's ab -->
+  <section id="how-it-works" class="my-5">
+    <div style="display: flex; align-items: center;">
+      <img src="https://res.cloudinary.com/dvs5uituk/image/upload/v1749124923/sol%C3%A4ufst_grpn3o.png" id="soläfst" alt="Calli Camper Van">
+    </div>
+    <h2 class="cookie-heading">{% trans "So läuft's ab" %}</h2>
+    <p>{% trans "Rund um die Vermietung." %}</p>
+    <p>{% trans "Hier erfährst du alles Wichtige zur Miete von Calli. Angefangen von der Übernahme bis zur Rückgabe, zur Versicherung, die Mietpreise und unsere Stornobedingungen. Weiter erfährst du, was du mitbringen solltest und was Calli mitbringt." %}</p>
+
+    <h3>{% trans "Abholung & Rückgabe" %}</h3>
+    <ul>
+      <li>{% trans "Abholung und Rückgabe finden an einem unserer Standorte statt." %}</li>
+      <li>{% trans "Abholung: Wir warten zur vereinbarten Uhrzeit auf dich" %}</li>
+      <li>{% trans "Ausführliche Einweisung (Dauer ca. 35 Minuten)" %}</li>
+      <li>{% trans "Quick Pickup (kürzere Übergabe) optional bei Buchung" %}</li>
+      <li>{% trans "Rückgabe: Innenraum bitte reinigen (falls nicht gebucht)" %}</li>
+      <li>{% trans "Frisch- und Abwassertank entleeren" %}</li>
+      <li>{% trans "Toilette entleeren und reinigen" %}</li>
+      <li>{% trans "Fahrzeug bitte vollgetankt zurückbringen" %}</li>
+      <li>{% trans "Rückgabe dauert ca. 20 Minuten" %}</li>
+    </ul>
+
+  </section>
+
+
+  <!-- 📋 Preisübersicht -->
+    <section id="pricing" class="my-5">
+      <h2 class="mb-4">{% trans "Preisübersicht für Calli der Camper" %}</h2>
+      <div class="row g-3">
+
+        <div class="col-12 col-md-6 col-lg-4">
+          <div class="border rounded p-3 text-center h-100 season-card nebensaison">
+            <h4>❄️ {% trans "Nebensaison" %}</h4>
+            <p class="mb-1">01.10. – 31.03.</p>
+            <p class="fw-bold">ab 75€</p>
+          </div>
+        </div>
+
+        <div class="col-12 col-md-6 col-lg-4">
+          <div class="border rounded p-3 text-center h-100 season-card zwischensaison">
+            <h4>🌤️ {% trans "Zwischensaison" %}</h4>
+            <p class="mb-1">01.04. – 31.05.<br>01.09. – 30.09.</p>
+            <p class="fw-bold">ab 95€</p>
+          </div>
+        </div>
+
+        <div class="col-12 col-md-6 col-lg-4">
+          <div class="border rounded p-3 text-center h-100 season-card hauptsaison">
+            <h4>☀️ {% trans "Hauptsaison" %}</h4>
+            <p class="mb-1">01.06. – 31.08.</p>
+            <p class="fw-bold">ab 115€</p>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <h3>{% trans "Extras" %}</h3>
+    <ul>
+      <li>{% trans "Fahrradträger: inklusive (begrenzt auf 50 kg)" %}</li>
+      <li>{% trans "Campingtisch & Stühle: inklusive" %}</li>
+      <li>{% trans "Endreinigung (wenn nicht selbst gemacht): 59€" %}</li>
+    </ul>
+
+    <p><strong>{% trans "Kaution" %}:</strong> 1.000€</p>
+    <p><strong>{% trans "Mindestmietdauer" %}:</strong> 3 Tage (Hauptsaison: 5 Tage)</p>
+
+    <h3>{% trans "Stornobedingungen" %}</h3>
+    <p>{% trans "Stornierungen sind natürlich möglich – wir bitten um rechtzeitige Info. Folgende Regelung gilt:" %}</p>
+    <ul>
+      <li>{% trans "Bis 30 Tage vor Reisebeginn: 90% Erstattung des Gesamtmietpreises" %}</li>
+      <li>{% trans "14–29 Tage vor Reisebeginn: 50% Erstattung" %}</li>
+      <li>{% trans "Weniger als 14 Tage vor Reisebeginn: Keine Rückerstattung" %}</li>
+    </ul>
+    <p>{% trans "Bei einer kurzfristigen Neuvermietung versuchen wir kulant zu sein und ggf. einen Teilbetrag zu erstatten." %}</p>
+    <p><strong>{% trans "Tipp:" %}</strong> {% trans "Wir empfehlen den Abschluss einer Reiserücktrittsversicherung für den Fall der Fälle!" %}</p>
+  </section>
+
+  <!-- 🌍 Versicherung & Länder -->
+  <section id="insurance" class="my-5">
+    <h2>{% trans "Wohin darf Calli fahren?" %}</h2>
+    <p>{% trans "Mit Calli kannst du Europas schönste Ecken entdecken!" %}</p>
+    <p>{% trans "Unsere Versicherung bei LVM deckt Fahrten in viele Länder ab – sicher, bequem und ganz entspannt." %} 🚐✨</p>
+
+    <h3>{% trans "✅ Versichert & erlaubt" %}</h3>
+    <ul>
+      <li>{% trans "Du darfst mit Calli in folgende Länder reisen:" %} EU-Mitgliedstaaten</li>
+      <li>Schweiz</li>
+      <li>Norwegen</li>
+      <li>Island</li>
+      <li>Liechtenstein</li>
+      <li>Großbritannien</li>
+      <li>Skandinavien & viele mehr</li>
+    </ul>
+    <p>{% trans "Für diese Länder stellen wir dir auf Wunsch die „Grüne Karte“ (internationale Versicherungskarte) aus – dein offizieller Versicherungsnachweis." %}</p>
+
+    <h3>{% trans "❌ Nicht erlaubt / kein Versicherungsschutz" %}</h3>
+    <ul>
+      <li>Russland</li>
+      <li>Belarus</li>
+      <li>Ukraine</li>
+      <li>Georgien</li>
+      <li>Armenien</li>
+      <li>Aserbaidschan</li>
+      <li>Iran</li>
+      <li>Kasachstan</li>
+    </ul>
+    <p>{% trans "Diese Länder sind auf der Grünen Karte durchgestrichen und vom Versicherungsschutz ausgeschlossen." %}</p>
+  </section>
+
+</section>
+{% endblock %}

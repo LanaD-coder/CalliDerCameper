@@ -102,4 +102,42 @@
     </div>
   </section>
 </div>
+
+<section id="faq-section">
+  <h2>{% trans "Frequently Asked Questions" %}</h2>
+
+  <div id="faqs">
+    {% for faq in faqs %}
+      <div class="faq-item">
+        <button type="button" aria-expanded="false" class="faq-question">
+          {{ faq.question }}
+          <span class="faq-toggle-symbol">+</span>
+        </button>
+        <div class="faq-answer">
+          {{ faq.answer|linebreaks }}
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+</section>
+
+<script>
+  // FAQ toggle logic (vanilla JS)
+  document.querySelectorAll('.faq-question').forEach(button => {
+    button.addEventListener('click', () => {
+      const answer = button.nextElementSibling;
+      const expanded = button.getAttribute('aria-expanded') === 'true';
+      button.setAttribute('aria-expanded', !expanded);
+
+      if (!expanded) {
+        answer.style.display = 'block';
+        button.querySelector('.faq-toggle-symbol').textContent = '−';
+      } else {
+        answer.style.display = 'none';
+        button.querySelector('.faq-toggle-symbol').textContent = '+';
+      }
+    });
+  });
+</script>
+
 {% endblock %}

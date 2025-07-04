@@ -21,19 +21,21 @@ def information_view(request):
 
 def videos_view(request):
     destinations = CampingDestination.objects.all()
+    faqs = FAQ.objects.all()
     return render(request, 'pages/videos.html', {
         'destinations': destinations,
+        'faqs': faqs,
     })
 
 def contact_view(request):
-    faqs = FAQ.objects.all()
     form = ContactForm(request.POST or None)
     if request.method == 'POST' and form.is_valid():
         form.save()
-        messages.success(request, "Your message has been sent!")
+        messages.success(request, _("Your message has been sent!"))
         return redirect('contact')
-    return render(request, 'pages/contact.html', {'form': form, 'faqs': faqs})
-
+    return render(request, 'pages/contact.html', {
+        'form': form,
+    })
 
 def impressum(request):
     return render(request, "legal/impressum.html", {"year": datetime.now().year})

@@ -3,13 +3,14 @@ from django.urls import path, include
 from pages import views as pages_views
 from rentals import views as rentals_views
 from accounts import views as accounts_views
+from ja_rental import custom_admin
 from django.conf import settings
 from django.conf.urls.static import static
 from django.views.generic import RedirectView
 
 urlpatterns = [
     path('', rentals_views.home, name='home'),
-    path('admin/', admin.site.urls),
+     path('admin/', custom_admin.custom_admin_site.urls),
     path('rentals/', include('rentals.urls')),
     path('pages/', include('pages.urls')),
     path('i18n/', include('django.conf.urls.i18n')),

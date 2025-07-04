@@ -2,10 +2,9 @@
 {% load static %}
 {% load i18n %}
 
-
 {% block content %}
 <section id="contact-section">
-  <h2>Contact Us</h2>
+  <h2>{% trans "Contact Us" %}</h2>
 
   {% if messages %}
     {% for message in messages %}
@@ -18,63 +17,26 @@
   <form method="POST" novalidate>
     {% csrf_token %}
 
-    <label for="{{ form.name.id_for_label }}">Name:</label>
+    <label for="{{ form.name.id_for_label }}">{% trans "Name" %}:</label>
     {{ form.name }}
     <div class="field-error">
       {{ form.name.errors }}
     </div>
 
-    <label for="{{ form.email.id_for_label }}">Email:</label>
+    <label for="{{ form.email.id_for_label }}">{% trans "Email" %}:</label>
     {{ form.email }}
     <div class="field-error">
       {{ form.email.errors }}
     </div>
 
-    <label for="{{ form.message.id_for_label }}">Message:</label>
+    <label for="{{ form.message.id_for_label }}">{% trans "Message" %}:</label>
     {{ form.message }}
     <div class="field-error">
       {{ form.message.errors }}
     </div>
 
-    <button type="submit" id="send-message-btn">Send Message</button>
+    <button type="submit" id="send-message-btn">{% trans "Send Message" %}</button>
   </form>
 </section>
-
-<section id="faq-section">
-  <h2>Frequently Asked Questions</h2>
-
-  <div id="faqs">
-    {% for faq in faqs %}
-      <div class="faq-item">
-        <button type="button" aria-expanded="false" class="faq-question">
-          {{ faq.question }}
-          <span class="faq-toggle-symbol">+</span>
-        </button>
-        <div class="faq-answer">
-          {{ faq.answer|linebreaks }}
-        </div>
-      </div>
-    {% endfor %}
-  </div>
-</section>
-
-<script>
-  // FAQ toggle logic (vanilla JS)
-  document.querySelectorAll('.faq-question').forEach(button => {
-    button.addEventListener('click', () => {
-      const answer = button.nextElementSibling;
-      const expanded = button.getAttribute('aria-expanded') === 'true';
-      button.setAttribute('aria-expanded', !expanded);
-
-      if (!expanded) {
-        answer.style.display = 'block';
-        button.querySelector('.faq-toggle-symbol').textContent = '−';
-      } else {
-        answer.style.display = 'none';
-        button.querySelector('.faq-toggle-symbol').textContent = '+';
-      }
-    });
-  });
-</script>
 
 {% endblock %}
