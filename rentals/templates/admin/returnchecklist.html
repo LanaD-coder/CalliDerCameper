@@ -1,0 +1,84 @@
+{% extends 'base.html' %}
+{% load static i18n %}
+
+{% block content %}
+  <h1>{% trans "Return Checklist" %}</h1>
+
+  <form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+
+    {% for field in form %}
+      {% if field.name != 'signature_data' %}
+        <div class="field">
+          {{ field.label_tag }}
+          {{ field }}
+          {% if field.help_text %}
+            <small>{% trans field.help_text %}</small>
+          {% endif %}
+          {% for error in field.errors %}
+            <div style="color: red;">{{ error }}</div>
+          {% endfor %}
+        </div>
+      {% endif %}
+    {% endfor %}
+
+    <div>
+      <label>{% trans "Customer Signature:" %}</label>
+      <canvas id="signature-pad" class="signature-pad" style="border:1px solid #ccc; width: 400px; height: 200px;"></canvas><br />
+      <button type="button" id="clear-signature">{% trans "Clear Signature" %}</button>
+      {{ form.signature_data }}
+    </div>
+
+    <button type="submit">{% trans "Save Checklist" %}</button>
+  </form>
+
+  <script>
+    const canvas = document.getElementById('signature-pad');
+    const ctx = canvas.getContext('2d');
+    let drawing = false;
+
+    function resizeCanvas() {
+      const ratio = Math.max(window.devicePixelRatio || 1, 1);
+      canvas.width = canvas.offsetWidth * ratio;
+      canvas.height = canvas.offsetHeight * ratio;
+      ctx.scale(ratio, ratio);
+      ctx.lineWidth = 2;
+      ctx.lineCap = 'round';
+      ctx.strokeStyle = '#000';
+    }
+
+    function startDraw(e) {
+      drawing = true;
+      ctx.beginPath();
+      ctx.moveTo(e.offsetX, e.offsetY);
+    }
+
+    function draw(e) {
+      if (!drawing) return;
+      ctx.lineTo(e.offsetX, e.offsetY);
+      ctx.stroke();
+    }
+
+    function stopDraw() {
+      drawing = false;
+    }
+
+    canvas.addEventListener('mousedown', startDraw);
+    canvas.addEventListener('mousemove', draw);
+    canvas.addEventListener('mouseup', stopDraw);
+    canvas.addEventListener('mouseout', stopDraw);
+
+    document.getElementById('clear-signature').addEventListener('click', () => {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      document.getElementById('id_signature_data').value = '';
+    });
+
+    document.querySelector('form').addEventListener('submit', function() {
+      const dataUrl = canvas.toDataURL('image/png');
+      document.getElementById('id_signature_data').value = dataUrl;
+    });
+
+    resizeCanvas();
+    window.addEventListener('resize', resizeCanvas);
+  </script>
+{% endblock %}

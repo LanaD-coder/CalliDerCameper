@@ -1,5 +1,7 @@
 import uuid
 from django.db import models
+import random
+import string
 from datetime import timedelta
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
@@ -133,7 +135,15 @@ class Booking(models.Model):
     # Invoice relation
     invoice = models.ForeignKey(Invoice, on_delete=models.SET_NULL, blank=True, null=True, related_name='bookings')
 
-    booking_number = models.CharField(max_length=36, unique=True, editable=False, blank=True)
+    booking_number = models.CharField(max_length=8, unique=True, editable=False, blank=True)
+
+    @staticmethod
+    def generate_short_booking_number(length=8):
+        chars = string.ascii_uppercase + string.digits
+        while True:
+            new_id = ''.join(random.choices(chars, k=length))
+            if not Booking.objects.filter(booking_number=new_id).exists():
+                return new_id
 
     STATUS_CHOICES = [
         ('active', 'Active'),
@@ -145,6 +155,22 @@ class Booking(models.Model):
     # Cancellation/refund details
     cancellation_reason = models.TextField(blank=True, null=True)
     refund_amount = models.DecimalField(max_digits=8, decimal_places=2, blank=True, null=True)
+
+    # Checklists
+    pickup_checklist = models.OneToOneField(
+        'HandoverChecklist',
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name='pickup_booking'
+    )
+    return_checklist = models.OneToOneField(
+        'HandoverChecklist',
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name='return_booking'
+    )
 
     # Timestamps
     created_at = models.DateTimeField(auto_now_add=True)
@@ -183,7 +209,7 @@ class Booking(models.Model):
             raise ValidationError("Start date and end date must be set before saving a booking.")
 
         if not self.booking_number:
-            self.booking_number = str(uuid.uuid4())
+            self.booking_number = generate_short_booking_number()
 
         # Price calculation
         days = (self.end_date - self.start_date).days + 1
@@ -240,8 +266,8 @@ class HandoverChecklist(models.Model):
         ('damaged', 'Damaged'),
     ]
 
-    booking = models.ForeignKey(Booking, on_delete=models.CASCADE, related_name='handover_checklists')
-    checklist_type = models.CharField(max_length=10, choices=TYPE_CHOICES)
+    booking = models.ForeignKey(Booking, on_delete=models.CASCADE, related_name='handover_checklist')
+    checklist_type = models.CharField(max_length=20, choices=[('pickup', 'Pickup'), ('return', 'Return')])
     date = models.DateField()
     time = models.TimeField()
     driver_name = models.CharField(max_length=100, blank=True)
@@ -277,45 +303,3 @@ class HandoverPhoto(models.Model):
     image = models.ImageField(upload_to='handover_photos/')
     uploaded_at = models.DateTimeField(auto_now_add=True)
 
-
-class ReturnChecklist(models.Model):
-    TYPE_CHOICES = [
-        ('pickup', 'Pickup'),
-        ('return', 'Return'),
-    ]
-
-    CONDITION_CHOICES = [
-        ('good', 'Good'),
-        ('damaged', 'Damaged'),
-    ]
-
-    booking = models.ForeignKey(Booking, on_delete=models.CASCADE, related_name='return_checklists')
-    checklist_type = models.CharField(max_length=10, choices=TYPE_CHOICES)
-    date = models.DateField()
-    time = models.TimeField()
-    driver_name = models.CharField(max_length=100, blank=True)
-    phone_contact = models.CharField(max_length=30, blank=True)
-    odometer = models.PositiveIntegerField(null=True, blank=True)
-    location = models.TextField(blank=True)
-
-    # Exterior
-    windshields = models.CharField(max_length=10, choices=CONDITION_CHOICES, default='good')
-    paintwork = models.CharField(max_length=10, choices=CONDITION_CHOICES, default='good')
-    bodywork = models.CharField(max_length=10, choices=CONDITION_CHOICES, default='good')
-    tires_front = models.CharField(max_length=10, choices=CONDITION_CHOICES, default='good')
-    tires_rear = models.CharField(max_length=10, choices=CONDITION_CHOICES, default='good')
-
-    # Interior
-    seats = models.CharField(max_length=10, choices=CONDITION_CHOICES, default='good')
-    upholstery = models.CharField(max_length=10, choices=CONDITION_CHOICES, default='good')
-    windows = models.CharField(max_length=10, choices=CONDITION_CHOICES, default='good')
-    lights = models.CharField(max_length=10, choices=CONDITION_CHOICES, default='good')
-    flooring = models.CharField(max_length=10, choices=CONDITION_CHOICES, default='good')
-    known_damage = models.TextField(blank=True)
-
-    notes = models.TextField(blank=True)
-
-    customer_signature = models.ImageField(upload_to='signatures/', blank=True, null=True)
-
-    def __str__(self):
-        return f"{self.checklist_type.title()} Checklist - {self.booking.booking_number}"

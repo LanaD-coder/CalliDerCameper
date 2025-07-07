@@ -165,10 +165,9 @@ HandoverPhotoFormSet = modelformset_factory(
     can_delete=True
 )
 
-
 class ReturnChecklistForm(HandoverChecklistForm):
     initial_odometer = forms.IntegerField(
-        label=_("Initial Odometer (from handover)"),
+        label="Initial Odometer (from handover)",
         required=False,
         disabled=True,
     )
@@ -183,18 +182,27 @@ class ReturnChecklistForm(HandoverChecklistForm):
         fields = HandoverChecklistForm.Meta.fields + ['initial_odometer']
 
 
-class HandoverPhotoForm(forms.ModelForm):
+class BookingAdminForm(forms.ModelForm):
+    signature_data = forms.CharField(widget=forms.HiddenInput(), required=False)
+
     class Meta:
-        model = HandoverPhoto
-        fields = ['image']
-        widgets = {
-            'image': forms.ClearableFileInput(attrs={'multiple': False}),
-        }
+        model = Booking
+        fields = '__all__'
 
+    def save(self, commit=True):
+        instance = super().save(commit=False)
+        sig_data = self.cleaned_data.get('signature_data')
 
-HandoverPhotoFormSet = modelformset_factory(
-    HandoverPhoto,
-    form=HandoverPhotoForm,
-    extra=3,
-    can_delete=True
-)
+        if sig_data:
+            try:
+                format, imgstr = sig_data.split(';base64,')
+                ext = format.split('/')[-1]
+                filename = f"{uuid.uuid4()}.{ext}"
+                instance.customer_signature.save(filename, ContentFile(base64.b64decode(imgstr)), save=False)
+            except Exception as e:
+                print("Signature save error:", e)
+
+        if commit:
+            instance.save()
+            self.save_m2m()
+        return instance

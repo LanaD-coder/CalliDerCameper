@@ -1,0 +1,77 @@
+{% extends 'base.html' %}
+{% load static i18n %}
+
+{% block content %}
+<section id="handoverchecklist_style">
+  <h1>{% trans "Handover Checklist" %}</h1>
+
+  <form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+
+    {% for field in form %}
+      {% if field.name != 'signature_data' and field.name != 'customer_signature' %}
+        <div class="field">
+          {{ field.label_tag }}
+          {{ field }}
+          {% if field.help_text %}
+            <small>{% trans field.help_text %}</small>
+          {% endif %}
+          {% for error in field.errors %}
+            <div style="color: red;">{{ error }}</div>
+          {% endfor %}
+        </div>
+      {% endif %}
+    {% endfor %}
+
+    <div class="field">
+      <label>{% trans "Customer Signature:" %}</label><br>
+
+      {% if form.instance.customer_signature %}
+        <div style="margin-bottom: 10px;">
+          <strong>{% trans "Existing Signature:" %}</strong><br>
+          <img src="{{ form.instance.customer_signature.url }}"
+               alt="{% trans 'Customer Signature' %}"
+               style="border:1px solid #000; max-width:400px; max-height:150px;">
+        </div>
+      {% endif %}
+
+      <canvas id="signature-canvas" width="400" height="150" style="border:1px solid #000;"></canvas><br>
+      <button type="button" id="clear-signature">{% trans "Clear Signature" %}</button>
+      {{ form.signature_data }}
+    </div>
+
+    <button type="submit">{% trans "Save Checklist" %}</button>
+  </form>
+
+  <script src="https://cdn.jsdelivr.net/npm/signature_pad@4.0.0/dist/signature_pad.umd.min.js"></script>
+  <script>
+    const canvas = document.getElementById('signature-canvas');
+    const signaturePad = new SignaturePad(canvas);
+    const hiddenInput = document.getElementById('id_signature_data');
+
+    // If existing signature image, draw it on canvas
+    {% if form.instance.customer_signature %}
+    var img = new Image();
+    img.onload = function() {
+      const ctx = canvas.getContext('2d');
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+    };
+    img.src = "{{ form.instance.customer_signature.url }}";
+    {% endif %}
+
+    // On form submit, save signature data url
+    document.querySelector('form').addEventListener('submit', function() {
+      if (!signaturePad.isEmpty()) {
+        hiddenInput.value = signaturePad.toDataURL();
+      }
+    });
+
+    // Clear signature button clears canvas and hidden input
+    document.getElementById('clear-signature').addEventListener('click', function() {
+      signaturePad.clear();
+      hiddenInput.value = '';
+    });
+  </script>
+</section>
+{% endblock %}

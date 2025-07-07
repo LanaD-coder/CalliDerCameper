@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load i18n %}
+
+{% block content %}
+<h1>{% trans "Admin Dashboard" %}</h1>
+<p>{% trans "Total bookings:" %} {{ total_bookings }}</p>
+
+<a href="{% url 'booking_list' %}" class="btn" style="background-color: #0DC1bf; color: white;">
+    {% trans "Manage Bookings" %}
+</a>
+{% endblock %}

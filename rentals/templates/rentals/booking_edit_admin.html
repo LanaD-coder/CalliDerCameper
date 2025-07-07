@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block content %}
+<section id="booking_admin_section" class="form-section">
+  <h2>{% trans "Edit Booking" %}</h2>
+
+  <div class="booking-info">
+    <p><strong>{% trans "Booking Number:" %}</strong> {{ booking.booking_number }}</p>
+    <p><strong>{% trans "Campervan:" %}</strong> {{ booking.campervan.name }}</p>
+    <p><strong>{% trans "Start Date:" %}</strong> {{ booking.start_date }}</p>
+    <p><strong>{% trans "End Date:" %}</strong> {{ booking.end_date }}</p>
+    <p><strong>{% trans "Total Price:" %}</strong> €{{ booking.total_price }}</p>
+    <p><strong>{% trans "Status:" %}</strong> {{ booking.status }}</p>
+    <p><strong>{% trans "Payment Status:" %}</strong> {{ booking.payment_status }}</p>
+  </div>
+
+  <hr>
+
+  <h3>{% trans "Primary Driver Details" %}</h3>
+  <p><strong>{% trans "Name:" %}</strong> {{ booking.primary_driver_name }}</p>
+  <p><strong>{% trans "Street:" %}</strong> {{ booking.primary_driver_street_name }} {{ booking.primary_driver_street_number }}</p>
+  <p><strong>{% trans "Postal Code:" %}</strong> {{ booking.primary_driver_postal_code }}</p>
+  <p><strong>{% trans "Town:" %}</strong> {{ booking.primary_driver_town }}</p>
+  <p><strong>{% trans "Country:" %}</strong> {{ booking.primary_driver_country }}</p>
+
+  {% if booking.additional_driver_name %}
+    <hr>
+    <h3>{% trans "Additional Driver Details" %}</h3>
+    <p><strong>{% trans "Name:" %}</strong> {{ booking.additional_driver_name }}</p>
+    <p><strong>{% trans "Email:" %}</strong> {{ booking.additional_driver_email }}</p>
+    <p><strong>{% trans "Contact Number:" %}</strong> {{ booking.additional_driver_contact_number }}</p>
+    <p><strong>{% trans "Street:" %}</strong> {{ booking.additional_driver_street }}</p>
+    <p><strong>{% trans "Postal Code:" %}</strong> {{ booking.additional_driver_postal_code }}</p>
+    <p><strong>{% trans "Town:" %}</strong> {{ booking.additional_driver_town }}</p>
+    <p><strong>{% trans "Country:" %}</strong> {{ booking.additional_driver_country }}</p>
+  {% endif %}
+
+  <hr>
+
+  <h3>{% trans "Additional Services" %}</h3>
+  {% if booking.additional_services.all %}
+    <ul>
+      {% for service in booking.additional_services.all %}
+        <li>{{ service.name }}</li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p>{% trans "No additional services selected." %}</p>
+  {% endif %}
+
+  <hr>
+
+  <h3>{% trans "Checklists" %}</h3>
+
+  <p><strong>{% trans "Pickup Checklist:" %}</strong>
+  <a href="{% url 'handover_checklist' booking.booking_number %}" class="btn btn-primary">
+    {% trans "Fill/Edit Pickup Checklist" %}
+  </a>
+  </p>
+
+  <p><strong>{% trans "Return Checklist:" %}</strong>
+    <a href="{% url 'return_checklist' booking.booking_number %}" class="btn btn-primary">
+      {% trans "Fill/Edit Return Checklist" %}
+    </a>
+  </p>
+  <hr>
+
+  <form method="POST" action="{% url 'booking_edit' booking.pk %}">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">{% trans "Save Changes" %}</button>
+  </form>
+</section>
+{% endblock %}

@@ -7,13 +7,15 @@ from django.views.decorators.csrf import csrf_exempt
 from django.contrib import messages
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
+from django.contrib.admin.views.decorators import staff_member_required
 from .forms import BookingForm, HandoverChecklistForm, HandoverPhotoFormSet
 from django.forms import modelformset_factory
 from .models import Campervan, Booking, SeasonalRate
 from pages.models import CampingDestination
 from accounts.models import DiscountCode
 from django.http import JsonResponse
-from .models import AdditionalService
+from .models import AdditionalService, Booking, HandoverChecklist
+from .forms import HandoverChecklistForm
 from django.core.mail import send_mail
 from django.template.loader import render_to_string
 from django.utils.translation import gettext as _
@@ -148,7 +150,7 @@ def booking_page(request, pk):
         'subtotal': subtotal,
     })
 
-@csrf_exempt  # or use proper CSRF token with JS if login-protected
+@csrf_exempt
 @login_required(login_url='/account/login/')
 def create_booking_ajax(request, pk):
     if request.method != 'POST':
@@ -204,7 +206,11 @@ def create_booking_ajax(request, pk):
             return JsonResponse({'errors': {'discount_code': ['Invalid discount code']}}, status=400)
         discount_percentage = VALID_DISCOUNT_CODES[code_upper]
         discount_amount = subtotal * (discount_percentage / Decimal('100'))
-        discount_obj = None
+
+        try:
+            discount_obj = DiscountCode.objects.get(code=code_upper)
+        except DiscountCode.DoesNotExist:
+            discount_obj = None
 
     grand_total = max(Decimal('0.00'), subtotal - discount_amount)
 
@@ -402,7 +408,95 @@ def create_handover_checklist(request):
         form = HandoverChecklistForm()
         formset = HandoverPhotoFormSet(queryset=HandoverPhoto.objects.none())
 
-    return render(request, 'your_template.html', {
+    return render(request, 'admin/handoverchecklist.html', {
         'form': form,
         'formset': formset,
     })
+
+
+@staff_member_required
+def booking_list(request):
+    bookings = Booking.objects.all()
+    return render(request, 'admin_panel/booking_list.html', {'bookings': bookings})
+
+
+@staff_member_required
+def admin_dashboard(request):
+    total_bookings = Booking.objects.count()
+    context = {
+        'total_bookings': total_bookings,
+    }
+    return render(request, 'admin/admin_dashboard.html', context)
+
+@staff_member_required
+def booking_edit(request, pk):
+    booking = get_object_or_404(Booking, pk=pk)
+
+    # Load related checklists and photos:
+    handover_checklist = booking.handover_checklist.filter(checklist_type='pickup').first()
+    return_checklist = booking.return_checklist
+
+    # You might also want to get HandoverPhotos linked to handover_checklist
+    handover_photos = handover_checklist.handoverphoto_set.all() if handover_checklist else []
+
+    if request.method == 'POST':
+        form = BookingForm(request.POST, instance=booking)
+        # Add forms for checklists if editing those as well
+        if form.is_valid():
+            form.save()
+            # Save checklist forms as needed
+            return redirect('booking_list')
+    else:
+        form = BookingForm(instance=booking)
+        # similarly instantiate checklist forms if needed
+
+    return render(request, 'rentals/booking_edit_admin.html', {
+        'booking': booking,
+        'form': form,
+        'handover_checklist': handover_checklist,
+        'return_checklist': return_checklist,
+        'handover_photos': handover_photos,
+    })
+
+@staff_member_required
+def booking_delete(request, pk):
+    booking = get_object_or_404(Booking, pk=pk)
+    if request.method == 'POST':
+        booking.delete()
+        return redirect('booking_list')
+    return render(request, 'admin_panel/booking_confirm_delete.html', {'booking': booking})
+
+@staff_member_required
+def handover_checklist(request, booking_number):
+    booking = get_object_or_404(Booking, booking_number=booking_number)
+    handover_checklist = booking.handover_checklist.filter(checklist_type='pickup').first()
+
+    if request.method == 'POST':
+        form = HandoverChecklistForm(request.POST, instance=handover_checklist)
+        # Optionally handle photo formsets here as well
+        if form.is_valid():
+            form.save()
+            # maybe redirect to booking or success page
+            return redirect('booking_edit', pk=booking.pk)
+    else:
+        form = HandoverChecklistForm(instance=handover_checklist)
+
+    handover_photos = handover_checklist.handoverphoto_set.all() if handover_checklist else []
+
+    return render(request, 'admin/handoverchecklist.html', {
+        'form': form,
+        'booking': booking,
+        'handover_checklist': handover_checklist,
+        'handover_photos': handover_photos,
+    })
+
+@staff_member_required
+def return_checklist(request, booking_number):
+    booking = get_object_or_404(Booking, booking_number=booking_number)
+    return_checklist = booking.return_checklist.filter(checklist_type='return').first()
+
+    context = {
+        'booking': booking,
+        'return_checklist': return_checklist,
+    }
+    return render(request, 'admin/returnchecklist.html', {'form': form})

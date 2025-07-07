@@ -12,10 +12,9 @@ from .models import (
     AdditionalService,
     Invoice,
     HandoverPhoto,
-    HandoverChecklist,
-    ReturnChecklist
+    HandoverChecklist
 )
-from .forms import ReturnChecklistForm, HandoverChecklistForm
+from .forms import ReturnChecklistForm, HandoverChecklistForm, BookingAdminForm
 from django_summernote.admin import SummernoteModelAdmin
 
 
@@ -96,30 +95,8 @@ class HandoverChecklistAdmin(admin.ModelAdmin):
         """)
 
 
-class ReturnChecklistInline(admin.TabularInline):
-    model = ReturnChecklist
-    form = ReturnChecklistForm
-    extra = 0
-
-class ReturnChecklistForm(forms.ModelForm):
-    initial_odometer = forms.IntegerField(
-        label="Initial Odometer (from handover)",
-        required=False,
-        disabled=True,
-    )
-
-    def __init__(self, *args, **kwargs):
-        handover_instance = kwargs.pop('handover_instance', None)
-        super().__init__(*args, **kwargs)
-        if handover_instance:
-            self.fields['initial_odometer'].initial = handover_instance.odometer
-
-    class Meta:
-        model = ReturnChecklist
-        fields = '__all__'
-
 class ReturnChecklistInline(admin.StackedInline):
-    model = ReturnChecklist
+    model = HandoverChecklist
     form = ReturnChecklistForm
     extra = 0
     readonly_fields = ('initial_odometer_display',)
@@ -158,38 +135,12 @@ class ReturnChecklistInline(admin.StackedInline):
         return CustomFormSet
 
 
-class BookingAdminForm(forms.ModelForm):
-    signature_data = forms.CharField(widget=forms.HiddenInput(), required=False)
-
-    class Meta:
-        model = Booking
-        fields = '__all__'
-
-    def save(self, commit=True):
-        instance = super().save(commit=False)
-        sig_data = self.cleaned_data.get('signature_data')
-
-        if sig_data:
-            try:
-                format, imgstr = sig_data.split(';base64,')
-                ext = format.split('/')[-1]
-                filename = f"{uuid.uuid4()}.{ext}"
-                instance.customer_signature.save(filename, ContentFile(base64.b64decode(imgstr)), save=False)
-            except Exception as e:
-                print("Signature save error:", e)
-
-        if commit:
-            instance.save()
-            self.save_m2m()
-        return instance
-
-
 class BookingAdmin(admin.ModelAdmin):
     form = BookingAdminForm
     list_display = ('booking_number', 'campervan', 'start_date', 'end_date', 'total_price', 'status', 'payment_status')
     list_filter = ('status', 'payment_status')
     search_fields = ('booking_number', 'primary_driver_name', 'additional_driver_name')
-    readonly_fields = ('booking_number', 'total_price', 'created_at', 'updated_at', 'deposit_amount_display')
+    readonly_fields = ('booking_number', 'total_price', 'created_at', 'updated_at', 'deposit_amount_display', 'render_signature_canvas')
     ordering = ('-created_at',)
     filter_horizontal = ('additional_services',)
     inlines = [HandoverChecklistInline, ReturnChecklistInline]
@@ -229,48 +180,24 @@ class BookingAdmin(admin.ModelAdmin):
         }),
     )
 
-    def signature_canvas(self, obj):
-        existing_image_html = ""
-        if obj and obj.customer_signature:
-            existing_image_html = f"""
-                <div style="margin-bottom: 10px;">
-                    <strong>Existing Signature:</strong><br>
-                    <img src="{obj.customer_signature.url}" alt="Customer Signature" style="border:1px solid #000; max-width:400px; max-height:150px;">
-                </div>
-            """
+    def render_signature_canvas(obj, canvas_id_prefix="signature-canvas", hidden_input_id="id_signature_data"):
+        obj_id = obj.pk if obj else 'new'
+        canvas_id = f"{canvas_id_prefix}-{obj_id}"
+        image_url = obj.customer_signature.url if obj and obj.customer_signature else ""
+
+        existing_image_html = f"""
+            <div style="margin-bottom: 10px;">
+                <strong>Existing Signature:</strong><br>
+                <img src="{image_url}" alt="Customer Signature" style="border:1px solid #000; max-width:400px; max-height:150px;">
+            </div>
+        """ if image_url else ""
 
         return mark_safe(f"""
             {existing_image_html}
             <label>Draw/Update Signature:</label><br>
-            <canvas id="signature-canvas" width="400" height="150" style="border:1px solid #000;"></canvas><br>
-            <button type="button" id="clear-signature">Clear</button>
-            <input type="hidden" name="signature_data" id="id_signature_data">
-            <script src="https://cdn.jsdelivr.net/npm/signature_pad@4.0.0/dist/signature_pad.umd.min.js"></script>
-            <script>
-                const canvas = document.getElementById("signature-canvas");
-                const signaturePad = new SignaturePad(canvas);
-                const hiddenInput = document.getElementById("id_signature_data");
-
-                // If existing signature image present, load it onto the canvas
-                {f"""
-                var img = new Image();
-                img.onload = function() {{
-                    canvas.getContext('2d').drawImage(img, 0, 0, canvas.width, canvas.height);
-                }};
-                img.src = '{obj.customer_signature.url}';
-                """ if obj and obj.customer_signature else ""}
-
-                document.querySelector("form").addEventListener("submit", function() {{
-                    if (!signaturePad.isEmpty()) {{
-                        hiddenInput.value = signaturePad.toDataURL();
-                    }}
-                }});
-
-                document.getElementById("clear-signature").addEventListener("click", function() {{
-                    signaturePad.clear();
-                    hiddenInput.value = "";
-                }});
-            </script>
+            <canvas id="{canvas_id}" data-input="{hidden_input_id}" data-img="{image_url}" width="400" height="150" style="border:1px solid #000;"></canvas><br>
+            <button type="button" class="clear-signature">Clear</button>
+            <input type="hidden" name="signature_data" id="{hidden_input_id}">
         """)
 
     def deposit_amount_display(self, obj):
@@ -334,41 +261,6 @@ class CampervanAdmin(SummernoteModelAdmin):
     inlines = [CampervanImageInline]
     summernote_fields = ('description',)
 
-
-class HandoverChecklistAdmin(admin.ModelAdmin):
-    inlines = [HandoverPhotoInline]
-    fieldsets = (
-        (None, {
-            'fields': ('checklist_type', 'date', 'time', 'driver_name', 'phone_contact', 'odometer', 'location'),
-        }),
-        ('Exterior Check', {
-            'fields': ('windshields', 'paintwork', 'bodywork', 'tires_front', 'tires_rear'),
-        }),
-        ('Interior Check', {
-            'fields': ('seats', 'upholstery', 'windows', 'lights', 'flooring', 'known_damage', 'notes'),
-        }),
-    )
-
-class HandoverChecklistForm(forms.ModelForm):
-    signature_data = forms.CharField(widget=forms.HiddenInput(), required=False)
-
-    class Meta:
-        model = HandoverChecklist
-        fields = '__all__'
-
-    def save(self, commit=True):
-        instance = super().save(commit=False)
-        data = self.cleaned_data.get('signature_data')
-
-        if data and data.startswith('data:image'):
-            format, imgstr = data.split(';base64,')
-            ext = format.split('/')[-1]
-            file_name = f"signature_{uuid.uuid4()}.{ext}"
-            instance.customer_signature = ContentFile(base64.b64decode(imgstr), name=file_name)
-
-        if commit:
-            instance.save()
-        return instance
 
 @admin.register(AdditionalService)
 class AdditionalServiceAdmin(admin.ModelAdmin):

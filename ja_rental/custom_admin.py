@@ -8,7 +8,6 @@ from rentals.models import (
     Invoice,
     HandoverPhoto,
     HandoverChecklist,
-    ReturnChecklist
 )
 from rentals.admin import BookingAdmin
 from pages.models import ContactMessage, FAQ, CampingDestination

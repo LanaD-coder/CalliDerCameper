@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% load static i18n %}
+
+{% block content %}
+<section id="booking_list" class="form-section">
+  <h2>{% trans "Bookings" %}</h2>
+
+  <div style="overflow-x: auto;">
+    <div class="row">
+      {% for booking in bookings %}
+        <div class="col-md-4 mb-3">
+          <div class="card h-100">
+            <div class="card-body">
+              <h5 class="card-title">{% blocktrans %}Booking {{ booking.booking_number }}{% endblocktrans %}</h5>
+              <p><strong>{% trans "Start Date:" %}</strong> {{ booking.start_date }}</p>
+              <p><strong>{% trans "End Date:" %}</strong> {{ booking.end_date }}</p>
+              <p><strong>{% trans "Status:" %}</strong> {{ booking.status }}</p>
+              <p><strong>{% trans "Payment Status:" %}</strong> {{ booking.payment_status }}</p>
+              <div>
+                <a href="{% url 'booking_edit' booking.id %}" class="btn btn-primary btn-sm">{% trans "Edit" %}</a>
+                <a href="{% url 'booking_delete' booking.id %}" class="btn btn-danger btn-sm">{% trans "Delete" %}</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endblock %}

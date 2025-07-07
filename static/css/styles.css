@@ -434,7 +434,10 @@ textarea {
 #verify-email-section,
 #booking-section,
 #imp-section,
-#daten-section {
+#daten-section,
+#booking_admin_section,
+#booking_list,
+#handoverchecklist_style {
   background: rgba(255, 255, 255, 0.9);
   padding: 2rem;
   max-width: 600px;
