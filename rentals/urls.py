@@ -28,4 +28,6 @@ urlpatterns = [
     path('admin-panel/bookings/<int:pk>/delete/', views.booking_delete, name='booking_delete'),
     path('admin/handover-checklist/<uuid:booking_number>/', views.handover_checklist, name='handover_checklist'),
     path('admin/return-checklist/<uuid:booking_number>/', views.return_checklist, name='return_checklist'),
+    path('checklist/<int:pk>/', views.checklist_detail, name='checklist_detail'),
+    path('checklist/<int:pk>/pdf/', views.checklist_pdf, name='checklist_pdf'),
 ]

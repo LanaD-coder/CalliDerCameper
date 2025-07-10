@@ -209,7 +209,7 @@ class Booking(models.Model):
             raise ValidationError("Start date and end date must be set before saving a booking.")
 
         if not self.booking_number:
-            self.booking_number = generate_short_booking_number()
+            self.booking_number = Booking.generate_short_booking_number()
 
         # Price calculation
         days = (self.end_date - self.start_date).days + 1
@@ -266,8 +266,8 @@ class HandoverChecklist(models.Model):
         ('damaged', 'Damaged'),
     ]
 
-    booking = models.ForeignKey(Booking, on_delete=models.CASCADE, related_name='handover_checklist')
-    checklist_type = models.CharField(max_length=20, choices=[('pickup', 'Pickup'), ('return', 'Return')])
+    booking = models.ForeignKey(Booking, on_delete=models.CASCADE, related_name='handover_checklists')
+    checklist_type = models.CharField(max_length=10, choices=[('pickup', 'Pickup'), ('return', 'Return')])
     date = models.DateField()
     time = models.TimeField()
     driver_name = models.CharField(max_length=100, blank=True)
@@ -299,7 +299,7 @@ class HandoverChecklist(models.Model):
 
 
 class HandoverPhoto(models.Model):
-    checklist = models.ForeignKey(HandoverChecklist, on_delete=models.CASCADE, related_name='photos')
+    checklist = models.ForeignKey(HandoverChecklist, on_delete=models.CASCADE)
     image = models.ImageField(upload_to='handover_photos/')
     uploaded_at = models.DateTimeField(auto_now_add=True)
 

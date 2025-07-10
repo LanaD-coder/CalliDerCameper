@@ -96,6 +96,16 @@ class BookingForm(forms.ModelForm):
             'end_date': forms.TextInput(attrs={'type': 'text', 'class': 'js-datepicker'}),
             'pickup_time': forms.TimeInput(attrs={'type': 'time'}),
             'dropoff_time': forms.TimeInput(attrs={'type': 'time'}),
+            'customer_notes': forms.Textarea(attrs={
+                'rows': 1,
+                'cols': 40,
+                'class': 'form-control text-sm'
+            }),
+            'cancellation_reason': forms.Textarea(attrs={
+                'rows': 1,
+                'cols': 40,
+                'class': 'form-control text-sm'
+            }),
         }
 
 class HandoverChecklistForm(forms.ModelForm):
@@ -116,6 +126,21 @@ class HandoverChecklistForm(forms.ModelForm):
             'date': forms.DateInput(attrs={'type': 'date'}),
             'time': forms.TimeInput(attrs={'type': 'time'}),
             'photos': forms.ClearableFileInput(attrs={'multiple': False}),
+            'known_damage': forms.Textarea(attrs={
+                'rows': 2,
+                'cols': 40,
+                'class': 'form-control text-sm'
+            }),
+            'notes': forms.Textarea(attrs={
+                'rows': 2,
+                'cols': 40,
+                'class': 'form-control text-sm'
+            }),
+            'location': forms.Textarea(attrs={
+                'rows': 1,
+                'cols': 40,
+                'class': 'form-control text-sm'
+            }),
         }
 
     def save(self, commit=True):

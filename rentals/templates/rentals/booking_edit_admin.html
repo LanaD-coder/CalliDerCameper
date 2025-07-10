@@ -53,23 +53,33 @@
 
   <h3>{% trans "Checklists" %}</h3>
 
-  <p><strong>{% trans "Pickup Checklist:" %}</strong>
-  <a href="{% url 'handover_checklist' booking.booking_number %}" class="btn btn-primary">
-    {% trans "Fill/Edit Pickup Checklist" %}
-  </a>
+  <p>
+    Pickup Checklist:
+    {% if handover_checklist %}
+        ✅ <a href="{% url 'checklist_detail' handover_checklist.pk %}">View</a> |
+        <a href="{% url 'checklist_pdf' handover_checklist.pk %}" target="_blank">Download PDF</a>
+    {% else %}
+        ❌ <a href="{% url 'handover_checklist' booking.booking_number %}">Create</a>
+    {% endif %}
   </p>
 
-  <p><strong>{% trans "Return Checklist:" %}</strong>
-    <a href="{% url 'return_checklist' booking.booking_number %}" class="btn btn-primary">
-      {% trans "Fill/Edit Return Checklist" %}
-    </a>
+  <p>
+      Return Checklist:
+      {% if return_checklist %}
+          ✅ <a href="{% url 'checklist_detail' return_checklist.pk %}">View</a> |
+          <a href="{% url 'checklist_pdf' return_checklist.pk %}" target="_blank">Download PDF</a>
+      {% else %}
+          ❌ <a href="{% url 'return_checklist' booking.booking_number %}">Create</a>
+      {% endif %}
   </p>
   <hr>
 
   <form method="POST" action="{% url 'booking_edit' booking.pk %}">
     {% csrf_token %}
     {{ form.as_p }}
-    <button type="submit">{% trans "Save Changes" %}</button>
+    <button type="submit" id="save-btn">{% trans "Save Changes" %}</button>
   </form>
+  <hr>
+  <button onclick="window.print()" class="btn" id="print-btn">🖨️ Print Booking</button>
 </section>
 {% endblock %}

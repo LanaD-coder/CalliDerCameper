@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Checklist {{ checklist.booking.booking_number }}{% endblock %}
+
+{% block extra_head %}
+<style>
+  body { font-family: Arial, sans-serif; margin: 20px; }
+  h1, h2 { color: #333; }
+  img { max-width: 300px; margin: 10px 0; }
+  ul { list-style: none; padding: 0; }
+  li { margin-bottom: 5px; }
+</style>
+{% endblock %}
+
+{% block content %}
+<h1>{{ checklist.checklist_type|title }} Checklist</h1>
+<p><strong>Booking Number:</strong> {{ checklist.booking.booking_number }}</p>
+<p><strong>Date:</strong> {{ checklist.date }}</p>
+<p><strong>Time:</strong> {{ checklist.time }}</p>
+<p><strong>Driver Name:</strong> {{ checklist.driver_name }}</p>
+
+<h2>Exterior Condition</h2>
+<ul>
+  <li>Windshields: {{ checklist.windshields }}</li>
+  <li>Paintwork: {{ checklist.paintwork }}</li>
+  <li>Bodywork: {{ checklist.bodywork }}</li>
+  <li>Tires Front: {{ checklist.tires_front }}</li>
+  <li>Tires Rear: {{ checklist.tires_rear }}</li>
+</ul>
+
+<h2>Interior Condition</h2>
+<ul>
+  <li>Seats: {{ checklist.seats }}</li>
+  <li>Upholstery: {{ checklist.upholstery }}</li>
+  <li>Windows: {{ checklist.windows }}</li>
+  <li>Lights: {{ checklist.lights }}</li>
+  <li>Flooring: {{ checklist.flooring }}</li>
+</ul>
+
+<h2>Known Damage</h2>
+<p>{{ checklist.known_damage }}</p>
+
+<h2>Photos</h2>
+{% for photo in checklist.photos.all %}
+  <img src="{{ photo.image.url }}" alt="Photo" />
+{% endfor %}
+
+<h2>Notes</h2>
+<p>{{ checklist.notes }}</p>
+{% endblock %}

@@ -10,7 +10,7 @@ from django.views.generic import RedirectView
 
 urlpatterns = [
     path('', rentals_views.home, name='home'),
-     path('admin/', custom_admin.custom_admin_site.urls),
+    path('admin/', custom_admin.custom_admin_site.urls),
     path('rentals/', include('rentals.urls')),
     path('pages/', include('pages.urls')),
     path('i18n/', include('django.conf.urls.i18n')),
@@ -30,6 +30,9 @@ urlpatterns += [
     path('profile/', accounts_views.profile_view, name='profile'),
 
 ]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 handler404 = 'pages.views.custom_404'
 handler500 = 'pages.views.custom_500'

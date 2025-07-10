@@ -1,58 +1,70 @@
 {% extends 'base.html' %}
 {% load static i18n %}
+{% load widget_tweaks %}
 
 {% block content %}
-<section id="handoverchecklist_style">
-  <h1>{% trans "Handover Checklist" %}</h1>
+<section id="handoverchecklist_style" class="max-w-4xl mx-auto px-4 py-6">
+  <h1 class="text-2xl font-bold mb-6">{% trans "Handover Checklist" %}</h1>
 
-  <form method="post" enctype="multipart/form-data">
+  <form method="post" enctype="multipart/form-data" class="space-y-6">
     {% csrf_token %}
 
-    {% for field in form %}
-      {% if field.name != 'signature_data' and field.name != 'customer_signature' %}
-        <div class="field">
-          {{ field.label_tag }}
-          {{ field }}
-          {% if field.help_text %}
-            <small>{% trans field.help_text %}</small>
-          {% endif %}
-          {% for error in field.errors %}
-            <div style="color: red;">{{ error }}</div>
-          {% endfor %}
-        </div>
-      {% endif %}
-    {% endfor %}
+    <!-- Two-column grid for most fields -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      {% for field in form %}
+        {% if field.name != 'signature_data' and field.name != 'customer_signature' %}
+          <div>
+            <label class="block text-sm font-medium text-gray-700">{{ field.label }}</label>
+            {{ field|add_class:"w-full mt-1 p-2 border border-gray-300 rounded" }}
+            {% if field.help_text %}
+              <p class="text-xs text-gray-500">{{ field.help_text }}</p>
+            {% endif %}
+            {% for error in field.errors %}
+              <p class="text-sm text-red-500">{{ error }}</p>
+            {% endfor %}
+          </div>
+        {% endif %}
+      {% endfor %}
+    </div>
 
-    <div class="field">
-      <label>{% trans "Customer Signature:" %}</label><br>
+    <!-- Signature area -->
+    <hr class="my-6">
+    <div>
+      <label class="block font-semibold mb-2">{% trans "Customer Signature:" %}</label>
 
       {% if form.instance.customer_signature %}
-        <div style="margin-bottom: 10px;">
+        <div class="mb-4">
           <strong>{% trans "Existing Signature:" %}</strong><br>
           <img src="{{ form.instance.customer_signature.url }}"
-               alt="{% trans 'Customer Signature' %}"
-               style="border:1px solid #000; max-width:400px; max-height:150px;">
+              alt="{% trans 'Customer Signature' %}"
+              class="border max-w-full h-auto">
         </div>
       {% endif %}
 
-      <canvas id="signature-canvas" width="400" height="150" style="border:1px solid #000;"></canvas><br>
-      <button type="button" id="clear-signature">{% trans "Clear Signature" %}</button>
+      <canvas id="signature-canvas" width="400" height="150" class="border mb-2"></canvas><br>
+      <button type="button" id="clear-signature" class="px-3 py-1 bg-red-500 text-white rounded">{% trans "Clear Signature" %}</button>
       {{ form.signature_data }}
     </div>
 
-    <button type="submit">{% trans "Save Checklist" %}</button>
+    <!-- Action buttons -->
+    <hr class="my-6">
+    <div class="flex flex-wrap gap-4 mt-4">
+      <button type="submit" id="save-btn" class="btn" id="save-btn">{% trans "Save Checklist" %}</button>
+      <hr>
+      <button onclick="window.print()" type="button" class="btn" id="print-btn">🖨️ {% trans "Print Booking" %}</button>
+    </div>
   </form>
 
+  <!-- Signature Pad Script -->
   <script src="https://cdn.jsdelivr.net/npm/signature_pad@4.0.0/dist/signature_pad.umd.min.js"></script>
   <script>
     const canvas = document.getElementById('signature-canvas');
     const signaturePad = new SignaturePad(canvas);
     const hiddenInput = document.getElementById('id_signature_data');
 
-    // If existing signature image, draw it on canvas
     {% if form.instance.customer_signature %}
-    var img = new Image();
-    img.onload = function() {
+    const img = new Image();
+    img.onload = function () {
       const ctx = canvas.getContext('2d');
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
@@ -60,15 +72,13 @@
     img.src = "{{ form.instance.customer_signature.url }}";
     {% endif %}
 
-    // On form submit, save signature data url
-    document.querySelector('form').addEventListener('submit', function() {
+    document.querySelector('form').addEventListener('submit', function () {
       if (!signaturePad.isEmpty()) {
         hiddenInput.value = signaturePad.toDataURL();
       }
     });
 
-    // Clear signature button clears canvas and hidden input
-    document.getElementById('clear-signature').addEventListener('click', function() {
+    document.getElementById('clear-signature').addEventListener('click', function () {
       signaturePad.clear();
       hiddenInput.value = '';
     });

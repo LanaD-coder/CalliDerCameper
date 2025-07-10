@@ -4,6 +4,10 @@ import stripe
 from datetime import datetime, timedelta, date
 from django.shortcuts import render, get_object_or_404, redirect
 from django.views.decorators.csrf import csrf_exempt
+from django.template.loader import get_template
+from xhtml2pdf import pisa
+import base64
+from django.core.files.base import ContentFile
 from django.contrib import messages
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
@@ -432,31 +436,29 @@ def admin_dashboard(request):
 def booking_edit(request, pk):
     booking = get_object_or_404(Booking, pk=pk)
 
-    # Load related checklists and photos:
-    handover_checklist = booking.handover_checklist.filter(checklist_type='pickup').first()
+    handover_checklist = booking.handover_checklists.filter(checklist_type='pickup').first()
     return_checklist = booking.return_checklist
 
-    # You might also want to get HandoverPhotos linked to handover_checklist
     handover_photos = handover_checklist.handoverphoto_set.all() if handover_checklist else []
 
     if request.method == 'POST':
         form = BookingForm(request.POST, instance=booking)
-        # Add forms for checklists if editing those as well
         if form.is_valid():
             form.save()
-            # Save checklist forms as needed
             return redirect('booking_list')
     else:
         form = BookingForm(instance=booking)
-        # similarly instantiate checklist forms if needed
 
-    return render(request, 'rentals/booking_edit_admin.html', {
+    # ✅ Define context explicitly
+    context = {
         'booking': booking,
         'form': form,
         'handover_checklist': handover_checklist,
         'return_checklist': return_checklist,
         'handover_photos': handover_photos,
-    })
+    }
+
+    return render(request, 'rentals/booking_edit_admin.html', context)
 
 @staff_member_required
 def booking_delete(request, pk):
@@ -469,14 +471,24 @@ def booking_delete(request, pk):
 @staff_member_required
 def handover_checklist(request, booking_number):
     booking = get_object_or_404(Booking, booking_number=booking_number)
-    handover_checklist = booking.handover_checklist.filter(checklist_type='pickup').first()
+    handover_checklist = booking.handover_checklists.filter(checklist_type='pickup').first()
 
     if request.method == 'POST':
         form = HandoverChecklistForm(request.POST, instance=handover_checklist)
-        # Optionally handle photo formsets here as well
         if form.is_valid():
-            form.save()
-            # maybe redirect to booking or success page
+            checklist = form.save(commit=False)
+            if not checklist.pk:
+                checklist.booking = booking
+
+            # ✅ Handle base64 signature data
+            signature_data = request.POST.get('signature_data')
+            if signature_data:
+                format, imgstr = signature_data.split(';base64,')
+                ext = format.split('/')[-1]  # png or jpeg
+                filename = f"signature_{booking.booking_number}.{ext}"
+                checklist.customer_signature = ContentFile(base64.b64decode(imgstr), name=filename)
+
+            checklist.save()
             return redirect('booking_edit', pk=booking.pk)
     else:
         form = HandoverChecklistForm(instance=handover_checklist)
@@ -490,13 +502,36 @@ def handover_checklist(request, booking_number):
         'handover_photos': handover_photos,
     })
 
+
 @staff_member_required
 def return_checklist(request, booking_number):
     booking = get_object_or_404(Booking, booking_number=booking_number)
-    return_checklist = booking.return_checklist.filter(checklist_type='return').first()
+    return_checklist = booking.handover_checklists.filter(checklist_type='return').first()
 
     context = {
         'booking': booking,
         'return_checklist': return_checklist,
     }
-    return render(request, 'admin/returnchecklist.html', {'form': form})
+    return render(request, 'admin/returnchecklist.html', context)
+
+def checklist_detail(request, pk):
+    checklist = get_object_or_404(HandoverChecklist, pk=pk)
+    return render(request, 'checklists/checklist_details.html', {'checklist': checklist})
+
+def checklist_pdf(request, pk):
+    checklist = get_object_or_404(HandoverChecklist, pk=pk)
+    template_path = 'checklists/checklist_pdf.html'
+    context = {'checklist': checklist}
+
+    response = HttpResponse(content_type='application/pdf')
+    response['Content-Disposition'] = f'filename=checklist_{checklist.booking.booking_number}.pdf'
+
+    template = get_template(template_path)
+    html = template.render(context)
+
+    # Create PDF
+    pisa_status = pisa.CreatePDF(html, dest=response)
+
+    if pisa_status.err:
+        return HttpResponse('We had some errors with PDF generation <pre>' + html + '</pre>')
+    return response
