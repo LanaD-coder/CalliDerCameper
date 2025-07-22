@@ -1,84 +1,109 @@
 {% extends 'base.html' %}
 {% load static i18n %}
+{% load widget_tweaks %}
+
 
 {% block content %}
-  <h1>{% trans "Return Checklist" %}</h1>
+<section class="max-w-4xl mx-auto px-4 py-6">
+  <h1 class="text-2xl font-bold mb-6">{% trans "Return Checklist" %}</h1>
 
-  <form method="post" enctype="multipart/form-data">
+  <form method="post" enctype="multipart/form-data" class="space-y-6">
     {% csrf_token %}
 
-    {% for field in form %}
-      {% if field.name != 'signature_data' %}
-        <div class="field">
-          {{ field.label_tag }}
-          {{ field }}
-          {% if field.help_text %}
-            <small>{% trans field.help_text %}</small>
-          {% endif %}
-          {% for error in field.errors %}
-            <div style="color: red;">{{ error }}</div>
-          {% endfor %}
-        </div>
-      {% endif %}
-    {% endfor %}
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      {% for field in form %}
+        {% if field.name != 'signature_data' and field.name != 'customer_signature' %}
+          <div>
+            <label class="block text-sm font-medium text-gray-700">
+              {{ field.label }}
+            </label>
+            {{ field|add_class:"w-full mt-1 p-2 border border-gray-300 rounded" }}
 
+            {% if field.help_text %}
+              <p class="text-xs text-gray-500">{{ field.help_text }}</p>
+            {% endif %}
+
+            {% for error in field.errors %}
+              <p class="text-sm text-red-500">{{ error }}</p>
+            {% endfor %}
+          </div>
+        {% endif %}
+      {% endfor %}
+    </div>
+
+
+    <!-- Signature section -->
+    <hr class="my-6" />
     <div>
-      <label>{% trans "Customer Signature:" %}</label>
-      <canvas id="signature-pad" class="signature-pad" style="border:1px solid #ccc; width: 400px; height: 200px;"></canvas><br />
-      <button type="button" id="clear-signature">{% trans "Clear Signature" %}</button>
+      <label class="block font-semibold mb-2"
+        >{% trans "Customer Signature:" %}</label
+      >
+
+      {% if form.instance.customer_signature %}
+      <div class="mb-4">
+        <strong>{% trans "Existing Signature:" %}</strong><br />
+        <img
+          src="{{ form.instance.customer_signature.url }}"
+          alt="{% trans 'Customer Signature' %}"
+          class="border max-w-full h-auto"
+        />
+      </div>
+      {% endif %}
+
+      <canvas
+        id="signature-canvas"
+        width="400"
+        height="150"
+        class="border mb-2"
+      ></canvas
+      ><br />
+      <button
+        type="button"
+        id="clear-signature"
+        class="px-3 py-1 bg-red-500 text-white rounded"
+      >
+        {% trans "Clear Signature" %}
+      </button>
       {{ form.signature_data }}
     </div>
 
-    <button type="submit">{% trans "Save Checklist" %}</button>
+    <!-- Actions -->
+    <hr class="my-6" />
+    <div class="flex flex-wrap gap-4 mt-4">
+      <button type="submit" class="btn">{% trans "Save Checklist" %}</button>
+      <button onclick="window.print()" type="button" class="btn">
+        🖨️ {% trans "Print Booking" %}
+      </button>
+    </div>
   </form>
 
+  <!-- Signature Pad Script -->
+  <script src="https://cdn.jsdelivr.net/npm/signature_pad@4.0.0/dist/signature_pad.umd.min.js"></script>
   <script>
-    const canvas = document.getElementById('signature-pad');
-    const ctx = canvas.getContext('2d');
-    let drawing = false;
+    const canvas = document.getElementById('signature-canvas');
+    const signaturePad = new SignaturePad(canvas);
+    const hiddenInput = document.getElementById('id_signature_data');
 
-    function resizeCanvas() {
-      const ratio = Math.max(window.devicePixelRatio || 1, 1);
-      canvas.width = canvas.offsetWidth * ratio;
-      canvas.height = canvas.offsetHeight * ratio;
-      ctx.scale(ratio, ratio);
-      ctx.lineWidth = 2;
-      ctx.lineCap = 'round';
-      ctx.strokeStyle = '#000';
-    }
+    {% if form.instance.customer_signature %}
+      const img = new Image();
+      img.onload = function () {
+        const ctx = canvas.getContext('2d');
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+      };
+      img.src = "{{ form.instance.customer_signature.url }}";
+    {% endif %}
 
-    function startDraw(e) {
-      drawing = true;
-      ctx.beginPath();
-      ctx.moveTo(e.offsetX, e.offsetY);
-    }
-
-    function draw(e) {
-      if (!drawing) return;
-      ctx.lineTo(e.offsetX, e.offsetY);
-      ctx.stroke();
-    }
-
-    function stopDraw() {
-      drawing = false;
-    }
-
-    canvas.addEventListener('mousedown', startDraw);
-    canvas.addEventListener('mousemove', draw);
-    canvas.addEventListener('mouseup', stopDraw);
-    canvas.addEventListener('mouseout', stopDraw);
-
-    document.getElementById('clear-signature').addEventListener('click', () => {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      document.getElementById('id_signature_data').value = '';
+    document.querySelector('form').addEventListener('submit', function () {
+      if (!signaturePad.isEmpty()) {
+        hiddenInput.value = signaturePad.toDataURL();
+      }
     });
 
-    document.querySelector('form').addEventListener('submit', function() {
-      const dataUrl = canvas.toDataURL('image/png');
-      document.getElementById('id_signature_data').value = dataUrl;
+    document.getElementById('clear-signature').addEventListener('click', function () {
+      signaturePad.clear();
+      hiddenInput.value = '';
     });
-
-    resizeCanvas();
-    window.addEventListener('resize', resizeCanvas);
   </script>
+</section>
 {% endblock %}

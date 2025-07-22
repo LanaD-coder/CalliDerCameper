@@ -1,18 +1,24 @@
-{% extends 'base.html' %}
-{% load static %}
-{% block title %}Checklist {{ checklist.booking.booking_number }}{% endblock %}
+{% load static %} {% block extra_head %}
+<link rel="stylesheet" href="{% static 'css/print.css' %}" media="print" />
+{% endblock %} {% block content %}
+<div
+  class="header"
+  style="display: flex; align-items: center; gap: 10px; margin-bottom: 20px"
+>
+  <img
+    src="{% static 'images/soläufst.png' %}"
+    alt="Company Logo"
+    style="height: 80px"
+  />
+  <img
+    src="{% static 'images/logo-text.png' %}"
+    alt="Company Name"
+    style="height: 50px"
+  />
+</div>
 
-{% block extra_head %}
-<style>
-  body { font-family: Arial, sans-serif; margin: 20px; }
-  h1, h2 { color: #333; }
-  img { max-width: 300px; margin: 10px 0; }
-  ul { list-style: none; padding: 0; }
-  li { margin-bottom: 5px; }
-</style>
-{% endblock %}
+<hr />
 
-{% block content %}
 <h1>{{ checklist.checklist_type|title }} Checklist</h1>
 <p><strong>Booking Number:</strong> {{ checklist.booking.booking_number }}</p>
 <p><strong>Date:</strong> {{ checklist.date }}</p>
@@ -42,9 +48,11 @@
 
 <h2>Photos</h2>
 {% for photo in checklist.photos.all %}
-  <img src="{{ photo.image.url }}" alt="Photo" />
+<img src="{{ photo.image.url }}" alt="Photo" />
 {% endfor %}
 
 <h2>Notes</h2>
 <p>{{ checklist.notes }}</p>
+
+<hr />
 {% endblock %}

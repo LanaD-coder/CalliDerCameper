@@ -1,9 +1,8 @@
-{% extends 'base.html' %}
-{% load static %}
-
-
-{% block content %}
-<h1>{{ checklist.checklist_type|title }} Checklist - {{ checklist.booking.booking_number }}</h1>
+{% extends 'base.html' %} {% load static %} {% block content %}
+<h1>
+  {{ checklist.checklist_type|title }} Checklist - {{
+  checklist.booking.booking_number }}
+</h1>
 <p>Date: {{ checklist.date }}</p>
 <p>Time: {{ checklist.time }}</p>
 <p>Driver Name: {{ checklist.driver_name }}</p>
@@ -31,19 +30,28 @@
 
 <h2>Photos</h2>
 {% for photo in checklist.photos.all %}
-    <img src="{{ photo.image.url }}" alt="Photo" style="max-width: 300px;" />
+<img src="{{ photo.image.url }}" alt="Photo" style="max-width: 300px" />
 {% endfor %}
 
 <h2>Notes</h2>
 <p>{{ checklist.notes }}</p>
 
 {% if checklist.customer_signature %}
-  <h2>Customer Signature</h2>
-  <img src="{{ checklist.customer_signature.url }}" alt="Customer Signature" style="max-width: 400px; border: 1px solid #ccc;">
+<h2>Customer Signature</h2>
+<img
+  src="{{ checklist.customer_signature.url }}"
+  alt="Customer Signature"
+  style="max-width: 400px; border: 1px solid #ccc"
+/>
 {% else %}
-  <p>No signature available.</p>
+<p>No signature available.</p>
 {% endif %}
-<hr>
-<button onclick="window.print()" id="print-btn">Print this checklist</button>
+<hr />
+<div style="margin-top: 20px">
+  <button onclick="window.print()" id="print-btn">Print this checklist</button>
+  <a href="{% url 'booking_edit' checklist.booking.id %}" id="edit-btn">
+    Back to Edit
+  </a>
+</div>
 
 {% endblock %}

@@ -3,6 +3,7 @@ import json
 import stripe
 from datetime import datetime, timedelta, date
 from django.shortcuts import render, get_object_or_404, redirect
+from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.template.loader import get_template
 from xhtml2pdf import pisa
@@ -506,13 +507,58 @@ def handover_checklist(request, booking_number):
 @staff_member_required
 def return_checklist(request, booking_number):
     booking = get_object_or_404(Booking, booking_number=booking_number)
-    return_checklist = booking.handover_checklists.filter(checklist_type='return').first()
 
-    context = {
+    # Try to get an existing return checklist
+    checklist = booking.handover_checklists.filter(checklist_type='return').first()
+
+    # Get pickup checklist to pre-fill data if no return checklist yet
+    handover = booking.handover_checklists.filter(checklist_type='pickup').first()
+
+    if request.method == 'POST':
+        form = HandoverChecklistForm(request.POST, request.FILES, instance=checklist)
+
+        if form.is_valid():
+            return_checklist = form.save(commit=False)
+            return_checklist.booking = booking
+            return_checklist.checklist_type = 'return'
+
+            # Handle base64 signature
+            signature_data = request.POST.get('signature_data')
+            if signature_data:
+                format, imgstr = signature_data.split(';base64,')
+                ext = format.split('/')[-1]
+                filename = f"return_signature_{booking.booking_number}.{ext}"
+                return_checklist.customer_signature = ContentFile(base64.b64decode(imgstr), name=filename)
+
+            return_checklist.save()
+            return redirect('booking_edit', pk=booking.pk)
+    else:
+        # Pre-fill from handover if no return checklist exists
+        if checklist:
+            form = HandoverChecklistForm(instance=checklist)
+        elif handover:
+            initial_data = {
+                'driver_name': handover.driver_name,
+                'windshields': handover.windshields,
+                'paintwork': handover.paintwork,
+                'bodywork': handover.bodywork,
+                'tires_front': handover.tires_front,
+                'tires_rear': handover.tires_rear,
+                'seats': handover.seats,
+                'upholstery': handover.upholstery,
+                'windows': handover.windows,
+                'lights': handover.lights,
+                'flooring': handover.flooring,
+                'known_damage': handover.known_damage,
+            }
+            form = HandoverChecklistForm(initial=initial_data)
+        else:
+            form = HandoverChecklistForm()
+
+    return render(request, 'admin/returnchecklist.html', {
+        'form': form,
         'booking': booking,
-        'return_checklist': return_checklist,
-    }
-    return render(request, 'admin/returnchecklist.html', context)
+    })
 
 def checklist_detail(request, pk):
     checklist = get_object_or_404(HandoverChecklist, pk=pk)

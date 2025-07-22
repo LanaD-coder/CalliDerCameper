@@ -1,0 +1,41 @@
+body {
+  font-family: Arial, sans-serif;
+  margin: 20px;
+  background-color: white !important; /* clean white background */
+  color: black !important;
+}
+
+h1,
+h2 {
+  color: #333 !important;
+  margin-top: 0;
+  margin-bottom: 0.5rem;
+}
+
+img {
+  max-width: 300px !important;
+  margin: 10px 0 !important;
+}
+
+ul {
+  list-style: none !important;
+  padding: 0 !important;
+}
+
+li {
+  margin-bottom: 5px !important;
+}
+
+/* Hide any buttons or form elements if you happen to have them */
+button,
+input,
+select,
+textarea {
+  display: none !important;
+}
+
+/* Links styling */
+a {
+  color: #0dc1bf !important;
+  text-decoration: underline !important;
+}

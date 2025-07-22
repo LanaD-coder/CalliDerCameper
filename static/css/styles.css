@@ -4,7 +4,8 @@
   padding: 0;
 }
 
-html, body {
+html,
+body {
   height: 100%;
   margin: 0;
 }
@@ -17,7 +18,7 @@ body {
 }
 
 body.loading::after {
-  content: 'Loading Stripe Checkout...';
+  content: "Loading Stripe Checkout...";
   position: fixed;
   top: 50%;
   left: 50%;
@@ -32,11 +33,22 @@ body.loading::after {
   flex: 1 0 auto;
 }
 
-.h1, .h2, .h3, .h4, .h5, .h6, h1, h2, h3, h4, h5, h6 {
-    margin-top: 0;
-    margin-bottom: .5rem;
-    font-weight: 400;
-    line-height: 1.2;
+.h1,
+.h2,
+.h3,
+.h4,
+.h5,
+.h6,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin-top: 0;
+  margin-bottom: 0.5rem;
+  font-weight: 400;
+  line-height: 1.2;
 }
 
 /* Fonts */
@@ -69,8 +81,8 @@ body.loading::after {
   margin-bottom: 5px;
   border-radius: 20px;
   font-weight: bold;
-  font-family: 'Roboto', sans-serif;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+  font-family: "Roboto", sans-serif;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
   z-index: 1000;
 }
 
@@ -98,7 +110,6 @@ body.loading::after {
   background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='white' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
 }
 
-
 #site-title {
   font-family: "Cookie", cursive;
   color: #ebae16;
@@ -107,36 +118,36 @@ body.loading::after {
 }
 
 .banner {
-    background-image: url('/static/images/VW-Grand-California.jpg');
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    height: 800px;
-    padding: 2rem;
-    margin-top: 0;
-    position: relative;
-    z-index: 1;
-    border-top-right-radius: 80px;
+  background-image: url("/static/images/VW-Grand-California.jpg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  height: 800px;
+  padding: 2rem;
+  margin-top: 0;
+  position: relative;
+  z-index: 1;
+  border-top-right-radius: 80px;
 }
 
 .banner-text {
-    position: absolute;
-    top: 0;
-    right: 0;
-    background-color: rgba(255, 255, 255, 0.85);
-    color: #0dc1bf;
-    text-align: center;
-    padding: 1.5rem;
-    font-size: 1.25rem;
-    font-weight: 500;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-    max-width: 800px;
-    margin: 0 auto;
-    border-top-right-radius: 80px;
+  position: absolute;
+  top: 0;
+  right: 0;
+  background-color: rgba(255, 255, 255, 0.85);
+  color: #0dc1bf;
+  text-align: center;
+  padding: 1.5rem;
+  font-size: 1.25rem;
+  font-weight: 500;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  max-width: 800px;
+  margin: 0 auto;
+  border-top-right-radius: 80px;
 }
 
 .navbar + .banner {
-    margin-top: 4rem;
+  margin-top: 4rem;
 }
 
 .navbar-brand img {
@@ -232,18 +243,18 @@ body.loading::after {
 footer {
   background-color: white;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
-
 }
 
-#about-section, #info-section {
+#about-section,
+#info-section {
   position: relative;
   background: rgba(255, 255, 255, 0.9);
   padding: 2rem;
   max-width: 100%;
   margin-top: 60px;
   border-radius: 0 80px 0 0;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-  font-family: 'Roboto', sans-serif;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  font-family: "Roboto", sans-serif;
   color: black;
   display: block;
 }
@@ -265,7 +276,7 @@ footer {
   top: 2rem;
   right: 2rem;
   border-radius: 0 80px 0 0;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   flex-shrink: 0;
 }
 
@@ -283,14 +294,15 @@ textarea {
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0,0,0,0.5);
+  background: rgba(0, 0, 0, 0.5);
   z-index: 10000;
   justify-content: center;
   align-items: center;
 }
 
 .about-btn,
-.booking-btn, #message-btn {
+.booking-btn,
+#message-btn {
   background-color: #0dc1bf;
   color: white;
 }
@@ -309,13 +321,13 @@ textarea {
 }
 
 .logo-img {
-        bottom: 0;
-        right:0;
-        width: 40vw;
-        height: auto;
-        max-width: 300px;
-        max-height: 180px;
-        z-index: 10;
+  bottom: 0;
+  right: 0;
+  width: 40vw;
+  height: auto;
+  max-width: 300px;
+  max-height: 180px;
+  z-index: 10;
 }
 
 .video-card {
@@ -340,7 +352,7 @@ textarea {
 #destinations-section {
   max-width: 100%;
   margin: 3rem auto;
-  font-family: 'Roboto', sans-serif;
+  font-family: "Roboto", sans-serif;
   padding: 0 1rem;
 }
 
@@ -360,9 +372,9 @@ textarea {
 }
 
 .destination-card {
-  background: rgba(255,255,255,0.9);
+  background: rgba(255, 255, 255, 0.9);
   border-radius: 0 80px 0 0;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   overflow: hidden;
   display: flex;
   flex-direction: column;
@@ -403,10 +415,10 @@ textarea {
 }
 
 .cookie-heading {
-    font-family: 'Cookie', cursive;
-    font-size: 3rem;
-    color: #0dc1bf;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+  font-family: "Cookie", cursive;
+  font-size: 3rem;
+  color: #0dc1bf;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
 }
 
 .map-responsive iframe {
@@ -419,12 +431,11 @@ textarea {
 }
 
 #soläfst {
-    margin-left: 30px;
-    margin-bottom: 60px;
-    height: 400px;
-    z-index: 2;
-
-  }
+  margin-left: 30px;
+  margin-bottom: 60px;
+  height: 400px;
+  z-index: 2;
+}
 
 /* === Shared Section Styles === */
 #contact-section,
@@ -443,8 +454,8 @@ textarea {
   max-width: 600px;
   margin: 3rem auto;
   border-radius: 1rem;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-  font-family: 'Roboto', sans-serif;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  font-family: "Roboto", sans-serif;
 }
 
 /* Headings */
@@ -482,7 +493,7 @@ textarea {
 #booking-section label {
   margin-bottom: 0.5rem;
   font-weight: 600;
-  color: #14213D;
+  color: #14213d;
 }
 
 /* Inputs and textareas */
@@ -503,10 +514,10 @@ textarea {
   padding: 0.6rem 1rem;
   border-radius: 0.8rem;
   border: 1px solid #ccc;
-  font-family: 'Roboto', sans-serif;
+  font-family: "Roboto", sans-serif;
   font-size: 1rem;
   margin-bottom: 0.5rem;
-  box-shadow: inset 0 2px 4px rgba(0,0,0,0.2);
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);
   transition: border-color 0.3s ease;
   resize: vertical;
 }
@@ -527,7 +538,7 @@ textarea {
 #booking-section textarea:focus {
   border-color: #ebae16;
   outline: none;
-  box-shadow: inset 0 2px 4px rgba(0,0,0,0.2);
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);
   background-color: #fff;
 }
 
@@ -556,7 +567,21 @@ textarea {
   font-size: 1.1rem;
   font-weight: 600;
   cursor: pointer;
-  box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+  transition: background-color 0.3s ease;
+  align-self: flex-start;
+}
+
+#edit-btn {
+  background-color: #ebae16;
+  color: white;
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 0.8rem;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
   transition: background-color 0.3s ease;
   align-self: flex-start;
 }
@@ -577,11 +602,10 @@ textarea {
   outline: none;
 }
 
-
 /* Paragraphs inside imp-section */
 #imp-section p {
   margin-top: 1rem;
-  color: #14213D;
+  color: #14213d;
 }
 
 /* Links */
@@ -605,7 +629,7 @@ textarea {
 }
 
 #daten-section p {
-  color: #14213D;
+  color: #14213d;
   line-height: 1.6;
 }
 
@@ -614,7 +638,7 @@ textarea {
   max-width: 800px;
   margin: 3rem auto;
   padding: 0 1rem;
-  font-family: 'Roboto', sans-serif;
+  font-family: "Roboto", sans-serif;
 }
 
 #faq-section h2 {
@@ -659,23 +683,23 @@ textarea {
   line-height: 1.5;
 }
 
-  #camperCarousel .carousel-inner {
-    max-height: 600px;
-  }
+#camperCarousel .carousel-inner {
+  max-height: 600px;
+}
 
-  #camperCarousel .carousel-item img {
-    height: 600px;
-    object-fit: contain;
-    width: auto;
-    margin: 0 auto;
-  }
+#camperCarousel .carousel-item img {
+  height: 600px;
+  object-fit: contain;
+  width: auto;
+  margin: 0 auto;
+}
 
-  #camperCarousel {
-    background-color: #bbd4c5;
-    border-top-right-radius: 8px;
-  }
+#camperCarousel {
+  background-color: #bbd4c5;
+  border-top-right-radius: 8px;
+}
 
-  .toast {
+.toast {
   visibility: hidden;
   min-width: 300px;
   margin-left: -100px;
@@ -718,25 +742,25 @@ textarea {
 }
 
 .season-card {
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-  }
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
 
-  .season-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
-  }
+.season-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
+}
 
-  .nebensaison {
-    background-color: #e8f4fd; /* light blue */
-  }
+.nebensaison {
+  background-color: #e8f4fd; /* light blue */
+}
 
-  .zwischensaison {
-    background-color: #fff8e1; /* warm light yellow */
-  }
+.zwischensaison {
+  background-color: #fff8e1; /* warm light yellow */
+}
 
-  .hauptsaison {
-    background-color: #fdecea; /* light red-pink */
-  }
+.hauptsaison {
+  background-color: #fdecea; /* light red-pink */
+}
 
 /* Desktop: 1200px and up */
 @media (min-width: 992px) {
@@ -744,16 +768,17 @@ textarea {
     font-size: 16px;
   }
   .fc-toolbar-title {
-    font-size: 1.5rem;    }
+    font-size: 1.5rem;
+  }
 
-   .destinations-list {
+  .destinations-list {
     grid-template-columns: repeat(3, 1fr);
   }
 
   .destination-card {
     background: #fff;
     padding: 15px;
-    box-shadow: 0 0 5px rgba(0,0,0,0.2);
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
     border-radius: 8px;
     display: flex;
     flex-direction: column;
@@ -767,10 +792,9 @@ textarea {
     border-radius: 6px;
     margin-bottom: 10px;
   }
-  }
+}
 
 @media (max-width: 768px) {
-
   #main-container {
     margin-top: 100px;
   }
@@ -815,7 +839,7 @@ textarea {
     display: block;
   }
 
-   #destinations-section {
+  #destinations-section {
     max-width: 90%;
     margin: 0;
     margin-top: 4rem;
@@ -829,12 +853,14 @@ textarea {
     grid-template-columns: repeat(2, 1fr);
   }
 
-  #contact-section, #faq-section {
+  #contact-section,
+  #faq-section {
     padding: 1rem;
     max-width: 90%;
   }
 
-  #contact-section h2, #faq-section h2 {
+  #contact-section h2,
+  #faq-section h2 {
     font-size: 2.2rem;
   }
 
@@ -850,7 +876,7 @@ textarea {
     max-width: 300px;
     height: auto;
   }
-   #availabilityModal .modal-dialog {
+  #availabilityModal .modal-dialog {
     max-width: 95vw;
     margin: 1rem auto;
   }
@@ -859,10 +885,8 @@ textarea {
   }
 }
 
-
 /* Mobile: 320px and up */
 @media (max-width: 480px) {
-
   #main-container {
     margin-top: 120px;
   }
@@ -894,7 +918,7 @@ textarea {
     padding: 1rem;
   }
 
-   #calendar-wrapper {
+  #calendar-wrapper {
     max-height: 70vh;
     overflow-y: auto;
   }
@@ -908,7 +932,6 @@ textarea {
     margin-left: -55px;
     height: 140px;
     z-index: 2;
-
   }
   .fc {
     width: 100% !important;
@@ -947,7 +970,8 @@ textarea {
     padding-bottom: 75%;
   }
 
-   #contact-section h2, #faq-section h2 {
+  #contact-section h2,
+  #faq-section h2 {
     font-size: 1.8rem;
   }
 
