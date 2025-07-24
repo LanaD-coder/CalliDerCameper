@@ -27,8 +27,12 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cookie&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
 
-     <!-- Font awesome -->
+    <!-- Font awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Toastr CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+
 
     <!-- Favicon -->
     <link rel="shortcut icon" href="{% static 'favicon.ico' %}" type="image/x-icon">
@@ -66,7 +70,7 @@
         <li class="nav-item"><a class="nav-link" href="/">{% trans "Home" %}</a></li>
         <li class="nav-item"><a class="nav-link" href="{% url 'about' %}">{% trans "Calli stellt sich vor" %}</a></li>
         <li class="nav-item"><a class="nav-link" href="/videos">{% trans "Videos & Tipps" %}</a></li>
-        <li class="nav-item"><a class="nav-link" href="{% url 'booking_page' 1 %}">{% trans "Book" %}</a></li>
+        <li class="nav-item"><a class="nav-link" href="{% url 'booking_page' 1 %}">{% trans "Book Calli" %}</a></li>
         <li class="nav-item"><a class="nav-link" href="/contact">{% trans "Contact" %}</a></li>
         {% if user.is_staff %}
           <li class="nav-item">
@@ -150,6 +154,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
 <!-- jQuery (required) -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<!-- Toastr JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 
 <!-- Signature -->
 <script src="https://cdn.jsdelivr.net/npm/signature_pad@4.0.0/dist/signature_pad.umd.min.js"></script>

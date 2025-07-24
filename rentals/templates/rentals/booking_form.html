@@ -138,7 +138,10 @@
     <div class="mt-4">
       <input type="checkbox" id="accept-datenschutz" required>
       <label for="accept-datenschutz">
-        Ich akzeptiere die <a href="#" onclick="openDatenschutzModal(); return false;" class="underline text-blue-600">Datenschutzerklärung</a>.
+        Ich akzeptiere die
+        <a href="{% url 'datenschutz' %}?return_url={% url 'booking_page' campervan.pk %}">
+          Datenschutzerklärung
+        </a>
       </label>
     </div>
 
@@ -204,6 +207,14 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   }
 });
+</script>
+
+<script>
+    {% if messages %}
+        {% for message in messages %}
+            toastr.error("{{ message|escapejs }}");
+        {% endfor %}
+    {% endif %}
 </script>
 
 <!-- Modal for login/register prompt -->

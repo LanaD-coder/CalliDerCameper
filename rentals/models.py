@@ -138,12 +138,14 @@ class Booking(models.Model):
     booking_number = models.CharField(max_length=8, unique=True, editable=False, blank=True)
 
     @staticmethod
-    def generate_short_booking_number(length=8):
-        chars = string.ascii_uppercase + string.digits
-        while True:
-            new_id = ''.join(random.choices(chars, k=length))
-            if not Booking.objects.filter(booking_number=new_id).exists():
-                return new_id
+    def generate_booking_number(prefix='calli25', number_length=5):
+        last_booking = Booking.objects.filter(booking_number__startswith=prefix).order_by('-booking_number').first()
+        if last_booking and last_booking.booking_number:
+            last_number = int(last_booking.booking_number.replace(prefix, ''))
+            new_number = last_number + 1
+        else:
+            new_number = 1
+        return f"{prefix}{str(new_number).zfill(number_length)}"
 
     STATUS_CHOICES = [
         ('active', 'Active'),
@@ -209,7 +211,7 @@ class Booking(models.Model):
             raise ValidationError("Start date and end date must be set before saving a booking.")
 
         if not self.booking_number:
-            self.booking_number = Booking.generate_short_booking_number()
+            self.booking_number = Booking.generate_booking_number()
 
         # Price calculation
         days = (self.end_date - self.start_date).days + 1
