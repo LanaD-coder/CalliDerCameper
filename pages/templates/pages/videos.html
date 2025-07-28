@@ -7,67 +7,41 @@
     <h2 class="mb-4">{% trans "Explore VW Grand California Features" %}</h2>
     <p class="mb-5">{% trans "Get to know the innovative and practical functions of the VW Grand California." %}</p>
     <p class="mb-5">{% trans "Watch videos and view images demonstrating how each feature enhances your travel experience." %}</p>
-
     <div class="row g-4">
-      <div class="col-12 col-md-6 col-lg-4">
+      <div class="col-12 col-md-6">
         <div class="video-card">
-          <video controls class="w-100">
-            <source src="/static/videos/seat_heating.mp4" type="video/mp4">
-            Your browser does not support the video tag.
-          </video>
-          <h3>{% trans "Seat Heating" %}</h3>
-          <p>{% trans "Stay warm and cozy during chilly drives with the integrated seat heating system." %}</p>
+          <iframe class="w-100" height="315"
+            src="https://www.youtube.com/embed/ojBzMfMQjFk"
+            title="{% trans 'YouTube video player' %}"
+            frameborder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen>
+          </iframe>
+          <h3>{% trans "Feature Demo via YouTube" %}</h3>
+          <p>{% trans "Watch this detailed video walkthrough directly from our official channel." %}</p>
         </div>
       </div>
 
-      <div class="col-12 col-md-6 col-lg-4">
+      <div class="col-12 col-md-6">
         <div class="video-card">
-          <img src="/static/images/kitchenette.jpg" alt="{% trans 'Integrated Kitchenette' %}" class="w-100" />
-          <h3>{% trans "Integrated Kitchenette" %}</h3>
-          <p>{% trans "Prepare your favorite meals on the go with the fully equipped kitchenette inside." %}</p>
-        </div>
-      </div>
-
-      <div class="col-12 col-md-6 col-lg-4">
-        <div class="video-card">
-          <video controls class="w-100">
-            <source src="/static/videos/aux_heater.mp4" type="video/mp4">
-            Your browser does not support the video tag.
-          </video>
-          <h3>{% trans "Auxiliary Heater" %}</h3>
-          <p>{% trans "Keep the interior comfortable even on cold nights using the auxiliary heater." %}</p>
-        </div>
-      </div>
-
-      <div class="col-12 col-md-6 col-lg-4">
-        <div class="video-card">
-          <img src="/static/images/cruise_control.jpg" alt="{% trans 'Adaptive Cruise Control' %}" class="w-100" />
-          <h3>{% trans "Adaptive Cruise Control" %}</h3>
-          <p>{% trans "Enjoy a relaxed drive with adaptive cruise control and parking assist." %}</p>
-        </div>
-      </div>
-
-      <div class="col-12 col-md-6 col-lg-4">
-        <div class="video-card">
-          <video controls class="w-100">
-            <source src="/static/videos/sleeping_area.mp4" type="video/mp4">
-            Your browser does not support the video tag.
-          </video>
-          <h3>{% trans "Sleeping Area Setup" %}</h3>
-          <p>{% trans "See how easy it is to transform the seating area into comfortable sleeping spots." %}</p>
-        </div>
-      </div>
-
-      <div class="col-12 col-md-6 col-lg-4">
-        <div class="video-card">
-          <img src="/static/images/storage_space.jpg" alt="{% trans 'Storage Space' %}" class="w-100" />
-          <h3>{% trans "Smart Storage Solutions" %}</h3>
-          <p>{% trans "Discover the clever storage options to keep everything organized during your trip." %}</p>
+          <iframe class="w-100" height="315"
+            src="https://www.youtube.com/embed/dIbLBjIUJyk"
+            title="{% trans 'YouTube video player' %}"
+            frameborder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen>
+          </iframe>
+          <h3>{% trans "Feature Demo via YouTube" %}</h3>
+          <p>{% trans "Watch this detailed video walkthrough directly from our official channel." %}</p>
         </div>
       </div>
     </div>
+
   </section>
 </div>
+
+<hr>
+
 <div class="centered-text">
   <section id="destinations-section">
     <h2>{% trans "Recommended Camping Destinations" %}</h2>
