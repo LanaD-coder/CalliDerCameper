@@ -15,25 +15,17 @@
     </p>
   </div>
 
-  <!-- Cookie Toast placed at top-left of banner -->
-  <div id="cookieToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true" data-bs-autohide="false"
-     style="
-       position: fixed;
-       top: 50%;
-       left: 50%;
-       transform: translate(-50%, -50%);
-       z-index: 9999;
-       min-width: 280px;
-     ">
-    <div class="toast-header">
-      <strong class="me-auto">Cookies</strong>
-      <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
-    </div>
-    <div class="toast-body">
-      Diese Website verwendet Cookies. <a href="{% url 'datenschutz' %}">Mehr erfahren</a>.
-      <button id="acceptCookiesBtn" class="btn btn-primary btn-sm ms-2">OK</button>
+  <!-- Datenschutz Toast Container -->
+  <div class="toast-container position-fixed bottom-0 start-0 p-3" style="z-index: 1055;">
+    <div id="cookieToast" class="toast text-black bg-white position-relative" role="alert" aria-live="assertive" aria-atomic="true" data-bs-autohide="false" style="min-width: 280px;">
+      <button type="button" class="btn-close position-absolute top-0 start-0 m-2" style="filter: invert(0);" data-bs-dismiss="toast" aria-label="Close"></button>
+      <div class="toast-body">
+        Diese Website verwendet Cookies. <a href="{% url 'datenschutz' %}" class="text-decoration-underline" style="color: #ebae16;">Mehr erfahren</a>.
+        <button id="acceptCookiesBtn" class="btn btn-primary btn-sm ms-2">OK</button>
+      </div>
     </div>
   </div>
+
 </div>
 
 <section id="about-section" class="my-5 position-relative">
