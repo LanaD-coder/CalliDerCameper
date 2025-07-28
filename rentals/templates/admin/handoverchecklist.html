@@ -46,12 +46,13 @@
       {{ form.signature_data }}
     </div>
 
-    <!-- Action buttons -->
-    <hr class="my-6">
+    <!-- Actions -->
+    <hr class="my-6" />
     <div class="flex flex-wrap gap-4 mt-4">
-      <button type="submit" id="save-btn" class="btn">{% trans "Save Checklist" %}</button>
-      <hr>
-      <button onclick="window.print()" type="button" class="btn" id="print-btn">🖨️ {% trans "Print Booking" %}</button>
+      <button type="submit" class="btn">{% trans "Save Checklist" %}</button>
+      <button onclick="window.print()" type="button" class="btn">
+        🖨️ {% trans "Print Booking" %}
+      </button>
     </div>
   </form>
 

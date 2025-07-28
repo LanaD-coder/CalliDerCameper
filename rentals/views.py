@@ -398,7 +398,7 @@ def send_payment_success_email(user, booking):
 
 def create_handover_checklist(request):
     if request.method == 'POST':
-        form = HandoverChecklistForm(request.POST)
+        form = HandoverChecklistForm(request.POST,  request.FILES)
         formset = HandoverPhotoFormSet(request.POST, request.FILES, queryset=HandoverPhoto.objects.none())
 
         if form.is_valid() and formset.is_valid():
@@ -416,6 +416,7 @@ def create_handover_checklist(request):
     return render(request, 'admin/handoverchecklist.html', {
         'form': form,
         'formset': formset,
+        'checklist': checklist,
     })
 
 
@@ -581,3 +582,14 @@ def checklist_pdf(request, pk):
     if pisa_status.err:
         return HttpResponse('We had some errors with PDF generation <pre>' + html + '</pre>')
     return response
+
+def handover_photo_upload(request):
+    if request.method == 'POST':
+        formset = HandoverPhotoFormSet(request.POST, request.FILES, queryset=HandoverPhoto.objects.none())
+        if formset.is_valid():
+            formset.save()
+            return redirect('success-url')
+    else:
+        formset = HandoverPhotoFormSet(queryset=HandoverPhoto.objects.none())
+
+    return render(request, 'upload.html', {'formset': formset})

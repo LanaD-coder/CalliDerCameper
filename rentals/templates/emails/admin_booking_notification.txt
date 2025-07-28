@@ -1,3 +1,5 @@
+{% load i18n %}
+
 {% trans "New Booking Received" %}
 
 {% trans "Booking Number:" %} {{ booking.booking_number }}
@@ -22,6 +24,9 @@
 - {% trans "No additional services selected." %}
 {% endfor %}
 
-{% trans "View in Admin Dashboard:" %} {{ admin_booking_url }}
+<p>
+  {% trans "View in Admin Dashboard:" %}
+  <a href="{{ admin_booking_url }}" target="_blank" rel="noopener noreferrer">
+</p>
 
 {% trans "This is an automated notification. No reply is necessary." %}

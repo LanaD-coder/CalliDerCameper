@@ -1,56 +1,72 @@
-{% extends 'base.html' %} {% load static %} {% block content %}
+{% extends 'base.html' %}
+{% load static %}
+{% load static i18n %}
+
+{% block content %}
 <h1>
-  {{ checklist.checklist_type|title }} Checklist - {{
-  checklist.booking.booking_number }}
+  {% trans checklist.checklist_type|title %} {% trans "Checklist" %} - {{ checklist.booking.booking_number }}
 </h1>
-<p>Date: {{ checklist.date }}</p>
-<p>Time: {{ checklist.time }}</p>
-<p>Driver Name: {{ checklist.driver_name }}</p>
+<p>{% trans "Date" %}: {{ checklist.date }}</p>
+<p>{% trans "Time" %}: {{ checklist.time }}</p>
+<p>{% trans "Driver Name" %}: {{ checklist.driver_name }}</p>
 
-<h2>Exterior Condition</h2>
+<h2>{% trans "Exterior Condition" %}</h2>
 <ul>
-  <li>Windshields: {{ checklist.windshields }}</li>
-  <li>Paintwork: {{ checklist.paintwork }}</li>
-  <li>Bodywork: {{ checklist.bodywork }}</li>
-  <li>Tires Front: {{ checklist.tires_front }}</li>
-  <li>Tires Rear: {{ checklist.tires_rear }}</li>
+  <li>{% trans "Windshields" %}: {{ checklist.windshields }}</li>
+  <li>{% trans "Paintwork" %}: {{ checklist.paintwork }}</li>
+  <li>{% trans "Bodywork" %}: {{ checklist.bodywork }}</li>
+  <li>{% trans "Tires Front" %}: {{ checklist.tires_front }}</li>
+  <li>{% trans "Tires Rear" %}: {{ checklist.tires_rear }}</li>
 </ul>
 
-<h2>Interior Condition</h2>
+<h2>{% trans "Interior Condition" %}</h2>
 <ul>
-  <li>Seats: {{ checklist.seats }}</li>
-  <li>Upholstery: {{ checklist.upholstery }}</li>
-  <li>Windows: {{ checklist.windows }}</li>
-  <li>Lights: {{ checklist.lights }}</li>
-  <li>Flooring: {{ checklist.flooring }}</li>
+  <li>{% trans "Seats" %}: {{ checklist.seats }}</li>
+  <li>{% trans "Upholstery" %}: {{ checklist.upholstery }}</li>
+  <li>{% trans "Windows" %}: {{ checklist.windows }}</li>
+  <li>{% trans "Lights" %}: {{ checklist.lights }}</li>
+  <li>{% trans "Flooring" %}: {{ checklist.flooring }}</li>
 </ul>
 
-<h2>Known Damage</h2>
+<h2>{% trans "Known Damage" %}</h2>
 <p>{{ checklist.known_damage }}</p>
 
-<h2>Photos</h2>
-{% for photo in checklist.photos.all %}
-<img src="{{ photo.image.url }}" alt="Photo" style="max-width: 300px" />
-{% endfor %}
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ formset.management_form }}
+    {% for form in formset %}
+        {{ form.image.label_tag }} {{ form.image }}
+        {% if form.DELETE %}
+            {{ form.DELETE.label_tag }} {{ form.DELETE }}
+        {% endif %}
+    {% endfor %}
+    <button type="submit">Upload</button>
+</form>
 
-<h2>Notes</h2>
+<form method="POST" action="{% url 'save_checklist' checklist.id %}">
+  {% csrf_token %}
+  <button type="submit">{% trans "Save Checklist" %}</button>
+</form>
+
+<h2>{% trans "Notes" %}</h2>
 <p>{{ checklist.notes }}</p>
 
 {% if checklist.customer_signature %}
-<h2>Customer Signature</h2>
-<img
-  src="{{ checklist.customer_signature.url }}"
-  alt="Customer Signature"
-  style="max-width: 400px; border: 1px solid #ccc"
-/>
+  <h2>{% trans "Customer Signature" %}</h2>
+  <img
+    src="{{ checklist.customer_signature.url }}"
+    alt="{% trans 'Customer Signature' %}"
+    style="max-width: 400px; border: 1px solid #ccc"
+  />
 {% else %}
-<p>No signature available.</p>
+  <p>{% trans "No signature available." %}</p>
 {% endif %}
-<hr />
+
+
 <div style="margin-top: 20px">
-  <button onclick="window.print()" id="print-btn">Print this checklist</button>
+  <button onclick="window.print()" id="print-btn">{% trans "Print this checklist" %}</button>
   <a href="{% url 'booking_edit' checklist.booking.id %}" id="edit-btn">
-    Back to Edit
+    {% trans "Back to Edit" %}
   </a>
 </div>
 

@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from rentals.models import Booking, Invoice
 from django.views.decorators.csrf import csrf_exempt
+from django.views.decorators.http import require_POST
 from django.http import JsonResponse, HttpResponseBadRequest
 from django.contrib import messages
 from .models import ContactMessage
@@ -18,7 +19,26 @@ def profile_view(request):
     invoices = Invoice.objects.filter(bookings__primary_driver=user).distinct().order_by('-issued_date')
     messages_list = ContactMessage.objects.filter(user=user).order_by('-submitted_at')
 
-    # Determine action from query params: create, edit, delete
+    # Detect AJAX POST for creating a new message
+    if request.method == 'POST':
+        form = ContactForm(request.POST)
+        if form.is_valid():
+            new_msg = form.save(commit=False)
+            new_msg.user = user
+            new_msg.save()
+
+            if request.is_ajax():
+                return JsonResponse({'success': True})
+            else:
+                messages.success(request, "Message sent successfully!")
+                return redirect('profile')
+        else:
+            if request.headers.get('x-requested-with') == 'XMLHttpRequest':
+                return JsonResponse({'success': False, 'errors': form.errors}, status=400)
+            else:
+                messages.error(request, "Please fix the errors below.")
+
+    # Handle other actions: edit, delete, normal GET
     action = request.GET.get('action')
     msg_id = request.GET.get('msg_id')
 
@@ -26,7 +46,6 @@ def profile_view(request):
     delete_message = None
 
     if action == 'edit' and msg_id:
-        # Editing an existing message
         msg = get_object_or_404(ContactMessage, pk=msg_id, user=user)
         if request.method == 'POST':
             form = ContactForm(request.POST, instance=msg)
@@ -40,7 +59,6 @@ def profile_view(request):
             form = ContactForm(instance=msg)
 
     elif action == 'delete' and msg_id:
-        # Deleting an existing message
         delete_message = get_object_or_404(ContactMessage, pk=msg_id, user=user)
         if request.method == 'POST':
             delete_message.delete()
@@ -48,7 +66,6 @@ def profile_view(request):
             return redirect('profile')
 
     else:
-        # Creating a new message or just viewing profile
         if request.method == 'POST':
             form = ContactForm(request.POST)
             if form.is_valid():

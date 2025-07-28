@@ -135,10 +135,10 @@ class Booking(models.Model):
     # Invoice relation
     invoice = models.ForeignKey(Invoice, on_delete=models.SET_NULL, blank=True, null=True, related_name='bookings')
 
-    booking_number = models.CharField(max_length=8, unique=True, editable=False, blank=True)
+    booking_number = models.CharField(max_length=12, unique=True, editable=False, blank=True)
 
     @staticmethod
-    def generate_booking_number(prefix='calli25', number_length=5):
+    def generate_booking_number(prefix='cdc25', number_length=5):
         last_booking = Booking.objects.filter(booking_number__startswith=prefix).order_by('-booking_number').first()
         if last_booking and last_booking.booking_number:
             last_number = int(last_booking.booking_number.replace(prefix, ''))
@@ -295,6 +295,7 @@ class HandoverChecklist(models.Model):
     notes = models.TextField(blank=True)
 
     customer_signature = models.ImageField(upload_to='signatures/', blank=True, null=True)
+    completed = models.BooleanField(default=False)
 
     def __str__(self):
         return f"{self.checklist_type.title()} Checklist - {self.booking.booking_number}"

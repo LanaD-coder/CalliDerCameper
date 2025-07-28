@@ -110,16 +110,44 @@ class BookingForm(forms.ModelForm):
 
 class HandoverChecklistForm(forms.ModelForm):
     signature_data = forms.CharField(widget=forms.HiddenInput(), required=False)
+    photos = forms.FileField(
+        widget=forms.ClearableFileInput(),
+        required=False,
+        label=_("Photos")
+    )
 
     class Meta:
         model = HandoverChecklist
         fields = [
-            'checklist_type', 'date', 'time', 'driver_name', 'phone_contact', 'odometer',
+            'date', 'time', 'driver_name', 'phone_contact', 'odometer',
             'location', 'windshields', 'paintwork', 'bodywork',
             'tires_front', 'tires_rear', 'seats', 'upholstery',
             'windows', 'lights', 'flooring', 'known_damage', 'notes',
             'customer_signature'
         ]
+
+        labels = {
+            'date': _("Date"),
+            'time': _("Time"),
+            'driver_name': _("Driver Name"),
+            'phone_contact': _("Phone Contact"),
+            'odometer': _("Odometer"),
+            'location': _("Location"),
+            'windshields': _("Windshields"),
+            'paintwork': _("Paintwork"),
+            'bodywork': _("Bodywork"),
+            'tires_front': _("Front Tires"),
+            'tires_rear': _("Rear Tires"),
+            'seats': _("Seats"),
+            'upholstery': _("Upholstery"),
+            'windows': _("Windows"),
+            'lights': _("Lights"),
+            'flooring': _("Flooring"),
+            'known_damage': _("Known Damage"),
+            'photos': _("Photos"),
+            'notes': _("Notes"),
+            'customer_signature': _("Customer Signature"),
+        }
         widgets = {
             'customer_signature': forms.ClearableFileInput(),
             'checklist_type': forms.RadioSelect,
