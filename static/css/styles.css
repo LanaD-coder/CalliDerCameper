@@ -826,7 +826,7 @@ textarea {
 
   #about-section {
     flex-direction: column;
-    max-width: 90%;
+    max-width: 100%;
     margin-top: 15px;
   }
   #about-section h1 {
