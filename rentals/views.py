@@ -428,9 +428,20 @@ def booking_list(request):
 
 @staff_member_required
 def admin_dashboard(request):
-    total_bookings = Booking.objects.count()
+    bookings = Booking.objects.all()
+    booking_data = []
+    for booking in bookings:
+        pickup = booking.handover_checklists.filter(checklist_type='pickup').first()
+        return_cl = booking.handover_checklists.filter(checklist_type='return').first()
+        booking_data.append({
+            'booking': booking,
+            'pickup_checklist': pickup,
+            'return_checklist': return_cl,
+        })
+
     context = {
-        'total_bookings': total_bookings,
+        'total_bookings': bookings.count(),
+        'booking_data': booking_data,
     }
     return render(request, 'admin/admin_dashboard.html', context)
 
@@ -438,7 +449,7 @@ def admin_dashboard(request):
 def booking_edit(request, pk):
     booking = get_object_or_404(Booking, pk=pk)
 
-    handover_checklist = booking.handover_checklists.filter(checklist_type='pickup').first()
+    handover_checklist = booking.pickup_checklist
     return_checklist = booking.return_checklist
 
     handover_photos = handover_checklist.handoverphoto_set.all() if handover_checklist else []
