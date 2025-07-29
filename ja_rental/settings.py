@@ -23,7 +23,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 env = environ.Env()
 environ.Env.read_env(os.path.join(BASE_DIR, '.env'))  # explicitly load .env
 
-DEBUG = False
+DEBUG = env.bool('DEBUG', default=False)
 
 SECRET_KEY = env('DJANGO_SECRET_KEY', default='insecure-development-key')
 
