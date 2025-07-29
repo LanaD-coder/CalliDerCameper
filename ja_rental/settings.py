@@ -167,7 +167,7 @@ STATICFILES_DIRS = [
 ]
 
 # Where to collect all static files on deploy (run collectstatic)
-STATIC_ROOT = (BASE_DIR / 'staticfiles')
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
