@@ -43,7 +43,7 @@
 
       <canvas id="signature-canvas" width="400" height="150" class="border mb-2"></canvas><br>
       <button type="button" id="clear-signature" class="px-3 py-1 bg-red-500 text-white rounded">{% trans "Clear Signature" %}</button>
-      {{ form.signature_data.as_widget(attrs={"id": "id_signature_data"}) }}
+      {{ form.signature_data }}
     </div>
 
     <!-- Actions -->

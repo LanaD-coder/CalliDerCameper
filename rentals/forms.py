@@ -109,7 +109,10 @@ class BookingForm(forms.ModelForm):
         }
 
 class HandoverChecklistForm(forms.ModelForm):
-    signature_data = forms.CharField(widget=forms.HiddenInput(), required=False)
+    signature_data = forms.CharField(
+        widget=forms.HiddenInput(attrs={'id': 'id_signature_data'}),
+        required=False
+    )
     photos = forms.FileField(
         widget=forms.ClearableFileInput(),
         required=False,
