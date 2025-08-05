@@ -35,7 +35,7 @@ WEBHOOK_URL = "https://yourdomain.com/webhook/stripe/"
 
 ALLOWED_HOSTS = env.list(
     'ALLOWED_HOSTS',
-    default=['localhost', '127.0.0.1', 'jarental-9127907f3428.herokuapp.com']
+    default=['localhost', '127.0.0.1', 'jarental-9127907f3428.herokuapp.com', 'www.callidercamper.de']
 )
 # Application definition
 
