@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-08-05 12:08+0200\n"
+"POT-Creation-Date: 2025-08-05 15:04+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -156,207 +156,235 @@ msgstr "Bitte wähle deine Sprache aus."
 
 #: .\pages\templates\pages\about.html:13
 #: .\pages\templates\pages\information.html:13
-msgid "This is how it works"
+msgid "How it works"
 msgstr "So läuft's ab"
 
 #: .\pages\templates\pages\about.html:14
 #: .\pages\templates\pages\information.html:14
-msgid "Everything about renting."
+msgid "All about renting Calli."
 msgstr "Rund um die Vermietung."
 
 #: .\pages\templates\pages\about.html:15
 #: .\pages\templates\pages\information.html:15
 msgid ""
+"Here you’ll find everything important about renting Calli.
+From pick-up to return, insurance, rental prices, and our cancellation policy.
+You’ll also learn what you should bring and what Calli provides."
+msgstr ""
 "Hier erfährst du alles Wichtige zur Miete von Calli. Angefangen von der "
 "Übernahme bis zur Rückgabe, zur Versicherung, die Mietpreise und unsere "
 "Stornobedingungen. Weiter erfährst du, was du mitbringen solltest und was "
 "Calli mitbringt."
-msgstr ""
 
 #: .\pages\templates\pages\about.html:17
 #: .\pages\templates\pages\information.html:17
-msgid "Collection & Return"
+msgid "Pick-up & Return"
 msgstr "Abholung & Rückgabe"
 
 #: .\pages\templates\pages\about.html:19
 #: .\pages\templates\pages\information.html:19
-msgstr "Pick-up and return take place at one of our locations."
-msgid "Abholung und Rückgabe finden an einem unserer Standorte statt."
+msgid "Pick-up and return take place at one of our locations."
+msgstr "Abholung und Rückgabe finden an einem unserer Standorte statt."
 
 #: .\pages\templates\pages\about.html:20
 #: .\pages\templates\pages\information.html:20
-msgstr "Pick-up: We'll be waiting for you at the agreed time"
-msgid "Abholung: Wir warten zur vereinbarten Uhrzeit auf dich"
+msgid "Pick-up: We'll be waiting for you at the agreed time"
+msgstr "Abholung: Wir warten zur vereinbarten Uhrzeit auf dich"
 
 #: .\pages\templates\pages\about.html:21
 #: .\pages\templates\pages\information.html:21
-msgstr "Detailed introduction (approx. 35 minutes)"
-msgid "Ausführliche Einweisung (Dauer ca. 35 Minuten)"
+msgid "Detailed introduction (approx. 35 minutes)"
+msgstr "Ausführliche Einweisung (Dauer ca. 35 Minuten)"
 
 #: .\pages\templates\pages\about.html:22
 #: .\pages\templates\pages\information.html:22
-msgstr "Quick Pickup (shorter handover) optional when booking"
-msgid "Quick Pickup (kürzere Übergabe) optional bei Buchung"
+msgid "Quick Pickup (shorter handover) optional when booking"
+msgstr "Quick Pickup (kürzere Übergabe) optional bei Buchung"
 
 #: .\pages\templates\pages\about.html:23
 #: .\pages\templates\pages\information.html:23
-msgstr "Return: Please clean the interior (if not booked)"
-msgid "Rückgabe: Innenraum bitte reinigen (falls nicht gebucht)"
+msgid "Return: Please clean the interior (if not booked)"
+msgstr "Rückgabe: Innenraum bitte reinigen (falls nicht gebucht)"
 
 #: .\pages\templates\pages\about.html:24
 #: .\pages\templates\pages\information.html:24
-msgstr "Empty fresh and waste water tanks"
-msgid "Frisch- und Abwassertank entleeren"
+msgid "Empty fresh and waste water tanks"
+msgstr "Frisch- und Abwassertank entleeren"
 
 #: .\pages\templates\pages\about.html:25
 #: .\pages\templates\pages\information.html:25
-msgstr "Empty and clean the toilet"
-msgid "Toilette entleeren und reinigen"
+msgid "Empty and clean the toilet"
+msgstr "Toilette entleeren und reinigen"
 
 #: .\pages\templates\pages\about.html:26
 #: .\pages\templates\pages\information.html:26
-msgstr "Please return the vehicle with a full tank"
-msgid "Fahrzeug bitte vollgetankt zurückbringen"
+msgid "Please return the vehicle with a full tank"
+msgstr "Fahrzeug bitte vollgetankt zurückbringen"
 
 #: .\pages\templates\pages\about.html:27
 #: .\pages\templates\pages\information.html:27
-msgstr "Return takes approx. 20 minutes"
-msgid "Rückgabe dauert ca. 20 Minuten"
+msgid "Return takes approx. 20 minutes"
+msgstr "Rückgabe dauert ca. 20 Minuten"
 
 #: .\pages\templates\pages\about.html:35
 #: .\pages\templates\pages\information.html:35
-msgstr "Price overview for Calli the Camper"
-msgid "Preisübersicht für Calli der Camper"
+msgid "Price overview for Calli the Camper"
+msgstr "Preisübersicht für Calli der Camper"
 
 #: .\pages\templates\pages\about.html:40
 #: .\pages\templates\pages\information.html:40
-msgstr "Low season"
-msgid "Nebensaison"
+msgid "Low season"
+msgstr "Nebensaison"
 
 #: .\pages\templates\pages\about.html:48
 #: .\pages\templates\pages\information.html:48
-msgstr "Mid-season"
-msgid "Zwischensaison"
+msgid "Mid-season"
+msgstr "Zwischensaison"
 
 #: .\pages\templates\pages\about.html:56
 #: .\pages\templates\pages\information.html:56
-msgstr "High season"
-msgid "Hauptsaison"
+msgid "High season"
+msgstr "Hauptsaison"
 
 #: .\pages\templates\pages\about.html:65
-msgstr "🎉 Included – you’re welcome!"
-msgid "🎉 Inklusive – bitte schön!"
+msgid "🎉 Included – you’re welcome!"
+msgstr "🎉 Inklusive – bitte schön!"
 
 #: .\pages\templates\pages\about.html:67
 #: .\pages\templates\pages\information.html:67
-msgstr "Bike rack: included (limited to 50 kg)"
-msgid "Fahrradträger: inklusive (begrenzt auf 50 kg)"
+msgid "Bike rack: included (limited to 50 kg)"
+msgstr "Fahrradträger: inklusive (begrenzt auf 50 kg)"
 
 #: .\pages\templates\pages\about.html:68
 #: .\pages\templates\pages\information.html:68
-msgstr "Camping table & chairs: included"
-msgid "Campingtisch & Stühle: inklusive"
+msgid "Camping table & 2 camping chairs"
+msgstr "Campingtisch & 2 Campingstühle"
 
 #: .\pages\templates\pages\about.html:69
 #: .\pages\templates\pages\information.html:69
-msgstr "Final cleaning (if not done by you): €59"
-msgid "Endreinigung (wenn nicht selbst gemacht): 59€"
+msgid "Final cleaning (if not done by you): €59"
+msgstr "Endreinigung (wenn nicht selbst gemacht): 59€"
 
 #: .\pages\templates\pages\about.html:70
 msgid ""
-msgstr "🚐 Unlimited kilometers included ✨ No mileage limits – drive as far as you like!"
-msgid "🚐 Unbegrenzte Kilometer inklusive ✨ Keine Kilometerbegrenzung – fahren, so weit ihr wollt!"
-
+"🚐 Unlimited kilometers included<br>✨ No mileage limits – "
+"drive as far as you like!"
+msgstr ""
+"🚐 Unbegrenzte Kilometer inklusive<br>✨ Keine Kilometerbegrenzung – fahren, "
+"so weit ihr wollt!"
 
 #: .\pages\templates\pages\about.html:73
 #: .\pages\templates\pages\information.html:72
-msgstr "Deposit"
-msgid "Kaution"
+msgid "Pickup Location:"
+msgstr "Abholort:"
 
 #: .\pages\templates\pages\about.html:74
 #: .\pages\templates\pages\information.html:73
-msgstr "Minimum rental period"
-msgid "Mindestmietdauer"
+msgid "Minimum rental period""
+msgstr "Mindestmietdauer"
 
 #: .\pages\templates\pages\about.html:76
 #: .\pages\templates\pages\information.html:75
-msgstr "Cancellation policy"
-msgid "Stornobedingungen"
+msgid "Cancellation policy"
+msgstr "Stornobedingungen"
 
 #: .\pages\templates\pages\about.html:77
 #: .\pages\templates\pages\information.html:76
-msgstr "Cancellations are of course possible – we kindly ask for timely notice. The following policy applies:"
-msgid "Stornierungen sind natürlich möglich – wir bitten um rechtzeitige Info. Folgende Regelung gilt:"
+msgid ""
+Cancellations are of course possible – we kindly ask for timely notice. The following policy applies:"
+msgstr ""
+"Stornierungen sind natürlich möglich – wir bitten um rechtzeitige Info. "
+"Folgende Regelung gilt:"
 
 #: .\pages\templates\pages\about.html:79
 #: .\pages\templates\pages\information.html:78
-msgstr "Up to 30 days before departure: 90% refund of total rental price"
-msgid "Bis 30 Tage vor Reisebeginn: 90% Erstattung des Gesamtmietpreises"
+#, python-format
+msgid ""Up to 30 days before departure: 90% refund of total rental price"
+msgstr "Bis 30 Tage vor Reisebeginn: 90% Erstattung des Gesamtmietpreises"
 
 #: .\pages\templates\pages\about.html:80
 #: .\pages\templates\pages\information.html:79
-msgstr "14–29 days before departure: 50% refund"
-msgid "14–29 Tage vor Reisebeginn: 50% Erstattung"
+#, python-format
+msgid "14–29 days before departure: 50% refund"
+msgstr "14–29 Tage vor Reisebeginn: 50% Erstattung"
 
 #: .\pages\templates\pages\about.html:81
 #: .\pages\templates\pages\information.html:80
-msgstr "Less than 14 days before departure: No refund"
-msgid "Weniger als 14 Tage vor Reisebeginn: Keine Rückerstattung"
+msgid "Less than 14 days before departure: No refund"
+msgstr "Weniger als 14 Tage vor Reisebeginn: Keine Rückerstattung"
 
 #: .\pages\templates\pages\about.html:83
 #: .\pages\templates\pages\information.html:82
-msgstr "If we are able to rent the vehicle out again at short notice, we’ll try to be flexible and possibly issue a partial refund."
-msgid "Bei einer kurzfristigen Neuvermietung versuchen wir kulant zu sein und ggf. einen Teilbetrag zu erstatten."
+msgid ""
+"If we are able to rent the vehicle out again at short notice, "
+"we’ll try to be flexible and possibly issue a partial refund."
+msgstr ""
+"Bei einer kurzfristigen Neuvermietung versuchen wir kulant zu sein und ggf. "
+"einen Teilbetrag zu erstatten."
 
 #: .\pages\templates\pages\about.html:84
 #: .\pages\templates\pages\information.html:83
-msgstr "Tip:"
-msgid "Tipp:"
+msgid "Tip:"
+msgstr "Tipp:"
 
 #: .\pages\templates\pages\about.html:84
 #: .\pages\templates\pages\information.html:83
-msgstr "We recommend purchasing travel cancellation insurance – just in case!"
-msgid "Wir empfehlen den Abschluss einer Reiserücktrittsversicherung für den Fall der Fälle!"
+msgid ""
+"We recommend purchasing travel cancellation insurance – just in case!"
+msgstr ""
+"Wir empfehlen den Abschluss einer Reiserücktrittsversicherung für den Fall "
+"der Fälle!"
 
 #: .\pages\templates\pages\about.html:89
 #: .\pages\templates\pages\information.html:88
-msgstr "Where is Calli allowed to go?"
-msgid "Wohin darf Calli fahren?"
+msgid "Where is Calli allowed to go?"
+msgstr "Wohin darf Calli fahren?"
 
 #: .\pages\templates\pages\about.html:90
 #: .\pages\templates\pages\information.html:89
-msgstr "With Calli, you can explore Europe’s most beautiful places!"
-msgid "Mit Calli kannst du Europas schönste Ecken entdecken!"
+msgid "With Calli, you can explore Europe’s most beautiful places!"
+msgstr "Mit Calli kannst du Europas schönste Ecken entdecken!"
 
 #: .\pages\templates\pages\about.html:91
 #: .\pages\templates\pages\information.html:90
-msgstr "Our insurance with LVM covers travel in many countries – safe, convenient, and stress-free."
-msgid "Unsere Versicherung bei LVM deckt Fahrten in viele Länder ab – sicher, bequem und ganz entspannt."
+msgid ""
+"Our insurance with LVM covers travel in many countries – safe, convenient, and stress-free."
+msgstr ""
+"Unsere Versicherung bei LVM deckt Fahrten in viele Länder ab – sicher, "
+"bequem und ganz entspannt."
 
 #: .\pages\templates\pages\about.html:93
 #: .\pages\templates\pages\information.html:92
-msgstr "✅ Insured & allowed"
-msgid "✅ Versichert & erlaubt"
+msgid "✅ Insured & allowed"
+msgstr "✅ Versichert & erlaubt"
 
 #: .\pages\templates\pages\about.html:95
 #: .\pages\templates\pages\information.html:94
-msgstr "You may travel to the following countries with Calli:"
-msgid "Du darfst mit Calli in folgende Länder reisen:"
+msgid "You may travel to the following countries with Calli:"
+msgstr "Du darfst mit Calli in folgende Länder reisen:"
 
 #: .\pages\templates\pages\about.html:103
 #: .\pages\templates\pages\information.html:102
-msgstr "For these countries, we will provide the ‘Green Card’ (international insurance card) upon request – your official proof of insurance."
-msgid "Für diese Länder stellen wir dir auf Wunsch die „Grüne Karte“ (internationale Versicherungskarte) aus – dein offizieller Versicherungsnachweis."
+msgid ""
+"For these countries, we will provide the ‘Green Card’ "
+"(international insurance card) upon request – your official proof of insurance."
+msgstr ""
+"Für diese Länder stellen wir dir auf Wunsch die „Grüne Karte“ "
+"(internationale Versicherungskarte) aus – dein offizieller "
+"Versicherungsnachweis."
 
 #: .\pages\templates\pages\about.html:105
 #: .\pages\templates\pages\information.html:104
-msgstr "❌ Not allowed / No insurance coverage"
-msgid "❌ Nicht erlaubt / kein Versicherungsschutz"
+msgid "❌ Not allowed / No insurance coverage"
+msgstr "❌ Nicht erlaubt / kein Versicherungsschutz"
 
 #: .\pages\templates\pages\about.html:116
 #: .\pages\templates\pages\information.html:115
-msgstr "These countries are crossed out on the Green Card and excluded from insurance coverage."
-msgid "Diese Länder sind auf der Grünen Karte durchgestrichen und vom Versicherungsschutz ausgeschlossen."
+msgid ""
+"These countries are crossed out on the Green Card and excluded from insurance coverage."
+msgstr ""
+"Diese Länder sind auf der Grünen Karte durchgestrichen und vom "
+"Versicherungsschutz ausgeschlossen."
 
 #: .\pages\templates\pages\contact.html:7
 msgid "Contact Us"
@@ -404,18 +432,21 @@ msgstr ""
 
 #: .\pages\templates\pages\videos.html:15
 #: .\pages\templates\pages\videos.html:29
-msgstr "YouTube video player"
-msgid "YouTube-Videoplayer"
+msgid "YouTube video player"
+msgstr "YouTube-Videoplayer"
 
 #: .\pages\templates\pages\videos.html:20
 #: .\pages\templates\pages\videos.html:34
-msgstr "Feature Demo via YouTube"
-msgid "Funktionsdemo über YouTube"
+msgid "Feature Demo via YouTube"
+msgstr "Funktionsdemo über YouTube"
 
 #: .\pages\templates\pages\videos.html:21
 #: .\pages\templates\pages\videos.html:35
-msgstr "Watch this detailed video walkthrough directly from our official channel."
-msgid "Sieh dir diese ausführliche Videoanleitung direkt auf unserem offiziellen Kanal an."
+msgid ""
+"Watch this detailed video walkthrough directly from our official channel."
+msgstr ""
+"Sieh dir diese ausführliche Videoanleitung direkt auf unserem offiziellen "
+"Kanal an."
 
 #: .\pages\templates\pages\videos.html:56
 msgid "Visit Website"
@@ -900,7 +931,7 @@ msgstr "Gib hier deinen Code ein (wenn vorhanden)"
 
 #: .\rentals\templates\rentals\booking_form.html:55
 msgid "The driver must be at least 21 years old."
-msgstr ""
+msgstr "Der Fahrer muss mindestens 21 Jahre alt sein."
 
 #: .\rentals\templates\rentals\booking_form.html:84
 msgid "Additional Driver (Optional)"
@@ -1969,6 +2000,84 @@ msgstr ""
 #: .\templates\legal\impressum.html:46
 msgid "Alle Rechte vorbehalten."
 msgstr ""
+
+#~ msgid "This is how it works"
+#~ msgstr "So läuft's ab"
+
+#~ msgid "Everything about renting."
+#~ msgstr "Rund um die Vermietung."
+
+#~ msgid "Collection & Return"
+#~ msgstr "Abholung & Rückgabe"
+
+#~ msgid "Pick-up: We'll be waiting for you at the agreed time"
+#~ msgstr "Abholung: Wir warten zur vereinbarten Uhrzeit auf dich"
+
+#~ msgid "Detailed introduction (approx. 35 minutes)"
+#~ msgstr "Ausführliche Einweisung (Dauer ca. 35 Minuten)"
+
+#~ msgid "Empty fresh and waste water tanks"
+#~ msgstr "Frisch- und Abwassertank entleeren"
+
+#~ msgid "Mid-season"
+#~ msgstr "Zwischensaison"
+
+#~ msgid "🎉 Included – you’re welcome!"
+#~ msgstr "🎉 Inklusive – bitte schön!"
+
+#~ msgid ""
+#~ "🚐 Unlimited kilometers included ✨ No mileage limits – drive as far as "
+#~ "you like!"
+#~ msgstr ""
+#~ "🚐 Unbegrenzte Kilometer inklusive ✨ Keine Kilometerbegrenzung – fahren, "
+#~ "so weit ihr wollt!"
+
+#~ msgid ""
+#~ "Cancellations are of course possible – we kindly ask for timely notice. "
+#~ "The following policy applies:"
+#~ msgstr ""
+#~ "Stornierungen sind natürlich möglich – wir bitten um rechtzeitige Info. "
+#~ "Folgende Regelung gilt:"
+
+#~ msgid "Up to 30 days before departure: 90% refund of total rental price"
+#~ msgstr "Bis 30 Tage vor Reisebeginn: 90% Erstattung des Gesamtmietpreises"
+
+#~ msgid ""
+#~ "If we are able to rent the vehicle out again at short notice, we’ll try "
+#~ "to be flexible and possibly issue a partial refund."
+#~ msgstr ""
+#~ "Bei einer kurzfristigen Neuvermietung versuchen wir kulant zu sein und "
+#~ "ggf. einen Teilbetrag zu erstatten."
+
+#~ msgid ""
+#~ "We recommend purchasing travel cancellation insurance – just in case!"
+#~ msgstr ""
+#~ "Wir empfehlen den Abschluss einer Reiserücktrittsversicherung für den "
+#~ "Fall der Fälle!"
+
+#~ msgid "With Calli, you can explore Europe’s most beautiful places!"
+#~ msgstr "Mit Calli kannst du Europas schönste Ecken entdecken!"
+
+#~ msgid ""
+#~ "Our insurance with LVM covers travel in many countries – safe, "
+#~ "convenient, and stress-free."
+#~ msgstr ""
+#~ "Unsere Versicherung bei LVM deckt Fahrten in viele Länder ab – sicher, "
+#~ "bequem und ganz entspannt."
+
+#~ msgid "You may travel to the following countries with Calli:"
+#~ msgstr "Du darfst mit Calli in folgende Länder reisen:"
+
+#~ msgid ""
+#~ "For these countries, we will provide the ‘Green Card’ (international "
+#~ "insurance card) upon request – your official proof of insurance."
+#~ msgstr ""
+#~ "Für diese Länder stellen wir dir auf Wunsch die „Grüne Karte“ "
+#~ "(internationale Versicherungskarte) aus – dein offizieller "
+#~ "Versicherungsnachweis."
+
+#~ msgid "❌ Not allowed / No insurance coverage"
+#~ msgstr "❌ Nicht erlaubt / kein Versicherungsschutz"
 
 #~ msgid "Extras:"
 #~ msgstr "Extras:"
