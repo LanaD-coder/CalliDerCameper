@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-07-28 15:55+0200\n"
+"POT-Creation-Date: 2025-08-05 12:08+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -67,28 +67,20 @@ msgid "Booking Dates:"
 msgstr "Buchungsdaten"
 
 #: .\accounts\templates\accounts\profile.html:43
-#: .\rentals\templates\rentals\booking_form.html:152
+#: .\rentals\templates\rentals\booking_form.html:156
 msgid "Deposit:"
 msgstr "Kaution:"
 
 #: .\accounts\templates\accounts\profile.html:46
-#: .\rentals\templates\rentals\booking_form.html:153
+#: .\rentals\templates\rentals\booking_form.html:157
 msgid "Grand total:"
 msgstr "Gesamtpreis:"
 
-#: .\accounts\templates\accounts\profile.html:49
-msgid "Extras:"
-msgstr "Extras:"
-
-#: .\accounts\templates\accounts\profile.html:52
-msgid "Notes:"
-msgstr "Notizen:"
-
-#: .\accounts\templates\accounts\profile.html:63
+#: .\accounts\templates\accounts\profile.html:57
 msgid "You have no bookings yet."
 msgstr "Sie haben noch keine Buchungen."
 
-#: .\accounts\templates\accounts\profile.html:67
+#: .\accounts\templates\accounts\profile.html:61
 msgid ""
 "We are avid campers and, through our travels, have found some real hidden "
 "gems. If you need a bit of inspiration for your upcoming trip, pop over to "
@@ -98,16 +90,16 @@ msgstr ""
 "Geheimtipps entdeckt. Wenn du ein wenig Inspiration für deine nächste Reise "
 "brauchst, schau doch mal bei unserem"
 
-#: .\accounts\templates\accounts\profile.html:68
-#: .\pages\templates\pages\videos.html:73
+#: .\accounts\templates\accounts\profile.html:62
+#: .\pages\templates\pages\videos.html:47
 msgid "Recommended Camping Destinations"
 msgstr "Empfohlene Campingziele"
 
-#: .\accounts\templates\accounts\profile.html:72
+#: .\accounts\templates\accounts\profile.html:66
 msgid "If you need to make any changes to your bookings, please"
 msgstr "Falls du etwas an deinen Buchungen ändern möchtest,"
 
-#: .\accounts\templates\accounts\profile.html:73
+#: .\accounts\templates\accounts\profile.html:67
 msgid "Contact us"
 msgstr "Kontaktiere uns"
 
@@ -146,11 +138,11 @@ msgstr "E-Mail:"
 msgid "Go to Profile"
 msgstr " Zum Profil"
 
-#: .\ja_rental\settings.py:145
+#: .\ja_rental\settings.py:143
 msgid "English"
 msgstr "Englisch"
 
-#: .\ja_rental\settings.py:146
+#: .\ja_rental\settings.py:144
 msgid "German"
 msgstr "Deutsch"
 
@@ -164,13 +156,13 @@ msgstr "Bitte wähle deine Sprache aus."
 
 #: .\pages\templates\pages\about.html:13
 #: .\pages\templates\pages\information.html:13
-msgid "So läuft's ab"
-msgstr ""
+msgid "This is how it works"
+msgstr "So läuft's ab"
 
 #: .\pages\templates\pages\about.html:14
 #: .\pages\templates\pages\information.html:14
-msgid "Rund um die Vermietung."
-msgstr ""
+msgid "Everything about renting."
+msgstr "Rund um die Vermietung."
 
 #: .\pages\templates\pages\about.html:15
 #: .\pages\templates\pages\information.html:15
@@ -183,206 +175,190 @@ msgstr ""
 
 #: .\pages\templates\pages\about.html:17
 #: .\pages\templates\pages\information.html:17
-msgid "Abholung & Rückgabe"
-msgstr ""
+msgid "Collection & Return"
+msgstr "Abholung & Rückgabe"
 
 #: .\pages\templates\pages\about.html:19
 #: .\pages\templates\pages\information.html:19
+msgstr "Pick-up and return take place at one of our locations."
 msgid "Abholung und Rückgabe finden an einem unserer Standorte statt."
-msgstr ""
 
 #: .\pages\templates\pages\about.html:20
 #: .\pages\templates\pages\information.html:20
+msgstr "Pick-up: We'll be waiting for you at the agreed time"
 msgid "Abholung: Wir warten zur vereinbarten Uhrzeit auf dich"
-msgstr ""
 
 #: .\pages\templates\pages\about.html:21
 #: .\pages\templates\pages\information.html:21
+msgstr "Detailed introduction (approx. 35 minutes)"
 msgid "Ausführliche Einweisung (Dauer ca. 35 Minuten)"
-msgstr ""
 
 #: .\pages\templates\pages\about.html:22
 #: .\pages\templates\pages\information.html:22
-#, fuzzy
-#| msgid "Quick Pickup (shorter handover) optional with booking"
+msgstr "Quick Pickup (shorter handover) optional when booking"
 msgid "Quick Pickup (kürzere Übergabe) optional bei Buchung"
-msgstr "Quick Pickup (kürzere Übergabe) optional bei Buchung"
 
 #: .\pages\templates\pages\about.html:23
 #: .\pages\templates\pages\information.html:23
+msgstr "Return: Please clean the interior (if not booked)"
 msgid "Rückgabe: Innenraum bitte reinigen (falls nicht gebucht)"
-msgstr ""
 
 #: .\pages\templates\pages\about.html:24
 #: .\pages\templates\pages\information.html:24
+msgstr "Empty fresh and waste water tanks"
 msgid "Frisch- und Abwassertank entleeren"
-msgstr ""
 
 #: .\pages\templates\pages\about.html:25
 #: .\pages\templates\pages\information.html:25
+msgstr "Empty and clean the toilet"
 msgid "Toilette entleeren und reinigen"
-msgstr ""
 
 #: .\pages\templates\pages\about.html:26
 #: .\pages\templates\pages\information.html:26
+msgstr "Please return the vehicle with a full tank"
 msgid "Fahrzeug bitte vollgetankt zurückbringen"
-msgstr ""
 
 #: .\pages\templates\pages\about.html:27
 #: .\pages\templates\pages\information.html:27
+msgstr "Return takes approx. 20 minutes"
 msgid "Rückgabe dauert ca. 20 Minuten"
-msgstr ""
 
 #: .\pages\templates\pages\about.html:35
 #: .\pages\templates\pages\information.html:35
-#, fuzzy
-#| msgid "Price overview for Calli the Camper"
+msgstr "Price overview for Calli the Camper"
 msgid "Preisübersicht für Calli der Camper"
-msgstr "Preisübersicht für Calli der Camper"
 
 #: .\pages\templates\pages\about.html:40
 #: .\pages\templates\pages\information.html:40
+msgstr "Low season"
 msgid "Nebensaison"
-msgstr ""
 
 #: .\pages\templates\pages\about.html:48
 #: .\pages\templates\pages\information.html:48
+msgstr "Mid-season"
 msgid "Zwischensaison"
-msgstr ""
 
 #: .\pages\templates\pages\about.html:56
 #: .\pages\templates\pages\information.html:56
+msgstr "High season"
 msgid "Hauptsaison"
-msgstr ""
 
 #: .\pages\templates\pages\about.html:65
-#: .\pages\templates\pages\information.html:65
-msgid "Extras"
-msgstr "Extras"
+msgstr "🎉 Included – you’re welcome!"
+msgid "🎉 Inklusive – bitte schön!"
 
 #: .\pages\templates\pages\about.html:67
 #: .\pages\templates\pages\information.html:67
+msgstr "Bike rack: included (limited to 50 kg)"
 msgid "Fahrradträger: inklusive (begrenzt auf 50 kg)"
-msgstr ""
 
 #: .\pages\templates\pages\about.html:68
 #: .\pages\templates\pages\information.html:68
+msgstr "Camping table & chairs: included"
 msgid "Campingtisch & Stühle: inklusive"
-msgstr ""
 
 #: .\pages\templates\pages\about.html:69
 #: .\pages\templates\pages\information.html:69
+msgstr "Final cleaning (if not done by you): €59"
 msgid "Endreinigung (wenn nicht selbst gemacht): 59€"
-msgstr ""
 
-#: .\pages\templates\pages\about.html:72
-#: .\pages\templates\pages\information.html:72
-msgid "Kaution"
-msgstr ""
+#: .\pages\templates\pages\about.html:70
+msgid ""
+msgstr "🚐 Unlimited kilometers included ✨ No mileage limits – drive as far as you like!"
+msgid "🚐 Unbegrenzte Kilometer inklusive ✨ Keine Kilometerbegrenzung – fahren, so weit ihr wollt!"
+
 
 #: .\pages\templates\pages\about.html:73
-#: .\pages\templates\pages\information.html:73
-msgid "Mindestmietdauer"
-msgstr ""
+#: .\pages\templates\pages\information.html:72
+msgstr "Deposit"
+msgid "Kaution"
 
-#: .\pages\templates\pages\about.html:75
-#: .\pages\templates\pages\information.html:75
-msgid "Stornobedingungen"
-msgstr ""
+#: .\pages\templates\pages\about.html:74
+#: .\pages\templates\pages\information.html:73
+msgstr "Minimum rental period"
+msgid "Mindestmietdauer"
 
 #: .\pages\templates\pages\about.html:76
-#: .\pages\templates\pages\information.html:76
-msgid ""
-"Stornierungen sind natürlich möglich – wir bitten um rechtzeitige Info. "
-"Folgende Regelung gilt:"
-msgstr ""
+#: .\pages\templates\pages\information.html:75
+msgstr "Cancellation policy"
+msgid "Stornobedingungen"
 
-#: .\pages\templates\pages\about.html:78
-#: .\pages\templates\pages\information.html:78
-#, python-format
-msgid "Bis 30 Tage vor Reisebeginn: 90%% Erstattung des Gesamtmietpreises"
-msgstr ""
+#: .\pages\templates\pages\about.html:77
+#: .\pages\templates\pages\information.html:76
+msgstr "Cancellations are of course possible – we kindly ask for timely notice. The following policy applies:"
+msgid "Stornierungen sind natürlich möglich – wir bitten um rechtzeitige Info. Folgende Regelung gilt:"
 
 #: .\pages\templates\pages\about.html:79
-#: .\pages\templates\pages\information.html:79
-#, python-format
-msgid "14–29 Tage vor Reisebeginn: 50%% Erstattung"
-msgstr ""
+#: .\pages\templates\pages\information.html:78
+msgstr "Up to 30 days before departure: 90% refund of total rental price"
+msgid "Bis 30 Tage vor Reisebeginn: 90% Erstattung des Gesamtmietpreises"
 
 #: .\pages\templates\pages\about.html:80
+#: .\pages\templates\pages\information.html:79
+msgstr "14–29 days before departure: 50% refund"
+msgid "14–29 Tage vor Reisebeginn: 50% Erstattung"
+
+#: .\pages\templates\pages\about.html:81
 #: .\pages\templates\pages\information.html:80
+msgstr "Less than 14 days before departure: No refund"
 msgid "Weniger als 14 Tage vor Reisebeginn: Keine Rückerstattung"
-msgstr ""
 
-#: .\pages\templates\pages\about.html:82
+#: .\pages\templates\pages\about.html:83
 #: .\pages\templates\pages\information.html:82
-msgid ""
-"Bei einer kurzfristigen Neuvermietung versuchen wir kulant zu sein und ggf. "
-"einen Teilbetrag zu erstatten."
-msgstr ""
+msgstr "If we are able to rent the vehicle out again at short notice, we’ll try to be flexible and possibly issue a partial refund."
+msgid "Bei einer kurzfristigen Neuvermietung versuchen wir kulant zu sein und ggf. einen Teilbetrag zu erstatten."
 
-#: .\pages\templates\pages\about.html:83
+#: .\pages\templates\pages\about.html:84
 #: .\pages\templates\pages\information.html:83
+msgstr "Tip:"
 msgid "Tipp:"
-msgstr ""
 
-#: .\pages\templates\pages\about.html:83
+#: .\pages\templates\pages\about.html:84
 #: .\pages\templates\pages\information.html:83
-msgid ""
-"Wir empfehlen den Abschluss einer Reiserücktrittsversicherung für den Fall "
-"der Fälle!"
-msgstr ""
-
-#: .\pages\templates\pages\about.html:88
-#: .\pages\templates\pages\information.html:88
-msgid "Wohin darf Calli fahren?"
-msgstr ""
+msgstr "We recommend purchasing travel cancellation insurance – just in case!"
+msgid "Wir empfehlen den Abschluss einer Reiserücktrittsversicherung für den Fall der Fälle!"
 
 #: .\pages\templates\pages\about.html:89
-#: .\pages\templates\pages\information.html:89
-msgid "Mit Calli kannst du Europas schönste Ecken entdecken!"
-msgstr ""
+#: .\pages\templates\pages\information.html:88
+msgstr "Where is Calli allowed to go?"
+msgid "Wohin darf Calli fahren?"
 
 #: .\pages\templates\pages\about.html:90
+#: .\pages\templates\pages\information.html:89
+msgstr "With Calli, you can explore Europe’s most beautiful places!"
+msgid "Mit Calli kannst du Europas schönste Ecken entdecken!"
+
+#: .\pages\templates\pages\about.html:91
 #: .\pages\templates\pages\information.html:90
-msgid ""
-"Unsere Versicherung bei LVM deckt Fahrten in viele Länder ab – sicher, "
-"bequem und ganz entspannt."
-msgstr ""
+msgstr "Our insurance with LVM covers travel in many countries – safe, convenient, and stress-free."
+msgid "Unsere Versicherung bei LVM deckt Fahrten in viele Länder ab – sicher, bequem und ganz entspannt."
 
-#: .\pages\templates\pages\about.html:92
+#: .\pages\templates\pages\about.html:93
 #: .\pages\templates\pages\information.html:92
+msgstr "✅ Insured & allowed"
 msgid "✅ Versichert & erlaubt"
-msgstr ""
 
-#: .\pages\templates\pages\about.html:94
+#: .\pages\templates\pages\about.html:95
 #: .\pages\templates\pages\information.html:94
+msgstr "You may travel to the following countries with Calli:"
 msgid "Du darfst mit Calli in folgende Länder reisen:"
-msgstr ""
 
-#: .\pages\templates\pages\about.html:102
+#: .\pages\templates\pages\about.html:103
 #: .\pages\templates\pages\information.html:102
-msgid ""
-"Für diese Länder stellen wir dir auf Wunsch die „Grüne Karte“ "
-"(internationale Versicherungskarte) aus – dein offizieller "
-"Versicherungsnachweis."
-msgstr ""
+msgstr "For these countries, we will provide the ‘Green Card’ (international insurance card) upon request – your official proof of insurance."
+msgid "Für diese Länder stellen wir dir auf Wunsch die „Grüne Karte“ (internationale Versicherungskarte) aus – dein offizieller Versicherungsnachweis."
 
-#: .\pages\templates\pages\about.html:104
+#: .\pages\templates\pages\about.html:105
 #: .\pages\templates\pages\information.html:104
-msgid "❌ Not allowed / no insurance coverage"
-msgstr "❌ Nicht erlaubt / kein Versicherungsschutz"
+msgstr "❌ Not allowed / No insurance coverage"
+msgid "❌ Nicht erlaubt / kein Versicherungsschutz"
 
-#: .\pages\templates\pages\about.html:115
+#: .\pages\templates\pages\about.html:116
 #: .\pages\templates\pages\information.html:115
-msgid ""
-"Diese Länder sind auf der Grünen Karte durchgestrichen und vom "
-"Versicherungsschutz ausgeschlossen."
-msgstr ""
+msgstr "These countries are crossed out on the Green Card and excluded from insurance coverage."
+msgid "Diese Länder sind auf der Grünen Karte durchgestrichen und vom Versicherungsschutz ausgeschlossen."
 
 #: .\pages\templates\pages\contact.html:7
-#, fuzzy
-#| msgid "Contact"
 msgid "Contact Us"
 msgstr "Schreib uns"
 
@@ -401,6 +377,10 @@ msgstr "Nachricht"
 #: .\pages\templates\pages\contact.html:38
 msgid "Send Message"
 msgstr "Nachricht senden"
+
+#: .\pages\templates\pages\information.html:65
+msgid "Extras"
+msgstr "Extras"
 
 #: .\pages\templates\pages\videos.html:7
 msgid "Explore VW Grand California Features"
@@ -422,86 +402,30 @@ msgstr ""
 "Sieh dir Videos und Bilder an, die zeigen, wie jede Funktion dein "
 "Reiseerlebnis verbessert."
 
-#: .\pages\templates\pages\videos.html:18
-msgid "Seat Heating"
-msgstr "Sitzheizung"
+#: .\pages\templates\pages\videos.html:15
+#: .\pages\templates\pages\videos.html:29
+msgstr "YouTube video player"
+msgid "YouTube-Videoplayer"
 
-#: .\pages\templates\pages\videos.html:19
-msgid ""
-"Stay warm and cozy during chilly drives with the integrated seat heating "
-"system."
-msgstr ""
-"Bleib warm und gemütlich bei kühlen Fahrten mit der integrierten Sitzheizung."
+#: .\pages\templates\pages\videos.html:20
+#: .\pages\templates\pages\videos.html:34
+msgstr "Feature Demo via YouTube"
+msgid "Funktionsdemo über YouTube"
 
-#: .\pages\templates\pages\videos.html:25
-#: .\pages\templates\pages\videos.html:26
-msgid "Integrated Kitchenette"
-msgstr "Integrierte Küchenzeile"
-
-#: .\pages\templates\pages\videos.html:27
-msgid ""
-"Prepare your favorite meals on the go with the fully equipped kitchenette "
-"inside."
-msgstr ""
-"Bereite deine Lieblingsmahlzeiten unterwegs in der voll ausgestatteten "
-"Küchenzeile zu."
-
-#: .\pages\templates\pages\videos.html:37
-msgid "Auxiliary Heater"
-msgstr "Zusatzheizung"
-
-#: .\pages\templates\pages\videos.html:38
-msgid ""
-"Keep the interior comfortable even on cold nights using the auxiliary heater."
-msgstr ""
-"Halte das Innere auch an kalten Nächten mit der Zusatzheizung angenehm warm."
-
-#: .\pages\templates\pages\videos.html:44
-#: .\pages\templates\pages\videos.html:45
-msgid "Adaptive Cruise Control"
-msgstr "Adaptiver Tempomat"
-
-#: .\pages\templates\pages\videos.html:46
-msgid "Enjoy a relaxed drive with adaptive cruise control and parking assist."
-msgstr "Genieße eine entspannte Fahrt mit adaptivem Tempomat und Einparkhilfe."
+#: .\pages\templates\pages\videos.html:21
+#: .\pages\templates\pages\videos.html:35
+msgstr "Watch this detailed video walkthrough directly from our official channel."
+msgid "Sieh dir diese ausführliche Videoanleitung direkt auf unserem offiziellen Kanal an."
 
 #: .\pages\templates\pages\videos.html:56
-msgid "Sleeping Area Setup"
-msgstr "Schlafbereich einrichten"
-
-#: .\pages\templates\pages\videos.html:57
-msgid ""
-"See how easy it is to transform the seating area into comfortable sleeping "
-"spots."
-msgstr ""
-"Sieh, wie einfach sich der Sitzbereich in gemütliche Schlafplätze verwandeln "
-"lässt."
-
-#: .\pages\templates\pages\videos.html:63
-msgid "Storage Space"
-msgstr "Stauraum"
-
-#: .\pages\templates\pages\videos.html:64
-msgid "Smart Storage Solutions"
-msgstr "Cleverer Stauraum"
-
-#: .\pages\templates\pages\videos.html:65
-msgid ""
-"Discover the clever storage options to keep everything organized during your "
-"trip."
-msgstr ""
-"Entdecke clevere Stauraumlösungen, um alles während der Reise ordentlich zu "
-"verstauen."
-
-#: .\pages\templates\pages\videos.html:82
 msgid "Visit Website"
 msgstr "Website besuchen"
 
-#: .\pages\templates\pages\videos.html:100
+#: .\pages\templates\pages\videos.html:74
 msgid "No destinations available at the moment."
 msgstr "Derzeit sind keine Reiseziele verfügbar."
 
-#: .\pages\templates\pages\videos.html:107
+#: .\pages\templates\pages\videos.html:81
 msgid "Frequently Asked Questions"
 msgstr "Häufig gestellte Fragen"
 
@@ -545,113 +469,113 @@ msgstr "Straße"
 msgid "Discount Code"
 msgstr "Promo Code"
 
-#: .\rentals\forms.py:30 .\rentals\templates\rentals\booking_form.html:127
+#: .\rentals\forms.py:30 .\rentals\templates\rentals\booking_form.html:131
 msgid "Deposit (€1000) – Automatically applied"
 msgstr "Anzahlung (€1000) – Wird automatisch angewendet"
 
 #: .\rentals\forms.py:40 .\rentals\templates\rentals\booking_edit_admin.html:41
-#: .\rentals\templates\rentals\booking_form.html:133
+#: .\rentals\templates\rentals\booking_form.html:137
 msgid "Additional Services"
 msgstr "Zusatzleistungen"
 
-#: .\rentals\forms.py:116 .\rentals\forms.py:147
+#: .\rentals\forms.py:119 .\rentals\forms.py:150
 msgid "Photos"
 msgstr "Bilder"
 
-#: .\rentals\forms.py:130
+#: .\rentals\forms.py:133
 #: .\rentals\templates\checklists\checklist_details.html:9
 #, fuzzy
 #| msgid "End Date"
 msgid "Date"
 msgstr "Ende"
 
-#: .\rentals\forms.py:131
+#: .\rentals\forms.py:134
 #: .\rentals\templates\checklists\checklist_details.html:10
 msgid "Time"
 msgstr "Zeit"
 
-#: .\rentals\forms.py:132
+#: .\rentals\forms.py:135
 #: .\rentals\templates\checklists\checklist_details.html:11
 msgid "Driver Name"
 msgstr "Name des Fahrers"
 
-#: .\rentals\forms.py:133
+#: .\rentals\forms.py:136
 #, fuzzy
 #| msgid "Contact"
 msgid "Phone Contact"
 msgstr "Kontakt"
 
-#: .\rentals\forms.py:134
+#: .\rentals\forms.py:137
 msgid "Odometer"
 msgstr "Tachometer"
 
-#: .\rentals\forms.py:135
+#: .\rentals\forms.py:138
 #, fuzzy
 #| msgid "Pickup Location:"
 msgid "Location"
 msgstr "Abholort:"
 
-#: .\rentals\forms.py:136
+#: .\rentals\forms.py:139
 #: .\rentals\templates\checklists\checklist_details.html:15
 msgid "Windshields"
 msgstr "Windschutzscheiben"
 
-#: .\rentals\forms.py:137
+#: .\rentals\forms.py:140
 #: .\rentals\templates\checklists\checklist_details.html:16
 msgid "Paintwork"
 msgstr "Lackierung"
 
-#: .\rentals\forms.py:138
+#: .\rentals\forms.py:141
 #: .\rentals\templates\checklists\checklist_details.html:17
 msgid "Bodywork"
 msgstr "Karosserie"
 
-#: .\rentals\forms.py:139
+#: .\rentals\forms.py:142
 msgid "Front Tires"
 msgstr "Vordere Reifen"
 
-#: .\rentals\forms.py:140
+#: .\rentals\forms.py:143
 msgid "Rear Tires"
 msgstr "Hintere Reifen"
 
-#: .\rentals\forms.py:141
+#: .\rentals\forms.py:144
 #: .\rentals\templates\checklists\checklist_details.html:24
 msgid "Seats"
 msgstr "Sitze"
 
-#: .\rentals\forms.py:142
+#: .\rentals\forms.py:145
 #: .\rentals\templates\checklists\checklist_details.html:25
 msgid "Upholstery"
 msgstr "Polsterung"
 
-#: .\rentals\forms.py:143
+#: .\rentals\forms.py:146
 #: .\rentals\templates\checklists\checklist_details.html:26
 msgid "Windows"
 msgstr "Fenster"
 
-#: .\rentals\forms.py:144
+#: .\rentals\forms.py:147
 #: .\rentals\templates\checklists\checklist_details.html:27
 msgid "Lights"
 msgstr "Beleuchtung"
 
-#: .\rentals\forms.py:145
+#: .\rentals\forms.py:148
 #: .\rentals\templates\checklists\checklist_details.html:28
 msgid "Flooring"
 msgstr "Bodenbelag"
 
-#: .\rentals\forms.py:146
+#: .\rentals\forms.py:149
 #: .\rentals\templates\checklists\checklist_details.html:31
 msgid "Known Damage"
 msgstr "Bekannte Schäden"
 
-#: .\rentals\forms.py:148
+#: .\rentals\forms.py:151
 #: .\rentals\templates\checklists\checklist_details.html:51
 #, fuzzy
 #| msgid "Notes:"
 msgid "Notes"
 msgstr "Notizen:"
 
-#: .\rentals\forms.py:149 .\rentals\templates\admin\handoverchecklist.html:39
+#: .\rentals\forms.py:152 .\rentals\templates\admin\handoverchecklist.html:39
 #: .\rentals\templates\admin\returnchecklist.html:47
 #: .\rentals\templates\checklists\checklist_details.html:55
 #: .\rentals\templates\checklists\checklist_details.html:58
@@ -791,7 +715,7 @@ msgstr "Diese Checkliste drucken"
 
 #: .\rentals\templates\checklists\checklist_details.html:69
 msgid "Back to Edit"
-msgstr ""Zurück zur Bearbeitung"
+msgstr "Zurück zur Bearbeitung"
 
 #: .\rentals\templates\emails\admin_booking_notification.html:6
 msgid "New Booking Notification"
@@ -974,51 +898,55 @@ msgstr "Basispreis für ausgewählte Datum:"
 msgid "Enter discount code (if any)"
 msgstr "Gib hier deinen Code ein (wenn vorhanden)"
 
-#: .\rentals\templates\rentals\booking_form.html:80
+#: .\rentals\templates\rentals\booking_form.html:55
+msgid "The driver must be at least 21 years old."
+msgstr ""
+
+#: .\rentals\templates\rentals\booking_form.html:84
 msgid "Additional Driver (Optional)"
 msgstr "Zusätzlicher Fahrer (optional)"
 
-#: .\rentals\templates\rentals\booking_form.html:82
+#: .\rentals\templates\rentals\booking_form.html:86
 msgid "Add additional driver?"
 msgstr "Zusätzlichen Fahrer hinzufügen?"
 
-#: .\rentals\templates\rentals\booking_form.html:84
+#: .\rentals\templates\rentals\booking_form.html:88
 msgid "Yes"
 msgstr "Ja"
 
-#: .\rentals\templates\rentals\booking_form.html:86
+#: .\rentals\templates\rentals\booking_form.html:90
 msgid "No"
 msgstr "Nein"
 
-#: .\rentals\templates\rentals\booking_form.html:102
+#: .\rentals\templates\rentals\booking_form.html:106
 msgid "Address"
 msgstr "Adresse"
 
-#: .\rentals\templates\rentals\booking_form.html:124
+#: .\rentals\templates\rentals\booking_form.html:128
 msgid "Deposit"
 msgstr "Kaution"
 
-#: .\rentals\templates\rentals\booking_form.html:149
+#: .\rentals\templates\rentals\booking_form.html:153
 msgid "Summary"
 msgstr "Zusammenfassung"
 
-#: .\rentals\templates\rentals\booking_form.html:150
+#: .\rentals\templates\rentals\booking_form.html:154
 msgid "Base price:"
 msgstr "Grundpreis:"
 
-#: .\rentals\templates\rentals\booking_form.html:151
+#: .\rentals\templates\rentals\booking_form.html:155
 msgid "Additional services:"
 msgstr "Zusatzleistungen:"
 
-#: .\rentals\templates\rentals\booking_form.html:165
+#: .\rentals\templates\rentals\booking_form.html:169
 msgid "Confirm & Pay"
 msgstr "Bestätigen & Bezahlung"
 
-#: .\rentals\templates\rentals\booking_form.html:223
+#: .\rentals\templates\rentals\booking_form.html:227
 msgid "You need to be a registered user to book Calli."
 msgstr "Du musst registrierter Nutzer sein, um Calli zu buchen."
 
-#: .\rentals\templates\rentals\booking_form.html:227
+#: .\rentals\templates\rentals\booking_form.html:231
 #, python-format
 msgid ""
 "\n"
@@ -1540,8 +1468,8 @@ msgstr "Calli der Camper"
 msgid "Home"
 msgstr "Startseite"
 
-#: .\templates\base.html:71 .\templates\home.html:73
-msgid "Calli stellt sich vor"
+#: .\templates\base.html:71
+msgid "So läufst ab"
 msgstr ""
 
 #: .\templates\base.html:72
@@ -1566,11 +1494,11 @@ msgstr "Profil"
 msgid "Logout"
 msgstr "Abmelden"
 
-#: .\templates\base.html:91 .\templates\home.html:188
+#: .\templates\base.html:91 .\templates\home.html:244
 msgid "Register"
 msgstr "Registrieren"
 
-#: .\templates\base.html:94 .\templates\home.html:190
+#: .\templates\base.html:94 .\templates\home.html:246
 msgid "Login"
 msgstr "Anmelden"
 
@@ -1598,300 +1526,337 @@ msgstr ""
 "eigenen Lieblingsplatz.\n"
 "      "
 
-#: .\templates\home.html:35
+#: .\templates\home.html:34
 msgid "Calli entdeckt die Welt – und du kannst mit!"
 msgstr ""
 
-#: .\templates\home.html:36
+#: .\templates\home.html:35
 msgid "Miete ihn für dein Abenteuer!"
 msgstr ""
 
-#: .\templates\home.html:37
+#: .\templates\home.html:36
 msgid ""
 "Calli ist mehr als nur ein Camper – er ist unser kleines Abenteuer auf vier "
 "Rädern."
 msgstr ""
 
-#: .\templates\home.html:38
+#: .\templates\home.html:37
 msgid ""
 "Aber statt ihn nur selbst zu nutzen, möchten wir, dass auch andere Menschen "
 "die Freiheit des Reisens erleben können."
 msgstr ""
 
-#: .\templates\home.html:39
+#: .\templates\home.html:38
 msgid ""
 "So entdeckt Calli weiter neue Orte und du findest vielleicht dein ganz "
 "eigenes Lieblingsplätzchen."
 msgstr ""
 
-#: .\templates\home.html:41
+#: .\templates\home.html:40
 msgid "Jetzt buchen"
 msgstr ""
 
-#: .\templates\home.html:63
+#: .\templates\home.html:62
 msgid "Previous"
 msgstr "Vorherige"
 
-#: .\templates\home.html:67
+#: .\templates\home.html:66
 msgid "Next"
 msgstr "Nächste"
 
-#: .\templates\home.html:74
+#: .\templates\home.html:72
+msgid "Calli stellt sich vor"
+msgstr ""
+
+#: .\templates\home.html:73
 msgid ""
 "Schau mal hier rein! Hier erfährst du, was Calli alles an Bord hat – vom "
 "Hochbett für die Kids bis zur kleinen Küche mit Gaskocher. Alles drin für "
 "große und kleine Abenteuer."
 msgstr ""
 
-#: .\templates\home.html:76
+#: .\templates\home.html:75
 msgid "VW Grand California 600"
 msgstr "VW Grand California 600"
 
-#: .\templates\home.html:78
+#: .\templates\home.html:85
 #, fuzzy
 #| msgid "Technical details"
 msgid "Technische Details"
 msgstr "Technische Details"
 
-#: .\templates\home.html:80
+#: .\templates\home.html:87
+msgid ""
+"\n"
+"              This section provides key technical specifications and "
+"dimensions of the vehicle,\n"
+"              offering a quick overview of its performance, size, and fuel-"
+"related details.\n"
+"              "
+msgstr ""
+
+#: .\templates\home.html:93
 msgid "Baujahr"
 msgstr ""
 
-#: .\templates\home.html:81
+#: .\templates\home.html:94
 msgid "Leistung"
 msgstr ""
 
-#: .\templates\home.html:82
+#: .\templates\home.html:95
 msgid "Kraftstoffart"
 msgstr ""
 
-#: .\templates\home.html:83
+#: .\templates\home.html:96
 msgid "Abgasnorm"
 msgstr ""
 
-#: .\templates\home.html:84
+#: .\templates\home.html:97
 msgid "Kraftstoffverbrauch pro 100 km"
 msgstr ""
 
-#: .\templates\home.html:85
+#: .\templates\home.html:98
 msgid "Fassungsvermögen Kraftstofftank"
 msgstr ""
 
-#: .\templates\home.html:86
+#: .\templates\home.html:99
 msgid "Fahrzeugmaße (L/B/H)"
 msgstr ""
 
-#: .\templates\home.html:87
+#: .\templates\home.html:100
 msgid "Längenangabe bei Fährbuchung"
 msgstr ""
 
-#: .\templates\home.html:88
+#: .\templates\home.html:101
 msgid "Längenangabe bei Fährbuchung mit Fahrradträger"
 msgstr ""
 
-#: .\templates\home.html:89
+#: .\templates\home.html:102
 msgid "Zulässiges Gesamtgewicht"
 msgstr ""
 
-#: .\templates\home.html:92
+#: .\templates\home.html:113
 msgid "Fahren"
 msgstr ""
 
-#: .\templates\home.html:94
+#: .\templates\home.html:114
+msgid ""
+"Calli is equipped with a range of driving features to ensure comfort, "
+"safety, and convenience on the road."
+msgstr ""
+
+#: .\templates\home.html:116
 msgid "Sitzplätze für 4 Personen"
 msgstr ""
 
-#: .\templates\home.html:95
+#: .\templates\home.html:117
 msgid "Automatikgetriebe"
 msgstr ""
 
-#: .\templates\home.html:96
+#: .\templates\home.html:118
 #, fuzzy
 #| msgid "Cruise control including ACC (Automatic Distance Control)"
 msgid "Tempomat inkl. ACC (Automatische Distanzregelung)"
 msgstr "Tempomat inkl. ACC (Automatische Distanzregelung)"
 
-#: .\templates\home.html:97
+#: .\templates\home.html:119
 msgid "Klimaanlage"
 msgstr ""
 
-#: .\templates\home.html:98
+#: .\templates\home.html:120
 #, fuzzy
 #| msgid "Multimedia system with DAB+"
 msgid "Multimediasystem mit DAB+"
 msgstr "Multimediasystem mit DAB+"
 
-#: .\templates\home.html:99
+#: .\templates\home.html:121
 msgid "Teils Ganzjahres- & Sommerreifen"
 msgstr ""
 
-#: .\templates\home.html:100
+#: .\templates\home.html:122
 #, fuzzy
 #| msgid "Multifunction steering wheel"
 msgid "Multifunktionslenkrad"
 msgstr "Multifunktionslenkrad"
 
-#: .\templates\home.html:101
+#: .\templates\home.html:123
 msgid "Parkhilfe in Front & Heck inkl. Rückfahrkamera"
 msgstr ""
 
-#: .\templates\home.html:102
+#: .\templates\home.html:124
 msgid "Navigationssystem integriert"
 msgstr ""
 
-#: .\templates\home.html:103
+#: .\templates\home.html:125
 msgid "Isofix"
 msgstr "Isofix"
 
-#: .\templates\home.html:106
+#: .\templates\home.html:136
 msgid "Wohnen & Schlafen"
 msgstr ""
 
-#: .\templates\home.html:108
+#: .\templates\home.html:137
+msgid ""
+"Comfortable living and sleeping arrangements to make your journey cozy and "
+"relaxing."
+msgstr ""
+
+#: .\templates\home.html:139
 #, fuzzy
 #| msgid "Sleeping places for 2 + 2 persons"
 msgid "Schlafplätze für 2 + 2 Personen"
 msgstr "Schlafplätze für 2 + 2 Personen"
 
-#: .\templates\home.html:109
+#: .\templates\home.html:140
 #, fuzzy
 #| msgid "Loft bed (122 × 160 / 190 cm)"
 msgid "Hochbett (122 × 160 / 190 cm)"
 msgstr "Hochbett (122 × 160 / 190 cm)"
 
-#: .\templates\home.html:110
+#: .\templates\home.html:141
 msgid "Verstaubarer Innenraumtisch"
 msgstr ""
 
-#: .\templates\home.html:111
+#: .\templates\home.html:142
 #, fuzzy
 #| msgid "Toilet with mobile waste cassette"
 msgid "Toilette mit mobiler Abwasserkassette"
 msgstr "Toilette mit mobiler Abwasserkassette"
 
-#: .\templates\home.html:112
+#: .\templates\home.html:143
 msgid "Rundum Sichtschutz (inkl. Front- & Heckscheibe)"
 msgstr ""
 
-#: .\templates\home.html:113
+#: .\templates\home.html:144
 msgid "Stauraum unter Querbett"
 msgstr ""
 
-#: .\templates\home.html:114
+#: .\templates\home.html:145
 #, fuzzy
 #| msgid "5V USB, 12V & 230V sockets"
 msgid "5V USB, 12V & 230V Steckdosen"
 msgstr "5V USB, 12V & 230V Steckdosen"
 
-#: .\templates\home.html:115
+#: .\templates\home.html:146
 #, fuzzy
 #| msgid "Cross bed in rear (193 × 140 cm)"
 msgid "Querbett im Heck (193 × 140 cm)"
 msgstr "Querbett im Heck (193 × 140 cm)"
 
-#: .\templates\home.html:116
+#: .\templates\home.html:147
 msgid "Drehbare Vordersitze"
 msgstr ""
 
-#: .\templates\home.html:117
+#: .\templates\home.html:148
 #, fuzzy
 #| msgid "Wet cell with shower & WC"
 msgid "Nasszelle mit Dusche & WC"
 msgstr "Nasszelle mit Dusche & WC"
 
-#: .\templates\home.html:118
+#: .\templates\home.html:149
 #, fuzzy
 #| msgid "Hot water boiler (12 l)"
 msgid "Warmwasser-Boiler (12 l)"
 msgstr "Warmwasser-Boiler (12 l)"
 
-#: .\templates\home.html:119
+#: .\templates\home.html:150
 msgid "Schranksystem mit großzügigem Stauraum"
 msgstr ""
 
-#: .\templates\home.html:120
+#: .\templates\home.html:151
 msgid "Standheizung"
 msgstr ""
 
-#: .\templates\home.html:121
+#: .\templates\home.html:152
 msgid "Zweite Batterie"
 msgstr ""
 
-#: .\templates\home.html:124
+#: .\templates\home.html:163
 msgid "Küche"
 msgstr ""
 
-#: .\templates\home.html:126
+#: .\templates\home.html:164
+msgid ""
+"Fully equipped kitchen for preparing meals comfortably during your trip."
+msgstr ""
+
+#: .\templates\home.html:166
 msgid "2-Felder-Gasherd"
 msgstr ""
 
-#: .\templates\home.html:127
+#: .\templates\home.html:167
 msgid "Spülbecken"
 msgstr ""
 
-#: .\templates\home.html:128
+#: .\templates\home.html:168
 msgid "Koch- & Küchengeschirr inklusive"
 msgstr ""
 
-#: .\templates\home.html:129
+#: .\templates\home.html:169
 #, fuzzy
 #| msgid "Fresh water tank (110 l) & wastewater tank (90 l)"
 msgid "Frischwassertank (110 l) & Abwassertank (90 l)"
 msgstr "Frischwassertank (110 l) & Abwassertank (90 l)"
 
-#: .\templates\home.html:130
+#: .\templates\home.html:170
 msgid "Kühlschrank (70 l) & Froster (7,5 l)"
 msgstr ""
 
-#: .\templates\home.html:131
+#: .\templates\home.html:171
 msgid "Ausziehbare Küche für mehr Platz"
 msgstr ""
 
-#: .\templates\home.html:132
+#: .\templates\home.html:172
 #, fuzzy
 #| msgid "French press"
 msgid "French-Press"
 msgstr "French-Press"
 
-#: .\templates\home.html:135
+#: .\templates\home.html:183
 msgid "Außenbereich"
 msgstr ""
 
-#: .\templates\home.html:137
+#: .\templates\home.html:184
+msgid ""
+"Enjoy the outdoor area with all necessary accessories for a pleasant stay "
+"outside."
+msgstr ""
+
+#: .\templates\home.html:186
 msgid "Markise mit ausklappbaren Standbeinen"
 msgstr ""
 
-#: .\templates\home.html:138
+#: .\templates\home.html:187
 msgid "Außensteckdose & Verlängerungskabel"
 msgstr ""
 
-#: .\templates\home.html:139
+#: .\templates\home.html:188
 #, fuzzy
 #| msgid "Camping table & 2 camping chairs"
 msgid "Campingtisch & 2 Campingstühle"
 msgstr "Campingtisch & 2 Campingstühle"
 
-#: .\templates\home.html:141
+#: .\templates\home.html:196
 msgid "Besonderheiten:"
 msgstr ""
 
-#: .\templates\home.html:141
+#: .\templates\home.html:196
 msgid "Haustiere sind leider nicht erlaubt."
 msgstr ""
 
-#: .\templates\home.html:186
+#: .\templates\home.html:242
 msgid "Welcome!"
 msgstr "Willkommen!"
 
-#: .\templates\home.html:187
+#: .\templates\home.html:243
 msgid "Please"
 msgstr "Bitte"
 
-#: .\templates\home.html:189
+#: .\templates\home.html:245
 msgid "or"
 msgstr "oder"
 
-#: .\templates\home.html:191
+#: .\templates\home.html:247
 msgid "to get started."
 msgstr "um zu beginnen."
 
@@ -2004,6 +1969,76 @@ msgstr ""
 #: .\templates\legal\impressum.html:46
 msgid "Alle Rechte vorbehalten."
 msgstr ""
+
+#~ msgid "Extras:"
+#~ msgstr "Extras:"
+
+#~ msgid "Notes:"
+#~ msgstr "Notizen:"
+
+#~ msgid "❌ Not allowed / no insurance coverage"
+#~ msgstr "❌ Nicht erlaubt / kein Versicherungsschutz"
+
+#~ msgid "Seat Heating"
+#~ msgstr "Sitzheizung"
+
+#~ msgid ""
+#~ "Stay warm and cozy during chilly drives with the integrated seat heating "
+#~ "system."
+#~ msgstr ""
+#~ "Bleib warm und gemütlich bei kühlen Fahrten mit der integrierten "
+#~ "Sitzheizung."
+
+#~ msgid "Integrated Kitchenette"
+#~ msgstr "Integrierte Küchenzeile"
+
+#~ msgid ""
+#~ "Prepare your favorite meals on the go with the fully equipped kitchenette "
+#~ "inside."
+#~ msgstr ""
+#~ "Bereite deine Lieblingsmahlzeiten unterwegs in der voll ausgestatteten "
+#~ "Küchenzeile zu."
+
+#~ msgid "Auxiliary Heater"
+#~ msgstr "Zusatzheizung"
+
+#~ msgid ""
+#~ "Keep the interior comfortable even on cold nights using the auxiliary "
+#~ "heater."
+#~ msgstr ""
+#~ "Halte das Innere auch an kalten Nächten mit der Zusatzheizung angenehm "
+#~ "warm."
+
+#~ msgid "Adaptive Cruise Control"
+#~ msgstr "Adaptiver Tempomat"
+
+#~ msgid ""
+#~ "Enjoy a relaxed drive with adaptive cruise control and parking assist."
+#~ msgstr ""
+#~ "Genieße eine entspannte Fahrt mit adaptivem Tempomat und Einparkhilfe."
+
+#~ msgid "Sleeping Area Setup"
+#~ msgstr "Schlafbereich einrichten"
+
+#~ msgid ""
+#~ "See how easy it is to transform the seating area into comfortable "
+#~ "sleeping spots."
+#~ msgstr ""
+#~ "Sieh, wie einfach sich der Sitzbereich in gemütliche Schlafplätze "
+#~ "verwandeln lässt."
+
+#~ msgid "Storage Space"
+#~ msgstr "Stauraum"
+
+#~ msgid "Smart Storage Solutions"
+#~ msgstr "Cleverer Stauraum"
+
+#~ msgid ""
+#~ "Discover the clever storage options to keep everything organized during "
+#~ "your trip."
+#~ msgstr ""
+#~ "Entdecke clevere Stauraumlösungen, um alles während der Reise ordentlich "
+#~ "zu verstauen."
 
 #~ msgid "Drop-off Location:"
 #~ msgstr "Rückgabeort:"
@@ -2181,9 +2216,6 @@ msgstr ""
 #~ "Für diese Länder stellen wir dir auf Wunsch die „Grüne Karte“ "
 #~ "(internationale Versicherungskarte) aus – dein offizieller "
 #~ "Versicherungsnachweis."
-
-#~ msgid "❌ Not allowed / no insurance coverage"
-#~ msgstr "❌ Nicht erlaubt / kein Versicherungsschutz"
 
 #~ msgid ""
 #~ "These countries are crossed out on the Green Card and excluded from "
