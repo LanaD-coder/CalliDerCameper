@@ -30,4 +30,5 @@ urlpatterns = [
     path('admin/return-checklist/<str:booking_number>/', views.return_checklist, name='return_checklist'),
     path('checklist/<int:pk>/', views.checklist_detail, name='checklist_detail'),
     path('checklist/<int:pk>/pdf/', views.checklist_pdf, name='checklist_pdf'),
+    path('checklist/<int:pk>/save/', views.save_checklist, name='save_checklist'),
 ]

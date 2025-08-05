@@ -449,8 +449,8 @@ def admin_dashboard(request):
 def booking_edit(request, pk):
     booking = get_object_or_404(Booking, pk=pk)
 
-    handover_checklist = booking.pickup_checklist
-    return_checklist = booking.return_checklist
+    handover_checklist = HandoverChecklist.objects.filter(booking=booking, checklist_type='pickup').first()
+    return_checklist = HandoverChecklist.objects.filter(booking=booking, checklist_type='return').first()
 
     handover_photos = handover_checklist.handoverphoto_set.all() if handover_checklist else []
 
@@ -490,8 +490,8 @@ def handover_checklist(request, booking_number):
         form = HandoverChecklistForm(request.POST, instance=handover_checklist)
         if form.is_valid():
             checklist = form.save(commit=False)
-            if not checklist.pk:
-                checklist.booking = booking
+            checklist.booking = booking
+            checklist.checklist_type = 'pickup'
 
             # ✅ Handle base64 signature data
             signature_data = request.POST.get('signature_data')
@@ -604,3 +604,21 @@ def handover_photo_upload(request):
         formset = HandoverPhotoFormSet(queryset=HandoverPhoto.objects.none())
 
     return render(request, 'upload.html', {'formset': formset})
+
+@staff_member_required
+def save_checklist(request, pk):
+    checklist = get_object_or_404(HandoverChecklist, pk=pk)
+
+    if request.method == 'POST':
+        form = HandoverChecklistForm(request.POST, instance=checklist)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Checklist updated.")
+            return redirect('checklist_detail', pk=pk)
+    else:
+        form = HandoverChecklistForm(instance=checklist)
+
+    return render(request, 'checklists/checklist_details.html', {
+        'checklist': checklist,
+        'form': form,
+    })
