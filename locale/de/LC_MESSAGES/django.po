@@ -1499,10 +1499,6 @@ msgstr "Calli der Camper"
 msgid "Home"
 msgstr "Startseite"
 
-#: .\templates\base.html:71
-msgid "So läufst ab"
-msgstr ""
-
 #: .\templates\base.html:72
 msgid "Videos & Tipps"
 msgstr "Videos & Tipps"
