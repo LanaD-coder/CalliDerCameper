@@ -1,5 +1,7 @@
 // This is your test secret API key.
-const stripe = Stripe("pk_test_51RR5xNRuPRcbt1gx7WkgF3wbjT12gH7SELnXNXExbQnEyLrvoh8EIcXupxqPtDxoA1JEVv1QPU8njnADydc5SKrW000eLZzJwS");
+const stripe = Stripe(
+  "pk_test_51RnfHKRZKvhbcGU6CgaLlT6dkRMiKGGmovIxHmhnlEEPSm0PhIq2OcefSdIaSFCa5GKW0AqSwunG1aUNuiejjAJ100J6AQBF0i"
+);
 
 initialize();
 
@@ -18,5 +20,5 @@ async function initialize() {
   });
 
   // Mount Checkout
-  checkout.mount('#checkout');
+  checkout.mount("#checkout");
 }

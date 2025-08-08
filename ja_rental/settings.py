@@ -24,6 +24,7 @@ env = environ.Env()
 environ.Env.read_env(os.path.join(BASE_DIR, '.env'))  # explicitly load .env
 
 DEBUG = env('DEBUG', default=True)
+print("DEBUG IS:", DEBUG)
 
 SECRET_KEY = env('DJANGO_SECRET_KEY', default='insecure-development-key')
 
