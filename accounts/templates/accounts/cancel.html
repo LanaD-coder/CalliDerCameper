@@ -1,13 +1,15 @@
 {% extends "base.html" %}
 {% load static i18n %}
 
+{% block title %}{% trans "Checkout canceled" %}{% endblock %}
+
 {% block content %}
-  <title>{% trans "Checkout canceled" %}</title>
-  <link rel="stylesheet" href="{% static 'style.css' %}">
-</head>
-<body>
   <section>
     <p>{% trans "Want to adjust your booking? Have a quick look around then come back to pay!" %}</p>
+    {% if user.is_authenticated %}
+      <a href="{% url 'retry_payment' booking_number=booking.booking_number %}" class="btn btn-primary">
+        {% trans "Retry Payment" %}
+      </a>
+    {% endif %}
   </section>
-
 {% endblock %}

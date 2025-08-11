@@ -26,6 +26,8 @@ from django.template.loader import render_to_string
 from django.utils.translation import gettext as _
 
 
+stripe.api_key = settings.STRIPE_SECRET_KEY
+
 def home(request):
     van = Campervan.objects.first()
     bookings = Booking.objects.filter(campervan=van)
@@ -229,7 +231,7 @@ def create_booking_ajax(request, pk):
 
     try:
         base_url = request.build_absolute_uri('/accounts/payment-success/')
-        success_url = f"{base_url}?session_id={{CHECKOUT_SESSION_ID}}&booking={booking.booking_number}"
+        success_url = "{}?session_id={{CHECKOUT_SESSION_ID}}&booking={}".format(base_url, booking.booking_number)
         print(f"Success URL: {success_url}")
 
         checkout_session = stripe.checkout.Session.create(
@@ -252,6 +254,46 @@ def create_booking_ajax(request, pk):
         return JsonResponse({'session_id': checkout_session.id})
     except Exception as e:
         return JsonResponse({'error': f'Error creating Stripe session: {str(e)}'}, status=500)
+
+
+@login_required
+def retry_payment(request, booking_number):
+    try:
+        booking = Booking.objects.get(booking_number=booking_number, primary_driver=request.user)
+    except Booking.DoesNotExist:
+        messages.error(request, "Booking not found.")
+        return redirect('home')
+
+    if booking.payment_status == 'paid':
+        messages.info(request, "Booking is already paid.")
+        return redirect('booking_detail', pk=booking.pk)  # Or some page
+
+    # Create a new Stripe session
+    try:
+        base_url = request.build_absolute_uri('/accounts/payment-success/')
+        success_url = f"{base_url}?session_id={{CHECKOUT_SESSION_ID}}&booking={booking.booking_number}"
+
+        checkout_session = stripe.checkout.Session.create(
+            payment_method_types=['card'],
+            line_items=[{
+                'price_data': {
+                    'currency': 'eur',
+                    'product_data': {
+                        'name': f'Booking {booking.booking_number} - {booking.campervan.name}',
+                    },
+                    'unit_amount': int(booking.total_price * 100),
+                },
+                'quantity': 1,
+            }],
+            mode='payment',
+            success_url=success_url,
+            cancel_url=request.build_absolute_uri('/accounts/payment-cancel/'),
+            metadata={'booking_number': booking.booking_number}
+        )
+        return redirect(checkout_session.url)
+    except Exception as e:
+        messages.error(request, f"Error creating payment session: {str(e)}")
+        return redirect('booking_edit', pk=booking.pk)
 
 
 def render_booking_form(request, form, campervan):

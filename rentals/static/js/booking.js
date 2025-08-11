@@ -165,7 +165,7 @@ let stripe, elements, card;
 
 function setupStripePayment() {
   stripe = Stripe(
-    "pk_test_51RR5xNRuPRcbt1gx7WkgF3wbjT12gH7SELnXNXExbQnEyLrvoh8EIcXupxqPtDxoA1JEVv1QPU8njnADydc5SKrW000eLZzJwS"
+    "pk_test_51RnfHKRZKvhbcGU6CgaLlT6dkRMiKGGmovIxHmhnlEEPSm0PhIq2OcefSdIaSFCa5GKW0AqSwunG1aUNuiejjAJ100J6AQBF0i"
   );
   elements = stripe.elements();
   card = elements.create("card");
