@@ -1,0 +1,993 @@
+/* Reset */
+* {
+  margin: 0;
+  padding: 0;
+}
+
+html,
+body {
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background-color: #f5f5f5;
+}
+
+body.loading::after {
+  content: "Loading Stripe Checkout...";
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  background: #fff;
+  padding: 1rem 2rem;
+  border: 1px solid #ccc;
+  transform: translate(-50%, -50%);
+  z-index: 9999;
+}
+
+#content {
+  flex: 1 0 auto;
+}
+
+.h1,
+.h2,
+.h3,
+.h4,
+.h5,
+.h6,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin-top: 0;
+  margin-bottom: 0.5rem;
+  font-weight: 400;
+  line-height: 1.2;
+}
+
+/* Fonts */
+.roboto-vantext {
+  font-family: "Roboto", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 200;
+  font-style: normal;
+  font-variation-settings: "wdth" 100;
+}
+
+.cookie-regular {
+  font-family: "Cookie", cursive;
+  font-weight: 400;
+  font-style: normal;
+}
+
+#main-container {
+  min-width: 100%;
+  margin-top: 135px;
+}
+
+.hotline-label {
+  position: fixed;
+  top: 10px;
+  right: 20px;
+  background-color: #0dc1bf;
+  color: black;
+  padding: 3px 10px;
+  margin-bottom: 5px;
+  border-radius: 20px;
+  font-weight: bold;
+  font-family: "Roboto", sans-serif;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+  z-index: 1000;
+}
+
+/* Navbar */
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  background-color: white;
+  padding: 0 1rem;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+  z-index: 1050;
+}
+
+.navbar-toggler {
+  border-color: white;
+}
+
+.navbar-toggler-icon {
+  background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='white' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
+}
+
+#site-title {
+  font-family: "Cookie", cursive;
+  color: #ebae16;
+  font-size: 5rem;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+.banner {
+  background-image: url("/static/images/VW-Grand-California.jpg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  height: 800px;
+  padding: 2rem;
+  margin-top: 0;
+  position: relative;
+  z-index: 1;
+  border-top-right-radius: 80px;
+}
+
+.banner-text {
+  position: absolute;
+  top: 0;
+  right: 0;
+  background-color: rgba(255, 255, 255, 0.85);
+  color: #0dc1bf;
+  text-align: center;
+  padding: 1.5rem;
+  font-size: 1.25rem;
+  font-weight: 500;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  max-width: 800px;
+  margin: 0 auto;
+  border-top-right-radius: 80px;
+}
+
+.navbar + .banner {
+  margin-top: 4rem;
+}
+
+.navbar-brand img {
+  height: 120px;
+  width: 80px;
+}
+
+.navbar ul {
+  color: black;
+  list-style: none;
+  display: flex;
+  padding-left: 0;
+  margin: 0;
+  font-family: "Roboto", sans-serif;
+}
+
+.navbar ul li {
+  margin: 0 0.8rem;
+}
+
+.navbar ul li a {
+  color: black;
+  text-decoration: none;
+  font-weight: 400;
+  padding: 0.8rem 0;
+  display: block;
+  font-family: "Roboto", sans-serif;
+}
+
+.navbar ul li a:hover {
+  color: darkgrey;
+}
+
+.navbar form {
+  display: flex;
+  align-items: center;
+}
+
+.navbar input[type="date"] {
+  margin: 0 0.3rem;
+  padding: 0.3rem;
+  font-family: "Roboto", sans-serif;
+}
+
+.navbar button {
+  padding: 0.4rem 0.8rem;
+  border: none;
+  background-color: #0dc1bf;
+  color: white;
+  cursor: pointer;
+  font-family: "Roboto", sans-serif;
+  outline: 0;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+}
+
+.navbar button:hover {
+  background-color: darkgray;
+  outline: 0;
+}
+
+#availability-button {
+  color: white;
+  background-color: #0dc1bf;
+  margin-bottom: 5px;
+}
+
+.hamburger {
+  display: none;
+  flex-direction: column;
+  cursor: pointer;
+}
+
+.hamburger div {
+  width: 25px;
+  height: 3px;
+  background-color: white;
+  margin: 4px 0;
+}
+
+.carousel img {
+  max-width: 100%;
+  height: 500px;
+  object-fit: cover;
+}
+
+#calendar {
+  min-width: 600px;
+  max-width: 100%;
+  margin: 0 auto;
+  overflow-x: hidden;
+}
+
+footer {
+  background-color: white;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+}
+
+#about-section,
+#info-section {
+  position: relative;
+  background: rgba(255, 255, 255, 0.9);
+  padding: 2rem;
+  max-width: 100%;
+  margin-top: 60px;
+  border-radius: 0 80px 0 0;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  font-family: "Roboto", sans-serif;
+  color: black;
+  display: block;
+}
+
+.about-calli {
+  max-width: 600px;
+  width: 100%;
+}
+
+.centered-text {
+  text-align: center;
+}
+
+.profile-image {
+  width: 120px;
+  height: 120px;
+  object-fit: cover;
+  position: absolute;
+  top: 2rem;
+  right: 2rem;
+  border-radius: 0 80px 0 0;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  flex-shrink: 0;
+}
+
+textarea {
+  max-width: 100%;
+  box-sizing: border-box;
+  resize: vertical;
+  min-width: 0;
+}
+
+#loginPromptModal {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 10000;
+  justify-content: center;
+  align-items: center;
+}
+
+.about-btn,
+.booking-btn,
+#message-btn {
+  background-color: #0dc1bf;
+  color: white;
+}
+
+#about-section h1 {
+  font-family: "Cookie", cursive;
+  font-size: 3rem;
+  color: #a5822d;
+  margin-bottom: 1.5rem;
+}
+
+#about-section p {
+  font-size: 1.1rem;
+  line-height: 1.6;
+  margin-bottom: 1rem;
+}
+
+.logo-img {
+  bottom: 0;
+  right: 0;
+  width: 40vw;
+  height: auto;
+  max-width: 300px;
+  max-height: 180px;
+  z-index: 10;
+}
+
+.video-card {
+  padding: 1rem;
+  background-color: #fff;
+  border-radius: 0.5rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.video-card video,
+.video-card img {
+  border-radius: 0.5rem;
+  margin-bottom: 1rem;
+  max-height: 200px;
+  object-fit: cover;
+}
+
+#destinations-section {
+  max-width: 100%;
+  margin: 3rem auto;
+  font-family: "Roboto", sans-serif;
+  padding: 0 1rem;
+}
+
+#destinations-section h2,
+.media-showcase h2 {
+  font-family: "Cookie", cursive;
+  font-size: 2.8rem;
+  color: #a5822d;
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.destinations-list {
+  display: grid;
+  gap: 2rem;
+  grid-template-columns: repeat(4, 1fr);
+}
+
+.destination-card {
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 0 80px 0 0;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  padding: 2rem;
+  max-width: 100%;
+  margin-bottom: 1rem;
+  box-sizing: border-box;
+}
+
+.destination-card img {
+  width: 100%;
+  height: 250px;
+  object-fit: cover;
+  border-radius: 0.8rem;
+  margin-bottom: 1rem;
+}
+
+.destination-card h3 {
+  font-family: "Cookie", cursive;
+  font-size: 1.8rem;
+  color: black;
+  margin-bottom: 0.5rem;
+}
+
+.destination-card p {
+  font-size: 1.1rem;
+  color: black;
+  line-height: 1.5;
+}
+
+.map-responsive {
+  position: relative;
+  width: 100%;
+  padding-bottom: 56.25%;
+  height: 0;
+  overflow: hidden;
+  border-radius: 0.5rem;
+}
+
+.cookie-heading {
+  font-family: "Cookie", cursive;
+  font-size: 3rem;
+  color: #0dc1bf;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.map-responsive iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+#soläfst {
+  margin-left: 30px;
+  margin-bottom: 60px;
+  height: 400px;
+  z-index: 2;
+}
+
+/* === Shared Section Styles === */
+#contact-section,
+#login-section,
+#logout-section,
+#signup-section,
+#verify-email-section,
+#booking-section,
+#imp-section,
+#daten-section,
+#booking_admin_section,
+#booking_list,
+#handoverchecklist_style {
+  background: rgba(255, 255, 255, 0.9);
+  padding: 2rem;
+  max-width: 600px;
+  margin: 3rem auto;
+  border-radius: 1rem;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  font-family: "Roboto", sans-serif;
+}
+
+/* Headings */
+#contact-section h2,
+#login-section h1,
+#logout-section h1,
+#signup-section h1,
+#verify-email-section h1,
+#booking-section h2,
+#imp-section h2,
+#daten-section h2 {
+  font-family: "Cookie", cursive;
+  font-size: 3rem;
+  color: #a5822d;
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+/* Form layout */
+#contact-section form,
+#login-section form,
+#logout-section form,
+#signup-section form,
+#verify-email-section form,
+#booking-section form {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Labels */
+#contact-section label,
+#login-section label,
+#logout-section label,
+#signup-section label,
+#booking-section label {
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+  color: #14213d;
+}
+
+/* Inputs and textareas */
+#contact-section input[type="text"],
+#contact-section input[type="email"],
+#contact-section textarea,
+#login-section input[type="text"],
+#login-section input[type="email"],
+#login-section input[type="password"],
+#signup-section input[type="text"],
+#signup-section input[type="email"],
+#signup-section input[type="password"],
+#booking-section input[type="text"],
+#booking-section input[type="email"],
+#booking-section input[type="date"],
+#booking-section textarea {
+  width: 100%;
+  padding: 0.6rem 1rem;
+  border-radius: 0.8rem;
+  border: 1px solid #ccc;
+  font-family: "Roboto", sans-serif;
+  font-size: 1rem;
+  margin-bottom: 0.5rem;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);
+  transition: border-color 0.3s ease;
+  resize: vertical;
+}
+
+/* Focus styles */
+#contact-section input[type="text"]:focus,
+#contact-section input[type="email"]:focus,
+#contact-section textarea:focus,
+#login-section input[type="text"]:focus,
+#login-section input[type="email"]:focus,
+#login-section input[type="password"]:focus,
+#signup-section input[type="text"]:focus,
+#signup-section input[type="email"]:focus,
+#signup-section input[type="password"]:focus,
+#booking-section input[type="text"]:focus,
+#booking-section input[type="email"]:focus,
+#booking-section input[type="date"]:focus,
+#booking-section textarea:focus {
+  border-color: #ebae16;
+  outline: none;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);
+  background-color: #fff;
+}
+
+/* Field errors */
+.field-error {
+  color: red;
+  font-size: 0.85rem;
+  margin-bottom: 1rem;
+}
+
+/* Buttons */
+#send-message-btn,
+#login-section button[type="submit"],
+#logout-section button[type="submit"],
+#signup-section button[type="submit"],
+#verify-email-section button[type="submit"],
+#booking-section button[type="submit"],
+#save-btn,
+#print-btn,
+#clear-signature {
+  background-color: #0dc1bf;
+  color: white;
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 0.8rem;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+  transition: background-color 0.3s ease;
+  align-self: flex-start;
+}
+
+#edit-btn {
+  background-color: #ebae16;
+  color: white;
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 0.8rem;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+  transition: background-color 0.3s ease;
+  align-self: flex-start;
+}
+
+#send-message-btn:hover,
+#send-message-btn:focus,
+#login-section button[type="submit"]:hover,
+#login-section button[type="submit"]:focus,
+#logout-section button[type="submit"]:hover,
+#logout-section button[type="submit"]:focus,
+#signup-section button[type="submit"]:hover,
+#signup-section button[type="submit"]:focus,
+#verify-email-section button[type="submit"]:hover,
+#verify-email-section button[type="submit"]:focus,
+#booking-section button[type="submit"]:hover,
+#booking-section button[type="submit"]:focus {
+  background-color: #6edad9;
+  outline: none;
+}
+
+/* Paragraphs inside imp-section */
+#imp-section p {
+  margin-top: 1rem;
+  color: #14213d;
+}
+
+/* Links */
+#imp-section a {
+  color: #0dc1bf;
+  text-decoration: underline;
+}
+
+/* Small print */
+#imp-section p.text-sm {
+  font-size: 0.85rem;
+  color: #6b7280;
+}
+
+#daten-section h3 {
+  font-family: "Cookie", cursive;
+  font-size: 1.75rem;
+  color: #a5822d;
+  margin-top: 2rem;
+  margin-bottom: 0.75rem;
+}
+
+#daten-section p {
+  color: #14213d;
+  line-height: 1.6;
+}
+
+/* === FAQ Section === */
+#faq-section {
+  max-width: 800px;
+  margin: 3rem auto;
+  padding: 0 1rem;
+  font-family: "Roboto", sans-serif;
+}
+
+#faq-section h2 {
+  font-family: "Cookie", cursive;
+  font-size: 3rem;
+  color: #a5822d;
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.faq-item {
+  background: rgba(255, 255, 255, 0.9);
+  margin-bottom: 1rem;
+  border-radius: 0.8rem;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+  padding: 1rem;
+}
+
+.faq-question {
+  width: 100%;
+  text-align: left;
+  font-weight: 700;
+  font-size: 1.1rem;
+  color: black;
+  border: none;
+  background: none;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.faq-toggle-symbol {
+  font-size: 1.5rem;
+  transition: transform 0.3s ease;
+}
+
+.faq-answer {
+  display: none;
+  margin-top: 0.5rem;
+  color: darkgray;
+  line-height: 1.5;
+}
+
+#camperCarousel .carousel-inner {
+  max-height: 600px;
+}
+
+#camperCarousel .carousel-item img {
+  height: 600px;
+  object-fit: contain;
+  width: auto;
+  margin: 0 auto;
+}
+
+#camperCarousel {
+  background-color: #bbd4c5;
+  border-top-right-radius: 8px;
+}
+
+.toast {
+  visibility: hidden;
+  min-width: 300px;
+  margin-left: -100px;
+  background-color: white;
+  color: black;
+  text-align: center;
+  border-radius: 6px;
+  padding: 16px;
+  position: fixed;
+  z-index: 9999;
+  left: 50%;
+  bottom: 30px;
+  font-size: 16px;
+  opacity: 0;
+  transition: opacity 0.5s ease-in-out;
+  font-family: Arial, sans-serif;
+}
+
+.toast.show {
+  visibility: visible;
+  opacity: 1;
+}
+
+.toast-link {
+  color: #ebae16;
+  text-decoration: underline;
+  margin: 0 8px;
+  cursor: pointer;
+}
+
+.toast-link:hover {
+  color: darkgrey;
+}
+
+#welcomeToast {
+  background-color: #a5822d;
+  color: white;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+  border-radius: 0 80px 0 0;
+}
+
+.season-card {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.season-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
+}
+
+.nebensaison {
+  background-color: #e8f4fd; /* light blue */
+}
+
+.zwischensaison {
+  background-color: #fff8e1; /* warm light yellow */
+}
+
+.hauptsaison {
+  background-color: #fdecea; /* light red-pink */
+}
+
+/* Desktop: 1200px and up */
+@media (min-width: 992px) {
+  #calendar {
+    font-size: 16px;
+  }
+  .fc-toolbar-title {
+    font-size: 1.5rem;
+  }
+
+  .destinations-list {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .destination-card {
+    background: #fff;
+    padding: 15px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .destination-card img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 6px;
+    margin-bottom: 10px;
+  }
+}
+
+@media (max-width: 768px) {
+  #main-container {
+    margin-top: 100px;
+  }
+  .navbar-nav {
+    display: none;
+    flex-direction: column;
+    width: 100%;
+  }
+  .navbar-nav.active {
+    display: flex;
+  }
+
+  .navbar form {
+    width: 100%;
+    margin-top: 0.5rem;
+    justify-content: center;
+  }
+
+  .hamburger {
+    display: flex;
+  }
+
+  #calendar {
+    font-size: 14px;
+  }
+  .fc-toolbar-title {
+    font-size: 1.25rem;
+  }
+
+  #about-section {
+    flex-direction: column;
+    max-width: 100%;
+    margin-top: 15px;
+  }
+  #about-section h1 {
+    font-size: 2.2rem;
+  }
+  .profile-image {
+    width: 100px;
+    height: 100px;
+    margin: 0 auto 1rem auto;
+    display: block;
+  }
+
+  #destinations-section {
+    max-width: 90%;
+    margin: 0;
+    margin-top: 4rem;
+    padding: 0;
+  }
+  .destination-card img {
+    height: 140px;
+  }
+
+  .destinations-list {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  #contact-section,
+  #faq-section {
+    padding: 1rem;
+    max-width: 90%;
+  }
+
+  #contact-section h2,
+  #faq-section h2 {
+    font-size: 2.2rem;
+  }
+
+  #camperCarousel .carousel-inner,
+  #camperCarousel .carousel-item img {
+    height: 300px;
+  }
+
+  .logo-img {
+    bottom: -10vh;
+    left: -10vw;
+    width: 60vw;
+    max-width: 300px;
+    height: auto;
+  }
+  #availabilityModal .modal-dialog {
+    max-width: 95vw;
+    margin: 1rem auto;
+  }
+  #availabilityModal .modal-body {
+    padding: 0.5rem;
+  }
+}
+
+/* Mobile: 320px and up */
+@media (max-width: 480px) {
+  #main-container {
+    margin-top: 120px;
+  }
+  .navbar {
+    padding: 0;
+  }
+
+  #site-title {
+    font-size: 3rem;
+  }
+
+  .navbar-brand img {
+    height: 80px;
+    width: 60px;
+  }
+
+  .navbar button {
+    margin-bottom: 4px;
+  }
+  .banner {
+    margin-top: 10px;
+  }
+  .banner-text {
+    font-size: 0.75rem;
+  }
+  #availabilityModal .modal-body {
+    max-height: 80vh;
+    overflow-y: auto;
+    padding: 1rem;
+  }
+
+  #calendar-wrapper {
+    max-height: 70vh;
+    overflow-y: auto;
+  }
+
+  #calendar {
+    min-height: 400px;
+    width: 100%;
+  }
+
+  #soläfst {
+    margin-left: -55px;
+    height: 140px;
+    z-index: 2;
+  }
+  .fc {
+    width: 100% !important;
+  }
+
+  .fc-scrollgrid {
+    overflow-x: hidden !important;
+  }
+
+  .fc-daygrid-body,
+  .fc-daygrid-body table {
+    width: 100% !important;
+    table-layout: fixed !important;
+  }
+
+  #about-section h1 {
+    font-size: 2.5rem;
+  }
+
+  #destinations-section h2 {
+    font-size: 2.2rem;
+    margin-top: 2rem;
+  }
+  .destination-card h3 {
+    font-size: 1.4rem;
+  }
+  .destination-card img {
+    height: 120px;
+  }
+
+  .destinations-list {
+    grid-template-columns: repeat(1, 1fr);
+  }
+
+  .map-responsive {
+    padding-bottom: 75%;
+  }
+
+  #contact-section h2,
+  #faq-section h2 {
+    font-size: 1.8rem;
+  }
+
+  .faq-question {
+    font-size: 1rem;
+  }
+
+  #camperCarousel .carousel-inner,
+  #camperCarousel .carousel-item img {
+    height: 600px;
+  }
+
+  .logo-img {
+    bottom: -10vh;
+    left: -5vw;
+    width: 50vw;
+    max-width: 100px;
+  }
+}
