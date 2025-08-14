@@ -31,6 +31,7 @@ class CampervanImage(models.Model):
     def __str__(self):
         return f"Image for {self.campervan.name}"
 
+
 class AdditionalService(models.Model):
     name = models.CharField(max_length=100)
     price = models.DecimalField(max_digits=7, decimal_places=2)

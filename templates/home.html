@@ -4,15 +4,12 @@
 
 {% block content %}
 <div class="banner text-center position-relative" style="position: relative;">
-  <div class="banner-text">
-    <h2 class="display-4 fw-bold" style="font-family: Cookie;">{% trans "Calli explores the world – and you can join in!" %}</h2>
-    <p>
-      {% blocktrans %}
-      Calli is more than just a camper – he’s our little adventure on four wheels.
-      But instead of just using him ourselves, we want other people to experience the freedom of travel too.
-      That way, Calli keeps discovering new places, and you might find your very own favorite spot.
-      {% endblocktrans %}
-    </p>
+  <div class="banner-wrapper">
+    <img class="banner-image" src="https://res.cloudinary.com/dvs5uituk/image/upload/v1755171713/mainpic_t14dpe.webp" alt="Grand California" />
+    <div class="banner-text-card">
+      <h1>Explore the Grand California</h1>
+      <p>Your adventure starts here.</p>
+    </div>
   </div>
 
   <!-- Datenschutz Toast Container -->
@@ -40,32 +37,82 @@
     {% trans "Jetzt buchen" %}</a>
   </section>
 
-  <div id="calliCarousel" class="carousel slide my-5" data-bs-ride="carousel">
-    <div class="carousel-indicators">
-      {% for img in images %}
-        <button type="button" data-bs-target="#calliCarousel" data-bs-slide-to="{{ forloop.counter0 }}"
-                {% if forloop.first %}class="active" aria-current="true"{% endif %}
-                aria-label="Slide {{ forloop.counter }}"></button>
-      {% endfor %}
-    </div>
-
-    <div class="carousel-inner">
-      {% for img in images %}
-        <div class="carousel-item {% if forloop.first %}active{% endif %}">
-          <img src="{{ img.image.url }}" class="d-block w-100" alt="Campervan image">
-        </div>
-      {% endfor %}
-    </div>
-
-    <button class="carousel-control-prev" type="button" data-bs-target="#calliCarousel" data-bs-slide="prev">
-      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-      <span class="visually-hidden">{% trans "Previous" %}</span>
-    </button>
-    <button class="carousel-control-next" type="button" data-bs-target="#calliCarousel" data-bs-slide="next">
-      <span class="carousel-control-next-icon" aria-hidden="true"></span>
-      <span class="visually-hidden">{% trans "Next" %}</span>
-    </button>
+<div id="calliCarousel" class="carousel slide banner-wrapper" data-bs-ride="carousel">
+  <div class="carousel-indicators">
+    <button type="button" data-bs-target="#calliCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+    <button type="button" data-bs-target="#calliCarousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
+    <button type="button" data-bs-target="#calliCarousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
   </div>
+
+  <div class="carousel-inner">
+    <div class="carousel-item active">
+      <div class="flip-card" style="height: 400px;">
+        <div class="flip-card-inner" style="height: 100%;">
+          <div class="flip-card-front">
+            <img src="https://res.cloudinary.com/dvs5uituk/image/upload/v1755171713/mainpic_t14dpe.webp"
+                 class="d-block w-100 banner-image" alt="Campervan image 1">
+          </div>
+          <div class="flip-card-back">
+            <h3>Campervan Details</h3>
+            <p>More info or fun text here!</p>
+          </div>
+        </div>
+      </div>
+      <div class="banner-text-card visible">
+        <h1>Campervan Adventures</h1>
+        <p>Book your next trip with us!</p>
+      </div>
+    </div>
+
+    <div class="carousel-item">
+      <div class="flip-card" style="height: 400px;">
+        <div class="flip-card-inner" style="height: 100%;">
+          <div class="flip-card-front">
+            <img src="https://res.cloudinary.com/dvs5uituk/image/upload/v1755171713/mainpic2.webp"
+                 class="d-block w-100 banner-image" alt="Campervan image 2">
+          </div>
+          <div class="flip-card-back">
+            <h3>Campervan Details</h3>
+            <p>More info or fun text here!</p>
+          </div>
+        </div>
+      </div>
+      <div class="banner-text-card visible">
+        <h1>Explore the Outdoors</h1>
+        <p>Comfortable, safe, and ready for adventure.</p>
+      </div>
+    </div>
+
+    <div class="carousel-item">
+      <div class="flip-card" style="height: 400px;">
+        <div class="flip-card-inner" style="height: 100%;">
+          <div class="flip-card-front">
+            <img src="https://res.cloudinary.com/dvs5uituk/image/upload/v1755171713/mainpic3.webp"
+                 class="d-block w-100 banner-image" alt="Campervan image 3">
+          </div>
+          <div class="flip-card-back">
+            <h3>Campervan Details</h3>
+            <p>More info or fun text here!</p>
+          </div>
+        </div>
+      </div>
+      <div class="banner-text-card visible">
+        <h1>Adventure Awaits</h1>
+        <p>Start your journey today!</p>
+      </div>
+    </div>
+  </div>
+
+  <button class="carousel-control-prev" type="button" data-bs-target="#calliCarousel" data-bs-slide="prev">
+    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Previous</span>
+  </button>
+  <button class="carousel-control-next" type="button" data-bs-target="#calliCarousel" data-bs-slide="next">
+    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Next</span>
+  </button>
+</div>
+
 
   <!-- 2. Über Calli -->
   <section id="about-calli" class="container my-5">
@@ -200,40 +247,6 @@
 
 {% get_current_language as LANGUAGE_CODE %}
 
-<script>
-document.addEventListener('DOMContentLoaded', function () {
-  console.log('Toast init');
-
-  if (typeof bootstrap === 'undefined' || !bootstrap.Toast) {
-    console.log('Bootstrap Toast not available');
-    return;
-  }
-
-  const cookieToastEl = document.getElementById('cookieToast');
-  const acceptBtn = document.getElementById('acceptCookiesBtn');
-
-  if (!cookieToastEl) {
-    console.log('Toast element not found');
-    return;
-  }
-
-  const cookiesAccepted = localStorage.getItem('cookiesAccepted');
-
-  if (!cookiesAccepted) {
-    const cookieToast = new bootstrap.Toast(cookieToastEl, { autohide: false });
-    cookieToast.show();
-
-    acceptBtn?.addEventListener('click', function () {
-      localStorage.setItem('cookiesAccepted', 'true');
-      cookieToast.hide();
-      console.log('Cookies accepted and toast hidden');
-    });
-  } else {
-    console.log('Cookies already accepted, toast not shown');
-  }
-});
-</script>
-
 <!-- Welcome Toast Container -->
 <div class="toast-container position-fixed bottom-0 start-0 p-3" style="z-index: 1055;">
   <div id="welcomeToast" class="toast text-black bg-white position-relative" role="alert" aria-live="assertive" aria-atomic="true" data-bs-delay="5000">
@@ -249,13 +262,58 @@ document.addEventListener('DOMContentLoaded', function () {
   </div>
 </div>
 
-<script>
-document.addEventListener('DOMContentLoaded', function () {
-  const welcomeToastEl = document.getElementById('welcomeToast');
-  if (welcomeToastEl && bootstrap && bootstrap.Toast) {
-    const welcomeToast = new bootstrap.Toast(welcomeToastEl);
-    welcomeToast.show();
-  }
-});
-</script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Cookie Toast
+      const cookieToastEl = document.getElementById('cookieToast');
+      const acceptBtn = document.getElementById('acceptCookiesBtn');
+      if (!localStorage.getItem('cookiesAccepted') && cookieToastEl && bootstrap && bootstrap.Toast) {
+        const cookieToast = new bootstrap.Toast(cookieToastEl, { autohide: false });
+        cookieToast.show();
+        acceptBtn?.addEventListener('click', () => {
+          localStorage.setItem('cookiesAccepted', 'true');
+          cookieToast.hide();
+        });
+      }
+
+      // Welcome Toast
+      const welcomeToastEl = document.getElementById('welcomeToast');
+      if (welcomeToastEl && bootstrap && bootstrap.Toast) {
+        const welcomeToast = new bootstrap.Toast(welcomeToastEl);
+        welcomeToast.show();
+      }
+
+      // Banner animation
+      const card = document.querySelector('.banner-text-card');
+      if (card) {
+        const observer = new IntersectionObserver((entries, observer) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              card.classList.add('visible');
+              observer.unobserve(card);
+            }
+          });
+        }, { threshold: 0.1 });
+        observer.observe(card);
+      }
+
+      // Carousel flip
+      const carouselEl = document.getElementById('calliCarousel');
+      if (carouselEl) {
+        carouselEl.addEventListener('slide.bs.carousel', function(event) {
+          const items = carouselEl.querySelectorAll('.carousel-item');
+
+          // Flip out current slide
+          const currentInner = items[event.from]?.querySelector('.flip-card-inner');
+          if (currentInner) currentInner.style.transform = 'rotateY(180deg)';
+
+          // Flip in next slide after a small delay
+          setTimeout(() => {
+            const nextInner = items[event.to]?.querySelector('.flip-card-inner');
+            if (nextInner) nextInner.style.transform = 'rotateY(0deg)';
+          }, 200);
+        });
+      }
+    });
+  </script>
 {% endblock %}

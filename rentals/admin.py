@@ -12,7 +12,7 @@ from .models import (
     AdditionalService,
     Invoice,
     HandoverPhoto,
-    HandoverChecklist
+    HandoverChecklist,
 )
 from .forms import ReturnChecklistForm, HandoverChecklistForm, BookingAdminForm
 from django_summernote.admin import SummernoteModelAdmin
@@ -271,3 +271,4 @@ admin.site.register(Booking, BookingAdmin)
 admin.site.register(SeasonalRate, SeasonalRateAdmin)
 admin.site.register(CampervanImage)
 admin.site.register(HandoverChecklist, HandoverChecklistAdmin)
+
