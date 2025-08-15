@@ -37,85 +37,8 @@
     {% trans "Jetzt buchen" %}</a>
   </section>
 
-<div id="calliCarousel" class="carousel slide banner-wrapper" data-bs-ride="carousel">
-  <div class="carousel-indicators">
-    <button type="button" data-bs-target="#calliCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-    <button type="button" data-bs-target="#calliCarousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
-    <button type="button" data-bs-target="#calliCarousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
-  </div>
-
-  <div class="carousel-inner">
-    <div class="carousel-item active">
-      <div class="flip-card" style="height: 400px;">
-        <div class="flip-card-inner" style="height: 100%;">
-          <div class="flip-card-front">
-            <img src="https://res.cloudinary.com/dvs5uituk/image/upload/v1755171713/mainpic_t14dpe.webp"
-                 class="d-block w-100 banner-image" alt="Campervan image 1">
-          </div>
-          <div class="flip-card-back">
-            <h3>Campervan Details</h3>
-            <p>More info or fun text here!</p>
-          </div>
-        </div>
-      </div>
-      <div class="banner-text-card visible">
-        <h1>Campervan Adventures</h1>
-        <p>Book your next trip with us!</p>
-      </div>
-    </div>
-
-    <div class="carousel-item">
-      <div class="flip-card" style="height: 400px;">
-        <div class="flip-card-inner" style="height: 100%;">
-          <div class="flip-card-front">
-            <img src="https://res.cloudinary.com/dvs5uituk/image/upload/v1755171713/mainpic2.webp"
-                 class="d-block w-100 banner-image" alt="Campervan image 2">
-          </div>
-          <div class="flip-card-back">
-            <h3>Campervan Details</h3>
-            <p>More info or fun text here!</p>
-          </div>
-        </div>
-      </div>
-      <div class="banner-text-card visible">
-        <h1>Explore the Outdoors</h1>
-        <p>Comfortable, safe, and ready for adventure.</p>
-      </div>
-    </div>
-
-    <div class="carousel-item">
-      <div class="flip-card" style="height: 400px;">
-        <div class="flip-card-inner" style="height: 100%;">
-          <div class="flip-card-front">
-            <img src="https://res.cloudinary.com/dvs5uituk/image/upload/v1755171713/mainpic3.webp"
-                 class="d-block w-100 banner-image" alt="Campervan image 3">
-          </div>
-          <div class="flip-card-back">
-            <h3>Campervan Details</h3>
-            <p>More info or fun text here!</p>
-          </div>
-        </div>
-      </div>
-      <div class="banner-text-card visible">
-        <h1>Adventure Awaits</h1>
-        <p>Start your journey today!</p>
-      </div>
-    </div>
-  </div>
-
-  <button class="carousel-control-prev" type="button" data-bs-target="#calliCarousel" data-bs-slide="prev">
-    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-    <span class="visually-hidden">Previous</span>
-  </button>
-  <button class="carousel-control-next" type="button" data-bs-target="#calliCarousel" data-bs-slide="next">
-    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-    <span class="visually-hidden">Next</span>
-  </button>
-</div>
-
-
   <!-- 2. Über Calli -->
-  <section id="about-calli" class="container my-5">
+  <section id="about-calli" class="container">
     <h2>{% trans "Calli stellt sich vor" %}</h2>
     <p>{% trans "Schau mal hier rein! Hier erfährst du, was Calli alles an Bord hat – vom Hochbett für die Kids bis zur kleinen Küche mit Gaskocher. Alles drin für große und kleine Abenteuer." %}</p>
 
@@ -155,7 +78,7 @@
       <!-- Fahren -->
       <div class="col-sm-6">
         <div class="card h-100 shadow-sm">
-          <img src="{% static 'images/artboard1.png' %}" class="card-img-top" alt="VW California Drivers console" style="object-fit: contain; max-height: 300px;" />
+          <img src="https://res.cloudinary.com/dvs5uituk/image/upload/v1755260369/20250812_132354_arohkp.jpg" class="card-img-top" alt="VW California Drivers console" style="object-fit: contain; max-height: 300px;" />
           <div class="card-body d-flex flex-column">
             <h4 class="card-title" style="text-decoration: underline;">{% trans "Fahren" %}</h4>
             <p class="card-text">{% trans "Calli is equipped with a range of driving features to ensure comfort, safety, and convenience on the road." %}</p>
@@ -243,7 +166,222 @@
     <p class="mt-4"><strong>{% trans "Besonderheiten:" %}</strong> {% trans "Haustiere sind leider nicht erlaubt." %} <i class="fa-solid fa-otter"></i></p>
   </section>
 
-</section>
+  <div id="carouselExampleFade" class="carousel slide carousel-fade">
+    <div class="carousel-inner">
+      <div class="carousel-item active">
+        <img src="https://res.cloudinary.com/dvs5uituk/image/upload/v1755260374/20250812_124657_wupeeg.jpg" class="d-block w-100" alt="Slide 1" loading="lazy">
+      </div>
+      <div class="carousel-item">
+        <img src="https://res.cloudinary.com/dvs5uituk/image/upload/v1755260374/20250812_125005_o7fpvf.jpg" class="d-block w-100" alt="Slide 2" loading="lazy">
+
+      </div>
+      <div class="carousel-item">
+        <img src="https://res.cloudinary.com/dvs5uituk/image/upload/v1755260373/20250812_125044_rjhkby.jpg" class="d-block w-100" alt="Slide 3" loading="lazy">
+
+      </div>
+      <div class="carousel-item">
+        <img src="https://res.cloudinary.com/dvs5uituk/image/upload/v1755260373/20250812_125023_r0phla.jpg" class="d-block w-100" alt="Slide 4" loading="lazy">
+
+      </div>
+      <div class="carousel-item">
+        <img src="https://res.cloudinary.com/dvs5uituk/image/upload/v1755260373/20250812_125232_bwmpg6.jpg" class="d-block w-100" alt="Slide 5" loading="lazy">
+
+      </div>
+      <div class="carousel-item">
+        <img src="https://res.cloudinary.com/dvs5uituk/image/upload/v1755260373/20250812_125050_lhb0ur.jpg" class="d-block w-100" alt="Slide 6" loading="lazy">
+
+      </div>
+      <div class="carousel-item">
+        <img src="https://res.cloudinary.com/dvs5uituk/image/upload/v1755260373/20250812_125050_lhb0ur.jpg" class="d-block w-100" alt="Slide 7" loading="lazy">
+
+      </div>
+      <div class="carousel-item">
+        <img src="https://res.cloudinary.com/dvs5uituk/image/upload/v1755260372/20250812_124516_ivkzir.jpg" class="d-block w-100" alt="Slide 8" loading="lazy">
+
+      </div>
+      <div class="carousel-item">
+        <img src="https://res.cloudinary.com/dvs5uituk/image/upload/v1755260369/20250812_132432_eocuzl.jpg" class="d-block w-100" alt="Slide 9" loading="lazy">
+
+      </div>
+      <div class="carousel-item">
+        <img src="https://res.cloudinary.com/dvs5uituk/image/upload/v1755260369/20250812_132354_arohkp.jpg" class="d-block w-100" alt="Slide 10" loading="lazy">
+
+      </div>
+      <div class="carousel-item">
+        <img src="https://res.cloudinary.com/dvs5uituk/image/upload/v1755260368/20250812_132224_kuzzfa.jpg" class="d-block w-100" alt="Slide 11" loading="lazy">
+
+      </div>
+      <div class="carousel-item">
+        <img src="https://res.cloudinary.com/dvs5uituk/image/upload/v1755260368/20250812_132208_xfupmn.jpg" class="d-block w-100" alt="Slide 12" loading="lazy">
+
+      </div>
+      <div class="carousel-item">
+        <img src="https://res.cloudinary.com/dvs5uituk/image/upload/v1755260368/20250812_132107_bndqvi.jpg" class="d-block w-100" alt="Slide 13" loading="lazy">
+
+      </div>
+      <div class="carousel-item">
+        <img src="https://res.cloudinary.com/dvs5uituk/image/upload/v1755260365/20250812_132100_nsnokj.jpg" class="d-block w-100" alt="Slide 14" loading="lazy">
+     >
+      </div>
+      <div class="carousel-item">
+        <img src="https://res.cloudinary.com/dvs5uituk/image/upload/v1755260365/20250812_131932_tv2sqk.jpg" class="d-block w-100" alt="Slide 15" loading="lazy">
+
+      </div>
+      <div class="carousel-item">
+        <img src="https://res.cloudinary.com/dvs5uituk/image/upload/v1755260365/20250812_131924_ohisuu.jpg" class="d-block w-100" alt="Slide 16" loading="lazy">
+
+      </div>
+      <div class="carousel-item">
+        <img src="https://res.cloudinary.com/dvs5uituk/image/upload/v1755260365/20250812_131913_cpcrud.jpg" class="d-block w-100" alt="Slide 17" loading="lazy">
+
+      </div>
+      <div class="carousel-item">
+        <img src="https://res.cloudinary.com/dvs5uituk/image/upload/v1755260364/20250812_131535_ufxjf2.jpg" class="d-block w-100" alt="Slide 18" loading="lazy">
+
+      </div>
+      <div class="carousel-item">
+        <img src="https://res.cloudinary.com/dvs5uituk/image/upload/v1755260364/20250812_131409_wpounu.jpg" class="d-block w-100" alt="Slide 19" loading="lazy">
+
+      </div>
+      <div class="carousel-item">
+        <img src="https://res.cloudinary.com/dvs5uituk/image/upload/v1755260362/20250812_131354_pjxdzm.jpg" class="d-block w-100" alt="Slide 20" loading="lazy">
+
+      </div>
+      <div class="carousel-item">
+        <img src="https://res.cloudinary.com/dvs5uituk/image/upload/v1755260361/20250812_131212_wqbffa.jpg" class="d-block w-100" alt="Slide 21" loading="lazy">
+
+      </div>
+      <div class="carousel-item">
+        <img src="https://res.cloudinary.com/dvs5uituk/image/upload/v1755260362/20250812_131226_o5xt7q.jpg" class="d-block w-100" alt="Slide 22" loading="lazy">
+
+      </div>
+      <div class="carousel-item">
+        <img src="https://res.cloudinary.com/dvs5uituk/image/upload/v1755260361/20250812_131036_qbr6kh.jpg" class="d-block w-100" alt="Slide 23" loading="lazy">
+
+      </div>
+      <div class="carousel-item">
+        <img src="https://res.cloudinary.com/dvs5uituk/image/upload/v1755260360/20250812_130958_vlc4ru.jpg" class="d-block w-100" alt="Slide 24" loading="lazy">
+
+      </div>
+      <div class="carousel-item">
+        <img src="https://res.cloudinary.com/dvs5uituk/image/upload/v1755260358/20250812_130939_jonj4q.jpg" class="d-block w-100" alt="Slide 25" loading="lazy">
+
+      </div>
+      <div class="carousel-item">
+        <img src="https://res.cloudinary.com/dvs5uituk/image/upload/v1755260358/20250812_130922_ejgpac.jpg" class="d-block w-100" alt="Slide 26" loading="lazy">
+
+      </div>
+      <div class="carousel-item">
+        <img src="https://res.cloudinary.com/dvs5uituk/image/upload/v1755260358/20250812_130906_uglncc.jpg" class="d-block w-100" alt="Slide 27" loading="lazy">
+
+      </div>
+      <div class="carousel-item">
+        <img src="https://res.cloudinary.com/dvs5uituk/image/upload/v1755260356/20250812_130646_bt2a29.jpg" class="d-block w-100" alt="Slide 28" loading="lazy">
+
+      </div>
+      <div class="carousel-item">
+        <img src="https://res.cloudinary.com/dvs5uituk/image/upload/v1755260355/20250812_130526_relcwi.jpg" class="d-block w-100" alt="Slide 29" loading="lazy">
+
+      </div>
+      <div class="carousel-item">
+        <img src="https://res.cloudinary.com/dvs5uituk/image/upload/v1755260355/20250812_130510_dhpsf5.jpg" class="d-block w-100" alt="Slide 30" loading="lazy">
+
+      </div>
+      <div class="carousel-item">
+        <img src="https://res.cloudinary.com/dvs5uituk/image/upload/v1755260355/20250812_130354_mdtvb5.jpg" class="d-block w-100" alt="Slide 31" loading="lazy">
+
+      </div>
+      <div class="carousel-item">
+        <img src="https://res.cloudinary.com/dvs5uituk/image/upload/v1755260355/20250812_130354_mdtvb5.jpg" class="d-block w-100" alt="Slide 32" loading="lazy">
+
+      </div>
+      <div class="carousel-item">
+        <img src="https://res.cloudinary.com/dvs5uituk/image/upload/v1755260354/20250812_130345_uxhvdt.jpg" class="d-block w-100" alt="Slide 33" loading="lazy">
+
+      </div>
+      <div class="carousel-item">
+        <img src="https://res.cloudinary.com/dvs5uituk/image/upload/v1755260352/20250812_130313_o7anov.jpg" class="d-block w-100" alt="Slide 34" loading="lazy">
+
+      </div>
+      <div class="carousel-item">
+        <img src="https://res.cloudinary.com/dvs5uituk/image/upload/v1755260350/20250812_125734_ytdwcg.jpg" class="d-block w-100" alt="Slide 35" loading="lazy">
+
+      </div>
+      <div class="carousel-item">
+        <img src="https://res.cloudinary.com/dvs5uituk/image/upload/v1755260350/20250812_125823_iaxgkg.jpg" class="d-block w-100" alt="Slide 36" loading="lazy">
+
+      </div>
+      <div class="carousel-item">
+        <img src="https://res.cloudinary.com/dvs5uituk/image/upload/v1755260350/20250812_130020_xvcjum.jpg" class="d-block w-100" alt="Slide 37" loading="lazy">
+
+      </div>
+      <div class="carousel-item">
+        <img src="https://res.cloudinary.com/dvs5uituk/image/upload/v1755260350/20250812_125525_u6ppa6.jpg" class="d-block w-100" alt="Slide 38" loading="lazy">
+
+      </div>
+      <div class="carousel-item">
+        <img src="https://res.cloudinary.com/dvs5uituk/image/upload/v1755260350/20250812_125801_dmprbt.jpg" class="d-block w-100" alt="Slide 39" loading="lazy">
+
+      </div>
+      <div class="carousel-item">
+        <img src="https://res.cloudinary.com/dvs5uituk/image/upload/v1755260349/20250812_125350_ba4vb3.jpg" class="d-block w-100" alt="Slide 40" loading="lazy">
+
+      </div>
+      <div class="carousel-item">
+        <img src="https://res.cloudinary.com/dvs5uituk/image/upload/v1755260349/20250812_125336_a5rs9y.jpg" class="d-block w-100" alt="Slide 41" loading="lazy">
+
+      </div>
+      <div class="carousel-item">
+        <img src="https://res.cloudinary.com/dvs5uituk/image/upload/v1755260349/20250812_125630_apnwwk.jpg" class="d-block w-100" alt="Slide 42" loading="lazy">
+
+      </div>
+      <div class="carousel-item">
+        <img src="https://res.cloudinary.com/dvs5uituk/image/upload/v1755260349/20250812_125328_szzwfs.jpg" class="d-block w-100" alt="Slide 43" loading="lazy">
+
+      </div>
+      <div class="carousel-item">
+        <img src="https://res.cloudinary.com/dvs5uituk/image/upload/v1755260349/20250812_125253_vpb4ct.jpg" class="d-block w-100" alt="Slide 44" loading="lazy">
+
+      </div>
+      <div class="carousel-item">
+        <img src="https://res.cloudinary.com/dvs5uituk/image/upload/v1748849907/uk1j5yyk232bwjt1q1w5.jpg" class="d-block w-100" alt="Slide 45" loading="lazy">
+
+      </div>
+      <div class="carousel-item">
+        <img src="https://res.cloudinary.com/dvs5uituk/image/upload/v1748849900/zvchcolbn73ojnaxzmqc.jpg" class="d-block w-100" alt="Slide 46" loading="lazy">
+
+      </div>
+      <div class="carousel-item">
+        <img src="https://res.cloudinary.com/dvs5uituk/image/upload/v1748849882/k1jtpl3qw93lcipagkxr.jpg" class="d-block w-100" alt="Slide 47" loading="lazy">
+
+      </div>
+      <div class="carousel-item">
+        <img src="https://res.cloudinary.com/dvs5uituk/image/upload/v1748849875/dyavd35nuncn5x7pg1g7.jpg" class="d-block w-100" alt="Slide 48" loading="lazy">
+
+      </div>
+      <div class="carousel-item">
+        <img src="https://res.cloudinary.com/dvs5uituk/image/upload/v1748849832/p4gf4yame0kkrragda6s.jpg" class="d-block w-100" alt="Slide 49" loading="lazy">
+
+      </div>
+      <div class="carousel-item">
+        <img src="https://res.cloudinary.com/dvs5uituk/image/upload/v1748849855/d7a1gjomgysovcahsiqs.jpg" class="d-block w-100" alt="Slide 50" loading="lazy">
+
+      </div>
+    </div>
+    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleFade" data-bs-slide="prev">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleFade" data-bs-slide="next">
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Next</span>
+    </button>
+  </div>
+  <div>
+  <a href="{% url 'booking_page' pk=1 %}" class="btn btn-lg booking-btn">
+    {% trans "Jetzt buchen" %}</a>
+  </div>
+
 
 {% get_current_language as LANGUAGE_CODE %}
 
@@ -295,24 +433,6 @@
           });
         }, { threshold: 0.1 });
         observer.observe(card);
-      }
-
-      // Carousel flip
-      const carouselEl = document.getElementById('calliCarousel');
-      if (carouselEl) {
-        carouselEl.addEventListener('slide.bs.carousel', function(event) {
-          const items = carouselEl.querySelectorAll('.carousel-item');
-
-          // Flip out current slide
-          const currentInner = items[event.from]?.querySelector('.flip-card-inner');
-          if (currentInner) currentInner.style.transform = 'rotateY(180deg)';
-
-          // Flip in next slide after a small delay
-          setTimeout(() => {
-            const nextInner = items[event.to]?.querySelector('.flip-card-inner');
-            if (nextInner) nextInner.style.transform = 'rotateY(0deg)';
-          }, 200);
-        });
       }
     });
   </script>

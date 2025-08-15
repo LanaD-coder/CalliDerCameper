@@ -23,7 +23,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 env = environ.Env()
 environ.Env.read_env(os.path.join(BASE_DIR, '.env'))  # explicitly load .env
 
-DEBUG = env.bool('DEBUG', default=False)
+DEBUG = env.bool('DEBUG', default=True)
 print("DEBUG IS:", DEBUG)
 
 SECRET_KEY = env('DJANGO_SECRET_KEY', default='insecure-development-key')
@@ -188,12 +188,11 @@ MEDIA_ROOT = BASE_DIR / 'media'
 
 
 # allauth settings (optional, but recommended)
-ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_EMAIL_VERIFICATION = "mandatory"
-ACCOUNT_AUTHENTICATION_METHOD = "email"
 ACCOUNT_CONFIRM_EMAIL_ON_GET = True
 ACCOUNT_LOGIN_METHODS = {'username', 'email'}
 ACCOUNT_SIGNUP_FIELDS = ['email*', 'username*', 'password1*', 'password2*']
+
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
 
@@ -210,5 +209,5 @@ VALID_DISCOUNT_CODES = {
     k: Decimal(v) for k, v in json.loads(discount_codes_raw).items()
 }
 
-DEFAULT_FROM_EMAIL = "noreply@example.com"
+DEFAULT_FROM_EMAIL = "abenteuer@callidercamper.de"
 BOOKING_NOTIFICATION_EMAIL = "abenteuer@callidercamper.de"
