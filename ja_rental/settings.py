@@ -108,16 +108,13 @@ AUTHENTICATION_BACKENDS = (
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
+db_url = os.getenv('DATABASE_URL')
+if not db_url:
+    raise RuntimeError("DATABASE_URL environment variable is not set!")
+
 DATABASES = {
-    'default': dj_database_url.config(
-        default=os.getenv('DATABASE_URL'),
-        conn_max_age=600,
-        ssl_require=True
-    )
+    'default': dj_database_url.parse(db_url, conn_max_age=600, ssl_require=True)
 }
-# Explicitly set the ENGINE after parsing - Heroku deploy specs
-if not DATABASES['default'].get('ENGINE'):
-    DATABASES['default']['ENGINE'] = 'django.db.backends.postgresql'
 
 # Password validation
 # https://docs.djangoproject.com/en/5.2/ref/settings/#auth-password-validators
