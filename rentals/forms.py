@@ -49,6 +49,14 @@ class BookingForm(forms.ModelForm):
             self.fields['primary_driver_name'].initial = self.user.get_full_name() or self.user.username
 
     def clean(self):
+        cleaned_data = super().clean()
+        discount_code = cleaned_data.get("discount_code")
+
+         # Remove deposit if a discount code is provided
+        if discount_code:
+            cleaned_data['deposit'] = False
+            cleaned_data['deposit_hidden'] = False
+
         return super().clean()
 
     def save(self, commit=True):
