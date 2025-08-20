@@ -23,7 +23,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 env = environ.Env()
 environ.Env.read_env(os.path.join(BASE_DIR, '.env'))  # explicitly load .env
 
-DEBUG = env.bool('DEBUG', default=True)
+DEBUG = env.bool('DEBUG', default=False)
 print("DEBUG IS:", DEBUG)
 
 SECRET_KEY = env('DJANGO_SECRET_KEY', default='insecure-development-key')
@@ -31,6 +31,7 @@ SECRET_KEY = env('DJANGO_SECRET_KEY', default='insecure-development-key')
 # STRIPE Keys
 STRIPE_SECRET_KEY = env("STRIPE_SECRET_KEY")
 STRIPE_PUBLISHABLE_KEY = env("STRIPE_PUBLISHABLE_KEY")
+STRIPE_MWST_TAX_RATE_ID = env("STRIPE_MWST_TAX_RATE_ID")
 
 WEBHOOK_URL = "https://yourdomain.com/webhook/stripe/"
 

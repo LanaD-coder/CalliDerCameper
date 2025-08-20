@@ -154,8 +154,11 @@
       <p><strong>{% trans "Base price:" %}</strong> <span id="summary-base-price">--</span> €</p>
       <p><strong>{% trans "Additional services:" %}</strong> <span id="summary-services-price">--</span> €</p>
       <p><strong>{% trans "Deposit:" %}</strong> <span id="summary-deposit-price">1000</span> €</p>
-      <p><strong>{% trans "Grand total:" %}</strong> <span id="summary-grand-total">--</span> €</p>
 
+      <!-- NEW VAT DISPLAY -->
+      <p><strong>{% trans "MwSt (19%):" %}</strong> <span id="summary-vat">--</span> €</p>
+
+      <p><strong>{% trans "Grand total incl. MwSt:" %}</strong> <span id="summary-grand-total">--</span> €</p>
     </fieldset>
 
     <input type="hidden" name="status" value="active">

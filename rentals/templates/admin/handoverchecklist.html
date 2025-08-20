@@ -1,15 +1,15 @@
 {% extends 'base.html' %}
-{% load static i18n %}
+{% load static %}
 {% load widget_tweaks %}
 
 {% block content %}
 <section id="handoverchecklist_style" class="max-w-4xl mx-auto px-4 py-6">
-  <h1 class="text-2xl font-bold mb-6">{% trans "Handover Checklist" %}</h1>
+  <h1 class="text-2xl font-bold mb-6">Übergabe-Checkliste</h1>
 
   <form method="post" enctype="multipart/form-data" class="space-y-6">
     {% csrf_token %}
 
-    <!-- Two-column grid for most fields -->
+    <!-- Zweispaltiges Grid für die meisten Felder -->
     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
       {% for field in form %}
         {% if field.name != 'signature_data' and field.name != 'customer_signature' %}
@@ -27,31 +27,31 @@
       {% endfor %}
     </div>
 
-    <!-- Signature area -->
+    <!-- Unterschriftsbereich -->
     <hr class="my-6">
     <div>
-      <label class="block font-semibold mb-2">{% trans "Customer Signature:" %}</label>
+      <label class="block font-semibold mb-2">Kundenunterschrift:</label>
 
       {% if form.instance.customer_signature %}
         <div class="mb-4">
-          <strong>{% trans "Existing Signature:" %}</strong><br>
+          <strong>Bestehende Unterschrift:</strong><br>
           <img src="{{ form.instance.customer_signature.url }}"
-              alt="{% trans 'Customer Signature' %}"
+              alt="Kundenunterschrift"
               class="border max-w-full h-auto">
         </div>
       {% endif %}
 
       <canvas id="signature-canvas" width="400" height="150" class="border mb-2"></canvas><br>
-      <button type="button" id="clear-signature" class="px-3 py-1 bg-red-500 text-white rounded">{% trans "Clear Signature" %}</button>
+      <button type="button" id="clear-signature" class="px-3 py-1 bg-red-500 text-white rounded">Unterschrift löschen</button>
       {{ form.signature_data }}
     </div>
 
-    <!-- Actions -->
+    <!-- Aktionen -->
     <hr class="my-6" />
     <div class="flex flex-wrap gap-4 mt-4">
-      <button type="submit" class="btn">{% trans "Save Checklist" %}</button>
+      <button type="submit" class="btn">Checkliste speichern</button>
       <button onclick="window.print()" type="button" class="btn">
-        🖨️ {% trans "Print Booking" %}
+        🖨️ Buchung drucken
       </button>
     </div>
   </form>

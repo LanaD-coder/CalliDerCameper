@@ -48,26 +48,42 @@ function calculateBaseRentalCost(datePrices) {
 }
 
 function calculateSummary(base, additionalServicePrices) {
+  base = parseFloat(base) || 0;
+
   const additionalServiceCheckboxes = document.querySelectorAll(
     'input[name="additional_services"]'
   );
 
   let servicesTotal = 0;
-
   additionalServiceCheckboxes.forEach((cb) => {
     if (cb.checked) {
-      servicesTotal += additionalServicePrices[cb.value] || 0;
+      servicesTotal += parseFloat(additionalServicePrices[cb.value]) || 0;
     }
   });
 
-  const grandTotal = base + servicesTotal + 1000;
+  const subtotal = base + servicesTotal;
+  const vatAmount = Math.round(subtotal * 0.19 * 100) / 100 || 0;
+
+  const deposit = 1000;
+  const grandTotal = Math.round((subtotal + vatAmount + deposit) * 100) / 100;
+
+  console.log(
+    "Base:",
+    base,
+    "Services:",
+    servicesTotal,
+    "Subtotal:",
+    subtotal,
+    "VAT:",
+    vatAmount
+  );
 
   document.getElementById("summary-base-price").textContent = base.toFixed(2);
-  document.getElementById("summary-deposit-price").textContent = (1000).toFixed(
-    2
-  );
   document.getElementById("summary-services-price").textContent =
     servicesTotal.toFixed(2);
+  document.getElementById("summary-vat").textContent = vatAmount.toFixed(2);
+  document.getElementById("summary-deposit-price").textContent =
+    deposit.toFixed(2);
   document.getElementById("summary-grand-total").textContent =
     grandTotal.toFixed(2);
 }

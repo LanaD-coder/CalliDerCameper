@@ -1,44 +1,43 @@
 {% extends "base.html" %}
-{% load i18n %}
 
 {% block content %}
 <section id="booking_admin_section" class="form-section">
-  <h2>{% trans "Edit Booking" %}</h2>
+  <h2>Buchung bearbeiten</h2>
 
   <div class="booking-info">
-    <p><strong>{% trans "Booking Number:" %}</strong> {{ booking.booking_number }}</p>
-    <p><strong>{% trans "Campervan:" %}</strong> {{ booking.campervan.name }}</p>
-    <p><strong>{% trans "Start Date:" %}</strong> {{ booking.start_date }}</p>
-    <p><strong>{% trans "End Date:" %}</strong> {{ booking.end_date }}</p>
-    <p><strong>{% trans "Total Price:" %}</strong> €{{ booking.total_price }}</p>
-    <p><strong>{% trans "Status:" %}</strong> {{ booking.status }}</p>
-    <p><strong>{% trans "Payment Status:" %}</strong> {{ booking.payment_status }}</p>
+    <p><strong>Buchungsnummer:</strong> {{ booking.booking_number }}</p>
+    <p><strong>Campervan:</strong> {{ booking.campervan.name }}</p>
+    <p><strong>Startdatum:</strong> {{ booking.start_date }}</p>
+    <p><strong>Enddatum:</strong> {{ booking.end_date }}</p>
+    <p><strong>Gesamtpreis:</strong> €{{ booking.total_price }}</p>
+    <p><strong>Status:</strong> {{ booking.status }}</p>
+    <p><strong>Zahlungsstatus:</strong> {{ booking.payment_status }}</p>
   </div>
 
   <hr>
 
-  <h3>{% trans "Primary Driver Details" %}</h3>
-  <p><strong>{% trans "Name:" %}</strong> {{ booking.primary_driver_name }}</p>
-  <p><strong>{% trans "Street:" %}</strong> {{ booking.primary_driver_street_name }} {{ booking.primary_driver_street_number }}</p>
-  <p><strong>{% trans "Postal Code:" %}</strong> {{ booking.primary_driver_postal_code }}</p>
-  <p><strong>{% trans "Town:" %}</strong> {{ booking.primary_driver_town }}</p>
-  <p><strong>{% trans "Country:" %}</strong> {{ booking.primary_driver_country }}</p>
+  <h3>Details Hauptfahrer</h3>
+  <p><strong>Name:</strong> {{ booking.primary_driver_name }}</p>
+  <p><strong>Straße:</strong> {{ booking.primary_driver_street_name }} {{ booking.primary_driver_street_number }}</p>
+  <p><strong>PLZ:</strong> {{ booking.primary_driver_postal_code }}</p>
+  <p><strong>Ort:</strong> {{ booking.primary_driver_town }}</p>
+  <p><strong>Land:</strong> {{ booking.primary_driver_country }}</p>
 
   {% if booking.additional_driver_name %}
     <hr>
-    <h3>{% trans "Additional Driver Details" %}</h3>
-    <p><strong>{% trans "Name:" %}</strong> {{ booking.additional_driver_name }}</p>
-    <p><strong>{% trans "Email:" %}</strong> {{ booking.additional_driver_email }}</p>
-    <p><strong>{% trans "Contact Number:" %}</strong> {{ booking.additional_driver_contact_number }}</p>
-    <p><strong>{% trans "Street:" %}</strong> {{ booking.additional_driver_street }}</p>
-    <p><strong>{% trans "Postal Code:" %}</strong> {{ booking.additional_driver_postal_code }}</p>
-    <p><strong>{% trans "Town:" %}</strong> {{ booking.additional_driver_town }}</p>
-    <p><strong>{% trans "Country:" %}</strong> {{ booking.additional_driver_country }}</p>
+    <h3>Details Zusatzfahrer</h3>
+    <p><strong>Name:</strong> {{ booking.additional_driver_name }}</p>
+    <p><strong>E-Mail:</strong> {{ booking.additional_driver_email }}</p>
+    <p><strong>Telefonnummer:</strong> {{ booking.additional_driver_contact_number }}</p>
+    <p><strong>Straße:</strong> {{ booking.additional_driver_street }}</p>
+    <p><strong>PLZ:</strong> {{ booking.additional_driver_postal_code }}</p>
+    <p><strong>Ort:</strong> {{ booking.additional_driver_town }}</p>
+    <p><strong>Land:</strong> {{ booking.additional_driver_country }}</p>
   {% endif %}
 
   <hr>
 
-  <h3>{% trans "Additional Services" %}</h3>
+  <h3>Zusatzleistungen</h3>
   {% if booking.additional_services.all %}
     <ul>
       {% for service in booking.additional_services.all %}
@@ -46,30 +45,30 @@
       {% endfor %}
     </ul>
   {% else %}
-    <p>{% trans "No additional services selected." %}</p>
+    <p>Keine Zusatzleistungen ausgewählt.</p>
   {% endif %}
 
   <hr>
 
-  <h3>{% trans "Checklists" %}</h3>
+  <h3>Checklisten</h3>
 
   <p>
-    Pickup Checklist:
+    Übergabe-Checkliste:
     {% if handover_checklist %}
-        ✅ <a href="{% url 'checklist_detail' handover_checklist.pk %}">View</a> |
-        <a href="{% url 'checklist_pdf' handover_checklist.pk %}" target="_blank">Download PDF</a>
+        ✅ <a href="{% url 'checklist_detail' handover_checklist.pk %}">Ansehen</a> |
+        <a href="{% url 'checklist_pdf' handover_checklist.pk %}" target="_blank">PDF herunterladen</a>
     {% else %}
-        ❌ <a href="{% url 'handover_checklist' booking.booking_number %}">Create</a>
+        ❌ <a href="{% url 'handover_checklist' booking.booking_number %}">Erstellen</a>
     {% endif %}
   </p>
 
   <p>
-      Return Checklist:
+      Rückgabe-Checkliste:
       {% if return_checklist %}
-          ✅ <a href="{% url 'checklist_detail' return_checklist.pk %}">View</a> |
-          <a href="{% url 'checklist_pdf' return_checklist.pk %}" target="_blank">Download PDF</a>
+          ✅ <a href="{% url 'checklist_detail' return_checklist.pk %}">Ansehen</a> |
+          <a href="{% url 'checklist_pdf' return_checklist.pk %}" target="_blank">PDF herunterladen</a>
       {% else %}
-          ❌ <a href="{% url 'return_checklist' booking.booking_number %}">Create</a>
+          ❌ <a href="{% url 'return_checklist' booking.booking_number %}">Erstellen</a>
       {% endif %}
   </p>
   <hr>
@@ -77,9 +76,9 @@
   <form method="POST" action="{% url 'booking_edit' booking.pk %}">
     {% csrf_token %}
     {{ form.as_p }}
-    <button type="submit" id="save-btn">{% trans "Save Changes" %}</button>
+    <button type="submit" id="save-btn">Änderungen speichern</button>
   </form>
   <hr>
-  <button onclick="window.print()" class="btn" id="print-btn">🖨️ Print Booking</button>
+  <button onclick="window.print()" class="btn" id="print-btn">🖨️ Buchung drucken</button>
 </section>
 {% endblock %}

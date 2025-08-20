@@ -1,32 +1,33 @@
 {% load i18n %}
 
-{% trans "New Booking Received" %}
+Neue Buchung eingegangen
 
-{% trans "Booking Number:" %} {{ booking.booking_number }}
+Buchungsnummer: {{ booking.booking_number }}
 
-{% trans "Campervan:" %} {{ booking.campervan.name }}
+Campervan: {{ booking.campervan.name }}
 
-{% trans "Customer:" %} {{ user.get_full_name }} ({{ user.email }})
+Kunde: {{ user.get_full_name }} ({{ user.email }})
 
-{% trans "Start Date:" %} {{ booking.start_date }}
+Startdatum: {{ booking.start_date }}
 
-{% trans "End Date:" %} {{ booking.end_date }}
+Enddatum: {{ booking.end_date }}
 
-{% trans "Total Price:" %} €{{ total_price }}
+Zwischensumme (Campervan + Zusatzleistungen): €{{ taxable_subtotal }}
 
-{% trans "Payment Reference:" %} {{ payment_reference }}
+Mehrwertsteuer (MwSt): €{{ vat_amount }}
 
-{% trans "Additional Services:" %}
+Gesamtpreis inkl. MwSt: €{{ total_price }}
 
+Zahlungsreferenz: {{ payment_reference }}
+
+Zusatzleistungen:
 {% for service in booking.additional_services.all %}
 - {{ service.name }} - €{{ service.price }}
 {% empty %}
-- {% trans "No additional services selected." %}
+- Keine Zusatzleistungen ausgewählt.
 {% endfor %}
 
-<p>
-  {% trans "View in Admin Dashboard:" %}
-  <a href="{{ admin_booking_url }}" target="_blank" rel="noopener noreferrer">
-</p>
+Im Admin-Dashboard anzeigen:
+<a href="{{ admin_booking_url }}" target="_blank" rel="noopener noreferrer">{{ admin_booking_url }}</a>
 
-{% trans "This is an automated notification. No reply is necessary." %}
+Dies ist eine automatische Benachrichtigung. Bitte nicht antworten.

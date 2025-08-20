@@ -126,3 +126,20 @@ def webhook_receiver(request):
                 return JsonResponse({'error': 'Booking not found'}, status=404)
 
     return JsonResponse({"status": "success"})
+
+
+def retry_payment(request, booking_number):
+    booking = get_object_or_404(Booking, booking_number=booking_number)
+
+    # Only allow retry if payment is not completed
+    if booking.payment_status == 'completed':
+        # redirect to some info page
+        return redirect('payment_already_done')
+
+    # Otherwise, redirect to a fresh payment page
+    return redirect('payment_page', booking_number=booking.booking_number)
+
+def payment_cancel(request):
+    # Example: get the booking_number from session, request, or context
+    booking_number = request.GET.get('booking_number')  # or wherever it comes from
+    return render(request, 'accounts/cancel.html', {'booking_number': booking_number})

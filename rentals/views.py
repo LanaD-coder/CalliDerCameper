@@ -176,82 +176,133 @@ def create_booking_ajax(request, pk):
     if not form.is_valid():
         return JsonResponse({'errors': form.errors}, status=400)
 
+    start_date = form.cleaned_data['start_date']
+    end_date = form.cleaned_data['end_date']
+
+    # Check for overlapping bookings
+    existing_booking = Booking.objects.filter(
+        campervan=campervan,
+        primary_driver=request.user,
+        status__in=['pending', 'active'],
+        start_date__lte=end_date,
+        end_date__gte=start_date
+    ).first()
+
+    if existing_booking:
+        # Return existing booking session if it exists
+        try:
+            success_url = "{}?session_id={{CHECKOUT_SESSION_ID}}&booking={}".format(
+                request.build_absolute_uri('/accounts/payment-success/'),
+                existing_booking.booking_number
+            )
+            checkout_session = stripe.checkout.Session.create(
+                payment_method_types=['card'],
+                line_items=[],  # You can fill with same line_items calculation as below
+                mode='payment',
+                success_url=success_url,
+                cancel_url=request.build_absolute_uri('/accounts/payment-cancel/'),
+                metadata={'booking_number': existing_booking.booking_number}
+            )
+            return JsonResponse({'session_id': checkout_session.id})
+        except Exception as e:
+            return JsonResponse({'error': f'Error creating Stripe session: {str(e)}'}, status=500)
+
+    # Create new booking object but do NOT mark active yet
     booking = form.save(commit=False)
     booking.campervan = campervan
     booking.primary_driver = request.user
     booking.payment_status = 'pending'
-    booking.status = 'active'
     booking.save()
     form.save_m2m()
+    deposit = Decimal('1000.00')
+    subtotal = sum(Decimal(service.price) for service in booking.additional_services.all())
 
-    VALID_DISCOUNT_CODES = settings.VALID_DISCOUNT_CODES
-
-    discount_code_str = form.cleaned_data.get('discount_code')
-    discount_obj = None
+    # Calculate taxable subtotal from daily rates
+    taxable_subtotal = Decimal('0.00')
+    days = (end_date - start_date).days + 1
+    for i in range(days):
+        rate = campervan.get_rate_for_date(start_date + timedelta(days=i))
+        taxable_subtotal += Decimal(rate)
 
     deposit = Decimal('1000.00')
-    subtotal = Decimal('0.00')
 
-    # Calculate subtotal from additional services
-    for service in booking.additional_services.all():
-        subtotal += Decimal(service.price)
+    total_before_discount = taxable_subtotal + subtotal + deposit
 
-    # Calculate subtotal from daily rates
-    days = (booking.end_date - booking.start_date).days + 1
-    for i in range(days):
-        rate = campervan.get_rate_for_date(booking.start_date + timedelta(days=i))
-        subtotal += Decimal(rate)
-
-    # Add deposit always
-    subtotal += deposit
-
+    # Handle discount codes gracefully
+    discount_code_str = form.cleaned_data.get('discount_code')
     discount_amount = Decimal('0.00')
+    discount_obj = None
+
+    VALID_DISCOUNT_CODES = getattr(settings, "VALID_DISCOUNT_CODES", {})
 
     if discount_code_str:
         code_upper = discount_code_str.strip().upper()
-        if code_upper not in VALID_DISCOUNT_CODES:
-            return JsonResponse({'errors': {'discount_code': ['Invalid discount code']}}, status=400)
-        discount_percentage = VALID_DISCOUNT_CODES[code_upper]
-        discount_amount = subtotal * (discount_percentage / Decimal('100'))
+        if code_upper in VALID_DISCOUNT_CODES:
+            discount_percentage = VALID_DISCOUNT_CODES[code_upper]
+            discount_amount = total_before_discount * (discount_percentage / Decimal('100'))
 
-        try:
-            discount_obj = DiscountCode.objects.get(code=code_upper)
-        except DiscountCode.DoesNotExist:
-            discount_obj = None
+            try:
+                discount_obj = DiscountCode.objects.get(code=code_upper)
+            except DiscountCode.DoesNotExist:
+                discount_obj = None
 
-    grand_total = max(Decimal('0.00'), subtotal - discount_amount)
+    total_after_discount = max(Decimal('0.00'), total_before_discount - discount_amount)
 
-    booking.total_price = grand_total
+    booking.total_price = total_after_discount
     booking.discount_code = discount_obj
     booking.save()
+    form.save_m2m()
 
     if discount_obj:
         discount_obj.used_count += 1
         discount_obj.save()
 
+    # Create Stripe session
     try:
-        base_url = request.build_absolute_uri('/accounts/payment-success/')
-        success_url = "{}?session_id={{CHECKOUT_SESSION_ID}}&booking={}".format(base_url, booking.booking_number)
-        print(f"Success URL: {success_url}")
+        success_url = "{}?session_id={{CHECKOUT_SESSION_ID}}&booking={}".format(
+            request.build_absolute_uri('/accounts/payment-success/'),
+            booking.booking_number
+        )
 
-        checkout_session = stripe.checkout.Session.create(
-            payment_method_types=['card'],
-            line_items=[{
+        line_items = [
+            {
                 'price_data': {
                     'currency': 'eur',
                     'product_data': {
                         'name': f'Booking {booking.booking_number} - {campervan.name}',
                     },
-                    'unit_amount': int(grand_total * 100),
+                    'unit_amount': max(0, int((taxable_subtotal + subtotal - discount_amount) * 100)),
                 },
                 'quantity': 1,
-            }],
+                'tax_rates': [settings.STRIPE_MWST_TAX_RATE_ID],
+            },
+            {
+                'price_data': {
+                    'currency': 'eur',
+                    'product_data': {
+                        'name': 'Kaution (Deposit)',
+                    },
+                    'unit_amount': int(deposit * 100),
+                },
+                'quantity': 1,  # no tax on deposit
+            }
+        ]
+
+        checkout_session = stripe.checkout.Session.create(
+            payment_method_types=['card'],
+            line_items=line_items,
             mode='payment',
             success_url=success_url,
             cancel_url=request.build_absolute_uri('/accounts/payment-cancel/'),
             metadata={'booking_number': booking.booking_number}
         )
+
+        # Only mark booking as active after Stripe session creation succeeds
+        booking.status = 'active'
+        booking.save()
+
         return JsonResponse({'session_id': checkout_session.id})
+
     except Exception as e:
         return JsonResponse({'error': f'Error creating Stripe session: {str(e)}'}, status=500)
 

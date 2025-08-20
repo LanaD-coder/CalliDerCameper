@@ -1,11 +1,10 @@
 {% extends 'base.html' %}
-{% load static i18n %}
+{% load static %}
 {% load widget_tweaks %}
-
 
 {% block content %}
 <section class="max-w-4xl mx-auto px-4 py-6">
-  <h1 class="text-2xl font-bold mb-6">{% trans "Return Checklist" %}</h1>
+  <h1 class="text-2xl font-bold mb-6">Rückgabe-Checkliste</h1>
 
   <form method="post" enctype="multipart/form-data" class="space-y-6">
     {% csrf_token %}
@@ -31,20 +30,17 @@
       {% endfor %}
     </div>
 
-
-    <!-- Signature section -->
+    <!-- Unterschriftsbereich -->
     <hr class="my-6" />
     <div>
-      <label class="block font-semibold mb-2"
-        >{% trans "Customer Signature:" %}</label
-      >
+      <label class="block font-semibold mb-2">Kundenunterschrift:</label>
 
       {% if form.instance.customer_signature %}
       <div class="mb-4">
-        <strong>{% trans "Existing Signature:" %}</strong><br />
+        <strong>Bestehende Unterschrift:</strong><br />
         <img
           src="{{ form.instance.customer_signature.url }}"
-          alt="{% trans 'Customer Signature' %}"
+          alt="Kundenunterschrift"
           class="border max-w-full h-auto"
         />
       </div>
@@ -55,24 +51,23 @@
         width="400"
         height="150"
         class="border mb-2"
-      ></canvas
-      ><br />
+      ></canvas><br />
       <button
         type="button"
         id="clear-signature"
         class="px-3 py-1 bg-red-500 text-white rounded"
       >
-        {% trans "Clear Signature" %}
+        Unterschrift löschen
       </button>
       {{ form.signature_data }}
     </div>
 
-    <!-- Actions -->
+    <!-- Aktionen -->
     <hr class="my-6" />
     <div class="flex flex-wrap gap-4 mt-4">
-      <button type="submit" class="btn">{% trans "Save Checklist" %}</button>
+      <button type="submit" class="btn">Checkliste speichern</button>
       <button onclick="window.print()" type="button" class="btn">
-        🖨️ {% trans "Print Booking" %}
+        🖨️ Buchung drucken
       </button>
     </div>
   </form>

@@ -1,7 +1,7 @@
 from django.urls import path
 from rentals import views as rentals_views
 from accounts import views as accounts_views
-from .views import webhook_receiver
+from .views import webhook_receiver, retry_payment
 
 urlpatterns = [
     path('', rentals_views.home, name='home'),
@@ -10,4 +10,5 @@ urlpatterns = [
     path('webhook/receiver/', webhook_receiver, name='webhook_receiver'),
     path('payment-success/', rentals_views.payment_success, name='payment-success'),
     path('payment-cancel/', rentals_views.payment_cancel, name='payment-cancel'),
+    path('retry-payment/<str:booking_number>/', retry_payment, name='retry_payment'),
 ]
