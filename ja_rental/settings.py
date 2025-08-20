@@ -108,17 +108,16 @@ AUTHENTICATION_BACKENDS = (
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
-db_url = os.getenv('DATABASE_URL')
-if not db_url:
+DATABASE_URL = os.getenv('DATABASE_URL')
+if not DATABASE_URL:
     raise RuntimeError("DATABASE_URL environment variable is not set!")
 
 DATABASES = {
-    'default': dj_database_url.parse(db_url, conn_max_age=600, ssl_require=True)
+    'default': dj_database_url.parse(DATABASE_URL, conn_max_age=600, ssl_require=True)
 }
 
-# Ensure ENGINE is set explicitly
-if not DATABASES['default'].get('ENGINE'):
-    DATABASES['default']['ENGINE'] = 'django.db.backends.postgresql'
+# Ensure ENGINE is always set
+DATABASES['default'].setdefault('ENGINE', 'django.db.backends.postgresql')
 
 # Password validation
 # https://docs.djangoproject.com/en/5.2/ref/settings/#auth-password-validators
