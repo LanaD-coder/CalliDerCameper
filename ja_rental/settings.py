@@ -107,27 +107,27 @@ AUTHENTICATION_BACKENDS = (
 
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
-
+# Database
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': env('DB_NAME', default=''),
-        'USER': env('DB_USER', default=''),
-        'PASSWORD': env('DB_PASSWORD', default=''),
-        'HOST': env('DB_HOST', default=''),
-        'PORT': env('DB_PORT', default=''),
-    }
-}
-
-# Override with DATABASE_URL if set (Heroku)
-if os.environ.get("DATABASE_URL"):
-    db_from_env = dj_database_url.parse(
-        os.environ.get("DATABASE_URL"),
+    'default': dj_database_url.config(
+        default=env('DATABASE_URL', default=None),
         conn_max_age=600,
         ssl_require=True
     )
-    db_from_env['ENGINE'] = 'django.db.backends.postgresql'
-    DATABASES['default'] = db_from_env
+}
+
+# If DATABASE_URL is not set, fallback to individual DB_* vars
+if not DATABASES['default']:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql',
+            'NAME': env('DB_NAME', default=''),
+            'USER': env('DB_USER', default=''),
+            'PASSWORD': env('DB_PASSWORD', default=''),
+            'HOST': env('DB_HOST', default=''),
+            'PORT': env('DB_PORT', default='5432'),
+        }
+    }
 
 # Password validation
 # https://docs.djangoproject.com/en/5.2/ref/settings/#auth-password-validators

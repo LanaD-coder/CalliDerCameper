@@ -229,11 +229,14 @@ def create_booking_ajax(request, pk):
     total_before_discount = taxable_subtotal + subtotal + deposit
 
     # Handle discount codes gracefully
-    discount_code_str = form.cleaned_data.get('discount_code')
+    discount_code_str = form.cleaned_data.get('id_discount_code')
     discount_amount = Decimal('0.00')
     discount_obj = None
 
-    VALID_DISCOUNT_CODES = getattr(settings, "VALID_DISCOUNT_CODES", {})
+    VALID_DISCOUNT_CODES = {
+        'BLUT': 100,  # Family
+        'WASSER': 100,    # Friends
+        }
 
     if discount_code_str:
         code_upper = discount_code_str.strip().upper()
@@ -275,18 +278,21 @@ def create_booking_ajax(request, pk):
                 },
                 'quantity': 1,
                 'tax_rates': [settings.STRIPE_MWST_TAX_RATE_ID],
-            },
-            {
-                'price_data': {
-                    'currency': 'eur',
-                    'product_data': {
-                        'name': 'Kaution (Deposit)',
-                    },
-                    'unit_amount': int(deposit * 100),
-                },
-                'quantity': 1,  # no tax on deposit
             }
         ]
+
+        # Only add deposit if no discount code
+        if not discount_code_str or discount_code_str.upper() not in VALID_DISCOUNT_CODES:
+            line_items.append(
+                {
+                    'price_data': {
+                        'currency': 'eur',
+                        'product_data': {'name': 'Kaution (Deposit)'},
+                        'unit_amount': int(deposit * 100),
+                    },
+                    'quantity': 1,
+                }
+            )
 
         checkout_session = stripe.checkout.Session.create(
             payment_method_types=['card'],

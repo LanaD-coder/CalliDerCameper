@@ -219,7 +219,7 @@ document.addEventListener('DOMContentLoaded', function() {
 <script>
     {% if messages %}
         {% for message in messages %}
-            toastr.error("{{ message|escapejs }}");
+            toast.error("{{ message|escapejs }}");
         {% endfor %}
     {% endif %}
 </script>
