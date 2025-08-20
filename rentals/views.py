@@ -15,7 +15,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.admin.views.decorators import staff_member_required
 from .forms import BookingForm, HandoverChecklistForm, HandoverPhotoFormSet
 from django.forms import modelformset_factory
-from .models import Campervan, Booking, SeasonalRate
+from .models import Campervan, Booking, SeasonalRate, HandoverPhoto
 from pages.models import CampingDestination
 from accounts.models import DiscountCode
 from django.http import JsonResponse
@@ -675,7 +675,9 @@ def checklist_pdf(request, pk):
     context = {'checklist': checklist}
 
     response = HttpResponse(content_type='application/pdf')
-    response['Content-Disposition'] = f'filename=checklist_{checklist.booking.booking_number}.pdf'
+    response['Content-Disposition'] = (
+        f'filename=checklist_{checklist.booking.booking_number}.pdf'
+        )
 
     template = get_template(template_path)
     html = template.render(context)
@@ -684,19 +686,28 @@ def checklist_pdf(request, pk):
     pisa_status = pisa.CreatePDF(html, dest=response)
 
     if pisa_status.err:
-        return HttpResponse('We had some errors with PDF generation <pre>' + html + '</pre>')
+        return HttpResponse(
+            'We had some errors with PDF generation <pre>'
+            + html + '</pre>')
     return response
+
 
 def handover_photo_upload(request):
     if request.method == 'POST':
-        formset = HandoverPhotoFormSet(request.POST, request.FILES, queryset=HandoverPhoto.objects.none())
+        formset = HandoverPhotoFormSet(   # pylint: disable=no-member
+            request.POST, request.FILES,
+            queryset=HandoverPhoto.objects.none()   # pylint: disable=no-member
+            )
         if formset.is_valid():
             formset.save()
             return redirect('success-url')
     else:
-        formset = HandoverPhotoFormSet(queryset=HandoverPhoto.objects.none())
+        formset = HandoverPhotoFormSet(
+            queryset=HandoverPhoto.objects.none()  # pylint: disable=no-member
+            )
 
     return render(request, 'upload.html', {'formset': formset})
+
 
 @staff_member_required
 def save_checklist(request, pk):

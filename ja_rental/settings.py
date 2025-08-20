@@ -116,7 +116,8 @@ DATABASES = {
     )
 }
 # Explicitly set the ENGINE after parsing - Heroku deploy specs
-DATABASES['default']['ENGINE'] = 'django.db.backends.postgresql'
+if not DATABASES['default'].get('ENGINE'):
+    DATABASES['default']['ENGINE'] = 'django.db.backends.postgresql'
 
 # Password validation
 # https://docs.djangoproject.com/en/5.2/ref/settings/#auth-password-validators
