@@ -110,7 +110,7 @@ AUTHENTICATION_BACKENDS = (
 # Database
 DATABASES = {
     'default': dj_database_url.config(
-        default=env('DATABASE_URL', default=None),
+        default=env('NEON_DATABASE_URL', default=None),
         conn_max_age=600,
         ssl_require=True
     )
@@ -122,7 +122,7 @@ if not DATABASES['default']:
         'default': {
             'ENGINE': 'django.db.backends.postgresql',
             'NAME': env('DB_NAME', default=''),
-            'USER': env('DB_USER', default=''),
+            'USER': env('PGUSER', default=''),
             'PASSWORD': env('DB_PASSWORD', default=''),
             'HOST': env('DB_HOST', default=''),
             'PORT': env('DB_PORT', default='5432'),
