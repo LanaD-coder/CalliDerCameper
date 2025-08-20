@@ -110,7 +110,7 @@ AUTHENTICATION_BACKENDS = (
 
 DATABASES = {
     'default': dj_database_url.config(
-        default='postgres://localhost/ja_rental',
+        default='postgresql://localhost/ja_rental',
         conn_max_age=600,
         ssl_require=not DEBUG
     )
