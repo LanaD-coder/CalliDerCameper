@@ -10,6 +10,8 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 import os
+from dotenv import load_dotenv
+from urllib.parse import urlparse, parse_qsl
 import json
 from decimal import Decimal
 from pathlib import Path
@@ -17,6 +19,8 @@ import environ
 import dj_database_url
 from django.utils.translation import gettext_lazy as _
 import cloudinary
+
+load_dotenv()
 
 # Set up environment variables
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -108,26 +112,22 @@ AUTHENTICATION_BACKENDS = (
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 # Database
-DATABASES = {
-    'default': dj_database_url.config(
-        default=env('NEON_DATABASE_URL', default=None),
-        conn_max_age=600,
-        ssl_require=True
-    )
-}
+tmpPostgres = urlparse(os.getenv("DATABASE_URL"))
 
-# If DATABASE_URL is not set, fallback to individual DB_* vars
-if not DATABASES['default']:
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.postgresql',
-            'NAME': env('DB_NAME', default=''),
-            'USER': env('PGUSER', default=''),
-            'PASSWORD': env('DB_PASSWORD', default=''),
-            'HOST': env('DB_HOST', default=''),
-            'PORT': env('DB_PORT', default='5432'),
-        }
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': tmpPostgres.path.lstrip('/'),
+        'USER': tmpPostgres.username,
+        'PASSWORD': tmpPostgres.password,
+        'HOST': tmpPostgres.hostname,
+        'PORT': tmpPostgres.port or 5432,
+        'OPTIONS': {
+            **dict(parse_qsl(tmpPostgres.query)),
+            'sslmode': 'require',  # force SSL
+        },
     }
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/5.2/ref/settings/#auth-password-validators
