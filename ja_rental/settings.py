@@ -109,18 +109,15 @@ AUTHENTICATION_BACKENDS = (
 )
 
 
-# Database
-DATABASE_URL = os.getenv('DATABASE_URL')
+# Only use Heroku Postgres
+DATABASE_URL = os.environ.get('DATABASE_URL')
 
-DATABASES = {
-    'default': dj_database_url.config(
-        default=os.getenv('DATABASE_URL'),
-        conn_max_age=600,
-        ssl_require=True
-    )
-}
+if DATABASE_URL:
+    DATABASES = {
+        'default': dj_database_url.parse(DATABASE_URL, conn_max_age=600, ssl_require=True)
+    }
 else:
-    # Local development fallback
+    # fallback to SQLite for local development
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.sqlite3',
