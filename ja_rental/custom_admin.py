@@ -11,7 +11,7 @@ from rentals.models import (
 )
 from rentals.admin import BookingAdmin
 from pages.models import ContactMessage, FAQ, CampingDestination
-from accounts.models import UserProfile, DiscountCode
+from accounts.models import UserProfile
 
 
 class CustomAdminSite(AdminSite):
@@ -58,4 +58,3 @@ custom_admin_site.register(ContactMessage)
 custom_admin_site.register(FAQ)
 custom_admin_site.register(CampingDestination)
 custom_admin_site.register(UserProfile)
-custom_admin_site.register(DiscountCode)

@@ -26,4 +26,59 @@
     </div>
   </div>
 </section>
+
+<section id="blocked_dates" class="form-section">
+  <h2>Neues gesperrtes Datum hinzufügen</h2>
+  <form method="post" action="{% url 'booking_list' %}" class="flex space-x-2 mt-2">
+    {% csrf_token %}
+    <div>
+      {{ blocked_date_form.start_date.label_tag }}
+      {{ blocked_date_form.start_date }}
+    </div>
+    <div>
+      {{ blocked_date_form.end_date.label_tag }}
+      {{ blocked_date_form.end_date }}
+    </div>
+    <div>
+      {{ blocked_date_form.note.label_tag }}
+      {{ blocked_date_form.note }}
+    </div>
+    <div>
+      <button type="submit" class="btn" style="background-color: #0DC1bf; color: white;">Speichern</button>
+    </div>
+  </form>
+
+  <h2 class="mt-6">Gesperrte Daten</h2>
+  <table class="min-w-full border border-gray-200 mt-2">
+    <thead>
+      <tr class="bg-gray-100">
+        <th class="px-4 py-2">Startdatum</th>
+        <th class="px-4 py-2">Enddatum</th>
+        <th class="px-4 py-2">Notiz</th>
+        <th class="px-4 py-2">Erstellt am</th>
+        <th class="px-4 py-2">Aktionen</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for bd in blocked_dates %}
+      <tr class="border-t">
+        <td class="px-4 py-2">{{ bd.start_date }}</td>
+        <td class="px-4 py-2">{{ bd.end_date }}</td>
+        <td class="px-4 py-2">{{ bd.note }}</td>
+        <td class="px-4 py-2">{{ bd.created_at|date:"Y-m-d H:i" }}</td>
+        <td class="px-4 py-2">
+          <a href="{% url 'blocked_date_edit' bd.pk %}" class="text-blue-600 hover:underline">Bearbeiten</a> |
+          <a href="{% url 'blocked_date_delete' bd.pk %}"
+             onclick="return confirm('Sind Sie sicher, dass Sie dieses gesperrte Datum löschen möchten?');"
+             class="text-red-600 hover:underline">Löschen</a>
+        </td>
+      </tr>
+      {% empty %}
+      <tr>
+        <td colspan="5" class="px-4 py-2 text-center text-gray-500">Noch keine gesperrten Daten.</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</section>
 {% endblock %}

@@ -525,7 +525,8 @@ textarea {
 #daten-section,
 #booking_admin_section,
 #booking_list,
-#handoverchecklist_style {
+#handoverchecklist_style,
+#blocked_dates {
   background: rgba(255, 255, 255, 0.9);
   padding: 2rem;
   max-width: 600px;

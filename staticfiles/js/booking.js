@@ -1,23 +1,18 @@
 // booking.js
 
-function toggleAdditionalDriverFields() {
+document.addEventListener("DOMContentLoaded", () => {
   const yesRadio = document.getElementById("add_driver_yes");
   const noRadio = document.getElementById("add_driver_no");
-  const additionalFields = document.getElementById("additional-driver-fields");
 
-  if (yesRadio.checked) {
-    additionalFields.style.display = "block";
-  } else {
-    additionalFields.style.display = "none";
-    additionalFields
-      .querySelectorAll("input")
-      .forEach((input) => (input.value = ""));
+  // Only attach if the elements exist
+  if (yesRadio && noRadio) {
+    yesRadio.addEventListener("change", toggleAdditionalDriverFields);
+    noRadio.addEventListener("change", toggleAdditionalDriverFields);
   }
-}
 
-window.bookingBasePrice = base;
-window.bookingServicesPrice = servicesTotal;
-
+  // Set initial visibility
+  toggleAdditionalDriverFields();
+});
 function calculateBaseRentalCost(datePrices) {
   console.log("Calculating base rental cost, datePrices:", datePrices);
   const startDateInput = document.getElementById("id_start_date");
@@ -69,24 +64,6 @@ function calculateSummary(base, additionalServicePrices) {
   const deposit = 1000;
   const grandTotal = Math.round((subtotal + vatAmount + deposit) * 100) / 100;
 
-  // Store for discount code logic
-  window.bookingBasePrice = base;
-  window.bookingServicesPrice = servicesTotal;
-  window.bookingDeposit = deposit;
-  window.bookingVAT = vatAmount;
-  window.bookingGrandTotal = grandTotal;
-
-  console.log(
-    "Base:",
-    base,
-    "Services:",
-    servicesTotal,
-    "Subtotal:",
-    subtotal,
-    "VAT:",
-    vatAmount
-  );
-
   document.getElementById("summary-base-price").textContent = base.toFixed(2);
   document.getElementById("summary-services-price").textContent =
     servicesTotal.toFixed(2);
@@ -95,49 +72,7 @@ function calculateSummary(base, additionalServicePrices) {
     deposit.toFixed(2);
   document.getElementById("summary-grand-total").textContent =
     grandTotal.toFixed(2);
-
-  // **Apply discount if any code is present**
-  updateSummaryWithDiscount();
 }
-
-const VALID_DISCOUNT_CODES = {
-  BLUT: 100, // Family
-  WASSER: 100, // Friends
-};
-
-function updateSummaryWithDiscount() {
-  const basePrice = window.bookingBasePrice || 0;
-  const servicesPrice = window.bookingServicesPrice || 0;
-  const deposit = window.bookingDeposit || 0;
-
-  // total that can be discounted
-  const discountable = basePrice + servicesPrice;
-
-  // check discount code
-  let discountPercent = VALID_DISCOUNT_CODES[code] || 0;
-  let discountAmount = discountable * (discountPercent / 100);
-
-  // calculate VAT on discounted amount
-  const vat = Math.round((discountable - discountAmount) * 0.19 * 100) / 100;
-
-  // final total
-  const grandTotal =
-    Math.round((discountable - discountAmount + vat + deposit) * 100) / 100;
-
-  // Update summary in the DOM
-  document.getElementById("summary-base-price").textContent =
-    basePrice.toFixed(2);
-  document.getElementById("summary-services-price").textContent =
-    servicesPrice.toFixed(2);
-  document.getElementById("summary-vat").textContent = vat.toFixed(2);
-  document.getElementById("summary-deposit-price").textContent =
-    deposit.toFixed(2);
-  document.getElementById("summary-grand-total").textContent =
-    grandTotal.toFixed(2);
-}
-
-const discountInput = document.getElementById("id_discount_code");
-discountInput.addEventListener("input", updateSummaryWithDiscount);
 
 function getCookie(name) {
   const cookie = document.cookie
@@ -201,14 +136,14 @@ async function fetchBookedDates() {
       headers: { "X-CSRFToken": getCookie("csrftoken") },
     });
     const data = await response.json();
-    return data.booked_dates || [];
+    return (data.booked_dates || []).map((d) => d.date);
   } catch (error) {
     console.error("Error fetching booked dates:", error);
     return [];
   }
 }
 
-async function refreshDatepickers() {
+async function refreshDatepickers(datePrices, additionalServicePrices) {
   const bookedDates = await fetchBookedDates();
 
   // Destroy previous datepickers
@@ -223,7 +158,7 @@ async function refreshDatepickers() {
       todayHighlight: true,
     })
     .off("changeDate")
-    .on("changeDate", onDatesChanged);
+    .on("changeDate", onDatesChanged(datePrices, additionalServicePrices));
 }
 
 $(document).ready(function () {});
@@ -309,7 +244,7 @@ export function initBookingForm({
       .on("changeDate", onDatesChanged(datePrices, additionalServicePrices));
   }
 
-  setupDatepickers();
+  await setupDatepickers();
 
   // Toggle additional driver fields on page load and on radio change
   toggleAdditionalDriverFields();

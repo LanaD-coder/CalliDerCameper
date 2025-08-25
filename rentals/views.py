@@ -13,13 +13,12 @@ from django.contrib import messages
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.contrib.admin.views.decorators import staff_member_required
-from .forms import BookingForm, HandoverChecklistForm, HandoverPhotoFormSet
+from .forms import BookingForm, HandoverChecklistForm, HandoverPhotoFormSet, BlockedDateForm
 from django.forms import modelformset_factory
 from .models import Campervan, Booking, SeasonalRate, HandoverPhoto
 from pages.models import CampingDestination
-from accounts.models import DiscountCode
 from django.http import JsonResponse
-from .models import AdditionalService, Booking, HandoverChecklist
+from .models import AdditionalService, Booking, HandoverChecklist, BlockedDate
 from .forms import HandoverChecklistForm
 from django.core.mail import send_mail
 from django.template.loader import render_to_string
@@ -27,6 +26,54 @@ from django.utils.translation import gettext as _
 
 
 stripe.api_key = settings.STRIPE_SECRET_KEY
+
+def booking_page(request, pk):
+    campervan = get_object_or_404(Campervan, pk=pk)
+
+    date_prices = get_date_price_map(years_ahead=5)
+    print("date_prices dict:", date_prices)
+
+    start_date_str = request.GET.get('start_date')
+    end_date_str = request.GET.get('end_date')
+
+    total_price = None
+    subtotal = Decimal('0.00')
+
+    if start_date_str and end_date_str:
+        try:
+            start_date = datetime.strptime(start_date_str, '%Y-%m-%d').date()
+            end_date = datetime.strptime(end_date_str, '%Y-%m-%d').date()
+            if end_date >= start_date:
+                days = (end_date - start_date).days + 1
+                for i in range(days):
+                    key = (start_date + timedelta(days=i)).strftime('%Y-%m-%d')
+                    rate = date_prices.get(key, 0)
+                    subtotal += Decimal(rate)
+                total_price = subtotal
+        except ValueError:
+            pass  # Show blank form with no price if dates invalid
+
+    form = BookingForm(
+        initial={'start_date': start_date_str, 'end_date': end_date_str},
+        user=request.user,
+        campervan=campervan
+    )
+
+    additional_service_prices = {
+        str(service.pk): float(service.price)
+        for service in AdditionalService.objects.all()
+    }
+
+
+    return render(request, 'rentals/booking_form.html', {
+        'form': form,
+        'campervan': campervan,
+        'date_prices': json.dumps(date_prices),
+        'additional_service_prices_json': json.dumps(additional_service_prices),
+        'stripe_public_key': settings.STRIPE_PUBLISHABLE_KEY,
+        'total_price': total_price,
+        'subtotal': subtotal,
+    })
 
 def home(request):
     van = Campervan.objects.first()
@@ -40,6 +87,7 @@ def home(request):
 
     calendar_events = []
 
+    # Booked dates
     for bd in booked_dates:
         calendar_events.append({
             'start': bd['start'],
@@ -50,23 +98,26 @@ def home(request):
             'borderColor': '#dc3545',
         })
 
-    for season in seasonal_rates:
-        year = 2025
-        start_date = date(year, season.start_month, season.start_day)
-        end_date = date(year, season.end_month, season.end_day)
+    # Seasonal rates for current + 5 years
+    today = date.today()
+    years_ahead = 5
+    for year_offset in range(years_ahead + 1):
+        year = today.year + year_offset
+        for season in seasonal_rates:
+            start_date = date(year, season.start_month, season.start_day)
+            end_date = date(year, season.end_month, season.end_day)
+            if end_date < start_date:
+                end_date = date(year + 1, season.end_month, season.end_day)
 
-        if end_date < start_date:
-            end_date = date(year + 1, season.end_month, season.end_day)
+            calendar_events.append({
+                'start': start_date.isoformat(),
+                'end': (end_date + timedelta(days=1)).isoformat(),
+                'display': 'background',
+                'backgroundColor': '#d1ecf1',
+                'borderColor': '#17a2b8',
+            })
 
-        calendar_events.append({
-            'start': start_date.isoformat(),
-            'end': (end_date + timedelta(days=1)).isoformat(),
-            'display': 'background',
-            'backgroundColor': '#d1ecf1',
-            'borderColor': '#17a2b8',
-        })
-
-    date_prices = get_date_price_map()
+    date_prices = get_date_price_map(years_ahead=5)
     images = van.images.all() if van else []
 
     return render(request, 'home.html', {
@@ -78,20 +129,29 @@ def home(request):
     })
 
 
-def get_date_price_map():
+def get_date_price_map(years_ahead=2):
     date_prices = {}
-    year = 2025
+    today = date.today()
+    current_year = today.year
 
     for rate in SeasonalRate.objects.all():
-        start_date = date(year, rate.start_month, rate.start_day)
-        end_date = date(year, rate.end_month, rate.end_day)
-        if end_date < start_date:
-            end_date = date(year + 1, rate.end_month, rate.end_day)
+        for year_offset in range(years_ahead + 1):
+            year = current_year + year_offset
+            try:
+                start_date = date(year, rate.start_month, rate.start_day)
+                end_date = date(year, rate.end_month, rate.end_day)
+                # Handle cross-year seasons
+                if end_date < start_date:
+                    end_date = date(year + 1, rate.end_month, rate.end_day)
 
-        current = start_date
-        while current <= end_date:
-            date_prices[current.strftime('%Y-%m-%d')] = float(rate.rate)
-            current += timedelta(days=1)
+                current = start_date
+                while current <= end_date:
+                    date_prices[current.strftime('%Y-%m-%d')] = float(rate.rate)
+                    current += timedelta(days=1)
+                    print(f"Processed rate {rate.pk}: {start_date} - {end_date} -> {rate.rate}")
+            except Exception as e:
+                print(f"Error processing rate {rate.pk}: {e}")
+                continue
 
     return date_prices
 
@@ -112,50 +172,6 @@ def campervan_detail(request):
 
 
 stripe.api_key = settings.STRIPE_SECRET_KEY
-
-
-def booking_page(request, pk):
-    campervan = get_object_or_404(Campervan, pk=pk)
-
-    start_date_str = request.GET.get('start_date')
-    end_date_str = request.GET.get('end_date')
-
-    total_price = None
-    subtotal = Decimal('0.00')
-
-    if start_date_str and end_date_str:
-        try:
-            start_date = datetime.strptime(start_date_str, '%Y-%m-%d').date()
-            end_date = datetime.strptime(end_date_str, '%Y-%m-%d').date()
-            if end_date >= start_date:
-                days = (end_date - start_date).days + 1
-                for i in range(days):
-                    rate = campervan.get_rate_for_date(start_date + timedelta(days=i))
-                    subtotal += Decimal(rate)
-                total_price = subtotal
-        except ValueError:
-            pass  # Show blank form with no price if dates invalid
-
-    form = BookingForm(
-        initial={'start_date': start_date_str, 'end_date': end_date_str},
-        user=request.user,
-        campervan=campervan
-    )
-
-    additional_service_prices = {
-        str(service.pk): float(service.price)
-        for service in AdditionalService.objects.all()
-    }
-
-    return render(request, 'rentals/booking_form.html', {
-        'form': form,
-        'campervan': campervan,
-        'date_prices_json': json.dumps(get_date_price_map()),
-        'additional_service_prices_json': json.dumps(additional_service_prices),
-        'stripe_public_key': settings.STRIPE_PUBLISHABLE_KEY,
-        'total_price': total_price,
-        'subtotal': subtotal,
-    })
 
 @csrf_exempt
 @login_required(login_url='/account/login/')
@@ -197,7 +213,7 @@ def create_booking_ajax(request, pk):
             )
             checkout_session = stripe.checkout.Session.create(
                 payment_method_types=['card'],
-                line_items=[],  # You can fill with same line_items calculation as below
+                line_items=[],
                 mode='payment',
                 success_url=success_url,
                 cancel_url=request.build_absolute_uri('/accounts/payment-cancel/'),
@@ -214,6 +230,7 @@ def create_booking_ajax(request, pk):
     booking.payment_status = 'pending'
     booking.save()
     form.save_m2m()
+
     deposit = Decimal('1000.00')
     subtotal = sum(Decimal(service.price) for service in booking.additional_services.all())
 
@@ -226,39 +243,11 @@ def create_booking_ajax(request, pk):
 
     deposit = Decimal('1000.00')
 
-    total_before_discount = taxable_subtotal + subtotal + deposit
+    total_price = taxable_subtotal + subtotal + deposit
 
-    # Handle discount codes gracefully
-    discount_code_str = form.cleaned_data.get('id_discount_code')
-    discount_amount = Decimal('0.00')
-    discount_obj = None
-
-    VALID_DISCOUNT_CODES = {
-        'BLUT': 100,  # Family
-        'WASSER': 100,    # Friends
-        }
-
-    if discount_code_str:
-        code_upper = discount_code_str.strip().upper()
-        if code_upper in VALID_DISCOUNT_CODES:
-            discount_percentage = VALID_DISCOUNT_CODES[code_upper]
-            discount_amount = total_before_discount * (discount_percentage / Decimal('100'))
-
-            try:
-                discount_obj = DiscountCode.objects.get(code=code_upper)
-            except DiscountCode.DoesNotExist:
-                discount_obj = None
-
-    total_after_discount = max(Decimal('0.00'), total_before_discount - discount_amount)
-
-    booking.total_price = total_after_discount
-    booking.discount_code = discount_obj
+    booking.total_price = total_price
     booking.save()
     form.save_m2m()
-
-    if discount_obj:
-        discount_obj.used_count += 1
-        discount_obj.save()
 
     # Create Stripe session
     try:
@@ -274,25 +263,20 @@ def create_booking_ajax(request, pk):
                     'product_data': {
                         'name': f'Booking {booking.booking_number} - {campervan.name}',
                     },
-                    'unit_amount': max(0, int((taxable_subtotal + subtotal - discount_amount) * 100)),
+                    'unit_amount': int(taxable_subtotal * 100 + subtotal * 100),
                 },
                 'quantity': 1,
                 'tax_rates': [settings.STRIPE_MWST_TAX_RATE_ID],
+            },
+            {
+                'price_data': {
+                    'currency': 'eur',
+                    'product_data': {'name': 'Kaution (Deposit)'},
+                    'unit_amount': int(deposit * 100),
+                },
+                'quantity': 1,
             }
         ]
-
-        # Only add deposit if no discount code
-        if not discount_code_str or discount_code_str.upper() not in VALID_DISCOUNT_CODES:
-            line_items.append(
-                {
-                    'price_data': {
-                        'currency': 'eur',
-                        'product_data': {'name': 'Kaution (Deposit)'},
-                        'unit_amount': int(deposit * 100),
-                    },
-                    'quantity': 1,
-                }
-            )
 
         checkout_session = stripe.checkout.Session.create(
             payment_method_types=['card'],
@@ -421,13 +405,27 @@ def payment_cancel(request):
 
 
 def booked_dates_api(request):
+    # Fetch all normal bookings
     bookings = Booking.objects.all()
+    # Fetch all manually blocked dates
+    blocked_dates = BlockedDate.objects.all()
+
     dates = []
+
+    # Add booked dates
     for booking in bookings:
         current = booking.start_date
         while current <= booking.end_date:
             dates.append(current.isoformat())
             current += timedelta(days=1)
+
+    # Add manually blocked dates
+    for block in blocked_dates:
+        current = block.start_date
+        while current <= block.end_date:
+            dates.append({'date': current.isoformat(), 'note': block.note or 'Blocked'})
+            current += timedelta(days=1)
+
     return JsonResponse({'booked_dates': dates})
 
 
@@ -522,12 +520,29 @@ def create_handover_checklist(request):
 @staff_member_required
 def booking_list(request):
     bookings = Booking.objects.all()
-    return render(request, 'admin_panel/booking_list.html', {'bookings': bookings})
+    blocked_dates = BlockedDate.objects.all()
+
+    if request.method == "POST":
+        form = BlockedDateForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('booking_list')
+    else:
+        form = BlockedDateForm()
+
+    context = {
+        'bookings': bookings,
+        'blocked_dates': blocked_dates,
+        'blocked_date_form': form,
+    }
+    return render(request, 'admin_panel/booking_list.html', context)
 
 
 @staff_member_required
 def admin_dashboard(request):
     bookings = Booking.objects.all()
+    blocked_dates = BlockedDate.objects.all().order_by('-created_at')
+
     booking_data = []
     for booking in bookings:
         pickup = booking.handover_checklists.filter(checklist_type='pickup').first()
@@ -541,6 +556,7 @@ def admin_dashboard(request):
     context = {
         'total_bookings': bookings.count(),
         'booking_data': booking_data,
+        'blocked_dates': blocked_dates,
     }
     return render(request, 'admin/admin_dashboard.html', context)
 
@@ -621,30 +637,49 @@ def return_checklist(request, booking_number):
 
     # Try to get an existing return checklist
     checklist = booking.handover_checklists.filter(checklist_type='return').first()
-
-    # Get pickup checklist to pre-fill data if no return checklist yet
     handover = booking.handover_checklists.filter(checklist_type='pickup').first()
 
     if request.method == 'POST':
         form = HandoverChecklistForm(request.POST, request.FILES, instance=checklist)
-
         if form.is_valid():
             return_checklist = form.save(commit=False)
             return_checklist.booking = booking
             return_checklist.checklist_type = 'return'
 
-            # Handle base64 signature
+            # Handle signature
             signature_data = request.POST.get('signature_data')
             if signature_data:
                 format, imgstr = signature_data.split(';base64,')
                 ext = format.split('/')[-1]
                 filename = f"return_signature_{booking.booking_number}.{ext}"
-                return_checklist.customer_signature = ContentFile(base64.b64decode(imgstr), name=filename)
+                return_checklist.customer_signature = ContentFile(
+                    base64.b64decode(imgstr),
+                    name=filename
+                )
 
             return_checklist.save()
+            form.save_m2m()
+
+            # ✅ Update booking status to closed
+            booking.status = 'closed'
+            booking.save()
+
+            # ✅ Send thank-you email in German
+            send_mail(
+                subject="Vielen Dank für Ihre Buchung bei Calli!",
+                message=(
+                    f"Liebe/r {booking.primary_driver.get_full_name() or booking.primary_driver.username},\n\n"
+                    "Vielen Dank, dass Sie bei Calli dem Camper gebucht haben! Wir hoffen, Sie hatten einen schönen Urlaub.\n"
+                    "Bis zum nächsten Mal! Sollten Sie Probleme oder Anregungen haben, "
+                    "können Sie uns jederzeit unter abenteuer@callidercamper.de kontaktieren."
+                ),
+                from_email=settings.DEFAULT_FROM_EMAIL,
+                recipient_list=[booking.primary_driver.email],
+                fail_silently=False,
+            )
+
             return redirect('booking_edit', pk=booking.pk)
     else:
-        # Pre-fill from handover if no return checklist exists
         if checklist:
             form = HandoverChecklistForm(instance=checklist)
         elif handover:
@@ -720,10 +755,21 @@ def save_checklist(request, pk):
     checklist = get_object_or_404(HandoverChecklist, pk=pk)
 
     if request.method == 'POST':
-        form = HandoverChecklistForm(request.POST, instance=checklist)
+        form = HandoverChecklistForm(request.POST, request.FILES, instance=checklist)
         if form.is_valid():
-            form.save()
-            messages.success(request, "Checklist updated.")
+            checklist = form.save(commit=False)
+
+            # ✅ Handle base64 signature
+            signature_data = request.POST.get('signature_data')
+            if signature_data:
+                format, imgstr = signature_data.split(';base64,')
+                ext = format.split('/')[-1]  # usually 'png'
+                filename = f"signature_{checklist.booking.booking_number}.{ext}"
+                checklist.customer_signature = ContentFile(base64.b64decode(imgstr), name=filename)
+
+            checklist.save()
+            form.save_m2m()
+            messages.success(request, "Checklist updated with signature.")
             return redirect('checklist_detail', pk=pk)
     else:
         form = HandoverChecklistForm(instance=checklist)
@@ -732,3 +778,34 @@ def save_checklist(request, pk):
         'checklist': checklist,
         'form': form,
     })
+
+@staff_member_required
+def blocked_date_add(request):
+    if request.method == 'POST':
+        form = BlockedDateForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('admin_dashboard')
+    else:
+        form = BlockedDateForm()
+    return render(request, 'admin/blocked_date_form.html', {'form': form})
+
+@staff_member_required
+def blocked_date_edit(request, pk):
+    bd = get_object_or_404(BlockedDate, pk=pk)
+    if request.method == 'POST':
+        form = BlockedDateForm(request.POST, instance=bd)
+        if form.is_valid():
+            form.save()
+            return redirect('admin_dashboard')
+    else:
+        form = BlockedDateForm(instance=bd)
+    return render(request, 'admin/blocked_date_form.html', {'form': form})
+
+@staff_member_required
+def blocked_date_delete(request, pk):
+    bd = get_object_or_404(BlockedDate, pk=pk)
+    if request.method == 'POST':
+        bd.delete()
+        return redirect('admin_dashboard')
+    return render(request, 'admin/blocked_date_confirm_delete.html', {'blocked_date': bd})

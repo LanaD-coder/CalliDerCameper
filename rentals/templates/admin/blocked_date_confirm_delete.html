@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<h1>Blockiertes Datum löschen</h1>
+
+<p>Möchten Sie dieses blockierte Datum wirklich löschen?</p>
+
+<ul>
+    <li><strong>Startdatum:</strong> {{ blocked_date.start_date }}</li>
+    <li><strong>Enddatum:</strong> {{ blocked_date.end_date }}</li>
+    <li><strong>Notiz:</strong> {{ blocked_date.note }}</li>
+    <li><strong>Erstellt am:</strong> {{ blocked_date.created_at|date:"Y-m-d H:i" }}</li>
+</ul>
+
+<form method="post">
+    {% csrf_token %}
+    <button type="submit" class="btn" style="background-color: #dc3545; color: white;">Ja, löschen</button>
+    <a href="{% url 'admin_dashboard' %}" class="btn" style="background-color: #6c757d; color: white;">Abbrechen</a>
+</form>
+{% endblock %}

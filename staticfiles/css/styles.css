@@ -187,6 +187,13 @@ h6 {
   background-color: white;
 }
 
+.carousel-caption {
+  bottom: 20px;
+  background: rgba(110, 218, 217, 0.4);
+  padding: 10px;
+  border-radius: 5px;
+}
+
 .navbar + .banner {
   margin-top: 4rem;
 }
@@ -518,7 +525,8 @@ textarea {
 #daten-section,
 #booking_admin_section,
 #booking_list,
-#handoverchecklist_style {
+#handoverchecklist_style,
+#blocked_dates {
   background: rgba(255, 255, 255, 0.9);
   padding: 2rem;
   max-width: 600px;
@@ -949,6 +957,11 @@ textarea {
     font-size: 2.2rem;
   }
 
+  #camperCarousel .carousel-inner,
+  #camperCarousel .carousel-item img {
+    height: 300px;
+  }
+
   .logo-img {
     bottom: -10vh;
     left: -10vw;
@@ -1065,6 +1078,11 @@ textarea {
 
   .faq-question {
     font-size: 1rem;
+  }
+
+  #camperCarousel .carousel-inner,
+  #camperCarousel .carousel-item img {
+    height: 600px;
   }
 
   .logo-img {

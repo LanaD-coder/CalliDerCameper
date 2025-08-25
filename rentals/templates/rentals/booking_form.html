@@ -40,14 +40,6 @@
       </div>
     </fieldset>
 
-    <!-- Add discount code input here -->
-    <fieldset>
-      <legend>{% trans "Discount Code" %}</legend>
-      <label for="id_discount_code">{% trans "Enter discount code (if any)" %}</label>
-      <input type="text" name="discount_code" id="id_discount_code" value="{{ form.discount_code.value|default_if_none:'' }}">
-      <div class="field-error">{{ form.discount_code.errors }}</div>
-    </fieldset>
-
     <fieldset>
       <legend>{% trans "Primary Driver Details" %}</legend>
       <p class="text-muted small mt-1">
@@ -176,21 +168,18 @@
 
 <div id="form-errors" style="display:none; color:red; margin-top:10px;"></div>
 
-<script src="https://js.stripe.com/v3/"></script>
+<script src="https://js.stripe.com/v3/" defer></script>
 
-<script type="module">
-  import { initBookingForm } from "{% static 'js/booking.js' %}";
-
-  const datePrices = {{ date_prices_json|safe }};
-  console.log('datePrices:', datePrices);
-
-  const additionalServicePrices = {{ additional_service_prices_json|safe }};
-  const ajaxUrl = "{% url 'create_booking_ajax' campervan.pk %}";
-
-  initBookingForm({
-    datePrices,
-    additionalServicePrices,
-    ajaxUrl
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    const datePrices = {{ date_prices|default:"{}"|safe }};
+    console.log("datePrices:", datePrices);
+    const additionalServicePrices = {{ additional_service_prices_json|default:"{}"|safe }};
+    initBookingForm({
+      datePrices: datePrices,
+      additionalServicePrices: additionalServicePrices,
+      ajaxUrl: "{% url 'create_booking_ajax' campervan.pk %}"
+    });
   });
 </script>
 

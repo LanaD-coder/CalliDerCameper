@@ -31,4 +31,9 @@ urlpatterns = [
     path('checklist/<int:pk>/', views.checklist_detail, name='checklist_detail'),
     path('checklist/<int:pk>/pdf/', views.checklist_pdf, name='checklist_pdf'),
     path('checklist/<int:pk>/save/', views.save_checklist, name='save_checklist'),
+
+     # BlockedDate CRUD
+    path('admin/blocked-dates/add/', views.blocked_date_add, name='blocked_date_add'),
+    path('admin/blocked-dates/<int:pk>/edit/', views.blocked_date_edit, name='blocked_date_edit'),
+    path('admin/blocked-dates/<int:pk>/delete/', views.blocked_date_delete, name='blocked_date_delete'),
 ]

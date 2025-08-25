@@ -1,7 +1,7 @@
 from django import forms
 from django.forms import modelformset_factory
 from django.utils.translation import gettext_lazy as _
-from .models import Booking, HandoverChecklist, HandoverPhoto
+from .models import Booking, HandoverChecklist, HandoverPhoto, BlockedDate
 from rentals.models import AdditionalService
 import base64, uuid
 from django.core.files.base import ContentFile
@@ -24,7 +24,6 @@ class BookingForm(forms.ModelForm):
     additional_driver_country = forms.CharField(required=False, label=_("Country"))
 
     # Other custom fields
-    discount_code = forms.CharField(max_length=50, required=False, label=_("Discount Code"))
     deposit = forms.BooleanField(
         required=False,
         label=_("Deposit (€1000) – Automatically applied"),
@@ -50,13 +49,6 @@ class BookingForm(forms.ModelForm):
 
     def clean(self):
         cleaned_data = super().clean()
-        discount_code = cleaned_data.get("discount_code")
-
-         # Remove deposit if a discount code is provided
-        if discount_code:
-            cleaned_data['deposit'] = False
-            cleaned_data['deposit_hidden'] = False
-
         return super().clean()
 
     def save(self, commit=True):
@@ -138,26 +130,26 @@ class HandoverChecklistForm(forms.ModelForm):
         ]
 
         labels = {
-            'date': _("Date"),
-            'time': _("Time"),
-            'driver_name': _("Driver Name"),
-            'phone_contact': _("Phone Contact"),
-            'odometer': _("Odometer"),
-            'location': _("Location"),
-            'windshields': _("Windshields"),
-            'paintwork': _("Paintwork"),
-            'bodywork': _("Bodywork"),
-            'tires_front': _("Front Tires"),
-            'tires_rear': _("Rear Tires"),
-            'seats': _("Seats"),
-            'upholstery': _("Upholstery"),
-            'windows': _("Windows"),
-            'lights': _("Lights"),
-            'flooring': _("Flooring"),
-            'known_damage': _("Known Damage"),
-            'photos': _("Photos"),
-            'notes': _("Notes"),
-            'customer_signature': _("Customer Signature"),
+            'date': "Datum",
+            'time': "Uhrzeit",
+            'driver_name': "Fahrername",
+            'phone_contact': "Telefonkontakt",
+            'odometer': "Kilometerstand",
+            'location': "Ort",
+            'windshields': "Scheiben",
+            'paintwork': "Lackierung",
+            'bodywork': "Karosserie",
+            'tires_front': "Vorderreifen",
+            'tires_rear': "Hinterreifen",
+            'seats': "Sitze",
+            'upholstery': "Polsterung",
+            'windows': "Fenster",
+            'lights': "Beleuchtung",
+            'flooring': "Bodenbelag",
+            'known_damage': "Bekannte Schäden",
+            'photos': "Fotos",
+            'notes': "Notizen",
+            'customer_signature': "Unterschrift des Kunden",
         }
         widgets = {
             'customer_signature': forms.ClearableFileInput(),
@@ -165,22 +157,11 @@ class HandoverChecklistForm(forms.ModelForm):
             'date': forms.DateInput(attrs={'type': 'date'}),
             'time': forms.TimeInput(attrs={'type': 'time'}),
             'photos': forms.ClearableFileInput(attrs={'multiple': False}),
-            'known_damage': forms.Textarea(attrs={
-                'rows': 2,
-                'cols': 40,
-                'class': 'form-control text-sm'
-            }),
-            'notes': forms.Textarea(attrs={
-                'rows': 2,
-                'cols': 40,
-                'class': 'form-control text-sm'
-            }),
-            'location': forms.Textarea(attrs={
-                'rows': 1,
-                'cols': 40,
-                'class': 'form-control text-sm'
-            }),
+            'known_damage': forms.Textarea(attrs={'rows': 2, 'cols': 40, 'placeholder': 'Bekannte Schäden', 'class': 'form-control text-sm'}),
+            'notes': forms.Textarea(attrs={'rows': 2, 'cols': 40, 'placeholder': 'Notizen', 'class': 'form-control text-sm'}),
+            'location': forms.Textarea(attrs={'rows': 1, 'cols': 40, 'placeholder': 'Ort', 'class': 'form-control text-sm'}),
         }
+
 
     def save(self, commit=True):
                 instance = super().save(commit=False)
@@ -270,3 +251,23 @@ class BookingAdminForm(forms.ModelForm):
             instance.save()
             self.save_m2m()
         return instance
+
+
+class BlockedDateForm(forms.ModelForm):
+    start_date = forms.DateField(
+        widget=forms.DateInput(attrs={'type': 'date'}),
+        label="Start Date"
+    )
+    end_date = forms.DateField(
+        widget=forms.DateInput(attrs={'type': 'date'}),
+        label="End Date"
+    )
+    note = forms.CharField(
+        widget=forms.TextInput(attrs={'placeholder': 'Optional note'}),
+        required=False,
+        label="Note"
+    )
+
+    class Meta:
+        model = BlockedDate
+        fields = ['start_date', 'end_date', 'note']

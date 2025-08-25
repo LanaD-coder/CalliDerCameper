@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<h1>{% if blocked_date %}Blockiertes Datum bearbeiten{% else %}Neues blockiertes Datum hinzufügen{% endif %}</h1>
+
+<form method="post">
+    {% csrf_token %}
+    <div class="mb-4">
+        <label for="id_start_date" class="block font-medium text-gray-700">Startdatum:</label>
+        {{ form.start_date }}
+        {% if form.start_date.errors %}
+            <p class="text-red-600">{{ form.start_date.errors }}</p>
+        {% endif %}
+    </div>
+
+    <div class="mb-4">
+        <label for="id_end_date" class="block font-medium text-gray-700">Enddatum:</label>
+        {{ form.end_date }}
+        {% if form.end_date.errors %}
+            <p class="text-red-600">{{ form.end_date.errors }}</p>
+        {% endif %}
+    </div>
+
+    <div class="mb-4">
+        <label for="id_note" class="block font-medium text-gray-700">Notiz:</label>
+        {{ form.note }}
+        {% if form.note.errors %}
+            <p class="text-red-600">{{ form.note.errors }}</p>
+        {% endif %}
+    </div>
+
+    <button type="submit" class="btn" style="background-color: #0DC1bf; color: white;">
+        {% if blocked_date %}Aktualisieren{% else %}Hinzufügen{% endif %}
+    </button>
+    <a href="{% url 'admin_dashboard' %}" class="btn" style="background-color: #6c757d; color: white;">Abbrechen</a>
+</form>
+{% endblock %}

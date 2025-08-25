@@ -1,22 +1,16 @@
 // booking.js
+window.stripe = window.stripe || null;
+window.elements = window.elements || null;
+window.card = window.card || null;
 
 function toggleAdditionalDriverFields() {
-  const yesRadio = document.getElementById("add_driver_yes");
-  const noRadio = document.getElementById("add_driver_no");
-  const additionalFields = document.getElementById("additional-driver-fields");
-
-  if (yesRadio.checked) {
-    additionalFields.style.display = "block";
-  } else {
-    additionalFields.style.display = "none";
-    additionalFields
-      .querySelectorAll("input")
-      .forEach((input) => (input.value = ""));
-  }
+  const container = document.getElementById("additional-driver-fields");
+  const yes = document.getElementById("add_driver_yes").checked;
+  if (container) container.style.display = yes ? "block" : "none";
 }
 
-window.bookingBasePrice = base;
-window.bookingServicesPrice = servicesTotal;
+// Make it globally accessible if you call it from the template
+window.toggleAdditionalDriverFields = toggleAdditionalDriverFields;
 
 function calculateBaseRentalCost(datePrices) {
   console.log("Calculating base rental cost, datePrices:", datePrices);
@@ -69,24 +63,6 @@ function calculateSummary(base, additionalServicePrices) {
   const deposit = 1000;
   const grandTotal = Math.round((subtotal + vatAmount + deposit) * 100) / 100;
 
-  // Store for discount code logic
-  window.bookingBasePrice = base;
-  window.bookingServicesPrice = servicesTotal;
-  window.bookingDeposit = deposit;
-  window.bookingVAT = vatAmount;
-  window.bookingGrandTotal = grandTotal;
-
-  console.log(
-    "Base:",
-    base,
-    "Services:",
-    servicesTotal,
-    "Subtotal:",
-    subtotal,
-    "VAT:",
-    vatAmount
-  );
-
   document.getElementById("summary-base-price").textContent = base.toFixed(2);
   document.getElementById("summary-services-price").textContent =
     servicesTotal.toFixed(2);
@@ -95,49 +71,7 @@ function calculateSummary(base, additionalServicePrices) {
     deposit.toFixed(2);
   document.getElementById("summary-grand-total").textContent =
     grandTotal.toFixed(2);
-
-  // **Apply discount if any code is present**
-  updateSummaryWithDiscount();
 }
-
-const VALID_DISCOUNT_CODES = {
-  BLUT: 100, // Family
-  WASSER: 100, // Friends
-};
-
-function updateSummaryWithDiscount() {
-  const basePrice = window.bookingBasePrice || 0;
-  const servicesPrice = window.bookingServicesPrice || 0;
-  const deposit = window.bookingDeposit || 0;
-
-  // total that can be discounted
-  const discountable = basePrice + servicesPrice;
-
-  // check discount code
-  let discountPercent = VALID_DISCOUNT_CODES[code] || 0;
-  let discountAmount = discountable * (discountPercent / 100);
-
-  // calculate VAT on discounted amount
-  const vat = Math.round((discountable - discountAmount) * 0.19 * 100) / 100;
-
-  // final total
-  const grandTotal =
-    Math.round((discountable - discountAmount + vat + deposit) * 100) / 100;
-
-  // Update summary in the DOM
-  document.getElementById("summary-base-price").textContent =
-    basePrice.toFixed(2);
-  document.getElementById("summary-services-price").textContent =
-    servicesPrice.toFixed(2);
-  document.getElementById("summary-vat").textContent = vat.toFixed(2);
-  document.getElementById("summary-deposit-price").textContent =
-    deposit.toFixed(2);
-  document.getElementById("summary-grand-total").textContent =
-    grandTotal.toFixed(2);
-}
-
-const discountInput = document.getElementById("id_discount_code");
-discountInput.addEventListener("input", updateSummaryWithDiscount);
 
 function getCookie(name) {
   const cookie = document.cookie
@@ -201,14 +135,14 @@ async function fetchBookedDates() {
       headers: { "X-CSRFToken": getCookie("csrftoken") },
     });
     const data = await response.json();
-    return data.booked_dates || [];
+    return (data.booked_dates || []).map((d) => d.date);
   } catch (error) {
     console.error("Error fetching booked dates:", error);
     return [];
   }
 }
 
-async function refreshDatepickers() {
+async function refreshDatepickers(datePrices, additionalServicePrices) {
   const bookedDates = await fetchBookedDates();
 
   // Destroy previous datepickers
@@ -223,22 +157,22 @@ async function refreshDatepickers() {
       todayHighlight: true,
     })
     .off("changeDate")
-    .on("changeDate", onDatesChanged);
+    .on("changeDate", onDatesChanged(datePrices, additionalServicePrices));
 }
 
 $(document).ready(function () {});
 
-let stripe, elements, card;
-
 function setupStripePayment() {
-  stripe = Stripe(
-    "pk_test_51RnfHKRZKvhbcGU6CgaLlT6dkRMiKGGmovIxHmhnlEEPSm0PhIq2OcefSdIaSFCa5GKW0AqSwunG1aUNuiejjAJ100J6AQBF0i"
-  );
-  elements = stripe.elements();
-  card = elements.create("card");
-  card.mount("#card-element");
+  window.stripe =
+    window.stripe ||
+    Stripe(
+      "pk_test_51RnfHKRZKvhbcGU6CgaLlT6dkRMiKGGmovIxHmhnlEEPSm0PhIq2OcefSdIaSFCa5GKW0AqSwunG1aUNuiejjAJ100J6AQBF0i"
+    );
+  window.elements = window.elements || window.stripe.elements();
+  window.card = window.card || window.elements.create("card");
+  window.card.mount("#card-element");
 
-  card.on("change", (event) => {
+  window.card.on("change", (event) => {
     const displayError = document.getElementById("card-errors");
     displayError.textContent = event.error ? event.error.message : "";
   });
@@ -278,7 +212,7 @@ function showFormErrors(errors) {
   }
 }
 
-export function initBookingForm({
+async function initBookingForm({
   datePrices,
   additionalServicePrices,
   ajaxUrl,
@@ -309,9 +243,10 @@ export function initBookingForm({
       .on("changeDate", onDatesChanged(datePrices, additionalServicePrices));
   }
 
-  setupDatepickers();
+  // ✅ Call setupDatepickers with await
+  await setupDatepickers();
 
-  // Toggle additional driver fields on page load and on radio change
+  // Toggle additional driver fields
   toggleAdditionalDriverFields();
   document
     .getElementById("add_driver_yes")
@@ -320,6 +255,7 @@ export function initBookingForm({
     .getElementById("add_driver_no")
     .addEventListener("change", toggleAdditionalDriverFields);
 
+  // Listen for additional services
   additionalServiceCheckboxes.forEach((cb) => {
     cb.addEventListener("change", () => {
       const base =
@@ -332,7 +268,7 @@ export function initBookingForm({
   // Initialize Stripe payment elements
   setupStripePayment();
 
-  // Calculate and show initial costs
+  // ✅ Calculate and show initial costs
   const initialBase = calculateBaseRentalCost(datePrices);
   calculateSummary(initialBase, additionalServicePrices);
 
@@ -366,13 +302,8 @@ export function initBookingForm({
       },
       body: JSON.stringify(data),
     })
-      .then((res) => {
-        console.log("Fetch response status:", res.status);
-        return res.json();
-      })
+      .then((res) => res.json())
       .then((data) => {
-        console.log("Response JSON:", data);
-
         if (data.session_id) {
           stripe.redirectToCheckout({ sessionId: data.session_id });
         } else if (data.errors) {
@@ -387,3 +318,6 @@ export function initBookingForm({
       });
   });
 }
+
+// Make initBookingForm available globally if not using modules
+window.initBookingForm = initBookingForm;

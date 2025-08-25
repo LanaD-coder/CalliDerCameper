@@ -255,7 +255,7 @@ class SeasonalRate(models.Model):
             return check >= start or check <= end
 
     def __str__(self):
-        return f"{self.start_month}/{self.start_day} to {self.end_month}/{self.end_day}: ${self.rate}"
+        return f"{self.start_month}/{self.start_day} to {self.end_month}/{self.end_day}: €{self.rate}"
 
 
 class HandoverChecklist(models.Model):
@@ -307,3 +307,16 @@ class HandoverPhoto(models.Model):
     image = models.ImageField(upload_to='handover_photos/')
     uploaded_at = models.DateTimeField(auto_now_add=True)
 
+class BlockedDate(models.Model):
+    start_date = models.DateField()
+    end_date = models.DateField()
+    note = models.CharField(max_length=255, blank=True, null=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ['start_date']
+        verbose_name = "Dates Booked"
+        verbose_name_plural = "Dates Booked"
+
+    def __str__(self):
+        return f"{self.start_date} → {self.end_date} ({self.note})"

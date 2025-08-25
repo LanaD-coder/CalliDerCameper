@@ -43,6 +43,22 @@
                     <strong>{% trans "Deposit:" %}</strong>
                     {{ booking.deposit }} 1000 €<br>
 
+                    <strong>{% trans "Zusatzkosten:" %}</strong>
+                    {% with booking.additional_services.all as services %}
+                        {% if services %}
+                            <ul class="mb-0">
+                                {% for service in services %}
+                                    <li>{{ service.name }}: {{ service.price }} €</li>
+                                {% endfor %}
+                            </ul>
+                        {% else %}
+                            0 €
+                        {% endif %}
+                    {% endwith %}
+
+                    <strong>19% MwSt:</strong>
+                    {{ booking.total_price|floatformat:2|divisibleby:1.19|floatformat:2 }} €<br>
+
                     <strong>{% trans "Grand total:" %}</strong>
                     {{ booking.total_price }} €<br>
                   </div>

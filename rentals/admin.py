@@ -13,6 +13,7 @@ from .models import (
     Invoice,
     HandoverPhoto,
     HandoverChecklist,
+    BlockedDate
 )
 from .forms import ReturnChecklistForm, HandoverChecklistForm, BookingAdminForm
 from django_summernote.admin import SummernoteModelAdmin
@@ -163,8 +164,8 @@ class BookingAdmin(admin.ModelAdmin):
                 'additional_driver_town', 'additional_driver_country',
             ),
         }),
-        ('Discount and Deposit', {
-            'fields': ('discount_code', 'deposit_amount_display'),
+        ('Deposit', {
+            'fields': ('deposit_amount_display',),
         }),
         ('Services', {
             'fields': ('additional_services',),
@@ -266,9 +267,15 @@ class CampervanAdmin(SummernoteModelAdmin):
 class AdditionalServiceAdmin(admin.ModelAdmin):
     list_display = ('name', 'price')
 
+
+class BlockedDateAdmin(admin.ModelAdmin):
+    list_display = ('start_date', 'end_date', 'note', 'created_at')
+    list_filter = ('start_date', 'end_date')
+    search_fields = ('note',)
+
 admin.site.register(Campervan, CampervanAdmin)
 admin.site.register(Booking, BookingAdmin)
 admin.site.register(SeasonalRate, SeasonalRateAdmin)
 admin.site.register(CampervanImage)
 admin.site.register(HandoverChecklist, HandoverChecklistAdmin)
-
+admin.site.register(BlockedDate, BlockedDateAdmin)
