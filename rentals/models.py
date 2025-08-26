@@ -149,11 +149,12 @@ class Booking(models.Model):
         return f"{prefix}{str(new_number).zfill(number_length)}"
 
     STATUS_CHOICES = [
+        ('pending', 'Pending Payment'),
         ('active', 'Active'),
         ('cancelled', 'Cancelled'),
         ('completed', 'Completed'),
     ]
-    status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='active')
+    status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='pending')
 
     # Cancellation/refund details
     cancellation_reason = models.TextField(blank=True, null=True)
@@ -188,6 +189,7 @@ class Booking(models.Model):
             # Overlapping bookings check
             overlapping = Booking.objects.filter(
                 campervan=self.campervan,
+                status='active',  # only active bookings block dates
                 end_date__gte=self.start_date,
                 start_date__lte=self.end_date
             ).exclude(pk=self.pk)

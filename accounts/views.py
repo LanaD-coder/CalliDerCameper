@@ -140,6 +140,8 @@ def retry_payment(request, booking_number):
     return redirect('payment_page', booking_number=booking.booking_number)
 
 def payment_cancel(request):
-    # Example: get the booking_number from session, request, or context
-    booking_number = request.GET.get('booking_number')  # or wherever it comes from
-    return render(request, 'accounts/cancel.html', {'booking_number': booking_number})
+    booking_number = request.GET.get('booking_number')
+    booking = None
+    if booking_number:
+        booking = get_object_or_404(Booking, booking_number=booking_number)
+    return render(request, 'accounts/cancel.html', {'booking': booking})

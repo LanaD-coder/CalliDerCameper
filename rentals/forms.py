@@ -91,9 +91,18 @@ class BookingForm(forms.ModelForm):
             'pickup_location', 'pickup_time', 'dropoff_location', 'dropoff_time',
             'customer_notes', 'cancellation_reason', 'refund_amount',
         ]
+        # In your BookingForm.Meta
         widgets = {
-            'start_date': forms.TextInput(attrs={'type': 'text', 'class': 'js-datepicker'}),
-            'end_date': forms.TextInput(attrs={'type': 'text', 'class': 'js-datepicker'}),
+            'start_date': forms.TextInput(attrs={
+                'type': 'text',
+                'class': 'js-datepicker',
+                'id': 'id_start_date'
+            }),
+            'end_date': forms.TextInput(attrs={
+                'type': 'text',
+                'class': 'js-datepicker',
+                'id': 'id_end_date'
+            }),
             'pickup_time': forms.TimeInput(attrs={'type': 'time'}),
             'dropoff_time': forms.TimeInput(attrs={'type': 'time'}),
             'customer_notes': forms.Textarea(attrs={

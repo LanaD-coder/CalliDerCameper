@@ -27,7 +27,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 env = environ.Env()
 environ.Env.read_env(os.path.join(BASE_DIR, '.env'))  # explicitly load .env
 
-DEBUG = env.bool('DEBUG', default=True)
+DEBUG = env.bool('DEBUG', default=False)
 print("DEBUG IS:", DEBUG)
 
 SECRET_KEY = env('DJANGO_SECRET_KEY', default='insecure-development-key')
@@ -188,6 +188,12 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 cloudinary.config(
     url=env('CLOUDINARY_URL'),
 )
+
+CLOUDINARY_STORAGE = {
+    'CLOUD_NAME': env('CLOUDINARY_CLOUD_NAME'),
+    'API_KEY': env('CLOUDINARY_API_KEY'),
+    'API_SECRET': env('CLOUDINARY_API_SECRET'),
+}
 
 DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 

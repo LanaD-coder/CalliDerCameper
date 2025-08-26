@@ -75,6 +75,9 @@ def booking_page(request, pk):
         'subtotal': subtotal,
     })
 
+def booking_form(request):
+    return render(request, "rentals/booking_form.html")
+
 def home(request):
     van = Campervan.objects.first()
     bookings = Booking.objects.filter(campervan=van)
@@ -199,7 +202,7 @@ def create_booking_ajax(request, pk):
     existing_booking = Booking.objects.filter(
         campervan=campervan,
         primary_driver=request.user,
-        status__in=['pending', 'active'],
+        status='active',
         start_date__lte=end_date,
         end_date__gte=start_date
     ).first()
@@ -216,7 +219,7 @@ def create_booking_ajax(request, pk):
                 line_items=[],
                 mode='payment',
                 success_url=success_url,
-                cancel_url=request.build_absolute_uri('/accounts/payment-cancel/'),
+                cancel_url=request.build_absolute_uri('/rentals/booking_form/'),
                 metadata={'booking_number': existing_booking.booking_number}
             )
             return JsonResponse({'session_id': checkout_session.id})
@@ -288,7 +291,7 @@ def create_booking_ajax(request, pk):
         )
 
         # Only mark booking as active after Stripe session creation succeeds
-        booking.status = 'active'
+        booking.status = 'pending'
         booking.save()
 
         return JsonResponse({'session_id': checkout_session.id})
@@ -382,8 +385,8 @@ def payment_success(request):
         try:
             booking = Booking.objects.get(booking_number=booking_number)
             booking.payment_status = 'paid'
-            booking.payment_reference = session.payment_intent
             booking.status = 'active'
+            booking.payment_reference = session.payment_intent
             booking.save()
 
             # Trigger email
@@ -401,7 +404,18 @@ def payment_success(request):
 
 def payment_cancel(request):
     messages.warning(request, "Payment cancelled.")
-    return render(request, 'accounts/cancel.html')
+    booking_number = request.GET.get('booking')
+    booking = None
+    if booking_number:
+        try:
+            from rentals.models import Booking
+            booking = Booking.objects.get(booking_number=booking_number)
+        except Booking.DoesNotExist:
+            booking = None
+
+    return render(request, 'accounts/cancel.html', {
+        'booking': booking
+    })
 
 
 def booked_dates_api(request):
