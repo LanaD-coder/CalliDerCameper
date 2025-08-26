@@ -1,18 +1,17 @@
 // booking.js
+window.stripe = window.stripe || null;
+window.elements = window.elements || null;
+window.card = window.card || null;
 
-document.addEventListener("DOMContentLoaded", () => {
-  const yesRadio = document.getElementById("add_driver_yes");
-  const noRadio = document.getElementById("add_driver_no");
+function toggleAdditionalDriverFields() {
+  const container = document.getElementById("additional-driver-fields");
+  const yes = document.getElementById("add_driver_yes").checked;
+  if (container) container.style.display = yes ? "block" : "none";
+}
 
-  // Only attach if the elements exist
-  if (yesRadio && noRadio) {
-    yesRadio.addEventListener("change", toggleAdditionalDriverFields);
-    noRadio.addEventListener("change", toggleAdditionalDriverFields);
-  }
+// Make it globally accessible if you call it from the template
+window.toggleAdditionalDriverFields = toggleAdditionalDriverFields;
 
-  // Set initial visibility
-  toggleAdditionalDriverFields();
-});
 function calculateBaseRentalCost(datePrices) {
   console.log("Calculating base rental cost, datePrices:", datePrices);
   const startDateInput = document.getElementById("id_start_date");
@@ -163,17 +162,17 @@ async function refreshDatepickers(datePrices, additionalServicePrices) {
 
 $(document).ready(function () {});
 
-let stripe, elements, card;
-
 function setupStripePayment() {
-  stripe = Stripe(
-    "pk_test_51RnfHKRZKvhbcGU6CgaLlT6dkRMiKGGmovIxHmhnlEEPSm0PhIq2OcefSdIaSFCa5GKW0AqSwunG1aUNuiejjAJ100J6AQBF0i"
-  );
-  elements = stripe.elements();
-  card = elements.create("card");
-  card.mount("#card-element");
+  window.stripe =
+    window.stripe ||
+    Stripe(
+      "pk_test_51RnfHKRZKvhbcGU6CgaLlT6dkRMiKGGmovIxHmhnlEEPSm0PhIq2OcefSdIaSFCa5GKW0AqSwunG1aUNuiejjAJ100J6AQBF0i"
+    );
+  window.elements = window.elements || window.stripe.elements();
+  window.card = window.card || window.elements.create("card");
+  window.card.mount("#card-element");
 
-  card.on("change", (event) => {
+  window.card.on("change", (event) => {
     const displayError = document.getElementById("card-errors");
     displayError.textContent = event.error ? event.error.message : "";
   });
@@ -213,7 +212,7 @@ function showFormErrors(errors) {
   }
 }
 
-export function initBookingForm({
+async function initBookingForm({
   datePrices,
   additionalServicePrices,
   ajaxUrl,
@@ -244,9 +243,10 @@ export function initBookingForm({
       .on("changeDate", onDatesChanged(datePrices, additionalServicePrices));
   }
 
+  // ✅ Call setupDatepickers with await
   await setupDatepickers();
 
-  // Toggle additional driver fields on page load and on radio change
+  // Toggle additional driver fields
   toggleAdditionalDriverFields();
   document
     .getElementById("add_driver_yes")
@@ -255,6 +255,7 @@ export function initBookingForm({
     .getElementById("add_driver_no")
     .addEventListener("change", toggleAdditionalDriverFields);
 
+  // Listen for additional services
   additionalServiceCheckboxes.forEach((cb) => {
     cb.addEventListener("change", () => {
       const base =
@@ -267,7 +268,7 @@ export function initBookingForm({
   // Initialize Stripe payment elements
   setupStripePayment();
 
-  // Calculate and show initial costs
+  // ✅ Calculate and show initial costs
   const initialBase = calculateBaseRentalCost(datePrices);
   calculateSummary(initialBase, additionalServicePrices);
 
@@ -301,13 +302,8 @@ export function initBookingForm({
       },
       body: JSON.stringify(data),
     })
-      .then((res) => {
-        console.log("Fetch response status:", res.status);
-        return res.json();
-      })
+      .then((res) => res.json())
       .then((data) => {
-        console.log("Response JSON:", data);
-
         if (data.session_id) {
           stripe.redirectToCheckout({ sessionId: data.session_id });
         } else if (data.errors) {
@@ -322,3 +318,6 @@ export function initBookingForm({
       });
   });
 }
+
+// Make initBookingForm available globally if not using modules
+window.initBookingForm = initBookingForm;
