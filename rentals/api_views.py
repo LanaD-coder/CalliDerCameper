@@ -1,7 +1,7 @@
 from datetime import date, timedelta
 from django.http import JsonResponse
 from django.views.decorators.http import require_GET
-from .models import SeasonalRate
+from .models import SeasonalRate, Booking
 
 def daterange(start_date, end_date):
     current = start_date
@@ -45,3 +45,14 @@ def api_date_prices(request):
 
     data = date_prices_for_year(year)
     return JsonResponse(data)
+
+@require_GET
+def api_booked_dates(request):
+    # Only active bookings
+    active_bookings = Booking.objects.filter(status='active')
+    booked_dates = []
+    for b in active_bookings:
+        for single_date in daterange(b.start_date, b.end_date):
+            booked_dates.append(single_date.isoformat())
+
+    return JsonResponse({"booked_dates": booked_dates})

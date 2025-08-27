@@ -3,7 +3,7 @@
 <html>
 <head>
   <meta charset="UTF-8">
-  <title>{% trans "Payment Successful" %}</title>
+  <title>Zahlung erfolgreich / Payment Successful</title>
 </head>
 <body style="font-family: Roboto; background-color: #f9f9f9; padding: 30px; color: #333;">
   <div style="max-width: 600px; margin: auto; background: white; border-radius: 10px; padding: 20px; box-shadow: 0 2px 5px rgba(0,0,0,0.2);">
@@ -13,25 +13,53 @@
       <img src="https://res.cloudinary.com/dvs5uituk/image/upload/v1749124923/sol%C3%A4ufst_grpn3o.png" alt="Logo" style="max-height: 60px;">
     </div>
 
-    <h2 style="color: #0dc1bf;">{% trans "Thank you for your payment!" %}</h2>
+    <!-- GERMAN VERSION -->
+    <h2 style="color: #0dc1bf;">Vielen Dank für Ihre Zahlung!</h2>
 
-    <p>{% trans "Hi" %} {{ user.get_full_name|default:user.username }},</p>
+    <p>Hallo {{ user.get_full_name|default:user.username }},</p>
 
-    <p>{% trans "We’ve received your payment successfully." %}</p>
+    <p>Wir haben Ihre Zahlung erfolgreich erhalten.</p>
 
-    <h3>{% trans "Booking Summary" %}:</h3>
+    <h3>Buchungsübersicht:</h3>
     <ul>
-      <li><strong>{% trans "Campervan" %}:</strong> {{ booking.campervan.name }}</li>
-      <li><strong>{% trans "Booking Number" %}:</strong> {{ booking.booking_number }}</li>
-      <li><strong>{% trans "Start Date" %}:</strong> {{ booking.start_date }}</li>
-      <li><strong>{% trans "End Date" %}:</strong> {{ booking.end_date }}</li>
-      <li><strong>{% trans "Total Price" %}:</strong> €{{ booking.total_price }}</li>
-      <li><strong>{% trans "Deposit Amount" %}:</strong> € 1000 </li>
+      <li><strong>Campervan:</strong> {{ booking.campervan.name }}</li>
+      <li><strong>Buchungsnummer:</strong> {{ booking.booking_number }}</li>
+      <li><strong>Startdatum:</strong> {{ booking.start_date }}</li>
+      <li><strong>Enddatum:</strong> {{ booking.end_date }}</li>
+      <li><strong>Gesamtpreis (inkl. MwSt.):</strong> €{{ booking.total_price }}</li>
+      <li><strong>MwSt.-Betrag:</strong> €{{ booking.vat_amount }}</li>
+      <li><strong>Kautionsbetrag:</strong> €1000</li>
     </ul>
 
-    <p>{% trans "If you have any questions, feel free to contact us." %}</p>
-        <p>{% trans "Best regards," %}<br>
-        CalliderCamper Team</p>
+    <p>Wenn Sie Fragen haben, können Sie uns jederzeit kontaktieren.</p>
+    <p>Mit freundlichen Grüßen,<br>
+    Ihr CalliderCamper Team</p>
+
+    <hr style="margin: 40px 0; border: none; border-top: 1px solid #ddd;">
+
+    <!-- ENGLISH VERSION (light grey) -->
+    <div style="color: #777;">
+      <h2 style="color: #0dc1bf;">Thank you for your payment!</h2>
+
+      <p>Hi {{ user.get_full_name|default:user.username }},</p>
+
+      <p>We’ve received your payment successfully.</p>
+
+      <h3>Booking Summary:</h3>
+      <ul>
+        <li><strong>Campervan:</strong> {{ booking.campervan.name }}</li>
+        <li><strong>Booking Number:</strong> {{ booking.booking_number }}</li>
+        <li><strong>Start Date:</strong> {{ booking.start_date }}</li>
+        <li><strong>End Date:</strong> {{ booking.end_date }}</li>
+        <li><strong>Total Price (incl. VAT):</strong> €{{ booking.total_price }}</li>
+        <li><strong>VAT Amount:</strong> €{{ booking.vat_amount }}</li>
+        <li><strong>Deposit Amount:</strong> €1000</li>
+      </ul>
+
+      <p>If you have any questions, feel free to contact us.</p>
+      <p>Best regards,<br>
+      CalliderCamper Team</p>
+    </div>
 
   </div>
 </body>

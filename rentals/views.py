@@ -451,9 +451,23 @@ def check_availability(request):
             start = datetime.strptime(data['start_date'], "%Y-%m-%d").date()
             end = datetime.strptime(data['end_date'], "%Y-%m-%d").date()
 
-            overlapping = Booking.objects.filter(start_date__lte=end, end_date__gte=start).exists()
+            # Debug print
+            print(f"Checking availability: {start} - {end}")
+            for b in Booking.objects.exclude(status="cancelled"):
+                print(b.start_date, b.end_date, b.status)
+
+            # Only consider active bookings for overlap
+            overlapping = Booking.objects.filter(
+                start_date__lte=end,
+                end_date__gte=start,
+                status='active'   # <-- ignore pending/cancelled
+            ).exists()
+
             if overlapping:
-                return JsonResponse({"available": False, "errors": ["The car is not available for the selected dates."]})
+                return JsonResponse({
+                    "available": False,
+                    "errors": ["The car is not available for the selected dates."]
+                })
             return JsonResponse({"available": True})
         except Exception as e:
             return JsonResponse({"available": False, "errors": [str(e)]})

@@ -36,7 +36,7 @@ async function fetchBookedDates() {
       headers: { "X-CSRFToken": getCookie("csrftoken") },
     });
     const data = await response.json();
-    return (data.booked_dates || []).map((d) => d.date);
+    return data.booked_dates || [];
   } catch (error) {
     console.error("Error fetching booked dates:", error);
     return [];
@@ -165,15 +165,15 @@ function onDatesChanged(datePrices, additionalServicePrices) {
     }
 
     // Check availability
-    const availability = await checkAvailability(startStr, endStr);
-    if (!availability.available) {
-      showFormErrors(
-        availability.errors || ["Selected dates are not available."]
-      );
-      document.getElementById("base-rental-cost").textContent = "Invalid dates";
-      calculateSummary(0, additionalServicePrices);
-      return;
-    }
+    //const availability = await checkAvailability(startStr, endStr);
+    //if (!availability.available) {
+    //showFormErrors(
+    //availability.errors || ["Selected dates are not available."]
+    //);
+    //document.getElementById("base-rental-cost").textContent = "Invalid dates";
+    //calculateSummary(0, additionalServicePrices);
+    //return;
+    //}
 
     const bookedDates = await fetchBookedDates();
     const base = calculateBaseRentalCost(datePrices, bookedDates);
@@ -293,7 +293,7 @@ async function initBookingForm({
   // Clear previous dates AFTER datepicker init
   startDateInput.value = "";
   endDateInput.value = "";
-  calculateBaseRentalCost({}); // shows "--"
+  calculateBaseRentalCost(datePrices);
   calculateSummary(0, additionalServicePrices);
 
   toggleAdditionalDriverFields();

@@ -1,21 +1,44 @@
 {% load i18n %}
 
-{% trans "Thank you for your payment!" %}
+Vielen Dank für Ihre Zahlung!
 
-{% trans "Hi" %} {{ user.get_full_name|default:user.username }},
+Hallo {{ user.get_full_name|default:user.username }},
 
-{% trans "We’ve received your payment successfully." %}
+Wir haben Ihre Zahlung erfolgreich erhalten.
 
-{% trans "Booking Summary" %}:
-{% trans "Campervan" %}: {{ booking.campervan.name }}
-{% trans "Booking Number" %}: {{ booking.booking_number }}
-{% trans "Start Date" %}: {{ booking.start_date }}
-{% trans "End Date" %}: {{ booking.end_date }}
-{% trans "Total Price (incl. VAT)" %}: €{{ booking.total_price }}
-{% trans "VAT Amount" %}: €{{ booking.vat_amount }}
-{% trans "Deposit Amount" %}: €1000
+Buchungsübersicht:
+Campervan: {{ booking.campervan.name }}
+Buchungsnummer: {{ booking.booking_number }}
+Startdatum: {{ booking.start_date }}
+Enddatum: {{ booking.end_date }}
+Gesamtpreis (inkl. MwSt.): €{{ booking.total_price }}
+MwSt.-Betrag: €{{ booking.vat_amount }}
+Kautionsbetrag: €1000
 
-{% trans "If you have any questions, feel free to contact us." %}
+Wenn Sie Fragen haben, können Sie uns jederzeit kontaktieren.
 
-{% trans "Best regards," %}
+Mit freundlichen Grüßen,
+Ihr CalliderCamper Team
+
+----------------------------
+
+Thank you for your payment!
+
+Hi {{ user.get_full_name|default:user.username }},
+
+We’ve received your payment successfully.
+
+Booking Summary:
+Campervan: {{ booking.campervan.name }}
+Booking Number: {{ booking.booking_number }}
+Start Date: {{ booking.start_date }}
+End Date: {{ booking.end_date }}
+Total Price (incl. VAT): €{{ booking.total_price }}
+VAT Amount: €{{ booking.vat_amount }}
+Deposit Amount: €1000
+
+If you have any questions, feel free to contact us.
+
+Best regards,
 CalliderCamper Team
+
