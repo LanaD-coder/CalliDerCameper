@@ -64,12 +64,21 @@ def booking_page(request, pk):
         for service in AdditionalService.objects.all()
     }
 
+    blocked_dates_qs = BlockedDate.objects.all()
+    blocked_list = []
+    for block in blocked_dates_qs:
+        current = block.start_date
+        while current <= block.end_date:
+            blocked_list.append(current.strftime('%Y-%m-%d'))
+            current += timedelta(days=1)
+
 
     return render(request, 'rentals/booking_form.html', {
         'form': form,
         'campervan': campervan,
         'date_prices': json.dumps(date_prices),
         'additional_service_prices_json': json.dumps(additional_service_prices),
+        'blocked_dates_json': json.dumps(blocked_list),
         'stripe_public_key': settings.STRIPE_PUBLISHABLE_KEY,
         'total_price': total_price,
         'subtotal': subtotal,
@@ -84,7 +93,9 @@ def home(request):
     seasonal_rates = SeasonalRate.objects.all()
 
     booked_dates = [
-        {'start': booking.start_date.isoformat(), 'end': booking.end_date.isoformat()}
+        {'start': booking.start_date.isoformat(),
+         'end': booking.end_date.isoformat(),
+         }
         for booking in bookings
     ]
 
@@ -94,7 +105,7 @@ def home(request):
     for bd in booked_dates:
         calendar_events.append({
             'start': bd['start'],
-            'end': bd['end'],
+            'end': (date.fromisoformat(bd['end']) + timedelta(days=1)).isoformat(),
             'title': _('Booked'),
             'display': 'background',
             'backgroundColor': '#f8d7da',
@@ -189,6 +200,14 @@ def create_booking_ajax(request, pk):
     except json.JSONDecodeError:
         return JsonResponse({'errors': 'Invalid JSON'}, status=400)
 
+    summary = data.get("summary", {})
+
+    base = Decimal(summary.get("base", 0))
+    services_total = Decimal(summary.get("servicesTotal", 0))
+    vat_amount = Decimal(summary.get("vatAmount", 0))
+    deposit = Decimal(summary.get("deposit", 1000))
+    grand_total = Decimal(summary.get("grandTotal", 0))
+
     form = BookingForm(data, user=request.user, campervan=campervan)
     form.instance.campervan = campervan
 
@@ -230,6 +249,7 @@ def create_booking_ajax(request, pk):
     booking = form.save(commit=False)
     booking.campervan = campervan
     booking.primary_driver = request.user
+    booking.status = 'pending'
     booking.payment_status = 'pending'
     booking.save()
     form.save_m2m()
@@ -291,7 +311,6 @@ def create_booking_ajax(request, pk):
         )
 
         # Only mark booking as active after Stripe session creation succeeds
-        booking.status = 'pending'
         booking.save()
 
         return JsonResponse({'session_id': checkout_session.id})
@@ -341,6 +360,41 @@ def retry_payment(request, booking_number):
 
 
 def render_booking_form(request, form, campervan):
+    # Fetch booked dates for this campervan
+    bookings = Booking.objects.filter(campervan=campervan)
+    seasonal_rates = SeasonalRate.objects.all()
+
+    calendar_events = []
+
+    # Add booked dates
+    for booking in bookings:
+        calendar_events.append({
+            'start': booking.start_date.isoformat(),
+            'end': (booking.end_date + timedelta(days=1)).isoformat(),
+            'title': 'Booked',
+            'display': 'background',
+            'backgroundColor': '#f8d7da',
+            'borderColor': '#dc3545',
+        })
+
+    # Add seasonal rates as background events
+    today = date.today()
+    years_ahead = 5
+    for year_offset in range(years_ahead + 1):
+        year = today.year + year_offset
+        for season in seasonal_rates:
+            start_date = date(year, season.start_month, season.start_day)
+            end_date = date(year, season.end_month, season.end_day)
+            if end_date < start_date:
+                end_date = date(year + 1, season.end_month, season.end_day)
+            calendar_events.append({
+                'start': start_date.isoformat(),
+                'end': (end_date + timedelta(days=1)).isoformat(),
+                'display': 'background',
+                'backgroundColor': '#d1ecf1',
+                'borderColor': '#17a2b8',
+            })
+
     return render(request, 'rentals/booking_form.html', {
         'form': form,
         'campervan': campervan,
@@ -349,6 +403,7 @@ def render_booking_form(request, form, campervan):
             str(s.pk): float(s.price) for s in AdditionalService.objects.all()
         }),
         'stripe_public_key': settings.STRIPE_PUBLISHABLE_KEY,
+        'calendar_events': json.dumps(calendar_events),  # ✅ Pass calendar events here
     })
 
 
@@ -482,14 +537,30 @@ def send_payment_success_email(user, booking):
     name = user.get_full_name() or user.username
     from_email = settings.DEFAULT_FROM_EMAIL
 
-     # User email
-    user_subject = _("Your Payment Was Successful")
+     # Calculate summary dynamically
+    deposit = Decimal('1000.00')
+    base = sum(Decimal(booking.campervan.get_rate_for_date(booking.start_date + timedelta(days=i)))
+               for i in range((booking.end_date - booking.start_date).days + 1))
+    services_total = sum(Decimal(service.price) for service in booking.additional_services.all())
+    subtotal = base + services_total
+    vat_amount = subtotal * Decimal('0.19')  # 19% VAT
+    grand_total = subtotal + vat_amount + deposit
+
     user_context = {
         'user': user,
         'name': name,
         'booking': booking,
-        'deposit_amount': Decimal('1000.00'),
+        'summary': {
+            'base': base,
+            'servicesTotal': services_total,
+            'vatAmount': vat_amount,
+            'deposit': deposit,
+            'grandTotal': grand_total,
+        }
     }
+
+    # User email
+    user_subject = _("Your Payment Was Successful")
     user_html = render_to_string("emails/payment_success.html", user_context)
     user_plain = render_to_string("emails/payment_success.txt", user_context)
     send_mail(

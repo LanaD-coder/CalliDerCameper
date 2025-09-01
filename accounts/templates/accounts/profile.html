@@ -56,8 +56,7 @@
                         {% endif %}
                     {% endwith %}
 
-                    <strong>19% MwSt:</strong>
-                    {{ booking.total_price|floatformat:2|divisibleby:1.19|floatformat:2 }} €<br>
+                    <strong>19% MwSt:</strong> {{ booking.vat_amount|floatformat:2 }} €<br>
 
                     <strong>{% trans "Grand total:" %}</strong>
                     {{ booking.total_price }} €<br>

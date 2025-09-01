@@ -109,23 +109,29 @@ def webhook_receiver(request):
         if booking_number:
             try:
                 booking = Booking.objects.get(booking_number=booking_number)
-                booking.payment_status = 'paid'
-                booking.status = 'active'
-                booking.payment_reference = session.get('payment_intent')
 
-                 # Create and attach an invoice
-                invoice = Invoice.objects.create(
-                    user=booking.primary_driver,
-                    amount=booking.total_price,
-                    paid=True,
-                    issued_date=now().date()
-                )
-                booking.invoice = invoice
-                booking.save()
+                # Only update if not already paid (idempotent)
+                if booking.payment_status != 'paid':
+                    booking.status = "active"
+                    booking.payment_status = 'paid'
+                    booking.payment_reference = session.get('payment_intent')
+
+                    # Create invoice if it doesn’t exist
+                    if not booking.invoice:
+                        invoice = Invoice.objects.create(
+                            user=booking.primary_driver,
+                            amount=booking.total_price,
+                            paid=True,
+                            issued_date=now().date()
+                        )
+                        booking.invoice = invoice
+
+                    booking.save()
+
             except Booking.DoesNotExist:
-                return JsonResponse({'error': 'Booking not found'}, status=404)
+                return HttpResponseBadRequest("Booking not found")
 
-    return JsonResponse({"status": "success"})
+    return HttpResponse(status=200)
 
 
 def retry_payment(request, booking_number):

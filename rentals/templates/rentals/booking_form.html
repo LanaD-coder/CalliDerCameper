@@ -16,35 +16,39 @@
     {% csrf_token %}
 
     <fieldset>
-      <legend>{% trans "Booking Dates" %}</legend>
+      <legend>{% trans "Buchungszeitraum" %}</legend>
+      <p class="text-muted small mt-1">
+        <i class="fa-solid fa-circle-exclamation me-1"></i>
+        {% trans "Sie müssen ein registrierter, eingeloggter Benutzer sein, um die Buchung abzuschließen." %}
+      </p>
 
-      <label for="{{ form.start_date.id_for_label }}">{% trans "Start Date" %}</label>
+      <label for="{{ form.start_date.id_for_label }}">{% trans "Startdatum" %}</label>
       {{ form.start_date }}
       <div class="field-error">{{ form.start_date.errors }}</div>
 
-      <label for="{{ form.end_date.id_for_label }}">{% trans "End Date" %}</label>
+      <label for="{{ form.end_date.id_for_label }}">{% trans "Enddatum" %}</label>
       {{ form.end_date }}
       <div class="field-error">{{ form.end_date.errors }}</div>
 
       <div class="calendar-legend" style="margin-top: 1rem;">
-        <strong>{% trans "Please note:" %}</strong>
+        <strong>{% trans "Bitte beachten:" %}</strong>
         <div style="display: flex; align-items: center; gap: 0.5rem; margin-top: 0.5rem;">
           <div style="width: 16px; height: 16px; background-color: #cccccc; border: 1px solid #999999;"></div>
-          <span>{% trans "Grayed out dates are not bookable." %}</span>
+          <span>{% trans "Ausgegraute Tage sind nicht buchbar." %}</span>
         </div>
       </div>
 
       <div class="alert alert-info" style="margin-top: 1rem;">
-        <strong>{% trans "Base price for selected dates:" %}</strong>
+        <strong>{% trans "Grundpreis für den ausgewählten Zeitraum:" %}</strong>
         <span id="base-rental-cost">--</span> €
       </div>
     </fieldset>
 
     <fieldset>
-      <legend>{% trans "Primary Driver Details" %}</legend>
+      <legend>{% trans "Details des Hauptfahrers" %}</legend>
       <p class="text-muted small mt-1">
         <i class="fa-solid fa-circle-exclamation me-1"></i>
-        {% trans "The driver must be at least 21 years old." %}
+        {% trans "Die fahrende Person muss mindestens 21 Jahre alt sein." %}
       </p>
 
       {{ form.primary_driver_name.label_tag }}
@@ -73,13 +77,13 @@
     </fieldset>
 
     <fieldset>
-      <legend>{% trans "Additional Driver (Optional)" %}</legend>
+      <legend>{% trans "Zusatzfahrer (optional)" %}</legend>
 
-      <label>{% trans "Add additional driver?" %}</label><br>
+      <label>{% trans "Zusatzfahrer hinzufügen?" %}</label><br>
       <input type="radio" name="add_additional_driver" id="add_driver_yes" value="yes">
-      <label for="add_driver_yes">{% trans "Yes" %}</label>
+      <label for="add_driver_yes">{% trans "Ja" %}</label>
       <input type="radio" name="add_additional_driver" id="add_driver_no" value="no" checked>
-      <label for="add_driver_no">{% trans "No" %}</label>
+      <label for="add_driver_no">{% trans "Nein" %}</label>
 
       <div id="additional-driver-fields" style="display:none; margin-top:1em;">
         {{ form.additional_driver_name.label_tag }}
@@ -117,16 +121,16 @@
     </fieldset>
 
     <fieldset>
-      <legend>{% trans "Deposit" %}</legend>
+      <legend>{% trans "Kaution" %}</legend>
       <div class="form-check">
         <input type="checkbox" class="form-check-input" checked disabled>
-        <label class="form-check-label">{% trans "Deposit (€1000) – Automatically applied" %}</label>
+        <label class="form-check-label">{% trans "Kaution (1000 €) – automatisch angewendet" %}</label>
       </div>
       {{ form.deposit_hidden }}
     </fieldset>
 
     <fieldset>
-      <legend>{% trans "Additional Services" %}</legend>
+      <legend>{% trans "Zusatzleistungen" %}</legend>
       {{ form.additional_services }}
       <div class="field-error">{{ form.additional_services.errors }}</div>
     </fieldset>
@@ -142,15 +146,15 @@
     </div>
 
     <fieldset>
-      <legend><strong>{% trans "Summary" %}</strong></legend>
-      <p><strong>{% trans "Base price:" %}</strong> <span id="summary-base-price">--</span> €</p>
-      <p><strong>{% trans "Additional services:" %}</strong> <span id="summary-services-price">--</span> €</p>
-      <p><strong>{% trans "Deposit:" %}</strong> <span id="summary-deposit-price">1000</span> €</p>
+      <legend><strong>{% trans "Zusammenfassung" %}</strong></legend>
+      <p><strong>{% trans "Grundpreis:" %}</strong> <span id="summary-base-price">--</span> €</p>
+      <p><strong>{% trans "Zusatzleistungen:" %}</strong> <span id="summary-services-price">--</span> €</p>
+      <p><strong>{% trans "Kaution:" %}</strong> <span id="summary-deposit-price">1000</span> €</p>
 
       <!-- NEW VAT DISPLAY -->
       <p><strong>{% trans "MwSt (19%):" %}</strong> <span id="summary-vat">--</span> €</p>
 
-      <p><strong>{% trans "Grand total incl. MwSt:" %}</strong> <span id="summary-grand-total">--</span> €</p>
+      <p><strong>{% trans "Gesamtpreis inkl. MwSt:" %}</strong> <span id="summary-grand-total">--</span> €</p>
     </fieldset>
 
     <input type="hidden" name="status" value="active">
@@ -163,67 +167,61 @@
     <button type="submit" id="book-now-btn">
       {% trans "Confirm & Pay" %}
     </button>
+    <p class="text-muted small mt-1">
+        <i class="fa-solid fa-circle-exclamation me-1"></i>
+         {% trans "Bitte überprüfen Sie alle Angaben sorgfältig, bevor Sie auf „Bestätigen & Bezahlen“ klicken. Die Zahlung darf nicht unterbrochen werden. Falls ein Problem auftritt, kontaktieren Sie bitte die Administration unter buchung@callidercamper.de." %}
+      </p>
   </form>
 </section>
 
 <div id="form-errors" style="display:none; color:red; margin-top:10px;"></div>
 
-<script src="https://js.stripe.com/v3/" defer></script>
+<!-- Stripe.js -->
+<script src="https://js.stripe.com/v3/"></script>
+<!-- Booking.js -->
+<script src="{% static 'js/booking.js' %}"></script>
 
 <script>
-  document.addEventListener("DOMContentLoaded", function() {
+document.addEventListener("DOMContentLoaded", function() {
     const datePrices = {{ date_prices|default:"{}"|safe }};
-    console.log("datePrices:", datePrices);
-    const additionalServicePrices = {{ additional_service_prices_json|default:"{}"|safe }};
+    const servicePrices = {{ additional_service_prices_json|default:"{}"|safe }};
+    const blockedDates = {{ blocked_dates_json|default:"[]"|safe }};
+    const ajaxUrl = "{% url 'create_booking_ajax' campervan.pk %}";
+
+    // Initialize booking form and pass blockedDates
     initBookingForm({
-      datePrices: datePrices,
-      additionalServicePrices: additionalServicePrices,
-      ajaxUrl: "{% url 'create_booking_ajax' campervan.pk %}"
+        datePrices: datePrices,
+        additionalServicePrices: servicePrices,
+        blockedDates: blockedDates,
+        ajaxUrl: ajaxUrl
     });
-  });
-</script>
-
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-  const isAuthenticated = {{ user.is_authenticated|yesno:"true,false" }};
-  if (!isAuthenticated) {
-    const firstInput = document.querySelector('[name="{{ form.primary_driver_name.name }}"]');
-    if (firstInput) {
-      // Trigger on focus or input (you can choose)
-      firstInput.addEventListener('focus', function(e) {
-        e.target.blur();  // remove focus to prevent typing before login
-        document.getElementById('loginPromptModal').style.display = 'flex';
-      });
-
-      // Optional: also prevent typing by disabling input until login
-      firstInput.addEventListener('keydown', function(e) {
-        e.preventDefault();
-        document.getElementById('loginPromptModal').style.display = 'flex';
-      });
-    }
-  }
 });
 </script>
 
+<!-- Optional toast messages -->
 <script>
-    {% if messages %}
-        {% for message in messages %}
-            toast.error("{{ message|escapejs }}");
-        {% endfor %}
-    {% endif %}
+{% if messages %}
+    {% for message in messages %}
+        toast.error("{{ message|escapejs }}");
+    {% endfor %}
+{% endif %}
 </script>
 
 <!-- Modal for login/register prompt -->
-<div id="loginPromptModal">
+<div id="loginPromptModal" style="display:none;">
   <div style="background:white; padding:20px; border-radius:8px; max-width:400px; text-align:center;">
     <h2>{% trans "You need to be a registered user to book Calli." %}</h2>
     {% url 'account_login' as login_url %}
     {% url 'account_signup' as signup_url %}
-
-    {% blocktrans %}
-    Please <a href="{{ login_url }}">log in</a> or <a href="{{ signup_url }}">sign up</a> to make a booking.
-    {% endblocktrans %}
-    <button onclick="document.getElementById('loginPromptModal').style.display='none'" style="border: 0; border-radius: 0.8; background-color: #0dc1bf; color: white;">Close</button>
+    <p>
+      {% blocktrans %}
+      Please <a href="{{ login_url }}">log in</a> or <a href="{{ signup_url }}">sign up</a> to make a booking.
+      {% endblocktrans %}
+    </p>
+    <button onclick="document.getElementById('loginPromptModal').style.display='none'"
+            style="border:0; border-radius:0.8rem; background-color:#0dc1bf; color:white;">
+      Close
+    </button>
   </div>
 </div>
 

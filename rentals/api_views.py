@@ -50,9 +50,14 @@ def api_date_prices(request):
 def api_booked_dates(request):
     # Only active bookings
     active_bookings = Booking.objects.filter(status='active')
-    booked_dates = []
-    for b in active_bookings:
-        for single_date in daterange(b.start_date, b.end_date):
-            booked_dates.append(single_date.isoformat())
+    today = date.today()
+
+    # Collect all booked dates from active bookings that are today or in the future
+    booked_dates = [
+        d.isoformat()
+        for b in active_bookings
+        for d in daterange(b.start_date, b.end_date)
+        if d >= today
+    ]
 
     return JsonResponse({"booked_dates": booked_dates})

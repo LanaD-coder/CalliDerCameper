@@ -96,12 +96,14 @@ class BookingForm(forms.ModelForm):
             'start_date': forms.TextInput(attrs={
                 'type': 'text',
                 'class': 'js-datepicker',
-                'id': 'id_start_date'
+                'id': 'id_start_date',
+                'placeholder': 'YYYY-MM-DD',  # add this
             }),
             'end_date': forms.TextInput(attrs={
                 'type': 'text',
                 'class': 'js-datepicker',
-                'id': 'id_end_date'
+                'id': 'id_end_date',
+                'placeholder': 'YYYY-MM-DD',  # add this
             }),
             'pickup_time': forms.TimeInput(attrs={'type': 'time'}),
             'dropoff_time': forms.TimeInput(attrs={'type': 'time'}),

@@ -26,9 +26,11 @@
       <li><strong>Buchungsnummer:</strong> {{ booking.booking_number }}</li>
       <li><strong>Startdatum:</strong> {{ booking.start_date }}</li>
       <li><strong>Enddatum:</strong> {{ booking.end_date }}</li>
-      <li><strong>Gesamtpreis (inkl. MwSt.):</strong> €{{ booking.total_price }}</li>
-      <li><strong>MwSt.-Betrag:</strong> €{{ booking.vat_amount }}</li>
-      <li><strong>Kautionsbetrag:</strong> €1000</li>
+      <li><strong>Grundpreis:</strong> €{{ summary.base|floatformat:2 }}</li>
+      <li><strong>Zusatzleistungen:</strong> €{{ summary.servicesTotal|floatformat:2 }}</li>
+      <li><strong>MwSt.-Betrag:</strong> €{{ summary.vatAmount|floatformat:2 }}</li>
+      <li><strong>Kautionsbetrag:</strong> €{{ summary.deposit|floatformat:2 }}</li>
+      <li><strong>Gesamtpreis inkl. MwSt.:</strong> €{{ summary.grandTotal|floatformat:2 }}</li>
     </ul>
 
     <p>Wenn Sie Fragen haben, können Sie uns jederzeit kontaktieren.</p>
@@ -51,10 +53,13 @@
         <li><strong>Booking Number:</strong> {{ booking.booking_number }}</li>
         <li><strong>Start Date:</strong> {{ booking.start_date }}</li>
         <li><strong>End Date:</strong> {{ booking.end_date }}</li>
-        <li><strong>Total Price (incl. VAT):</strong> €{{ booking.total_price }}</li>
-        <li><strong>VAT Amount:</strong> €{{ booking.vat_amount }}</li>
-        <li><strong>Deposit Amount:</strong> €1000</li>
+        <li><strong>Base Price:</strong> €{{ summary.base|floatformat:2 }}</li>
+        <li><strong>Additional Services:</strong> €{{ summary.servicesTotal|floatformat:2 }}</li>
+        <li><strong>VAT Amount:</strong> €{{ summary.vatAmount|floatformat:2 }}</li>
+        <li><strong>Deposit Amount:</strong> €{{ summary.deposit|floatformat:2 }}</li>
+        <li><strong>Total Price (incl. VAT):</strong> €{{ summary.grandTotal|floatformat:2 }}</li>
       </ul>
+
 
       <p>If you have any questions, feel free to contact us.</p>
       <p>Best regards,<br>

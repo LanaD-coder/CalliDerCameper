@@ -11,9 +11,11 @@ Campervan: {{ booking.campervan.name }}
 Buchungsnummer: {{ booking.booking_number }}
 Startdatum: {{ booking.start_date }}
 Enddatum: {{ booking.end_date }}
-Gesamtpreis (inkl. MwSt.): €{{ booking.total_price }}
-MwSt.-Betrag: €{{ booking.vat_amount }}
-Kautionsbetrag: €1000
+Grundpreis: €{{ summary.base|floatformat:2 }}
+Zusatzleistungen: €{{ summary.servicesTotal|floatformat:2 }}
+MwSt.-Betrag: €{{ summary.vatAmount|floatformat:2 }}
+Kautionsbetrag: €{{ summary.deposit|floatformat:2 }}
+Gesamtpreis inkl. MwSt.: €{{ summary.grandTotal|floatformat:2 }}
 
 Wenn Sie Fragen haben, können Sie uns jederzeit kontaktieren.
 
@@ -33,12 +35,13 @@ Campervan: {{ booking.campervan.name }}
 Booking Number: {{ booking.booking_number }}
 Start Date: {{ booking.start_date }}
 End Date: {{ booking.end_date }}
-Total Price (incl. VAT): €{{ booking.total_price }}
-VAT Amount: €{{ booking.vat_amount }}
-Deposit Amount: €1000
+Base Price: €{{ summary.base|floatformat:2 }}
+Additional Services: €{{ summary.servicesTotal|floatformat:2 }}
+VAT Amount: €{{ summary.vatAmount|floatformat:2 }}
+Deposit Amount: €{{ summary.deposit|floatformat:2 }}
+Total Price (incl. VAT): €{{ summary.grandTotal|floatformat:2 }}
 
 If you have any questions, feel free to contact us.
 
 Best regards,
 CalliderCamper Team
-

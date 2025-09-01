@@ -1,7 +1,16 @@
+console.log("✅ booking.js loaded and running", window.location.href);
+
 // booking.js
 window.stripe = window.stripe || null;
 window.elements = window.elements || null;
 window.card = window.card || null;
+
+console.log("✅ booking.js is loaded");
+
+function safeParseNumber(value) {
+  const num = parseFloat(value);
+  return isNaN(num) ? 0 : num;
+}
 
 // ----------------------
 // Function Definitions
@@ -84,6 +93,9 @@ function calculateBaseRentalCost(datePrices, bookedDates = []) {
 }
 
 function calculateSummary(base, additionalServicePrices) {
+  console.log("calculateSummary called");
+  console.log("Base:", base);
+  console.log("Additional services:", additionalServicePrices);
   base = parseFloat(base) || 0;
   const additionalServiceCheckboxes = document.querySelectorAll(
     'input[name="additional_services"]'
@@ -93,6 +105,10 @@ function calculateSummary(base, additionalServicePrices) {
   additionalServiceCheckboxes.forEach((cb) => {
     if (cb.checked) {
       servicesTotal += parseFloat(additionalServicePrices[cb.value]) || 0;
+      console.log(
+        `Service ${cb.value} checked, value:`,
+        additionalServicePrices[cb.value]
+      );
     }
   });
 
@@ -100,6 +116,11 @@ function calculateSummary(base, additionalServicePrices) {
   const vatAmount = Math.round(subtotal * 0.19 * 100) / 100 || 0;
   const deposit = 1000;
   const grandTotal = Math.round((subtotal + vatAmount + deposit) * 100) / 100;
+
+  console.log("Subtotal:", subtotal);
+  console.log("VAT amount:", vatAmount);
+  console.log("Deposit:", deposit);
+  console.log("Grand total:", grandTotal);
 
   const summaryElements = [
     "summary-base-price",
@@ -165,15 +186,15 @@ function onDatesChanged(datePrices, additionalServicePrices) {
     }
 
     // Check availability
-    //const availability = await checkAvailability(startStr, endStr);
-    //if (!availability.available) {
-    //showFormErrors(
-    //availability.errors || ["Selected dates are not available."]
-    //);
-    //document.getElementById("base-rental-cost").textContent = "Invalid dates";
-    //calculateSummary(0, additionalServicePrices);
-    //return;
-    //}
+    const availability = await checkAvailability(startStr, endStr);
+    if (!availability.available) {
+      showFormErrors(
+        availability.errors || ["Selected dates are not available."]
+      );
+      document.getElementById("base-rental-cost").textContent = "Invalid dates";
+      calculateSummary(0, additionalServicePrices);
+      return;
+    }
 
     const bookedDates = await fetchBookedDates();
     const base = calculateBaseRentalCost(datePrices, bookedDates);
@@ -188,19 +209,35 @@ function onDatesChanged(datePrices, additionalServicePrices) {
   };
 }
 
-async function refreshDatepickers(datePrices, additionalServicePrices) {
-  const bookedDates = await fetchBookedDates();
+async function setupDatepickers(
+  datePrices,
+  additionalServicePrices,
+  blockedDates = []
+) {
+  // Fetch booked dates from API
+  const bookedDates = (await fetchBookedDates()) || [];
+  console.log("Booked dates:", bookedDates);
 
+  // Merge booked dates and blocked dates
+  const allDisabledDates = [...bookedDates, ...blockedDates];
+
+  // Keep only valid "yyyy-mm-dd" strings
+  const allDisabledDatesFiltered = allDisabledDates.filter(
+    (d) => typeof d === "string" && /^\d{4}-\d{2}-\d{2}$/.test(d)
+  );
+
+  // Destroy previous datepickers if any
   $("#id_start_date, #id_end_date").datepicker("destroy");
 
+  // Initialize new datepickers with all disabled dates
   $("#id_start_date, #id_end_date")
     .datepicker({
       format: "yyyy-mm-dd",
-      datesDisabled: bookedDates,
       autoclose: true,
       todayHighlight: true,
+      language: "de",
+      datesDisabled: allDisabledDatesFiltered,
     })
-    .off("changeDate")
     .on("changeDate", function () {
       onDatesChanged(datePrices, additionalServicePrices)();
     });
@@ -257,106 +294,153 @@ function showFormErrors(errors) {
   }
 }
 
+function serializeForm(form) {
+  const formData = new FormData(form);
+  const data = {};
+
+  for (let [key, value] of formData.entries()) {
+    if (value === undefined || value === null || value === "") continue;
+
+    if (key === "additional_services") {
+      if (!data[key]) data[key] = [];
+      data[key].push(value);
+    } else {
+      data[key] = value;
+    }
+  }
+
+  // Ensure required fields exist
+  data.start_date = data.start_date || "";
+  data.end_date = data.end_date || "";
+
+  return data;
+}
+
 // ----------------------
 // Initialize Booking Form
 // ----------------------
 async function initBookingForm({
   datePrices,
   additionalServicePrices,
+  blockedDates = [],
   ajaxUrl,
 }) {
-  const startDateInput = document.getElementById("id_start_date");
-  const endDateInput = document.getElementById("id_end_date");
-  const form = document.getElementById("booking-form");
-  const additionalServiceCheckboxes = document.querySelectorAll(
-    'input[name="additional_services"]'
-  );
+  window.blockedDates = blockedDates;
 
-  if (!form || !startDateInput || !endDateInput) return;
+  try {
+    console.log("Starting initBookingForm");
 
-  async function setupDatepickers() {
-    const bookedDates = await fetchBookedDates();
-    $("#id_start_date, #id_end_date").datepicker("destroy");
-    $("#id_start_date, #id_end_date")
-      .datepicker({
-        format: "yyyy-mm-dd",
-        datesDisabled: bookedDates,
-        autoclose: true,
-        todayHighlight: true,
-      })
-      .off("changeDate")
-      .on("changeDate", onDatesChanged(datePrices, additionalServicePrices));
-  }
+    const startDateInput = document.getElementById("id_start_date");
+    const endDateInput = document.getElementById("id_end_date");
+    const form = document.getElementById("booking-form");
+    const additionalServiceCheckboxes = document.querySelectorAll(
+      'input[name="additional_services"]'
+    );
 
-  await setupDatepickers();
+    if (!form || !startDateInput || !endDateInput) return;
 
-  // Clear previous dates AFTER datepicker init
-  startDateInput.value = "";
-  endDateInput.value = "";
-  calculateBaseRentalCost(datePrices);
-  calculateSummary(0, additionalServicePrices);
+    // Initialize datepickers
+    await setupDatepickers(datePrices, additionalServicePrices, blockedDates);
 
-  toggleAdditionalDriverFields();
-  document
-    .getElementById("add_driver_yes")
-    ?.addEventListener("change", toggleAdditionalDriverFields);
-  document
-    .getElementById("add_driver_no")
-    ?.addEventListener("change", toggleAdditionalDriverFields);
+    // Clear previous dates AFTER datepicker init
+    startDateInput.value = "";
+    endDateInput.value = "";
+    calculateBaseRentalCost(datePrices);
+    calculateSummary(0, additionalServicePrices);
 
-  additionalServiceCheckboxes.forEach((cb) => {
-    cb.addEventListener("change", () => {
-      const base =
-        parseFloat(document.getElementById("base-rental-cost").textContent) ||
-        0;
-      calculateSummary(base, additionalServicePrices);
-    });
-  });
+    // Additional driver toggle
+    toggleAdditionalDriverFields();
+    document
+      .getElementById("add_driver_yes")
+      ?.addEventListener("change", toggleAdditionalDriverFields);
+    document
+      .getElementById("add_driver_no")
+      ?.addEventListener("change", toggleAdditionalDriverFields);
 
-  setupStripePayment();
-
-  // Form submission
-  form.addEventListener("submit", function (e) {
-    e.preventDefault();
-    if (!document.getElementById("accept-datenschutz")?.checked) {
-      showFormErrors(["Bitte bestätigen Sie die Datenschutzerklärung."]);
-      return;
-    }
-
-    const formData = new FormData(this);
-    const data = {};
-    formData.forEach((value, key) => {
-      if (key === "additional_services") {
-        if (!data[key]) data[key] = [];
-        data[key].push(value);
-      } else {
-        data[key] = value;
-      }
-    });
-
-    fetch(ajaxUrl, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "X-CSRFToken": getCookie("csrftoken"),
-      },
-      body: JSON.stringify(data),
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.session_id) {
-          stripe.redirectToCheckout({ sessionId: data.session_id });
-        } else if (data.errors) {
-          showFormErrors(data.errors);
-        } else {
-          showFormErrors(["Ein unbekannter Fehler ist aufgetreten."]);
-        }
-      })
-      .catch((err) => {
-        console.error("Submit error:", err);
-        showFormErrors(["Beim Buchen ist ein Fehler aufgetreten."]);
+    // Update summary when additional services change
+    additionalServiceCheckboxes.forEach((cb) => {
+      cb.addEventListener("change", () => {
+        const base =
+          parseFloat(
+            document.getElementById("base-rental-cost")?.textContent
+          ) || 0;
+        calculateSummary(base, additionalServicePrices);
       });
-  });
-}
+    });
 
+    // Initialize Stripe payment
+    setupStripePayment();
+
+    form.addEventListener("submit", function (e) {
+      e.preventDefault();
+
+      if (!document.getElementById("accept-datenschutz")?.checked) {
+        showFormErrors(["Bitte bestätigen Sie die Datenschutzerklärung."]);
+        return;
+      }
+
+      // Serialize form safely
+      const data = serializeForm(this);
+      console.log("📝 Serialized form data:", data);
+
+      // Add safe numeric summary
+      data.summary = {
+        base: safeParseNumber(
+          document.getElementById("summary-base-price")?.textContent
+        ),
+        servicesTotal: safeParseNumber(
+          document.getElementById("summary-services-price")?.textContent
+        ),
+        vatAmount: safeParseNumber(
+          document.getElementById("summary-vat")?.textContent
+        ),
+        deposit: safeParseNumber(
+          document.getElementById("summary-deposit-price")?.textContent
+        ),
+        grandTotal: safeParseNumber(
+          document.getElementById("summary-grand-total")?.textContent
+        ),
+      };
+      console.log("📦 JSON payload to send:", JSON.stringify(data));
+
+      try {
+        const jsonPayload = JSON.stringify(data);
+        console.log("📦 JSON payload:", jsonPayload);
+
+        fetch(ajaxUrl, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "X-CSRFToken": getCookie("csrftoken"),
+          },
+          body: JSON.stringify(data),
+        })
+          .then(async (res) => {
+            console.log("📤 Response status:", res.status);
+            const json = await res.json().catch(() => null);
+            console.log("📩 Response JSON:", json);
+            return json;
+          })
+          .then((resp) => {
+            if (!resp) return showFormErrors(["Server returned invalid JSON"]);
+            if (resp.session_id)
+              stripe.redirectToCheckout({ sessionId: resp.session_id });
+            else if (resp.errors) showFormErrors(resp.errors);
+            else showFormErrors(["Ein unbekannter Fehler ist aufgetreten."]);
+          })
+          .catch((err) => {
+            console.error("Submit error:", err);
+            showFormErrors(["Beim Buchen ist ein Fehler aufgetreten."]);
+          });
+      } catch (err) {
+        console.error("Error submitting form:", err);
+        showFormErrors(["Beim Buchen ist ein Fehler aufgetreten."]);
+      }
+    }); // ✅ closes form.addEventListener
+  } catch (err) {
+    console.error("Error in initBookingForm:", err);
+  }
+} // ✅ closes initBookingForm
+
+// Expose globally
 window.initBookingForm = initBookingForm;
