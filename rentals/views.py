@@ -27,10 +27,57 @@ from django.utils.translation import gettext as _
 
 stripe.api_key = settings.STRIPE_SECRET_KEY
 
+def generate_date_prices(seasonal_rates):
+    date_prices = {}
+    for season in seasonal_rates:
+        start, end, price = season['start'], season['end'], season['price']
+        current = start
+        while current <= end:
+            date_prices[current.isoformat()] = price
+            current += timedelta(days=1)
+    return date_prices
+
+
+def get_date_price_map(years_ahead=2):
+    """
+    Returns a dict of {date_iso: rate} for all SeasonalRate objects,
+    handling cross-year seasons and multiple years ahead.
+    """
+    date_prices = {}
+    today = date.today()
+    current_year = today.year
+
+    seasonal_rates = SeasonalRate.objects.all()
+
+    for rate in seasonal_rates:
+        for year_offset in range(years_ahead + 1):
+            year = current_year + year_offset
+
+            try:
+                start_date = date(year, rate.start_month, rate.start_day)
+                end_date = date(year, rate.end_month, rate.end_day)
+
+                # Handle cross-year season
+                if end_date < start_date:
+                    end_date = date(year + 1, rate.end_month, rate.end_day)
+
+                current = start_date
+                while current <= end_date:
+                    date_prices[current.strftime('%Y-%m-%d')] = float(rate.rate)
+                    current += timedelta(days=1)
+
+            except ValueError as e:
+                # Skip invalid dates like Feb 30
+                print(f"Skipping invalid date for rate {rate.pk}: {e}")
+                continue
+
+    return date_prices
+
+
 def booking_page(request, pk):
     campervan = get_object_or_404(Campervan, pk=pk)
 
-    date_prices = get_date_price_map(years_ahead=5)
+    date_prices = get_date_price_map(years_ahead=2)
     print("date_prices dict:", date_prices)
 
     start_date_str = request.GET.get('start_date')
@@ -64,21 +111,27 @@ def booking_page(request, pk):
         for service in AdditionalService.objects.all()
     }
 
-    blocked_dates_qs = BlockedDate.objects.all()
     blocked_list = []
-    for block in blocked_dates_qs:
+    for block in BlockedDate.objects.all():
         current = block.start_date
         while current <= block.end_date:
             blocked_list.append(current.strftime('%Y-%m-%d'))
             current += timedelta(days=1)
 
+    booked_list = []
+    for booking in Booking.objects.filter(campervan=campervan, status='active'):
+        current = booking.start_date
+        while current <= booking.end_date:
+            booked_list.append(current.strftime('%Y-%m-%d'))
+            current += timedelta(days=1)
 
     return render(request, 'rentals/booking_form.html', {
         'form': form,
         'campervan': campervan,
-        'date_prices': json.dumps(date_prices),
+        'date_prices_json': json.dumps(date_prices),
         'additional_service_prices_json': json.dumps(additional_service_prices),
         'blocked_dates_json': json.dumps(blocked_list),
+        'booked_dates_json': json.dumps(booked_list),
         'stripe_public_key': settings.STRIPE_PUBLISHABLE_KEY,
         'total_price': total_price,
         'subtotal': subtotal,
@@ -143,33 +196,6 @@ def home(request):
     })
 
 
-def get_date_price_map(years_ahead=2):
-    date_prices = {}
-    today = date.today()
-    current_year = today.year
-
-    for rate in SeasonalRate.objects.all():
-        for year_offset in range(years_ahead + 1):
-            year = current_year + year_offset
-            try:
-                start_date = date(year, rate.start_month, rate.start_day)
-                end_date = date(year, rate.end_month, rate.end_day)
-                # Handle cross-year seasons
-                if end_date < start_date:
-                    end_date = date(year + 1, rate.end_month, rate.end_day)
-
-                current = start_date
-                while current <= end_date:
-                    date_prices[current.strftime('%Y-%m-%d')] = float(rate.rate)
-                    current += timedelta(days=1)
-                    print(f"Processed rate {rate.pk}: {start_date} - {end_date} -> {rate.rate}")
-            except Exception as e:
-                print(f"Error processing rate {rate.pk}: {e}")
-                continue
-
-    return date_prices
-
-
 def campervan_detail(request):
     van = Campervan.objects.first()
     images = van.images.all()
@@ -195,10 +221,17 @@ def create_booking_ajax(request, pk):
 
     campervan = get_object_or_404(Campervan, pk=pk)
 
+    # Debugging: log raw body
+    raw_body = request.body.decode('utf-8')
+    print("Raw request body:", raw_body)
+
     try:
-        data = json.loads(request.body)
-    except json.JSONDecodeError:
-        return JsonResponse({'errors': 'Invalid JSON'}, status=400)
+        data = json.loads(raw_body)
+    except json.JSONDecodeError as e:
+        print("JSON decode error:", str(e))
+        return JsonResponse({'errors': f'Invalid JSON: {str(e)}'}, status=400)
+
+    print("Parsed JSON data:", data)
 
     summary = data.get("summary", {})
 
@@ -268,7 +301,7 @@ def create_booking_ajax(request, pk):
 
     total_price = taxable_subtotal + subtotal + deposit
 
-    booking.total_price = total_price
+    booking.total_price = float(total_price)
     booking.save()
     form.save_m2m()
 
@@ -286,7 +319,7 @@ def create_booking_ajax(request, pk):
                     'product_data': {
                         'name': f'Booking {booking.booking_number} - {campervan.name}',
                     },
-                    'unit_amount': int(taxable_subtotal * 100 + subtotal * 100),
+                    'unit_amount': int(float(taxable_subtotal + subtotal) * 100)
                 },
                 'quantity': 1,
                 'tax_rates': [settings.STRIPE_MWST_TAX_RATE_ID],
@@ -474,28 +507,30 @@ def payment_cancel(request):
 
 
 def booked_dates_api(request):
-    # Fetch all normal bookings
-    bookings = Booking.objects.all()
-    # Fetch all manually blocked dates
+    # Fetch all active bookings
+    bookings = Booking.objects.filter(status='active')
     blocked_dates = BlockedDate.objects.all()
 
-    dates = []
+    dates = set()  # use a set to avoid duplicates
 
     # Add booked dates
     for booking in bookings:
         current = booking.start_date
         while current <= booking.end_date:
-            dates.append(current.isoformat())
+            dates.add(current.isoformat())
             current += timedelta(days=1)
 
     # Add manually blocked dates
     for block in blocked_dates:
         current = block.start_date
         while current <= block.end_date:
-            dates.append({'date': current.isoformat(), 'note': block.note or 'Blocked'})
+            dates.add(current.isoformat())
             current += timedelta(days=1)
 
-    return JsonResponse({'booked_dates': dates})
+    # Return sorted list
+    dates_list = sorted(dates)
+
+    return JsonResponse({'booked_dates': dates_list})
 
 
 @csrf_exempt
@@ -593,17 +628,43 @@ def send_payment_success_email(user, booking):
 
 
 def create_handover_checklist(request):
+    checklist = None
     if request.method == 'POST':
         form = HandoverChecklistForm(request.POST,  request.FILES)
         formset = HandoverPhotoFormSet(request.POST, request.FILES, queryset=HandoverPhoto.objects.none())
 
         if form.is_valid() and formset.is_valid():
             checklist = form.save()
+
+            # Handle base64 signature if any
+            signature_data = request.POST.get('signature_data')
+            if signature_data:
+                format, imgstr = signature_data.split(';base64,')
+                ext = format.split('/')[-1]
+                filename = f"signature_{checklist.booking.booking_number}.{ext}"
+
+                upload_result = cloudinary.uploader.upload(
+                    base64.b64decode(imgstr),
+                    folder=f"signatures/{checklist.booking.booking_number}/",
+                    public_id=f"signature_{checklist.booking.booking_number}",
+                )
+                checklist.customer_signature = upload_result['secure_url']
+
+            checklist.save()
+
+            # Handle photos in the formset
             for photo_form in formset:
                 if photo_form.cleaned_data and photo_form.cleaned_data.get('image'):
                     photo = photo_form.save(commit=False)
                     photo.checklist = checklist
+                    # Upload photo to Cloudinary
+                    upload_result = cloudinary.uploader.upload(
+                        photo.image,
+                        folder=f"handover_photos/{checklist.booking.booking_number}/"
+                    )
+                    photo.image = upload_result['secure_url']
                     photo.save()
+
             return redirect('some-success-url')
     else:
         form = HandoverChecklistForm()
@@ -614,7 +675,6 @@ def create_handover_checklist(request):
         'formset': formset,
         'checklist': checklist,
     })
-
 
 @staff_member_required
 def booking_list(request):
@@ -908,3 +968,10 @@ def blocked_date_delete(request, pk):
         bd.delete()
         return redirect('admin_dashboard')
     return render(request, 'admin/blocked_date_confirm_delete.html', {'blocked_date': bd})
+
+
+def check_auth(request):
+    """
+    Returns whether the current user is authenticated.
+    """
+    return JsonResponse({"is_authenticated": request.user.is_authenticated})

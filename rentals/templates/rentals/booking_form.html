@@ -32,9 +32,9 @@
 
       <div class="calendar-legend" style="margin-top: 1rem;">
         <strong>{% trans "Bitte beachten:" %}</strong>
-        <div style="display: flex; align-items: center; gap: 0.5rem; margin-top: 0.5rem;">
-          <div style="width: 16px; height: 16px; background-color: #cccccc; border: 1px solid #999999;"></div>
-          <span>{% trans "Ausgegraute Tage sind nicht buchbar." %}</span>
+        <div class="text-muted small mt-1" style="display: flex; align-items: center; gap: 0.5rem;">
+          <div style="width: 16px; height: 16px; background-color: #999898; border: 1px solid #999999;"></div>
+          <span>{% trans "Grau markierte Tage sind bereits gebucht & können nicht ausgewählt werden." %}</span>
         </div>
       </div>
 
@@ -131,7 +131,15 @@
 
     <fieldset>
       <legend>{% trans "Zusatzleistungen" %}</legend>
-      {{ form.additional_services }}
+      {% for checkbox in form.additional_services %}
+        <div class="form-check">
+          {{ checkbox.tag }}
+          <label class="form-check-label" for="{{ checkbox.id_for_label }}">
+            {{ checkbox.choice_label }}
+            <span class="service-price" data-service-id="{{ checkbox.choice_value }}"></span>
+          </label>
+        </div>
+      {% endfor %}
       <div class="field-error">{{ form.additional_services.errors }}</div>
     </fieldset>
 
@@ -176,54 +184,121 @@
 
 <div id="form-errors" style="display:none; color:red; margin-top:10px;"></div>
 
+{{ blocked_dates_json|json_script:"blocked-dates" }}
+{{ additional_service_prices_json|json_script:"additional-services" }}
+
 <!-- Stripe.js -->
 <script src="https://js.stripe.com/v3/"></script>
 <!-- Booking.js -->
+<script src="{% static 'js/dailyRates.js' %}"></script>
+<script src="{% static 'js/additionalServices.js' %}"></script>
 <script src="{% static 'js/booking.js' %}"></script>
 
 <script>
 document.addEventListener("DOMContentLoaded", function() {
-    const datePrices = {{ date_prices|default:"{}"|safe }};
-    const servicePrices = {{ additional_service_prices_json|default:"{}"|safe }};
-    const blockedDates = {{ blocked_dates_json|default:"[]"|safe }};
-    const ajaxUrl = "{% url 'create_booking_ajax' campervan.pk %}";
+    // Parse JSON safely
+    const blockedDatesEl = document.getElementById("blocked-dates");
+    const additionalServicesEl = document.getElementById("additional-services");
 
-    // Initialize booking form and pass blockedDates
+    const blockedDates = blockedDatesEl ? JSON.parse(blockedDatesEl.textContent) : [];
+    const additionalServicePrices = additionalServicesEl ? JSON.parse(additionalServicesEl.textContent) : {};
+
+    console.log("BlockedDates:", blockedDates);
+    console.log("AdditionalServicePrices:", additionalServicePrices);
+
+    // Function to calculate services total
+    function calculateServicesTotal() {
+        let servicesTotal = 0;
+        document.querySelectorAll('input[name="additional_services"]:checked').forEach(cb => {
+            const price = parseFloat(additionalServicePrices[cb.value]) || 0;
+            servicesTotal += price;
+            console.log(`Service ${cb.value} checked, value:`, price);
+        });
+        return servicesTotal;
+    }
+
+    // Initial calculation
+    let servicesTotal = calculateServicesTotal();
+
+    // Optional: update subtotal/grand total in the UI
+    function updateTotalsUI() {
+        const servicesTotalEl = document.getElementById('services-total');
+        if (servicesTotalEl) {
+            servicesTotalEl.textContent = servicesTotal.toFixed(2);
+        }
+    }
+    updateTotalsUI();
+
+    // Add change listeners to checkboxes for dynamic updates
+    document.querySelectorAll('input[name="additional_services"]').forEach(cb => {
+        cb.addEventListener('change', () => {
+            servicesTotal = calculateServicesTotal();
+            updateTotalsUI();
+        });
+    });
+
+    // Initialize your booking form
     initBookingForm({
-        datePrices: datePrices,
-        additionalServicePrices: servicePrices,
-        blockedDates: blockedDates,
-        ajaxUrl: ajaxUrl
+        additionalServicePrices,
+        blockedDates,
+        ajaxUrl: "{% url 'create_booking_ajax' campervan.pk %}"
     });
 });
 </script>
+
+
 
 <!-- Optional toast messages -->
 <script>
 {% if messages %}
     {% for message in messages %}
-        toast.error("{{ message|escapejs }}");
+        toastr["{{ message.tags|default:'info' }}"]("{{ message|escapejs }}");
     {% endfor %}
 {% endif %}
 </script>
 
 <!-- Modal for login/register prompt -->
 <div id="loginPromptModal" style="display:none;">
-  <div style="background:white; padding:20px; border-radius:8px; max-width:400px; text-align:center;">
-    <h2>{% trans "You need to be a registered user to book Calli." %}</h2>
+  <div style="background:white; padding:20px; border-radius:8px; max-width:400px; text-align:center; margin: 100px auto; box-shadow:0 4px 12px rgba(0,0,0,0.2);">
+    <h2>Sie müssen registriert und eingeloggt sein, um Calli zu buchen.</h2>
     {% url 'account_login' as login_url %}
     {% url 'account_signup' as signup_url %}
     <p>
-      {% blocktrans %}
-      Please <a href="{{ login_url }}">log in</a> or <a href="{{ signup_url }}">sign up</a> to make a booking.
-      {% endblocktrans %}
+      Bitte <a href="{{ login_url }}">einloggen</a> oder <a href="{{ signup_url }}">registrieren</a>, um eine Buchung vorzunehmen.
     </p>
     <button onclick="document.getElementById('loginPromptModal').style.display='none'"
-            style="border:0; border-radius:0.8rem; background-color:#0dc1bf; color:white;">
-      Close
+            style="border:0; border-radius:0.8rem; background-color:#0dc1bf; color:white; padding:8px 16px; cursor:pointer;">
+      Schließen
     </button>
   </div>
 </div>
 
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const nameField = document.querySelector('[name="{{ form.primary_driver_name.html_name }}"]');
+  const modal = document.getElementById('loginPromptModal');
+
+  // Function to check authentication
+  const checkAuth = async () => {
+    try {
+      const response = await fetch("/rentals/api/check-auth/");
+      const data = await response.json();
+      return data.is_authenticated;
+    } catch (err) {
+      console.error("Error checking auth:", err);
+      return false;
+    }
+  };
+
+  // Trigger modal when the user focuses on the field
+  nameField.addEventListener('focus', async (e) => {
+    const isLoggedIn = await checkAuth();
+    if (!isLoggedIn) {
+      e.target.blur(); // prevent typing
+      modal.style.display = 'flex'; // show modal
+    }
+  });
+});
+</script>
 
 {% endblock %}

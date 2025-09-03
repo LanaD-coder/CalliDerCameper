@@ -1,11 +1,45 @@
 console.log("✅ booking.js loaded and running", window.location.href);
 
-// booking.js
+// booking.js global objects
 window.stripe = window.stripe || null;
 window.elements = window.elements || null;
 window.card = window.card || null;
+window.dailyRates = window.dailyRates || {};
+window.additionalServicePrices = window.additionalServicePrices || {};
 
-console.log("✅ booking.js is loaded");
+// ----------------------
+// Seasonal Rates
+// ----------------------
+const seasonalRates = [
+  { start: "2025-04-01", end: "2025-05-31", price: 95 },
+  { start: "2025-06-01", end: "2025-08-31", price: 110 },
+  { start: "2025-09-01", end: "2025-09-30", price: 95 },
+  { start: "2025-10-01", end: "2026-03-31", price: 75 },
+];
+
+window.additionalServicePrices = {
+  1: 59, // Endreinigung
+};
+console.log("AdditionalServicePrices:", window.additionalServicePrices);
+// ----------------------
+// Helpers
+// ----------------------
+function parseDateYMD(str) {
+  if (!str) return null;
+  const [year, month, day] = str.split("-").map(Number);
+  return new Date(year, month - 1, day);
+}
+
+function formatDateYMD(date) {
+  const yyyy = date.getFullYear();
+  const mm = String(date.getMonth() + 1).padStart(2, "0");
+  const dd = String(date.getDate()).padStart(2, "0");
+  return `${yyyy}-${mm}-${dd}`;
+}
+
+function getPriceForDate(dateStr) {
+  return window.dailyRates[dateStr] || 0;
+}
 
 function safeParseNumber(value) {
   const num = parseFloat(value);
@@ -22,20 +56,42 @@ function toggleAdditionalDriverFields() {
 }
 window.toggleAdditionalDriverFields = toggleAdditionalDriverFields;
 
-function parseDateYMD(str) {
-  if (!str) return null;
-  const parts = str.trim().split("-").map(Number);
-  if (parts.length !== 3) return null;
-  const [year, month, day] = parts;
-  if (isNaN(year) || isNaN(month) || isNaN(day)) return null;
-  return new Date(year, month - 1, day);
-}
+console.log("Daily rates loaded:", window.dailyRates);
 
-function formatDateYMD(date) {
-  const yyyy = date.getFullYear();
-  const mm = String(date.getMonth() + 1).padStart(2, "0");
-  const dd = String(date.getDate()).padStart(2, "0");
-  return `${yyyy}-${mm}-${dd}`;
+function calculateBaseRentalCost() {
+  const startInput = document.getElementById("id_start_date");
+  const endInput = document.getElementById("id_end_date");
+  const baseEl = document.getElementById("base-rental-cost");
+  if (!startInput || !endInput || !baseEl) return null;
+
+  const startStr = startInput.value.trim();
+  const endStr = endInput.value.trim();
+  if (!startStr || !endStr) {
+    baseEl.textContent = "--";
+    return null;
+  }
+
+  const startDate = parseDateYMD(startStr);
+  const endDate = parseDateYMD(endStr);
+  console.log("Start:", startStr, "End:", endStr);
+  console.log("Parsed Start:", startDate, "Parsed End:", endDate);
+  if (!startDate || !endDate || endDate < startDate) {
+    baseEl.textContent = "Invalid dates";
+    return null;
+  }
+
+  let total = 0;
+  const oneDay = 24 * 60 * 60 * 1000;
+  for (let t = startDate.getTime(); t <= endDate.getTime(); t += oneDay) {
+    const d = new Date(t);
+    const dateKey = formatDateYMD(d);
+    const price = getPriceForDate(dateKey);
+    console.log("Date:", dateKey, "Price:", price);
+    total += price;
+  }
+
+  baseEl.textContent = total.toFixed(2);
+  return total;
 }
 
 async function fetchBookedDates() {
@@ -52,69 +108,25 @@ async function fetchBookedDates() {
   }
 }
 
-function calculateBaseRentalCost(datePrices, bookedDates = []) {
-  const startInput = document.getElementById("id_start_date");
-  const endInput = document.getElementById("id_end_date");
-  const baseEl = document.getElementById("base-rental-cost");
-  if (!startInput || !endInput || !baseEl) return 0;
-
-  const startStr = startInput.value.trim();
-  const endStr = endInput.value.trim();
-  if (!startStr || !endStr) {
-    baseEl.textContent = "--";
-    return 0;
-  }
-
-  const startDate = parseDateYMD(startStr);
-  const endDate = parseDateYMD(endStr);
-  if (!startDate || !endDate || endDate < startDate) {
-    baseEl.textContent = "Invalid dates";
-    return 0;
-  }
-
-  let total = 0;
-  let current = new Date(startDate);
-  while (current <= endDate) {
-    const key = formatDateYMD(current);
-
-    // Only invalid if the date is booked
-    if (bookedDates.includes(key)) {
-      baseEl.textContent = "Invalid dates";
-      return 0;
-    }
-
-    // If the date exists in datePrices, add it; otherwise 0
-    total += datePrices[key] || 0;
-    current.setDate(current.getDate() + 1);
-  }
-
-  baseEl.textContent = total.toFixed(2);
-  return total;
-}
-
 function calculateSummary(base, additionalServicePrices) {
-  console.log("calculateSummary called");
   console.log("Base:", base);
-  console.log("Additional services:", additionalServicePrices);
   base = parseFloat(base) || 0;
-  const additionalServiceCheckboxes = document.querySelectorAll(
-    'input[name="additional_services"]'
-  );
 
+  const additionalServiceCheckboxes = document.querySelectorAll(
+    'input[name="additional_services"]:checked'
+  );
   let servicesTotal = 0;
+
   additionalServiceCheckboxes.forEach((cb) => {
-    if (cb.checked) {
-      servicesTotal += parseFloat(additionalServicePrices[cb.value]) || 0;
-      console.log(
-        `Service ${cb.value} checked, value:`,
-        additionalServicePrices[cb.value]
-      );
-    }
+    const key = cb.value.toString().trim(); // ensures string + removes whitespace
+    const price = parseFloat(window.additionalServicePrices[key]) || 0;
+    servicesTotal += price;
+    console.log(`Service ${key} checked, value:`, price);
   });
 
   const subtotal = base + servicesTotal;
-  const vatAmount = Math.round(subtotal * 0.19 * 100) / 100 || 0;
-  const deposit = 1000;
+  const vatAmount = Math.round(subtotal * 0.19 * 100) / 100 || 0; // 19% VAT
+  const deposit = 1000; // fixed deposit
   const grandTotal = Math.round((subtotal + vatAmount + deposit) * 100) / 100;
 
   console.log("Subtotal:", subtotal);
@@ -122,24 +134,18 @@ function calculateSummary(base, additionalServicePrices) {
   console.log("Deposit:", deposit);
   console.log("Grand total:", grandTotal);
 
-  const summaryElements = [
-    "summary-base-price",
-    "summary-services-price",
-    "summary-vat",
-    "summary-deposit-price",
-    "summary-grand-total",
-  ];
+  const domMap = {
+    "summary-base-price": base,
+    "summary-services-price": servicesTotal,
+    "summary-vat": vatAmount,
+    "summary-deposit-price": deposit,
+    "summary-grand-total": grandTotal,
+  };
 
-  if (!summaryElements.every((id) => document.getElementById(id))) return;
-
-  document.getElementById("summary-base-price").textContent = base.toFixed(2);
-  document.getElementById("summary-services-price").textContent =
-    servicesTotal.toFixed(2);
-  document.getElementById("summary-vat").textContent = vatAmount.toFixed(2);
-  document.getElementById("summary-deposit-price").textContent =
-    deposit.toFixed(2);
-  document.getElementById("summary-grand-total").textContent =
-    grandTotal.toFixed(2);
+  Object.entries(domMap).forEach(([id, value]) => {
+    const el = document.getElementById(id);
+    if (el) el.textContent = value.toFixed(2);
+  });
 }
 
 function getCookie(name) {
@@ -170,37 +176,43 @@ async function checkAvailability(startDate, endDate) {
   }
 }
 
-function onDatesChanged(datePrices, additionalServicePrices) {
-  return async function () {
+function onDatesChanged(additionalServicePrices, bookedDates) {
+  return function () {
+    console.log("✅ Dates changed listener fired");
     const startInput = document.getElementById("id_start_date");
     const endInput = document.getElementById("id_end_date");
     if (!startInput || !endInput) return;
 
     const startStr = startInput.value.trim();
     const endStr = endInput.value.trim();
+    console.log("Dates changed:", startStr, endStr);
 
     if (!startStr || !endStr) {
       document.getElementById("base-rental-cost").textContent = "--";
-      calculateSummary(0, additionalServicePrices);
+      const summaryFields = [
+        "summary-base-price",
+        "summary-services-price",
+        "summary-vat",
+        "summary-deposit-price",
+        "summary-grand-total",
+      ];
+      summaryFields.forEach((id) => {
+        const el = document.getElementById(id);
+        if (el) el.textContent = "--";
+      });
       return;
     }
 
-    // Check availability
-    const availability = await checkAvailability(startStr, endStr);
-    if (!availability.available) {
-      showFormErrors(
-        availability.errors || ["Selected dates are not available."]
-      );
-      document.getElementById("base-rental-cost").textContent = "Invalid dates";
-      calculateSummary(0, additionalServicePrices);
+    const startDate = parseDateYMD(startStr);
+    const endDate = parseDateYMD(endStr);
+    if (!startDate || !endDate || endDate < startDate) {
+      console.log("Invalid dates, skipping calculation");
       return;
     }
 
-    const bookedDates = await fetchBookedDates();
-    const base = calculateBaseRentalCost(datePrices, bookedDates);
+    const base = calculateBaseRentalCost();
     calculateSummary(base, additionalServicePrices);
 
-    // Clear errors
     const errorBox = document.getElementById("form-errors");
     if (errorBox) {
       errorBox.style.display = "none";
@@ -210,37 +222,65 @@ function onDatesChanged(datePrices, additionalServicePrices) {
 }
 
 async function setupDatepickers(
-  datePrices,
-  additionalServicePrices,
-  blockedDates = []
+  blockedDates = [],
+  bookedDates = [],
+  handleDatesChange
 ) {
-  // Fetch booked dates from API
-  const bookedDates = (await fetchBookedDates()) || [];
-  console.log("Booked dates:", bookedDates);
+  console.log("Booked Dates:", bookedDates);
 
-  // Merge booked dates and blocked dates
-  const allDisabledDates = [...bookedDates, ...blockedDates];
-
-  // Keep only valid "yyyy-mm-dd" strings
-  const allDisabledDatesFiltered = allDisabledDates.filter(
-    (d) => typeof d === "string" && /^\d{4}-\d{2}-\d{2}$/.test(d)
-  );
-
-  // Destroy previous datepickers if any
+  // Destroy previous datepickers
   $("#id_start_date, #id_end_date").datepicker("destroy");
 
-  // Initialize new datepickers with all disabled dates
-  $("#id_start_date, #id_end_date")
-    .datepicker({
-      format: "yyyy-mm-dd",
-      autoclose: true,
-      todayHighlight: true,
-      language: "de",
-      datesDisabled: allDisabledDatesFiltered,
+  // Merge and normalize blocked dates
+  window.allDisabledDates = [...blockedDates, ...bookedDates]
+    .map((d) => {
+      if (typeof d !== "string") return null;
+      const parts = d.split("-");
+      if (parts.length !== 3) return null;
+      const y = parts[0].padStart(4, "0");
+      const m = parts[1].padStart(2, "0");
+      const day = parts[2].padStart(2, "0");
+      return `${y}-${m}-${day}`;
     })
-    .on("changeDate", function () {
-      onDatesChanged(datePrices, additionalServicePrices)();
-    });
+    .filter(Boolean);
+
+  // Setup datepickers
+  ["#id_start_date", "#id_end_date"].forEach((selector) => {
+    $(selector)
+      .datepicker({
+        format: "yyyy-mm-dd",
+        startDate: new Date(),
+        autoclose: true,
+        todayHighlight: true,
+        language: "de",
+        beforeShowDay: function (date) {
+          const formatted = formatDateYMD(date);
+          if (window.allDisabledDates.includes(formatted)) {
+            return {
+              enabled: false,
+              classes: "disabled-date",
+              tooltip: "Dieser Tag ist nicht verfügbar",
+            };
+          }
+          return true;
+        },
+        forceParse: false,
+      })
+      .on("changeDate", function (e) {
+        const formatted = e.format("yyyy-mm-dd");
+        $(this).val(formatted);
+        handleDatesChange(); // ✅ calculation happens here
+      });
+  });
+
+  // Prevent typing blocked dates
+  $("#id_start_date, #id_end_date").on("change", function () {
+    const val = $(this).val();
+    if (window.allDisabledDates.includes(val)) {
+      alert("Dieser Tag ist nicht verfügbar!");
+      $(this).val("");
+    }
+  });
 }
 
 function setupStripePayment() {
@@ -309,19 +349,14 @@ function serializeForm(form) {
     }
   }
 
-  // Ensure required fields exist
   data.start_date = data.start_date || "";
   data.end_date = data.end_date || "";
 
   return data;
 }
 
-// ----------------------
-// Initialize Booking Form
-// ----------------------
 async function initBookingForm({
-  datePrices,
-  additionalServicePrices,
+  additionalServicePrices = {},
   blockedDates = [],
   ajaxUrl,
 }) {
@@ -333,22 +368,23 @@ async function initBookingForm({
     const startDateInput = document.getElementById("id_start_date");
     const endDateInput = document.getElementById("id_end_date");
     const form = document.getElementById("booking-form");
-    const additionalServiceCheckboxes = document.querySelectorAll(
-      'input[name="additional_services"]'
+
+    const bookedDates = await fetchBookedDates();
+
+    // Define the handler BEFORE passing it
+    const handleDatesChange = onDatesChanged(
+      additionalServicePrices,
+      bookedDates
     );
+
+    // Pass the handler into setupDatepickers
+    await setupDatepickers(blockedDates, bookedDates, handleDatesChange);
 
     if (!form || !startDateInput || !endDateInput) return;
 
-    // Initialize datepickers
-    await setupDatepickers(datePrices, additionalServicePrices, blockedDates);
+    console.log("Triggering initial calculation");
+    handleDatesChange(); // optional initial calculation
 
-    // Clear previous dates AFTER datepicker init
-    startDateInput.value = "";
-    endDateInput.value = "";
-    calculateBaseRentalCost(datePrices);
-    calculateSummary(0, additionalServicePrices);
-
-    // Additional driver toggle
     toggleAdditionalDriverFields();
     document
       .getElementById("add_driver_yes")
@@ -357,18 +393,14 @@ async function initBookingForm({
       .getElementById("add_driver_no")
       ?.addEventListener("change", toggleAdditionalDriverFields);
 
-    // Update summary when additional services change
-    additionalServiceCheckboxes.forEach((cb) => {
-      cb.addEventListener("change", () => {
-        const base =
-          parseFloat(
-            document.getElementById("base-rental-cost")?.textContent
-          ) || 0;
-        calculateSummary(base, additionalServicePrices);
+    document
+      .querySelectorAll('input[name="additional_services"]')
+      .forEach((cb) => {
+        cb.addEventListener("change", () => {
+          handleDatesChange();
+        });
       });
-    });
 
-    // Initialize Stripe payment
     setupStripePayment();
 
     form.addEventListener("submit", function (e) {
@@ -379,11 +411,7 @@ async function initBookingForm({
         return;
       }
 
-      // Serialize form safely
       const data = serializeForm(this);
-      console.log("📝 Serialized form data:", data);
-
-      // Add safe numeric summary
       data.summary = {
         base: safeParseNumber(
           document.getElementById("summary-base-price")?.textContent
@@ -401,46 +429,35 @@ async function initBookingForm({
           document.getElementById("summary-grand-total")?.textContent
         ),
       };
-      console.log("📦 JSON payload to send:", JSON.stringify(data));
 
-      try {
-        const jsonPayload = JSON.stringify(data);
-        console.log("📦 JSON payload:", jsonPayload);
-
-        fetch(ajaxUrl, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            "X-CSRFToken": getCookie("csrftoken"),
-          },
-          body: JSON.stringify(data),
+      fetch(ajaxUrl, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "X-CSRFToken": getCookie("csrftoken"),
+        },
+        credentials: "include",
+        body: JSON.stringify(data),
+      })
+        .then(async (res) => {
+          const json = await res.json().catch(() => null);
+          return json;
         })
-          .then(async (res) => {
-            console.log("📤 Response status:", res.status);
-            const json = await res.json().catch(() => null);
-            console.log("📩 Response JSON:", json);
-            return json;
-          })
-          .then((resp) => {
-            if (!resp) return showFormErrors(["Server returned invalid JSON"]);
-            if (resp.session_id)
-              stripe.redirectToCheckout({ sessionId: resp.session_id });
-            else if (resp.errors) showFormErrors(resp.errors);
-            else showFormErrors(["Ein unbekannter Fehler ist aufgetreten."]);
-          })
-          .catch((err) => {
-            console.error("Submit error:", err);
-            showFormErrors(["Beim Buchen ist ein Fehler aufgetreten."]);
-          });
-      } catch (err) {
-        console.error("Error submitting form:", err);
-        showFormErrors(["Beim Buchen ist ein Fehler aufgetreten."]);
-      }
-    }); // ✅ closes form.addEventListener
+        .then((resp) => {
+          if (!resp) return showFormErrors(["Server returned invalid JSON"]);
+          if (resp.session_id)
+            stripe.redirectToCheckout({ sessionId: resp.session_id });
+          else if (resp.errors) showFormErrors(resp.errors);
+          else showFormErrors(["Ein unbekannter Fehler ist aufgetreten."]);
+        })
+        .catch((err) => {
+          console.error("Submit error:", err);
+          showFormErrors(["Beim Buchen ist ein Fehler aufgetreten."]);
+        });
+    });
   } catch (err) {
     console.error("Error in initBookingForm:", err);
   }
-} // ✅ closes initBookingForm
+}
 
-// Expose globally
 window.initBookingForm = initBookingForm;

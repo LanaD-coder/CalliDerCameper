@@ -17,7 +17,9 @@ class Campervan(models.Model):
         rates = SeasonalRate.objects.all()
         for rate in rates:
             if rate.includes_date(date):
+                print(f"Found rate {rate.rate} for {date}")
                 return rate.rate
+        print(f"No rate found for {date}")
         return None
 
     def __str__(self):
@@ -297,7 +299,7 @@ class HandoverChecklist(models.Model):
 
     notes = models.TextField(blank=True)
 
-    customer_signature = models.ImageField(upload_to='signatures/', blank=True, null=True)
+    customer_signature = CloudinaryField('signature', blank=True, null=True)
     completed = models.BooleanField(default=False)
 
     def __str__(self):

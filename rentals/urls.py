@@ -21,6 +21,7 @@ urlpatterns = [
     path('api/booked-dates/', views.booked_dates_api, name='booked_dates_api'),
     path('api/check-availability/', views.check_availability, name='check_availability'),
     path('api/date-prices/', api_date_prices, name='api_date_prices'),
+    path('api/check-auth/', views.check_auth, name="check_auth"),
 
     path('admin/', views.admin_dashboard, name='admin_dashboard'),
     path('admin-panel/', views.booking_list, name='booking_list'),
