@@ -614,7 +614,7 @@ def send_payment_success_email(user, booking):
         'booking': booking,
         'total_price': booking.total_price,
         'payment_reference': booking.payment_reference,
-        'admin_booking_url': 'http://www.callidercamper.de/admin',
+        'admin_booking_url': 'https://www.callidercamper.de/admin',
     }
     admin_html = render_to_string("emails/admin_booking_notification.html", admin_context)
     admin_plain = render_to_string("emails/admin_booking_notification.txt", admin_context)
@@ -630,7 +630,7 @@ def send_payment_success_email(user, booking):
 def create_handover_checklist(request):
     checklist = None
     if request.method == 'POST':
-        form = HandoverChecklistForm(request.POST,  request.FILES)
+        form = HandoverChecklistForm(request.POST, request.FILES)
         formset = HandoverPhotoFormSet(request.POST, request.FILES, queryset=HandoverPhoto.objects.none())
 
         if form.is_valid() and formset.is_valid():
@@ -639,33 +639,49 @@ def create_handover_checklist(request):
             # Handle base64 signature if any
             signature_data = request.POST.get('signature_data')
             if signature_data:
-                format, imgstr = signature_data.split(';base64,')
-                ext = format.split('/')[-1]
-                filename = f"signature_{checklist.booking.booking_number}.{ext}"
+                try:
+                    format, imgstr = signature_data.split(';base64,')
+                    ext = format.split('/')[-1]
+                    filename = f"signature_{checklist.booking.booking_number}.{ext}"
 
-                upload_result = cloudinary.uploader.upload(
-                    base64.b64decode(imgstr),
-                    folder=f"signatures/{checklist.booking.booking_number}/",
-                    public_id=f"signature_{checklist.booking.booking_number}",
-                )
-                checklist.customer_signature = upload_result['secure_url']
+                    decoded_file = base64.b64decode(imgstr)
 
-            checklist.save()
+                    # Upload to Cloudinary
+                    upload_result = cloudinary.uploader.upload(
+                        decoded_file,
+                        folder=f"signatures/{checklist.booking.booking_number}/",
+                        public_id=f"signature_{checklist.booking.booking_number}",
+                        overwrite=True,
+                        resource_type="image"
+                    )
+
+                    # Save the secure URL returned by Cloudinary
+                    checklist.customer_signature = upload_result['secure_url']
+                    checklist.save()
+
+                except Exception as e:
+                    print("Error uploading signature to Cloudinary:", e)
 
             # Handle photos in the formset
             for photo_form in formset:
                 if photo_form.cleaned_data and photo_form.cleaned_data.get('image'):
                     photo = photo_form.save(commit=False)
                     photo.checklist = checklist
-                    # Upload photo to Cloudinary
-                    upload_result = cloudinary.uploader.upload(
-                        photo.image,
-                        folder=f"handover_photos/{checklist.booking.booking_number}/"
-                    )
-                    photo.image = upload_result['secure_url']
-                    photo.save()
+
+                    try:
+                        upload_result = cloudinary.uploader.upload(
+                            photo.image,
+                            folder=f"handover_photos/{checklist.booking.booking_number}/",
+                            overwrite=True,
+                            resource_type="image"
+                        )
+                        photo.image = upload_result['secure_url']
+                        photo.save()
+                    except Exception as e:
+                        print(f"Error uploading handover photo: {e}")
 
             return redirect('some-success-url')
+
     else:
         form = HandoverChecklistForm()
         formset = HandoverPhotoFormSet(queryset=HandoverPhoto.objects.none())

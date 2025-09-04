@@ -189,16 +189,12 @@ class HandoverChecklistForm(forms.ModelForm):
                         file = ContentFile(base64.b64decode(imgstr), name=filename)
 
                         # Save to checklist
-                        instance.customer_signature.save(filename, file, save=False)
-
-                        # Save to booking
-                        if instance.booking:
-                            instance.booking.customer_signature.save(filename, file, save=True)
+                        instance.customer_signature.save(filename, file, save=True)
 
                     except Exception as e:
                         print("Signature save error:", e)
 
-                if commit:
+                if commit and not sig_data:
                     instance.save()
                     self.save_m2m()
 

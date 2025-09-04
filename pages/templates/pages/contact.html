@@ -4,39 +4,52 @@
 
 {% block content %}
 <section id="contact-section">
-  <h2>{% trans "Contact Us" %}</h2>
-
-  {% if messages %}
-    {% for message in messages %}
-      <div class="form-message">
-        {{ message }}
-      </div>
-    {% endfor %}
-  {% endif %}
+  <h2>{% trans "Contact" %}</h2>
 
   <form method="POST" novalidate>
     {% csrf_token %}
 
     <label for="{{ form.name.id_for_label }}">{% trans "Name" %}:</label>
     {{ form.name }}
-    <div class="field-error">
-      {{ form.name.errors }}
-    </div>
+    <div class="field-error">{{ form.name.errors }}</div>
 
     <label for="{{ form.email.id_for_label }}">{% trans "Email" %}:</label>
     {{ form.email }}
-    <div class="field-error">
-      {{ form.email.errors }}
-    </div>
+    <div class="field-error">{{ form.email.errors }}</div>
 
     <label for="{{ form.message.id_for_label }}">{% trans "Message" %}:</label>
     {{ form.message }}
-    <div class="field-error">
-      {{ form.message.errors }}
-    </div>
+    <div class="field-error">{{ form.message.errors }}</div>
 
     <button type="submit" id="send-message-btn">{% trans "Send Message" %}</button>
   </form>
 </section>
 
+<!-- Modal Structure -->
+{% if messages %}
+  <div id="message-modal" style="display:flex; position:fixed; top:0; left:0; width:100%; height:100%;
+       background: rgba(0,0,0,0.5); justify-content:center; align-items:center; z-index:9999;">
+    <div style="background:white; padding:20px; border-radius:8px; max-width:400px; text-align:center;
+                box-shadow:0 4px 12px rgba(0,0,0,0.2);">
+      <h2>{% trans "Nachricht gesendet" %}</h2>
+      <p>{% trans "Ihre Nachricht wurde erfolgreich gesendet. Ein Teammitglied von Calli der Camper wird Sie in Kürze kontaktieren." %}</p>
+      <button onclick="document.getElementById('message-modal').style.display='none'"
+              style="border:0; border-radius:0.8rem; background-color:#0dc1bf; color:white; padding:8px 16px; cursor:pointer;">
+        {% trans "OK" %}
+      </button>
+    </div>
+  </div>
+{% endif %}
+
+
+<script>
+  const successModal = document.getElementById('message-modal');
+  const closeBtn = document.getElementById('close-success-btn');
+
+  if (successModal && closeBtn) {
+    closeBtn.addEventListener('click', () => {
+      successModal.style.display = 'none';
+    });
+  }
+</script>
 {% endblock %}
