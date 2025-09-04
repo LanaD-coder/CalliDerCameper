@@ -41,7 +41,7 @@ WEBHOOK_URL = "https://yourdomain.com/webhook/stripe/"
 
 ALLOWED_HOSTS = env.list(
     'ALLOWED_HOSTS',
-    default=['localhost', '127.0.0.1', 'jarental-9127907f3428.herokuapp.com', 'www.callidercamper.de']
+    default=['localhost', '127.0.0.1', 'jarental-9127907f3428.herokuapp.com', 'www.callidercamper.de', 'callidercamper.de']
 )
 # Application definition
 
@@ -225,4 +225,5 @@ VALID_DISCOUNT_CODES = {
 }
 
 DEFAULT_FROM_EMAIL = "abenteuer@callidercamper.de"
-BOOKING_NOTIFICATION_EMAIL = "abenteuer@callidercamper.de"
+BOOKING_NOTIFICATION_EMAIL = "buchung@callidercamper.de"
+
