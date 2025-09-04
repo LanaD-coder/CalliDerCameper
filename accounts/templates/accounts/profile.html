@@ -2,22 +2,22 @@
 {% load static %}
 {% load i18n %}
 
-{% block title %}{% trans "My Profile" %}{% endblock %}
+{% block title %}{% trans "Mein Profil" %}{% endblock %}
 
 {% block content %}
 <div class="container my-4">
   <div class="card shadow-sm" style="border-top-right-radius: 8px;">
     <div class="card-body">
-      <h1 class="card-title mb-4">{% trans "My Bookings" %}</h1>
+      <h1 class="card-title mb-4">{% trans "Buchungen" %}</h1>
 
       {% if bookings %}
       <div class="table-responsive" style="overflow-x: auto;">
         <table class="table table-striped table-hover align-middle mb-0" style="table-layout: auto; width: 100%;">
           <thead class="table-dark">
             <tr>
-              <th scope="col">{% trans "Campervan" %}</th>
-              <th scope="col">{% trans "Start Date" %}</th>
-              <th scope="col">{% trans "End Date" %}</th>
+              <th scope="col">{% trans "Wohnmobil" %}</th>
+              <th scope="col">{% trans "Startdatum" %}</th>
+              <th scope="col">{% trans "Enddatum" %}</th>
             </tr>
           </thead>
           <tbody>
@@ -34,13 +34,13 @@
               <td colspan="4">
                 <div class="p-3 bg-light border rounded overflow-auto">
                   <div class="text-wrap text-break">
-                    <strong>{% trans "Booking Number:" %}</strong>
+                    <strong>{% trans "Buchungsnummer:" %}</strong>
                     <span style="word-break: break-all;">{{ booking.booking_number }}</span><br>
 
-                    <strong>{% trans "Booking Dates:" %}</strong>
+                    <strong>{% trans "Buchungszeitraum:" %}</strong>
                     {{ booking.start_date|date:"F j, Y" }} - {{ booking.end_date|date:"F j, Y" }}<br>
 
-                    <strong>{% trans "Deposit:" %}</strong>
+                    <strong>{% trans "Kaution:" %}</strong>
                     {{ booking.deposit }} 1000 €<br>
 
                     <strong>{% trans "Zusatzkosten:" %}</strong>
@@ -58,7 +58,7 @@
 
                     <strong>19% MwSt:</strong> {{ booking.vat_amount|floatformat:2 }} €<br>
 
-                    <strong>{% trans "Grand total:" %}</strong>
+                    <strong>{% trans "Gesamtsumme:" %}</strong>
                     {{ booking.total_price }} €<br>
                   </div>
                 </div>
@@ -69,17 +69,17 @@
         </table>
       </div>
       {% else %}
-      <p class="text-muted fst-italic">{% trans "You have no bookings yet." %}</p>
+      <p class="text-muted fst-italic">{% trans "Sie haben noch keine Buchungen." %}</p>
       {% endif %}
       <hr>
       <p>
-        {% trans "We are avid campers and, through our travels, have found some real hidden gems. If you need a bit of inspiration for your upcoming trip, pop over to our" %}
-        <a href="{% url 'videos' %}">{% trans "Recommended Camping Destinations" %}</a>!
+        {% trans "Wir sind begeisterte Camper und haben auf unseren Reisen einige echte Geheimtipps entdeckt. Wenn Sie ein wenig Inspiration für Ihre nächste Reise brauchen, schauen Sie doch bei unseren" %}
+        <a href="{% url 'videos' %}">{% trans "Empfohlenen Campingzielen" %}</a>!
       </p>
 
       <p>
-        {% trans "If you need to make any changes to your bookings, please" %}
-        <a href="{% url 'contact' %}">{% trans "Contact us" %}</a>.
+        {% trans "Wenn Sie Änderungen an Ihren Buchungen vornehmen müssen, bitte" %}
+        <a href="{% url 'contact' %}">{% trans "Kontaktieren Sie uns" %}</a>.
       </p>
     </div>
   </div>

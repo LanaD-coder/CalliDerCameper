@@ -4,7 +4,7 @@
 
 {% block content %}
 <section id="contact-section">
-  <h2>{% trans "Contact" %}</h2>
+  <h2>{% trans "Kontakt" %}</h2>
 
   <form method="POST" novalidate>
     {% csrf_token %}
@@ -13,15 +13,15 @@
     {{ form.name }}
     <div class="field-error">{{ form.name.errors }}</div>
 
-    <label for="{{ form.email.id_for_label }}">{% trans "Email" %}:</label>
+    <label for="{{ form.email.id_for_label }}">{% trans "E-mail" %}:</label>
     {{ form.email }}
     <div class="field-error">{{ form.email.errors }}</div>
 
-    <label for="{{ form.message.id_for_label }}">{% trans "Message" %}:</label>
+    <label for="{{ form.message.id_for_label }}">{% trans "Nachricht" %}:</label>
     {{ form.message }}
     <div class="field-error">{{ form.message.errors }}</div>
 
-    <button type="submit" id="send-message-btn">{% trans "Send Message" %}</button>
+    <button type="submit" id="send-message-btn">{% trans "Nachricht senden" %}</button>
   </form>
 </section>
 

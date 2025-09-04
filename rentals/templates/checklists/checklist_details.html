@@ -2,33 +2,32 @@
 {% load static %}
 {% load static i18n %}
 
-{% block content %}
 <h1>
-  {% trans checklist.checklist_type|title %} {% trans "Checklist" %} - {{ checklist.booking.booking_number }}
+  {% trans checklist.checklist_type|title %} {% trans "Checkliste" %} - {{ checklist.booking.booking_number }}
 </h1>
-<p>{% trans "Date" %}: {{ checklist.date }}</p>
-<p>{% trans "Time" %}: {{ checklist.time }}</p>
-<p>{% trans "Driver Name" %}: {{ checklist.driver_name }}</p>
+<p>{% trans "Datum" %}: {{ checklist.date }}</p>
+<p>{% trans "Uhrzeit" %}: {{ checklist.time }}</p>
+<p>{% trans "Fahrername" %}: {{ checklist.driver_name }}</p>
 
-<h2>{% trans "Exterior Condition" %}</h2>
+<h2>{% trans "Außenzustand" %}</h2>
 <ul>
-  <li>{% trans "Windshields" %}: {{ checklist.windshields }}</li>
-  <li>{% trans "Paintwork" %}: {{ checklist.paintwork }}</li>
-  <li>{% trans "Bodywork" %}: {{ checklist.bodywork }}</li>
-  <li>{% trans "Tires Front" %}: {{ checklist.tires_front }}</li>
-  <li>{% trans "Tires Rear" %}: {{ checklist.tires_rear }}</li>
+  <li>{% trans "Windschutzscheiben" %}: {{ checklist.windshields }}</li>
+  <li>{% trans "Lackierung" %}: {{ checklist.paintwork }}</li>
+  <li>{% trans "Karosserie" %}: {{ checklist.bodywork }}</li>
+  <li>{% trans "Vorderräder" %}: {{ checklist.tires_front }}</li>
+  <li>{% trans "Hinterräder" %}: {{ checklist.tires_rear }}</li>
 </ul>
 
-<h2>{% trans "Interior Condition" %}</h2>
+<h2>{% trans "Innenraumzustand" %}</h2>
 <ul>
-  <li>{% trans "Seats" %}: {{ checklist.seats }}</li>
-  <li>{% trans "Upholstery" %}: {{ checklist.upholstery }}</li>
-  <li>{% trans "Windows" %}: {{ checklist.windows }}</li>
-  <li>{% trans "Lights" %}: {{ checklist.lights }}</li>
-  <li>{% trans "Flooring" %}: {{ checklist.flooring }}</li>
+  <li>{% trans "Sitze" %}: {{ checklist.seats }}</li>
+  <li>{% trans "Polsterung" %}: {{ checklist.upholstery }}</li>
+  <li>{% trans "Fenster" %}: {{ checklist.windows }}</li>
+  <li>{% trans "Beleuchtung" %}: {{ checklist.lights }}</li>
+  <li>{% trans "Bodenbelag" %}: {{ checklist.flooring }}</li>
 </ul>
 
-<h2>{% trans "Known Damage" %}</h2>
+<h2>{% trans "Bekannte Schäden" %}</h2>
 <p>{{ checklist.known_damage }}</p>
 
 <form method="post" enctype="multipart/form-data">
@@ -40,33 +39,33 @@
             {{ form.DELETE.label_tag }} {{ form.DELETE }}
         {% endif %}
     {% endfor %}
-    <button type="submit">Upload</button>
+    <button type="submit">{% trans "Hochladen" %}</button>
 </form>
 
 <form method="POST" action="{% url 'save_checklist' checklist.id %}">
   {% csrf_token %}
-  <button type="submit">{% trans "Save Checklist" %}</button>
+  <button type="submit">{% trans "Checkliste speichern" %}</button>
 </form>
 
-<h2>{% trans "Notes" %}</h2>
+<h2>{% trans "Notizen" %}</h2>
 <p>{{ checklist.notes }}</p>
 
 {% if checklist.customer_signature %}
-  <h2>{% trans "Customer Signature" %}</h2>
+  <h2>{% trans "Unterschrift des Kunden" %}</h2>
   <img
     src="{{ checklist.customer_signature.url }}"
-    alt="{% trans 'Customer Signature' %}"
+    alt="{% trans 'Unterschrift des Kunden' %}"
     style="max-width: 400px; border: 1px solid #ccc"
   />
 {% else %}
-  <p>{% trans "No signature available." %}</p>
+  <p>{% trans "Keine Unterschrift vorhanden." %}</p>
 {% endif %}
 
 
 <div style="margin-top: 20px">
-  <button onclick="window.print()" id="print-btn">{% trans "Print this checklist" %}</button>
+  <button onclick="window.print()" id="print-btn">{% trans "Diese Checkliste drucken" %}</button>
   <a href="{% url 'booking_edit' checklist.booking.id %}" id="edit-btn">
-    {% trans "Back to Edit" %}
+    {% trans "Zur Bearbeitung zurück" %}
   </a>
 </div>
 

@@ -52,7 +52,7 @@
 
 <div class="centered-text">
   <section id="destinations-section">
-    <h2>{% trans "Recommended Camping Destinations" %}</h2>
+    <h2>{% trans "Empfohlene Campingziele" %}</h2>
     <div class="destinations-list">
       {% for dest in destinations %}
         <div class="destination-card">
@@ -61,7 +61,7 @@
           <p>{{ dest.description }}</p>
 
           {% if dest.website_url %}
-            <p><a href="{{ dest.website_url }}" target="_blank" rel="noopener">{% trans "Visit Website" %}</a></p>
+            <p><a href="{{ dest.website_url }}" target="_blank" rel="noopener">{% trans "Webseite besuchen" %}</a></p>
           {% endif %}
 
           {% if dest.map_url %}
@@ -79,14 +79,14 @@
           {% endif %}
         </div>
       {% empty %}
-        <p>{% trans "No destinations available at the moment." %}</p>
+        <p>{% trans "Derzeit sind keine Ziele verfügbar." %}</p>
       {% endfor %}
     </div>
   </section>
 </div>
 
 <section id="faq-section">
-  <h2>{% trans "Frequently Asked Questions" %}</h2>
+  <h2>{% trans "Häufig gestellte Fragen" %}</h2>
 
   <div id="faqs">
     {% for faq in faqs %}

@@ -49,7 +49,7 @@
     <!-- Logo -->
     <a class="navbar-brand d-flex align-items-center" href="{% url 'home' %}">
       <img src="https://res.cloudinary.com/dvs5uituk/image/upload/v1747742379/freepik__background__6179_fdyics.webp" alt="Logo">
-      <span id="site-title">{% trans "Calli the Camper" %}</span>
+      <span id="site-title">{% trans "Calli der Camper" %}</span>
     </a>
 
     <!-- Hamburger toggle button for mobile -->
@@ -62,31 +62,31 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <!-- Navigation Links -->
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-        <li class="nav-item"><a class="nav-link" href="/">{% trans "Home" %}</a></li>
+        <li class="nav-item"><a class="nav-link" href="/">{% trans "Startseite" %}</a></li>
         <li class="nav-item"><a class="nav-link" href="{% url 'about' %}">{% trans "So läufst ab" %}</a></li>
         <li class="nav-item"><a class="nav-link" href="/videos">{% trans "Videos & Tipps" %}</a></li>
-        <li class="nav-item"><a class="nav-link" href="{% url 'booking_page' 1 %}">{% trans "Book Calli" %}</a></li>
-        <li class="nav-item"><a class="nav-link" href="/contact">{% trans "Contact" %}</a></li>
+        <li class="nav-item"><a class="nav-link" href="{% url 'booking_page' 1 %}">{% trans "Buche Calli" %}</a></li>
+        <li class="nav-item"><a class="nav-link" href="/contact">{% trans "Kontakt" %}</a></li>
         {% if user.is_staff %}
           <li class="nav-item">
-            <a class="nav-link" href="{% url 'admin_dashboard' %}">Admin Panel</a>
+            <a class="nav-link" href="{% url 'admin_dashboard' %}"> {% trans "Admin-Bereich" %}</a>
           </li>
         {% endif %}
 
 
         {% if user.is_authenticated %}
           <li class="nav-item">
-            <a class="nav-link" href="{% url 'profile' %}">{% trans "Profile" %}</a>
+            <a class="nav-link" href="{% url 'profile' %}">{% trans "Profil" %}</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="{% url 'account_logout' %}">{% trans "Logout" %}</a>
+            <a class="nav-link" href="{% url 'account_logout' %}">{% trans "Abmelden" %}</a>
           </li>
         {% else %}
           <li class="nav-item">
-            <a class="nav-link" href="{% url 'account_signup' %}">{% trans "Register" %}</a>
+            <a class="nav-link" href="{% url 'account_signup' %}">{% trans "Registrieren" %}</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="{% url 'account_login' %}">{% trans "Login" %}</a>
+            <a class="nav-link" href="{% url 'account_login' %}">{% trans "Anmelden" %}</a>
           </li>
         {% endif %}
       </ul>
@@ -129,7 +129,7 @@
 
       <!-- Copyright -->
       <div>
-        &copy; {{ current_year|default:2025 }} Calli the Camper. All rights reserved.
+        &copy; {{ current_year|default:2025 }} {% trans "Calli der Camper. Alle Rechte vorbehalten." %}
         <a href="{% url 'impressum' %}" class="text-primary text-decoration-underline">Impressum</a>
       </div>
 

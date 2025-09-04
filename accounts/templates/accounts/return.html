@@ -3,18 +3,18 @@
 {% load i18n %}
 
 {% block content %}
-  <title>{% trans "Thanks for your order!" %}</title>
+  <title>{% trans "Vielen Dank für Ihre Buchung!" %}</title>
   <link rel="stylesheet" href="style.css">
   <script src="return.js" defer></script>
 </head>
 <body>
   <section id="success" class="hidden">
     <p>
-      {% trans "We appreciate your business! A confirmation email will be sent to" %}
+      {% trans "Vielen Dank für Ihr Vertrauen! Eine Bestätigungs-E-Mail wird gesendet an" %}
       <span id="customer-email"></span>.
 
-      {% trans "If you have any questions, please email" %}
-      <a href="mailto:abenteuer@callidercamper.de">abenteuer@callidercamper.de</a>.
+      {% trans "Wenn Sie Fragen haben, schreiben Sie bitte an" %}
+      <a href="mailto:abenteuer@callidercamper.de">buchung@callidercamper.de</a>.
     </p>
   </section>
 {% endblock %}
