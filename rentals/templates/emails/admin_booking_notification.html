@@ -7,16 +7,18 @@
 </head>
 <body>
     <h2>Neue Buchung eingegangen</h2>
-    <p><strong>Buchungsnummer:</strong> {{ booking.booking_number }}</p>
-    <p><strong>Campervan:</strong> {{ booking.campervan.name }}</p>
-    <p><strong>Kunde:</strong> {{ user.get_full_name }} ({{ user.email }})</p>
-    <p><strong>Startdatum:</strong> {{ booking.start_date }}</p>
-    <p><strong>Enddatum:</strong> {{ booking.end_date }}</p>
-    <p><strong>Zwischensumme (Campervan + Zusatzleistungen):</strong> €{{ taxable_subtotal }}</p>
-    <p><strong>Mehrwertsteuer (MwSt):</strong> €{{ vat_amount }}</p>
-    <p><strong>Gesamtpreis inkl. MwSt:</strong> €{{ total_price }}</p>
-    <p><strong>Zahlungsreferenz:</strong> {{ payment_reference }}</p>
-    <p><strong>Zusatzleistungen:</strong></p>
+    <ul>
+      <li><strong>Campervan:</strong> {{ booking.campervan.name }}</li>
+      <li><strong>Buchungsnummer:</strong> {{ booking.booking_number }}</li>
+      <li><strong>Startdatum:</strong> {{ booking.start_date }}</li>
+      <li><strong>Enddatum:</strong> {{ booking.end_date }}</li>
+      <li><strong>Grundpreis:</strong> €{{ summary.base|floatformat:2 }}</li>
+      <li><strong>Zusatzleistungen:</strong> €{{ summary.servicesTotal|floatformat:2 }}</li>
+      <li><strong>MwSt.-Betrag:</strong> €{{ summary.vatAmount|floatformat:2 }}</li>
+      <li><strong>Kautionsbetrag:</strong> €{{ summary.deposit|floatformat:2 }}</li>
+      <li><strong>Gesamtpreis inkl. MwSt.:</strong> €{{ summary.grandTotal|floatformat:2 }}</li>
+    </ul>
+
     <ul>
         {% for service in booking.additional_services.all %}
             <li>{{ service.name }} - €{{ service.price }}</li>

@@ -608,13 +608,13 @@ def send_payment_success_email(user, booking):
 
     # Admin email
     admin_subject = f"New Booking Received - {booking.booking_number}"
-
+    admin_booking_url = request.build_absolute_uri(reverse('booking_list'))
     admin_context = {
         'user': user,
         'booking': booking,
         'total_price': booking.total_price,
         'payment_reference': booking.payment_reference,
-        'admin_booking_url': 'https://www.callidercamper.de/admin',
+        'admin_booking_url': admin_booking_url,
     }
     admin_html = render_to_string("emails/admin_booking_notification.html", admin_context)
     admin_plain = render_to_string("emails/admin_booking_notification.txt", admin_context)
