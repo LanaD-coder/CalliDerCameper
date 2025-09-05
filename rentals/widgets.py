@@ -6,7 +6,7 @@ class SignaturePadWidget(ClearableFileInput):
 
     class Media:
         js = [
-            'https://cdn.jsdelivr.net/npm/signature_pad@4.0.0/dist/signature_pad.umd.min.js',
+            'http://cdn.jsdelivr.net/npm/signature_pad@4.0.0/dist/signature_pad.umd.min.js',
             '/static/js/signature_widget.js',
         ]
         css = {

@@ -1,31 +1,6 @@
 {% load i18n %}
 
-Neue Buchung eingegangen
-
-Buchungsnummer: {{ booking.booking_number }}
-
-Campervan: {{ booking.campervan.name }}
-
-Kunde: {{ user.get_full_name }} ({{ user.email }})
-
-Startdatum: {{ booking.start_date }}
-
-Enddatum: {{ booking.end_date }}
-
-Zwischensumme (Campervan + Zusatzleistungen): €{{ taxable_subtotal }}
-
-Mehrwertsteuer (MwSt): €{{ vat_amount }}
-
-Gesamtpreis inkl. MwSt: €{{ total_price }}
-
-Zahlungsreferenz: {{ payment_reference }}
-
-Zusatzleistungen:
-{% for service in booking.additional_services.all %}
-- {{ service.name }} - €{{ service.price }}
-{% empty %}
-- Keine Zusatzleistungen ausgewählt.
-{% endfor %}
+Neue Buchung eingegangen.
 
 Im Admin-Dashboard anzeigen:
 <a href="{{ admin_booking_url }}" target="_blank" rel="noopener noreferrer">{{ admin_booking_url }}</a>

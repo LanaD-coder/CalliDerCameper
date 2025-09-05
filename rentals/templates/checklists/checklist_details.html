@@ -1,72 +1,57 @@
 {% extends 'base.html' %}
 {% load static %}
-{% load static i18n %}
+{% load i18n %}
 
-<h1>
-  {% trans checklist.checklist_type|title %} {% trans "Checkliste" %} - {{ checklist.booking.booking_number }}
-</h1>
-<p>{% trans "Datum" %}: {{ checklist.date }}</p>
-<p>{% trans "Uhrzeit" %}: {{ checklist.time }}</p>
-<p>{% trans "Fahrername" %}: {{ checklist.driver_name }}</p>
+{% block content %}
+  <h1>
+    {{ checklist.checklist_type|title }} {% trans "Checkliste" %} - {{ checklist.booking.booking_number }}
+  </h1>
 
-<h2>{% trans "Außenzustand" %}</h2>
-<ul>
-  <li>{% trans "Windschutzscheiben" %}: {{ checklist.windshields }}</li>
-  <li>{% trans "Lackierung" %}: {{ checklist.paintwork }}</li>
-  <li>{% trans "Karosserie" %}: {{ checklist.bodywork }}</li>
-  <li>{% trans "Vorderräder" %}: {{ checklist.tires_front }}</li>
-  <li>{% trans "Hinterräder" %}: {{ checklist.tires_rear }}</li>
-</ul>
+  <p>{% trans "Datum" %}: {{ checklist.date }}</p>
+  <p>{% trans "Uhrzeit" %}: {{ checklist.time }}</p>
+  <p>{% trans "Fahrername" %}: {{ checklist.driver_name }}</p>
 
-<h2>{% trans "Innenraumzustand" %}</h2>
-<ul>
-  <li>{% trans "Sitze" %}: {{ checklist.seats }}</li>
-  <li>{% trans "Polsterung" %}: {{ checklist.upholstery }}</li>
-  <li>{% trans "Fenster" %}: {{ checklist.windows }}</li>
-  <li>{% trans "Beleuchtung" %}: {{ checklist.lights }}</li>
-  <li>{% trans "Bodenbelag" %}: {{ checklist.flooring }}</li>
-</ul>
+  <h2>{% trans "Außenzustand" %}</h2>
+  <ul>
+    <li>{% trans "Windschutzscheiben" %}: {{ checklist.windshields }}</li>
+    <li>{% trans "Lackierung" %}: {{ checklist.paintwork }}</li>
+    <li>{% trans "Karosserie" %}: {{ checklist.bodywork }}</li>
+    <li>{% trans "Vorderräder" %}: {{ checklist.tires_front }}</li>
+    <li>{% trans "Hinterräder" %}: {{ checklist.tires_rear }}</li>
+  </ul>
 
-<h2>{% trans "Bekannte Schäden" %}</h2>
-<p>{{ checklist.known_damage }}</p>
+  <h2>{% trans "Innenraumzustand" %}</h2>
+  <ul>
+    <li>{% trans "Sitze" %}: {{ checklist.seats }}</li>
+    <li>{% trans "Polsterung" %}: {{ checklist.upholstery }}</li>
+    <li>{% trans "Fenster" %}: {{ checklist.windows }}</li>
+    <li>{% trans "Beleuchtung" %}: {{ checklist.lights }}</li>
+    <li>{% trans "Bodenbelag" %}: {{ checklist.flooring }}</li>
+  </ul>
 
-<form method="post" enctype="multipart/form-data">
-    {% csrf_token %}
-    {{ formset.management_form }}
-    {% for form in formset %}
-        {{ form.image.label_tag }} {{ form.image }}
-        {% if form.DELETE %}
-            {{ form.DELETE.label_tag }} {{ form.DELETE }}
-        {% endif %}
-    {% endfor %}
-    <button type="submit">{% trans "Hochladen" %}</button>
-</form>
+  <h2>{% trans "Bekannte Schäden" %}</h2>
+  <p>{{ checklist.known_damage }}</p>
 
-<form method="POST" action="{% url 'save_checklist' checklist.id %}">
-  {% csrf_token %}
-  <button type="submit">{% trans "Checkliste speichern" %}</button>
-</form>
+  <h2>{% trans "Notizen" %}</h2>
+  <p>{{ checklist.notes }}</p>
 
-<h2>{% trans "Notizen" %}</h2>
-<p>{{ checklist.notes }}</p>
+  {% if checklist.customer_signature %}
+    <h2>{% trans "Unterschrift des Kunden" %}</h2>
+    <img
+      src="{{ checklist.customer_signature.url }}"
+      alt="{% trans 'Unterschrift des Kunden' %}"
+      style="max-width: 400px; border: 1px solid #ccc"
+    />
+  {% else %}
+    <p>{% trans "Keine Unterschrift vorhanden." %}</p>
+  {% endif %}
 
-{% if checklist.customer_signature %}
-  <h2>{% trans "Unterschrift des Kunden" %}</h2>
-  <img
-    src="{{ checklist.customer_signature.url }}"
-    alt="{% trans 'Unterschrift des Kunden' %}"
-    style="max-width: 400px; border: 1px solid #ccc"
-  />
-{% else %}
-  <p>{% trans "Keine Unterschrift vorhanden." %}</p>
-{% endif %}
-
-
-<div style="margin-top: 20px">
-  <button onclick="window.print()" id="print-btn">{% trans "Diese Checkliste drucken" %}</button>
-  <a href="{% url 'booking_edit' checklist.booking.id %}" id="edit-btn">
-    {% trans "Zur Bearbeitung zurück" %}
-  </a>
-</div>
-
+  <div style="margin-top: 20px">
+    <button onclick="window.print()" id="print-btn">
+      {% trans "Diese Checkliste drucken" %}
+    </button>
+    <a href="{% url 'booking_edit' checklist.booking.id %}" id="edit-btn">
+      {% trans "Zur Bearbeitung zurück" %}
+    </a>
+  </div>
 {% endblock %}

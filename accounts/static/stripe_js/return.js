@@ -8,7 +8,7 @@ async function initialize() {
   const session = await response.json();
 
   if (session.status == "open") {
-    window.location.replace("https://localhost:4242/checkout.html");
+    window.location.replace("http://localhost:4242/checkout.html");
   } else if (session.status == "complete") {
     document.getElementById("success").classList.remove("hidden");
     document.getElementById("customer-email").textContent =

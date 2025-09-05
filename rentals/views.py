@@ -9,6 +9,7 @@ from django.template.loader import get_template
 from xhtml2pdf import pisa
 import base64
 from django.core.files.base import ContentFile
+import base64
 from django.contrib import messages
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
@@ -608,12 +609,9 @@ def send_payment_success_email(user, booking):
 
     # Admin email
     admin_subject = f"New Booking Received - {booking.booking_number}"
-    admin_booking_url = request.build_absolute_uri(reverse('booking_list'))
+    admin_booking_url = 'http://www.callidercamper.de/rentals/admin-panel/'
     admin_context = {
-        'user': user,
         'booking': booking,
-        'total_price': booking.total_price,
-        'payment_reference': booking.payment_reference,
         'admin_booking_url': admin_booking_url,
     }
     admin_html = render_to_string("emails/admin_booking_notification.html", admin_context)
@@ -883,6 +881,26 @@ def return_checklist(request, booking_number):
 
 def checklist_detail(request, pk):
     checklist = get_object_or_404(HandoverChecklist, pk=pk)
+
+    if request.method == 'POST':
+        signature_data = request.POST.get('signature_data')
+        if signature_data:
+            try:
+                format, imgstr = signature_data.split(';base64,')
+                ext = format.split('/')[-1]  # usually 'png'
+                filename = f"signature_{checklist.pk}.{ext}"
+
+                # Save to ImageField
+                checklist.customer_signature.save(
+                    filename,
+                    ContentFile(base64.b64decode(imgstr))
+                )
+            except Exception as e:
+                print("Error saving signature:", e)
+                messages.error(request, "Could not save signature.")
+
+        return redirect('checklist_detail', pk=checklist.pk)
+
     return render(request, 'checklists/checklist_details.html', {'checklist': checklist})
 
 def checklist_pdf(request, pk):
@@ -940,7 +958,7 @@ def save_checklist(request, pk):
                 format, imgstr = signature_data.split(';base64,')
                 ext = format.split('/')[-1]  # usually 'png'
                 filename = f"signature_{checklist.booking.booking_number}.{ext}"
-                checklist.customer_signature = ContentFile(base64.b64decode(imgstr), name=filename)
+                checklist.customer_signature.save(filename, ContentFile(base64.b64decode(imgstr)), save=False)
 
             checklist.save()
             form.save_m2m()

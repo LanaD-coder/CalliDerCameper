@@ -299,7 +299,7 @@ class HandoverChecklist(models.Model):
 
     notes = models.TextField(blank=True)
 
-    customer_signature = CloudinaryField('signature', blank=True, null=True)
+    customer_signature = models.ImageField(upload_to='signatures/', blank=True, null=True)
     completed = models.BooleanField(default=False)
 
     def __str__(self):

@@ -37,11 +37,11 @@ STRIPE_SECRET_KEY = env("STRIPE_SECRET_KEY")
 STRIPE_PUBLISHABLE_KEY = env("STRIPE_PUBLISHABLE_KEY")
 STRIPE_MWST_TAX_RATE_ID = env("STRIPE_MWST_TAX_RATE_ID")
 
-WEBHOOK_URL = "https://yourdomain.com/webhook/stripe/"
+WEBHOOK_URL = "http://yourdomain.com/webhook/stripe/"
 
 ALLOWED_HOSTS = env.list(
     'ALLOWED_HOSTS',
-    default=['localhost', '127.0.0.1', 'jarental-9127907f3428.herokuapp.com', 'www.callidercamper.de', 'callidercamper.de']
+    default=['localhost', '127.0.0.1', 'jarental-9127907f3428.herokuapp.com', 'www.callidercamper.de']
 )
 # Application definition
 
