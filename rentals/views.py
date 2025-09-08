@@ -222,17 +222,21 @@ def create_booking_ajax(request, pk):
 
     campervan = get_object_or_404(Campervan, pk=pk)
 
-    # Debugging: log raw body
-    raw_body = request.body.decode('utf-8')
-    print("Raw request body:", raw_body)
+    # 🔹 Debugging: log content type and raw body
+    print("Content-Type:", request.content_type)
+    print("Raw body:", request.body)
 
-    try:
-        data = json.loads(raw_body)
-    except json.JSONDecodeError as e:
-        print("JSON decode error:", str(e))
-        return JsonResponse({'errors': f'Invalid JSON: {str(e)}'}, status=400)
+    # 🔹 Parse incoming data
+    if request.content_type == "application/json":
+        try:
+            data = json.loads(request.body)
+        except json.JSONDecodeError:
+            return JsonResponse({'errors': 'Invalid JSON'}, status=400)
+    else:
+        # fallback for normal form POST
+        data = request.POST.dict()  # convert QueryDict to plain dict
 
-    print("Parsed JSON data:", data)
+    print("Parsed data:", data)
 
     summary = data.get("summary", {})
 
@@ -261,7 +265,6 @@ def create_booking_ajax(request, pk):
     ).first()
 
     if existing_booking:
-        # Return existing booking session if it exists
         try:
             success_url = "{}?session_id={{CHECKOUT_SESSION_ID}}&booking={}".format(
                 request.build_absolute_uri('/accounts/payment-success/'),
@@ -288,23 +291,18 @@ def create_booking_ajax(request, pk):
     booking.save()
     form.save_m2m()
 
-    deposit = Decimal('1000.00')
     subtotal = sum(Decimal(service.price) for service in booking.additional_services.all())
 
     # Calculate taxable subtotal from daily rates
-    taxable_subtotal = Decimal('0.00')
-    days = (end_date - start_date).days + 1
-    for i in range(days):
-        rate = campervan.get_rate_for_date(start_date + timedelta(days=i))
-        taxable_subtotal += Decimal(rate)
-
-    deposit = Decimal('1000.00')
+    taxable_subtotal = sum(
+        Decimal(campervan.get_rate_for_date(start_date + timedelta(days=i)))
+        for i in range((end_date - start_date).days + 1)
+    )
 
     total_price = taxable_subtotal + subtotal + deposit
 
     booking.total_price = float(total_price)
     booking.save()
-    form.save_m2m()
 
     # Create Stripe session
     try:
@@ -343,9 +341,6 @@ def create_booking_ajax(request, pk):
             cancel_url=request.build_absolute_uri('/accounts/payment-cancel/'),
             metadata={'booking_number': booking.booking_number}
         )
-
-        # Only mark booking as active after Stripe session creation succeeds
-        booking.save()
 
         return JsonResponse({'session_id': checkout_session.id})
 
