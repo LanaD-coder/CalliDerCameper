@@ -3,6 +3,8 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from .forms import ContactForm
 from .models import FAQ
+from django.core.mail import send_mail
+from django.conf import settings
 from rentals.models import Campervan
 from datetime import datetime
 from pages.models import CampingDestination
@@ -31,9 +33,24 @@ def videos_view(request):
 def contact_view(request):
     form = ContactForm(request.POST or None)
     if request.method == 'POST' and form.is_valid():
-        form.save()
-        messages.success(request, _("Your message has been sent!"))
+        contact = form.save()
+
+        # send notification email
+        try:
+            send_mail(
+                subject=f"New Contact Message from {contact.name}",
+                message=f"Name: {contact.name}\nEmail: {contact.email}\nMessage:\n{contact.message}",
+                from_email=settings.DEFAULT_FROM_EMAIL,
+                recipient_list=[settings.EMAIL_HOST_USER],  # 'abenteuer@callidercamper.de'
+                fail_silently=False,
+            )
+            messages.success(request, _("Your message has been sent!"))
+        except Exception as e:
+            messages.error(request, _("Message saved but email could not be sent."))
+            print("Email error:", e)
+
         return redirect('contact')
+
     return render(request, 'pages/contact.html', {
         'form': form,
     })
