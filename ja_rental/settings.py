@@ -19,6 +19,8 @@ import environ
 import dj_database_url
 from django.utils.translation import gettext_lazy as _
 import cloudinary
+import ssl
+import certifi
 
 load_dotenv()
 
@@ -211,19 +213,18 @@ ACCOUNT_SIGNUP_FIELDS = ['email*', 'username*', 'password1*', 'password2*']
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
 
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_PORT = 587
-EMAIL_USE_TLS = True
-EMAIL_HOST_USER = 'c.wnt.nd1053@gmail.com'
+EMAIL_BACKEND = 'ja_rental.email_backend.IonosSSLBackend'
+EMAIL_HOST = 'smtp.ionos.de'
+EMAIL_PORT = 465
+EMAIL_USE_SSL = True
+EMAIL_USE_TLS = False
+EMAIL_HOST_USER = 'abenteuer@callidercamper.de'
 EMAIL_HOST_PASSWORD = env('EMAIL_HOST_PASSWORD')
-
+EMAIL_SSL_CONTEXT = ssl.create_default_context(cafile=certifi.where())
+DEFAULT_FROM_EMAIL = 'abenteuer@callidercamper.de'
+BOOKING_NOTIFICATION_EMAIL = "buchung@callidercamper.de"
 
 discount_codes_raw = os.getenv('VALID_DISCOUNT_CODES', '{}')
 VALID_DISCOUNT_CODES = {
     k: Decimal(v) for k, v in json.loads(discount_codes_raw).items()
 }
-
-DEFAULT_FROM_EMAIL = "abenteuer@callidercamper.de"
-BOOKING_NOTIFICATION_EMAIL = "buchung@callidercamper.de"
-

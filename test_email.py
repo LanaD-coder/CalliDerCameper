@@ -1,21 +1,25 @@
+import smtplib
+import ssl
 import environ
+import certifi  # ← you need this!
 
 env = environ.Env()
-env.read_env()  # loads .env file from current directory
+env.read_env()
 
-smtp_server = "smtp.gmail.com"
-port = 587
-sender_email = "c.wnt.nd1053@gmail.com"
-password = env('EMAIL_HOST_PASSWORD')  # now this works
+smtp_server = "smtp.ionos.de"
+port = 465  # SSL port
+sender_email = "abenteuer@callidercamper.de"
+password = env('EMAIL_HOST_PASSWORD')
 
-import smtplib
+# Create SSL context using certifi CA bundle
+context = ssl.create_default_context(cafile=certifi.where())
 
 try:
-    server = smtplib.SMTP(smtp_server, port)
-    server.starttls()
+    server = smtplib.SMTP_SSL(smtp_server, port, context=context, timeout=10)
+    server.set_debuglevel(1)  # prints SMTP conversation
     server.login(sender_email, password)
-    print("Login successful!")
+    print("✅ Login successful!")
 except Exception as e:
-    print("Error:", e)
+    print("❌ Error:", e)
 finally:
     server.quit()
