@@ -10,36 +10,48 @@
     <div class="row g-4">
       <div class="col-12 col-md-6">
         <div class="video-card">
-          <iframe class="w-100" height="315"
-            src="http://www.youtube.com/embed/ojBzMfMQjFk"
-            title="{% trans 'YouTube video player' %}"
-            frameborder="0"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            allowfullscreen>
-          </iframe>
+          <!-- Responsive YouTube embed -->
+          <div class="ratio ratio-16x9">
+            <iframe
+              src="https://www.youtube.com/embed/ojBzMfMQjFk?rel=0&modestbranding=1"
+              title="{% trans 'VW Grand California feature demonstration video by Camplust' %}"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowfullscreen
+              loading="lazy">
+            </iframe>
+          </div>
+
           <h3>{% trans "Feature Demo via YouTube" %}</h3>
-          <p>{% trans "Watch this detailed video walkthrough directly from our official channel." %}</p>
+          <p>{% trans "Watch this detailed video walkthrough directly from the official YouTube channel." %}</p>
+
           <small class="text-muted">
+            <i class="fa-solid fa-circle-exclamation me-1"></i>
             {% trans "Video bereitgestellt von YouTube-Nutzer:" %}
-            <a href="http://www.youtube.com/@camplust8342" target="_blank" rel="noopener">Camplust</a>
+            <a href="https://www.youtube.com/@camplust8342" target="_blank" rel="noopener noreferrer">Camplust</a>
           </small>
         </div>
       </div>
 
       <div class="col-12 col-md-6">
         <div class="video-card">
-          <iframe class="w-100" height="315"
-            src="http://www.youtube.com/embed/dIbLBjIUJyk"
-            title="{% trans 'YouTube video player' %}"
-            frameborder="0"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            allowfullscreen>
-          </iframe>
+          <!-- Responsive YouTube embed -->
+          <div class="ratio ratio-16x9">
+            <iframe
+              src="https://www.youtube.com/embed/dIbLBjIUJyk?rel=0&modestbranding=1"
+              title="{% trans 'VW Grand California feature demonstration video by roadsurfer guide' %}"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowfullscreen
+              loading="lazy">
+            </iframe>
+          </div>
+
           <h3>{% trans "Feature Demo via YouTube" %}</h3>
-          <p>{% trans "Watch this detailed video walkthrough directly from our official channel." %}</p>
+          <p>{% trans "Watch this detailed video walkthrough directly from the official YouTube channel." %}</p>
+
           <small class="text-muted">
+            <i class="fa-solid fa-circle-exclamation me-1"></i>
             {% trans "Video bereitgestellt von YouTube-Nutzer:" %}
-            <a href="http://www.youtube.com/@roadsurferguide" target="_blank" rel="noopener">roadsurfer guide</a>
+            <a href="https://www.youtube.com/@roadsurferguide" target="_blank" rel="noopener noreferrer">roadsurfer guide</a>
           </small>
         </div>
       </div>
