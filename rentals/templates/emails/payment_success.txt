@@ -44,4 +44,4 @@ Total Price (incl. VAT): €{{ summary.grandTotal|floatformat:2 }}
 If you have any questions, feel free to contact us.
 
 Best regards,
-CalliderCamper Team
+CalliDerCamper Team
