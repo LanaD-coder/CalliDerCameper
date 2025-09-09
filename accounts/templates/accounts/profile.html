@@ -34,32 +34,21 @@
               <td colspan="4">
                 <div class="p-3 bg-light border rounded overflow-auto">
                   <div class="text-wrap text-break">
-                    <strong>{% trans "Buchungsnummer:" %}</strong>
-                    <span style="word-break: break-all;">{{ booking.booking_number }}</span><br>
-
-                    <strong>{% trans "Buchungszeitraum:" %}</strong>
-                    {{ booking.start_date|date:"F j, Y" }} - {{ booking.end_date|date:"F j, Y" }}<br>
-
-                    <strong>{% trans "Kaution:" %}</strong>
-                    {{ booking.deposit }} 1000 €<br>
-
-                    <strong>{% trans "Zusatzkosten:" %}</strong>
-                    {% with booking.additional_services.all as services %}
-                        {% if services %}
-                            <ul class="mb-0">
-                                {% for service in services %}
-                                    <li>{{ service.name }}: {{ service.price }} €</li>
-                                {% endfor %}
-                            </ul>
-                        {% else %}
-                            0 €
-                        {% endif %}
-                    {% endwith %}
-
-                    <strong>19% MwSt:</strong> {{ booking.vat_amount|floatformat:2 }} €<br>
-
-                    <strong>{% trans "Gesamtsumme:" %}</strong>
-                    {{ booking.total_price }} €<br>
+                    <div class="p-3 bg-light border rounded overflow-auto">
+                      <ul>
+                        <li><strong>Campervan:</strong> {{ booking.campervan.name }}</li>
+                        <li><strong>Buchungsnummer:</strong> {{ booking.booking_number }}</li>
+                        <li><strong>Startdatum:</strong> {{ booking.start_date|date:"d.m.Y" }}</li>
+                        <li><strong>Enddatum:</strong> {{ booking.end_date|date:"d.m.Y" }}</li>
+                        <li><strong>Kautionsbetrag:</strong> €{{ booking.deposit|default:"1000"|floatformat:2 }}</li>
+                        <li><strong>Gesamtpreis:</strong> €{{ booking.total_price|floatformat:2 }}
+                        <br>
+                          <small class="text-muted">
+                            <i class="fa-solid fa-circle-exclamation me-1"></i> Grundpreis exkl. MwSt. und Zusatzleistungen
+                          </small>
+                        </li>
+                      </ul>
+                    </div>
                   </div>
                 </div>
               </td>
