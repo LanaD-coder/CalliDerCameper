@@ -96,16 +96,6 @@
         <div class="hotline-label mb-2 mb-lg-0 me-lg-3">
           📞 Hotline: +49 1715245206
         </div>
-
-        <form action="{% url 'set_language' %}" method="post" class="d-flex">
-            {% csrf_token %}
-            <input name="next" type="hidden" value="{{ request.path }}">
-            {% get_current_language as LANGUAGE_CODE %}
-            <select name="language" onchange="this.form.submit()" class="form-select form-select-sm">
-                <option value="de" {% if LANGUAGE_CODE == 'de' %}selected{% endif %}>Deutsch</option>
-                <option value="en" {% if LANGUAGE_CODE == 'en' %}selected{% endif %}>English</option>
-            </select>
-        </form>
       </div>
     </div>
   </div>
