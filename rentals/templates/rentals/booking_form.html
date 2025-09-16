@@ -6,12 +6,6 @@
 <section id="booking-section" class="form-section">
   <h2>{% trans "Buche Calli the Camper" %}</h2>
 
-  {% if messages %}
-    {% for message in messages %}
-      <div class="form-message">{{ message }}</div>
-    {% endfor %}
-  {% endif %}
-
   <form id="booking-form" method="POST" action="{% url 'create_booking_ajax' campervan.pk %}" novalidate>
     {% csrf_token %}
 

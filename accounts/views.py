@@ -5,6 +5,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
 from django.http import JsonResponse, HttpResponseBadRequest
 from django.contrib import messages
+from django.shortcuts import redirect
 from .models import ContactMessage
 from pages.forms import ContactForm
 import json

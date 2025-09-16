@@ -22,37 +22,39 @@
           </thead>
           <tbody>
             {% for booking in bookings %}
-            <tr class="booking-toggle" data-bs-toggle="collapse" data-bs-target="#bookingDetails{{ booking.id }}" aria-expanded="false" aria-controls="bookingDetails{{ booking.id }}" style="cursor: pointer;">
-              <td class="text-break">
-                {{ booking.campervan.name }}
-                <i class="bi bi-chevron-down float-end transition" id="toggleIcon{{ booking.id }}"></i>
-              </td>
-              <td>{{ booking.start_date }}</td>
-              <td>{{ booking.end_date }}</td>
-            </tr>
-            <tr class="collapse" id="bookingDetails{{ booking.id }}">
-              <td colspan="4">
-                <div class="p-3 bg-light border rounded overflow-auto">
-                  <div class="text-wrap text-break">
+              {% if booking.payment_status == "paid" %}
+                <tr class="booking-toggle" data-bs-toggle="collapse" data-bs-target="#bookingDetails{{ booking.id }}" aria-expanded="false" aria-controls="bookingDetails{{ booking.id }}" style="cursor: pointer;">
+                  <td class="text-break">
+                    {{ booking.campervan.name }}
+                    <i class="bi bi-chevron-down float-end transition" id="toggleIcon{{ booking.id }}"></i>
+                  </td>
+                  <td>{{ booking.start_date }}</td>
+                  <td>{{ booking.end_date }}</td>
+                </tr>
+                <tr class="collapse" id="bookingDetails{{ booking.id }}">
+                  <td colspan="4">
                     <div class="p-3 bg-light border rounded overflow-auto">
-                      <ul>
-                        <li><strong>Campervan:</strong> {{ booking.campervan.name }}</li>
-                        <li><strong>Buchungsnummer:</strong> {{ booking.booking_number }}</li>
-                        <li><strong>Startdatum:</strong> {{ booking.start_date|date:"d.m.Y" }}</li>
-                        <li><strong>Enddatum:</strong> {{ booking.end_date|date:"d.m.Y" }}</li>
-                        <li><strong>Kautionsbetrag:</strong> €{{ booking.deposit|default:"1000"|floatformat:2 }}</li>
-                        <li><strong>Gesamtpreis:</strong> €{{ booking.total_price|floatformat:2 }}
-                        <br>
-                          <small class="text-muted">
-                            <i class="fa-solid fa-circle-exclamation me-1"></i> Grundpreis exkl. MwSt. und Zusatzleistungen
-                          </small>
-                        </li>
-                      </ul>
+                      <div class="text-wrap text-break">
+                        <div class="p-3 bg-light border rounded overflow-auto">
+                          <ul>
+                            <li><strong>Campervan:</strong> {{ booking.campervan.name }}</li>
+                            <li><strong>Buchungsnummer:</strong> {{ booking.booking_number }}</li>
+                            <li><strong>Startdatum:</strong> {{ booking.start_date|date:"d.m.Y" }}</li>
+                            <li><strong>Enddatum:</strong> {{ booking.end_date|date:"d.m.Y" }}</li>
+                            <li><strong>Kautionsbetrag:</strong> €{{ booking.deposit|default:"1000"|floatformat:2 }}</li>
+                            <li><strong>Gesamtpreis:</strong> €{{ booking.total_price|floatformat:2 }}
+                              <br>
+                              <small class="text-muted">
+                                <i class="fa-solid fa-circle-exclamation me-1"></i> Grundpreis exkl. MwSt. und Zusatzleistungen
+                              </small>
+                            </li>
+                          </ul>
+                        </div>
+                      </div>
                     </div>
-                  </div>
-                </div>
-              </td>
-            </tr>
+                  </td>
+                </tr>
+              {% endif %}
             {% endfor %}
           </tbody>
         </table>

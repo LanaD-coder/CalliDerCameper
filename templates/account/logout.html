@@ -3,17 +3,19 @@
 {% load static %}
 
 {% block head_title %}
-    {% trans "Sign Out" %}
+    Abmelden
 {% endblock head_title %}
 
 {% block content %}
 <section id="logout-section">
     {% element h1 %}
-        {% trans "Sign Out" %}
+        Abmelden
     {% endelement %}
+
     {% element p %}
-        {% trans 'Are you sure you want to sign out?' %}
+        Bist du sicher, dass du dich abmelden möchtest?
     {% endelement %}
+
     {% url 'account_logout' as action_url %}
     {% element form method="post" action=action_url no_visible_fields=True %}
         {% slot body %}
@@ -22,7 +24,7 @@
         {% endslot %}
         {% slot actions %}
             {% element button type="submit" %}
-                {% trans 'Sign Out' %}
+                Abmelden
             {% endelement %}
         {% endslot %}
     {% endelement %}

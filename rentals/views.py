@@ -722,7 +722,7 @@ def admin_dashboard(request):
         })
 
     context = {
-        'total_bookings': bookings.count(),
+        'total_bookings': bookings.filter(payment_status="paid").count(),
         'booking_data': booking_data,
         'blocked_dates': blocked_dates,
     }

@@ -8,20 +8,22 @@
   <div style="overflow-x: auto;">
     <div class="row">
       {% for booking in bookings %}
-        <div class="col-md-4 mb-3">
-          <div class="card h-100">
-            <div class="card-body">
-              <h5 class="card-title">Buchung {{ booking.booking_number }}</h5>
-              <p><strong>Startdatum:</strong> {{ booking.start_date }}</p>
-              <p><strong>Enddatum:</strong> {{ booking.end_date }}</p>
-              <p><strong>Status:</strong> {{ booking.status }}</p>
-              <p><strong>Zahlungsstatus:</strong> {{ booking.payment_status }}</p>
-              <div>
-                <a href="{% url 'booking_edit' booking.id %}" class="btn btn-primary btn-sm">Bearbeiten</a>
+        {% if booking.payment_status == "paid" %}
+          <div class="col-md-4 mb-3">
+            <div class="card h-100">
+              <div class="card-body">
+                <h5 class="card-title">Buchung {{ booking.booking_number }}</h5>
+                <p><strong>Startdatum:</strong> {{ booking.start_date }}</p>
+                <p><strong>Enddatum:</strong> {{ booking.end_date }}</p>
+                <p><strong>Status:</strong> {{ booking.status }}</p>
+                <p><strong>Zahlungsstatus:</strong> {{ booking.payment_status }}</p>
+                <div>
+                  <a href="{% url 'booking_edit' booking.id %}" class="btn btn-primary btn-sm">Bearbeiten</a>
+                </div>
               </div>
             </div>
           </div>
-        </div>
+        {% endif %}
       {% endfor %}
     </div>
   </div>
