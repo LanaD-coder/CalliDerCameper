@@ -2,13 +2,13 @@
 {% load account %}
 {% load i18n %}
 
-{% block content %}{% autoescape off %}{% blocktrans %}You are receiving this mail because the following change was made to your account:{% endblocktrans %}
+{% block content %}{% autoescape off %}{% blocktrans %}Sie erhalten diese E-Mail, weil die folgende Änderung an Ihrem Konto vorgenommen wurde:{% endblocktrans %}
 
 {% block notification_message %}
 {% endblock notification_message%}
 
-{% blocktrans %}If you do not recognize this change then please take proper security precautions immediately. The change to your account originates from:
+{% blocktrans %}Falls Sie diese Änderung nicht erkennen, ergreifen Sie bitte umgehend die entsprechenden Sicherheitsmaßnahmen. Die Änderung an Ihrem Konto stammt von:
 
-- IP address: {{ip}}
+- IP-Adresse: {{ip}}
 - Browser: {{user_agent}}
-- Date: {{timestamp}}{% endblocktrans %}{% endautoescape %}{% endblock %}
+- Datum: {{timestamp}}{% endblocktrans %}{% endautoescape %}{% endblock %}

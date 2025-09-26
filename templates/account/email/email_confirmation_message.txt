@@ -3,12 +3,12 @@
 {% load i18n %}
 
 {% block content %}
-Hi {{ user.get_full_name|default:user.username }},
+Hallo {{ user.get_full_name|default:user.username }},
 
-Thanks for signing up at {{ current_site.name }}!
-Please confirm your email by clicking the link below:
+vielen Dank für Ihre Anmeldung bei {{ current_site.name }}!
+Bitte bestätigen Sie Ihre E-Mail-Adresse, indem Sie auf den folgenden Link klicken:
 
 {{ activate_url }}
 
-If you didn’t request this, you can safely ignore this email.
+Wenn Sie diese Anmeldung nicht angefordert haben, können Sie diese E-Mail einfach ignorieren.
 {% endblock content %}

@@ -7,8 +7,8 @@
   <div class="banner-wrapper">
     <img class="banner-image" src="http://res.cloudinary.com/dvs5uituk/image/upload/v1755171713/mainpic_t14dpe.webp" alt="Grand California" />
     <div class="banner-text-card">
-      <h1>Erkunde das Große Kalifornien</h1>
-      <p>Dein Abenteuer beginnt hier.</p>
+      <h1>Calli entdeckt die Welt</h1>
+      <p>- und du kannst mit.</p>
     </div>
   </div>
 
@@ -28,8 +28,7 @@
 <section id="about-section">
   <!-- 1. Home -->
   <section id="home" class="my-5">
-    <h1>{% trans "Calli entdeckt die Welt – und du kannst mit!" %}</h1>
-    <p>{% trans "Miete ihn für dein Abenteuer!" %}</p>
+    <h1>{% trans "Miete ihn für dein Abenteuer!" %}</h1>
     <p>{% trans "Calli ist mehr als nur ein Camper – er ist unser kleines Abenteuer auf vier Rädern." %}</p>
     <p>{% trans "Aber statt ihn nur selbst zu nutzen, möchten wir, dass auch andere Menschen die Freiheit des Reisens erleben können." %}</p>
     <p>{% trans "So entdeckt Calli weiter neue Orte und du findest vielleicht dein ganz eigenes Lieblingsplätzchen." %}</p>
@@ -50,7 +49,7 @@
       <!-- Technische Details -->
       <div class="col-sm-6">
         <div class="card h-100 shadow-sm">
-          <img src="{% static 'images\extra\technische.png' %}" class="card-img-top" alt="VW California dimensions" style="object-fit: contain; max-height: 250px;" />
+          <img src="{% static '\images\20250627_113031.jpg' %}" class="card-img-top" alt="VW California dimensions" style="object-fit: contain; max-height: 250px;" />
           <div class="card-body d-flex flex-column">
             <h4 class="card-title" style="text-decoration: underline;">{% trans "Technische Details" %}</h4>
             <p class="card-text">
@@ -67,6 +66,10 @@
               <li>{% trans "Längenangabe bei Fährbuchung" %}: 600 cm</li>
               <li>{% trans "Längenangabe bei Fährbuchung mit Fahrradträger" %}: 700 cm</li>
               <li>{% trans "Zulässiges Gesamtgewicht" %}: 3500 kg</li>
+              <li>{% trans "Standheizung" %}</li>
+              <li>{% trans "Zuschaltbare Lithium Batterie für mehr
+                  Autarkie" %}
+              </li>
             </ul>
           </div>
         </div>
@@ -75,7 +78,7 @@
       <!-- Fahren -->
       <div class="col-sm-6">
         <div class="card h-100 shadow-sm">
-          <img src="{% static 'images\extra\fahren.webp' %}" class="card-img-top" alt="VW California Drivers console" style="object-fit: contain; max-height: 250px;" />
+          <img src="https://res.cloudinary.com/dvs5uituk/image/upload/v1755260369/20250812_132354_arohkp.jpg" class="card-img-top" alt="VW California Drivers console" style="object-fit: contain; max-height: 250px;" />
           <div class="card-body d-flex flex-column">
             <h4 class="card-title" style="text-decoration: underline;">{% trans "Fahren" %}</h4>
             <p class="card-text">{% trans "Calli ist mit einer Reihe von Fahrfunktionen und Assistenz-Systemen ausgestattet, um Komfort und Sicherheit auf der Straße zu gewährleisten." %}
@@ -86,7 +89,8 @@
               <li>{% trans "Tempomat inkl. ACC (Automatische Distanzregelung)" %}</li>
               <li>{% trans "Klimaanlage" %}</li>
               <li>{% trans "Multimediasystem mit DAB+" %}</li>
-              <li>{% trans "Teils Ganzjahres- & Sommerreifen" %}</li>
+              <li>{% trans "Teils Ganzjahres- & Sommerreifen: Ab Mitte Oktober fährt Calli auf Winterreifen.
+                  Nach Ostern steht er auf Sommerreifen." %}</li>
               <li>{% trans "Multifunktionslenkrad" %}</li>
               <li>{% trans "Parkhilfe in Front & Heck inkl. Rückfahrkamera" %}</li>
               <li>{% trans "Navigationssystem integriert" %}</li>
@@ -99,13 +103,13 @@
       <!-- Wohnen & Schlafen -->
       <div class="col-sm-6">
         <div class="card h-100 shadow-sm">
-          <img src="{% static 'images\extra\wohnenschlafen.png' %}" class="card-img-top" alt="VW Beds" style="object-fit: contain; max-height: 250px;" />
+          <img src="https://res.cloudinary.com/dvs5uituk/image/upload/v1755260356/20250812_130646_bt2a29.jpg" class="card-img-top" alt="VW Beds" style="object-fit: contain; max-height: 250px;" />
           <div class="card-body">
             <h4 class="card-title" style="text-decoration: underline;">{% trans "Wohnen & Schlafen" %}</h4>
             <p class="card-text">{% trans "Ihr findet bequeme Wohn- und Schlafgelegenheiten, um eure Reise gemütlich und entspannend zu gestalten." %}
             </p>
             <ul>
-              <li>{% trans "Schlafplätze für 2 + 2 Personen" %}</li>
+              <li>{% trans "Schlafplätze für 2 Erwachsene + 2 Kinder" %}</li>
               <li>{% trans "Hochbett (122 × 160 / 190 cm)" %}</li>
               <li>{% trans "Verstaubarer Innenraumtisch" %}</li>
               <li>{% trans "Toilette mit mobiler Abwasserkassette" %}</li>
@@ -117,8 +121,6 @@
               <li>{% trans "Nasszelle mit Dusche & WC" %}</li>
               <li>{% trans "Warmwasser-Boiler (12 l)" %}</li>
               <li>{% trans "Schranksystem mit großzügigem Stauraum" %}</li>
-              <li>{% trans "Standheizung" %}</li>
-              <li>{% trans "Zweite Batterie" %}</li>
             </ul>
           </div>
         </div>
@@ -127,7 +129,7 @@
       <!-- Küche -->
       <div class="col-sm-6">
         <div class="card h-100 shadow-sm">
-          <img src="{% static 'images\extra\küche.webp' %}" class="card-img-top" alt="VW California Kitchen" style="object-fit: contain; max-height: 250px;" />
+          <img src="https://res.cloudinary.com/dvs5uituk/image/upload/v1755260350/20250812_125801_dmprbt.jpg" class="card-img-top" alt="VW California Kitchen" style="object-fit: contain; max-height: 250px;" />
           <div class="card-body">
             <h4 class="card-title" style="text-decoration: underline;">{% trans "Küche" %}</h4>
             <p class="card-text">
@@ -139,8 +141,8 @@
               <li>{% trans "Koch- & Küchengeschirr inklusive" %}</li>
               <li>{% trans "Frischwassertank (110 l) & Abwassertank (90 l)" %}</li>
               <li>{% trans "Kühlschrank (70 l) & Froster (7,5 l)" %}</li>
-              <li>{% trans "Ausziehbare Küche für mehr Platz" %}</li>
-              <li>{% trans "French-Press" %}</li>
+              <li>{% trans "Ausziehbare Platte für mehr Platz" %}</li>
+              <li>{% trans "Bialetti Espressokocher" %}</li>
             </ul>
           </div>
         </div>
@@ -149,7 +151,7 @@
       <!-- Außenbereich -->
       <div class="col-sm-6">
         <div class="card h-100 shadow-sm">
-          <img src="{% static 'images/extra/außen.webp' %}" class="card-img-top" alt="VW California Awning" style="object-fit: contain; max-height: 250px;" />
+          <img src="https://res.cloudinary.com/dvs5uituk/image/upload/v1755260374/20250812_125005_o7fpvf.jpg" class="card-img-top" alt="VW California Awning" style="object-fit: contain; max-height: 250px;" />
           <div class="card-body">
             <h4 class="card-title" style="text-decoration: underline;">{% trans "Außenbereich" %}</h4>
             <p class="card-text">
