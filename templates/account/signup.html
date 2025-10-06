@@ -3,13 +3,13 @@
 {% load static %}
 
 {% block head_title %}
-    {% trans "Signup" %}
+    {% trans "Anmeldung" %}
 {% endblock head_title %}
 
 {% block content %}
 <section id="signup-section">
     {% element h1 %}
-        {% trans "Sign Up" %}
+        {% trans "Registrieren" %}
     {% endelement %}
     {% setvar link %}
         <a href="{{ login_url }}">
@@ -18,7 +18,7 @@
         </a>
     {% endsetvar %}
     {% element p %}
-        {% blocktranslate %}Already have an account? Then please {{ link }}sign in{{ end_link }}.{% endblocktranslate %}
+        {% blocktranslate %}Sie haben bereits ein Konto? Dann bitte {{ link }}melden Sie sich an{{ end_link }}.{% endblocktranslate %}
     {% endelement %}
     {% if not SOCIALACCOUNT_ONLY %}
         {% url 'account_signup' as action_url %}
@@ -31,7 +31,7 @@
             {% endslot %}
             {% slot actions %}
                 {% element button tags="prominent,signup" type="submit" %}
-                    {% trans "Sign Up" %}
+                    {% trans "Registrieren" %}
                 {% endelement %}
             {% endslot %}
         {% endelement %}
@@ -40,7 +40,7 @@
         {% element hr %}
         {% endelement %}
         {% element button href=signup_by_passkey_url tags="prominent,signup,outline,primary" %}
-            {% trans "Sign up using a passkey" %}
+            {% trans "Mit Passkey registrieren" %}
         {% endelement %}
     {% endif %}
     {% if SOCIALACCOUNT_ENABLED %}
