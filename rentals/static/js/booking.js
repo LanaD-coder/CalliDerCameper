@@ -289,7 +289,7 @@ function setupStripePayment() {
   window.stripe =
     window.stripe ||
     Stripe(
-      "pk_test_51RnfHKRZKvhbcGU6CgaLlT6dkRMiKGGmovIxHmhnlEEPSm0PhIq2OcefSdIaSFCa5GKW0AqSwunG1aUNuiejjAJ100J6AQBF0i"
+      "pk_live_51RnfHCDAhijUh3p6J8a3IyFFXCA1kKyTmDbiTyRHcQFyjyacaV7hSr4Pc3OTCVMQ16JyEAI0Es2YywsVj4MNxNDk00XvIfYEBh"
     );
   window.elements = window.elements || window.stripe.elements();
   window.card = window.card || window.elements.create("card");
