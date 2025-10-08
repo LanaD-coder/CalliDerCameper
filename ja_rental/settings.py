@@ -37,7 +37,6 @@ SECRET_KEY = env('DJANGO_SECRET_KEY', default='insecure-development-key')
 # STRIPE Keys
 STRIPE_SECRET_KEY = env("STRIPE_SECRET_KEY")
 STRIPE_PUBLISHABLE_KEY = env("STRIPE_PUBLISHABLE_KEY")
-STRIPE_MWST_TAX_RATE_ID = env("STRIPE_MWST_TAX_RATE_ID")
 
 WEBHOOK_URL = "http://yourdomain.com/webhook/stripe/"
 

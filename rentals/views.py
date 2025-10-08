@@ -217,111 +217,118 @@ stripe.api_key = settings.STRIPE_SECRET_KEY
 @csrf_exempt
 @login_required(login_url='/account/login/')
 def create_booking_ajax(request, pk):
-    if request.method != 'POST':
-        return JsonResponse({'error': 'Invalid request'}, status=405)
+    import traceback
 
-    campervan = get_object_or_404(Campervan, pk=pk)
+    # Handle CORS preflight
+    if request.method == 'OPTIONS':
+        response = JsonResponse({'detail': 'Preflight OK'})
+        response["Access-Control-Allow-Origin"] = "*"
+        response["Access-Control-Allow-Methods"] = "POST, OPTIONS"
+        response["Access-Control-Allow-Headers"] = "Content-Type, X-CSRFToken"
+        return response
 
-    # 🔹 Debugging: log content type and raw body
-    print("Content-Type:", request.content_type)
-    print("Raw body:", request.body)
-
-    # 🔹 Parse incoming data
-    if request.content_type == "application/json":
-        try:
-            data = json.loads(request.body)
-        except json.JSONDecodeError:
-            return JsonResponse({'errors': 'Invalid JSON'}, status=400)
-    else:
-        # fallback for normal form POST
-        data = request.POST.dict()  # convert QueryDict to plain dict
-
-    print("Parsed data:", data)
-
-    summary = data.get("summary", {})
-
-    base = Decimal(summary.get("base", 0))
-    services_total = Decimal(summary.get("servicesTotal", 0))
-    vat_amount = Decimal(summary.get("vatAmount", 0))
-    deposit = Decimal(summary.get("deposit", 1000))
-    grand_total = Decimal(summary.get("grandTotal", 0))
-
-    form = BookingForm(data, user=request.user, campervan=campervan)
-    form.instance.campervan = campervan
-
-    if not form.is_valid():
-        return JsonResponse({'errors': form.errors}, status=400)
-
-    start_date = form.cleaned_data['start_date']
-    end_date = form.cleaned_data['end_date']
-
-    # Check for overlapping bookings
-    existing_booking = Booking.objects.filter(
-        campervan=campervan,
-        primary_driver=request.user,
-        status='active',
-        start_date__lte=end_date,
-        end_date__gte=start_date
-    ).first()
-
-    if existing_booking:
-        try:
-            success_url = "{}?session_id={{CHECKOUT_SESSION_ID}}&booking={}".format(
-                request.build_absolute_uri('/accounts/payment-success/'),
-                existing_booking.booking_number
-            )
-            checkout_session = stripe.checkout.Session.create(
-                payment_method_types=['card'],
-                line_items=[],
-                mode='payment',
-                success_url=success_url,
-                cancel_url=request.build_absolute_uri('/rentals/booking_form/'),
-                metadata={'booking_number': existing_booking.booking_number}
-            )
-            return JsonResponse({'session_id': checkout_session.id})
-        except Exception as e:
-            return JsonResponse({'error': f'Error creating Stripe session: {str(e)}'}, status=500)
-
-    # Create new booking object but do NOT mark active yet
-    booking = form.save(commit=False)
-    booking.campervan = campervan
-    booking.primary_driver = request.user
-    booking.status = 'pending'
-    booking.payment_status = 'pending'
-    booking.save()
-    form.save_m2m()
-
-    subtotal = sum(Decimal(service.price) for service in booking.additional_services.all())
-
-    # Calculate taxable subtotal from daily rates
-    taxable_subtotal = sum(
-        Decimal(campervan.get_rate_for_date(start_date + timedelta(days=i)))
-        for i in range((end_date - start_date).days + 1)
-    )
-
-    total_price = taxable_subtotal + subtotal + deposit
-
-    booking.total_price = float(total_price)
-    booking.save()
-
-    # Create Stripe session
     try:
+        print("⚙️ METHOD:", request.method)
+        print("⚙️ Content-Type:", request.content_type)
+        print("⚙️ BODY (raw):", request.body.decode())
+
+        if request.method != 'POST':
+            print("❌ Invalid request method")
+            return JsonResponse({'error': 'Invalid request'}, status=405)
+
+        campervan = get_object_or_404(Campervan, pk=pk)
+        print("✅ Campervan found:", campervan)
+
+        # Parse incoming data
+        if request.content_type == "application/json":
+            try:
+                data = json.loads(request.body)
+            except json.JSONDecodeError:
+                print("❌ Invalid JSON")
+                return JsonResponse({'errors': 'Invalid JSON'}, status=400)
+        else:
+            data = request.POST.dict()
+
+        print("Parsed data:", data)
+
+        summary = data.get("summary", {})
+        base = Decimal(summary.get("base", 0))
+        services_total = Decimal(summary.get("servicesTotal", 0))
+        vat_amount = Decimal(summary.get("vatAmount", 0))
+        deposit = Decimal(summary.get("deposit", 1000))
+        grand_total = Decimal(summary.get("grandTotal", 0))
+
+        print(f"Summary - Base: {base}, Services: {services_total}, VAT: {vat_amount}, Deposit: {deposit}, Grand: {grand_total}")
+
+        form = BookingForm(data, user=request.user, campervan=campervan)
+        form.instance.campervan = campervan
+
+        if not form.is_valid():
+            print("❌ Form errors:", form.errors)
+            return JsonResponse({'errors': form.errors}, status=400)
+
+        start_date = form.cleaned_data['start_date']
+        end_date = form.cleaned_data['end_date']
+        print("✅ Form validated. Start:", start_date, "End:", end_date)
+
+        # Check overlapping bookings
+        existing_booking = Booking.objects.filter(
+            campervan=campervan,
+            primary_driver=request.user,
+            status='active',
+            start_date__lte=end_date,
+            end_date__gte=start_date
+        ).first()
+        if existing_booking:
+            print("⚠️ Existing booking found:", existing_booking.booking_number)
+
+        # Create new booking object
+        booking = form.save(commit=False)
+        booking.campervan = campervan
+        booking.primary_driver = request.user
+        booking.status = 'pending'
+        booking.payment_status = 'pending'
+        booking.save()
+        form.save_m2m()
+        print("✅ Booking saved:", booking.booking_number)
+
+        subtotal = sum(Decimal(service.price) for service in booking.additional_services.all())
+        print("Subtotal of additional services:", subtotal)
+
+        taxable_subtotal = sum(
+            Decimal(campervan.get_rate_for_date(start_date + timedelta(days=i)))
+            for i in range((end_date - start_date).days + 1)
+        )
+        print("Taxable subtotal from daily rates:", taxable_subtotal)
+
+        total_price = taxable_subtotal + subtotal + deposit
+        booking.total_price = float(total_price)
+        booking.save()
+        print("✅ Total price set:", total_price)
+
+        # Stripe checkout session
         success_url = "{}?session_id={{CHECKOUT_SESSION_ID}}&booking={}".format(
             request.build_absolute_uri('/accounts/payment-success/'),
             booking.booking_number
         )
+        print("Stripe success URL:", success_url)
 
         line_items = [
             {
                 'price_data': {
                     'currency': 'eur',
-                    'product_data': {
-                        'name': f'Booking {booking.booking_number} - {campervan.name}',
-                    },
+                    'product_data': {'name': f'Booking {booking.booking_number} - {campervan.name}'},
                     'unit_amount': int(float(taxable_subtotal + subtotal) * 100)
                 },
                 'quantity': 1,
-                'tax_rates': [settings.STRIPE_MWST_TAX_RATE_ID],
+            },
+            {
+                'price_data': {
+                    'currency': 'eur',
+                    'product_data': {'name': 'VAT 19%'},
+                    'unit_amount': int(float(vat_amount) * 100),
+                },
+                'quantity': 1,
             },
             {
                 'price_data': {
@@ -341,11 +348,14 @@ def create_booking_ajax(request, pk):
             cancel_url=request.build_absolute_uri('/accounts/payment-cancel/'),
             metadata={'booking_number': booking.booking_number}
         )
+        print("✅ Stripe session created:", checkout_session.id)
 
         return JsonResponse({'session_id': checkout_session.id})
 
     except Exception as e:
-        return JsonResponse({'error': f'Error creating Stripe session: {str(e)}'}, status=500)
+        print("❌ EXCEPTION:", e)
+        traceback.print_exc()
+        return JsonResponse({'error': str(e)}, status=500)
 
 
 @login_required
