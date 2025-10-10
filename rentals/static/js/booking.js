@@ -231,6 +231,12 @@ function onDatesChanged(additionalServicePrices, bookedDates) {
     }
 
     const base = calculateBaseRentalCost(startStr, endStr);
+
+    // ✅ Update inline Grundpreis display
+    const baseCostEl = document.getElementById("base-rental-cost");
+    if (baseCostEl) baseCostEl.textContent = base.toFixed(2);
+
+    // ✅ Update the full summary section
     calculateSummary(base, additionalServicePrices);
 
     const errorBox = document.getElementById("form-errors");
