@@ -92,7 +92,7 @@ def booking_page(request, pk):
             start_date = datetime.strptime(start_date_str, '%Y-%m-%d').date()
             end_date = datetime.strptime(end_date_str, '%Y-%m-%d').date()
             if end_date >= start_date:
-                days = (end_date - start_date).days + 1
+                days = (end_date - start_date).days
                 for i in range(days):
                     key = (start_date + timedelta(days=i)).strftime('%Y-%m-%d')
                     rate = date_prices.get(key, 0)
@@ -297,7 +297,7 @@ def create_booking_ajax(request, pk):
 
         taxable_subtotal = sum(
             Decimal(campervan.get_rate_for_date(start_date + timedelta(days=i)))
-            for i in range((end_date - start_date).days + 1)
+            for i in range((end_date - start_date).days)
         )
         print("Taxable subtotal from daily rates:", taxable_subtotal)
 
@@ -581,7 +581,7 @@ def send_payment_success_email(user, booking):
      # Calculate summary dynamically
     deposit = Decimal('1000.00')
     base = sum(Decimal(booking.campervan.get_rate_for_date(booking.start_date + timedelta(days=i)))
-               for i in range((booking.end_date - booking.start_date).days + 1))
+               for i in range((booking.end_date - booking.start_date).days))
     services_total = sum(Decimal(service.price) for service in booking.additional_services.all())
     subtotal = base + services_total
     vat_amount = subtotal * Decimal('0.19')  # 19% VAT

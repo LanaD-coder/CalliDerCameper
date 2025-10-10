@@ -218,8 +218,11 @@ class Booking(models.Model):
         if not self.booking_number:
             self.booking_number = Booking.generate_booking_number()
 
-        # Price calculation
-        days = (self.end_date - self.start_date).days + 1
+        # Price calculation (exclude return date)
+        days = (self.end_date - self.start_date).days
+        if days <= 0:
+            raise ValidationError("End date must be after start date.")
+
         total = 0
         for i in range(days):
             current_date = self.start_date + timedelta(days=i)

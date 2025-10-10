@@ -17,38 +17,30 @@ const seasonalRates = [
   { start: "2025-10-01", end: "2026-03-31", price: 75 },
 ];
 
+// ----------------------
+// Seasonal Rates (DST-safe)
+// ----------------------
+window.dailyRates = {}; // reset
+
+seasonalRates.forEach(({ start, end, price }) => {
+  let current = parseDateYMD(start);
+  const endDate = parseDateYMD(end);
+  while (current <= endDate) {
+    const key = formatDateYMD(current);
+    window.dailyRates[key] = price;
+
+    // DST-safe increment: add exactly 24 hours
+    current = addDaysUTC(current, 1);
+  }
+});
+
+console.log("Daily rates loaded:", window.dailyRates);
+
 window.additionalServicePrices = {
   1: 59, // Endreinigung
 };
 console.log("AdditionalServicePrices:", window.additionalServicePrices);
-// ----------------------
-// Helpers
-// ----------------------
-function parseDateYMD(str) {
-  if (!str) return null;
-  const [year, month, day] = str.split("-").map(Number);
-  return new Date(year, month - 1, day);
-}
 
-function formatDateYMD(date) {
-  const yyyy = date.getFullYear();
-  const mm = String(date.getMonth() + 1).padStart(2, "0");
-  const dd = String(date.getDate()).padStart(2, "0");
-  return `${yyyy}-${mm}-${dd}`;
-}
-
-function getPriceForDate(dateStr) {
-  return window.dailyRates[dateStr] || 0;
-}
-
-function safeParseNumber(value) {
-  const num = parseFloat(value);
-  return isNaN(num) ? 0 : num;
-}
-
-// ----------------------
-// Function Definitions
-// ----------------------
 function toggleAdditionalDriverFields() {
   const container = document.getElementById("additional-driver-fields");
   const yes = document.getElementById("add_driver_yes")?.checked;
@@ -58,41 +50,69 @@ window.toggleAdditionalDriverFields = toggleAdditionalDriverFields;
 
 console.log("Daily rates loaded:", window.dailyRates);
 
-function calculateBaseRentalCost() {
-  const startInput = document.getElementById("id_start_date");
-  const endInput = document.getElementById("id_end_date");
-  const baseEl = document.getElementById("base-rental-cost");
-  if (!startInput || !endInput || !baseEl) return null;
+// ----------------------
+// Helpers
+// ----------------------
+function parseDateYMD(str) {
+  if (!str) return null;
+  const [year, month, day] = str.split("-").map(Number);
+  // Return Date object at UTC midnight for that Y-M-D
+  return new Date(Date.UTC(year, month - 1, day));
+}
 
-  const startStr = startInput.value.trim();
-  const endStr = endInput.value.trim();
-  if (!startStr || !endStr) {
-    baseEl.textContent = "--";
-    return null;
-  }
+function formatDateYMD(date) {
+  if (!date) return "";
+  // toISOString() is UTC — slice first 10 chars to get "YYYY-MM-DD"
+  return date.toISOString().slice(0, 10);
+}
 
-  const startDate = parseDateYMD(startStr);
-  const endDate = parseDateYMD(endStr);
-  console.log("Start:", startStr, "End:", endStr);
-  console.log("Parsed Start:", startDate, "Parsed End:", endDate);
-  if (!startDate || !endDate || endDate < startDate) {
-    baseEl.textContent = "Invalid dates";
-    return null;
-  }
+function addDaysUTC(date, days) {
+  // Create a new date at UTC midnight, then add days
+  const d = new Date(
+    Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate())
+  );
+  d.setUTCDate(d.getUTCDate() + days);
+  return d;
+}
+
+function getPriceForDate(dateStr) {
+  return window.dailyRates[dateStr] || 0;
+}
+
+function safeParseNumber(value) {
+  return parseFloat(value) || 0;
+}
+
+const ONE_DAY_MS = 24 * 60 * 60 * 1000;
+
+// ----------------------
+// Function Definitions
+// ----------------------
+
+window.calculateBaseRentalCost = function (startStr, endStr) {
+  if (!startStr || !endStr) return 0;
 
   let total = 0;
-  const oneDay = 24 * 60 * 60 * 1000;
-  for (let t = startDate.getTime(); t <= endDate.getTime(); t += oneDay) {
-    const d = new Date(t);
-    const dateKey = formatDateYMD(d);
-    const price = getPriceForDate(dateKey);
-    console.log("Date:", dateKey, "Price:", price);
-    total += price;
+
+  let current = parseDateYMD(startStr);
+  let endDate = parseDateYMD(endStr);
+
+  console.log("Calculating base rental cost:");
+  console.log("Start date:", formatDateYMD(current));
+  console.log("End date (excluded):", formatDateYMD(endDate));
+
+  while (current < endDate) {
+    // stops before endDate
+    const key = formatDateYMD(current);
+    const rate = window.dailyRates[key] || 0;
+    total += rate;
+    console.log("Counting date:", key, "Rate:", rate, "Running total:", total);
+    current = addDaysUTC(current, 1);
   }
 
-  baseEl.textContent = total.toFixed(2);
+  console.log("Total base rental cost:", total);
   return total;
-}
+};
 
 async function fetchBookedDates() {
   try {
@@ -210,7 +230,7 @@ function onDatesChanged(additionalServicePrices, bookedDates) {
       return;
     }
 
-    const base = calculateBaseRentalCost();
+    const base = calculateBaseRentalCost(startStr, endStr);
     calculateSummary(base, additionalServicePrices);
 
     const errorBox = document.getElementById("form-errors");
